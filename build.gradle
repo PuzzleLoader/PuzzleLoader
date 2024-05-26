@@ -1,0 +1,108 @@
+plugins {
+    id("java")
+    id("java-library")
+    id("com.github.johnrengelman.shadow") version("8.1.1")
+}
+
+repositories {
+    mavenCentral()
+
+    maven { url "https://maven.google.com/" }
+    maven { url "https://maven.crmodders.dev/releases" }
+    maven { url "https://maven.crmodders.dev/snapshots" }
+    maven { url "https://repo.spongepowered.org/repository/maven-public/" }
+
+    ivy {
+        name "Cosmic Reach"
+        url "https://cosmic-archive.netlify.app/"
+        patternLayout {
+            artifact "/Cosmic Reach-[revision].jar"
+        }
+        // This is required in Gradle 6.0+ as metadata file (ivy.xml) is mandatory
+        metadataSources {
+            artifact()
+        }
+
+        content {
+            includeGroup "finalforeach"
+        }
+    }
+}
+
+dependencies {
+    // Mixin
+    compileOnly("dev.crmodders:mixin:$puzzleMixinsVersion")
+//    compileOnly("org.spongepowered:mixin:$mixinsVersion")
+
+    // Asm
+    implementation("org.ow2.asm:asm:$asmVersion")
+    implementation("org.ow2.asm:asm-tree:$asmVersion")
+    implementation("org.ow2.asm:asm-util:$asmVersion")
+    implementation("org.ow2.asm:asm-analysis:$asmVersion")
+    implementation("org.ow2.asm:asm-commons:$asmVersion")
+
+    // Google
+    implementation("com.google.code.gson:gson:$gsonVersion")
+    implementation("com.google.guava:guava:$guavaVersion-jre")
+
+    // Log4j
+    implementation("org.apache.logging.log4j:log4j-api:$log4jVersion")
+    implementation("org.apache.logging.log4j:log4j-core:$log4jVersion")
+    implementation("org.apache.logging.log4j:log4j-slf4j2-impl:$log4jVersion")
+
+    // Jopt Simple
+    implementation("net.sf.jopt-simple:jopt-simple:$joptSimpleVersion")
+
+    // Reflections
+    implementation("org.reflections:reflections:$reflectionsVersion")
+
+    // Cosmic Reach
+    compileOnly("finalforeach:cosmicreach:$cosmicReachVersion")
+}
+
+tasks.register("runLoader", JavaExec) {
+    group = "loader"
+
+    dependencies {
+        // Mixin
+        runtimeOnly("dev.crmodders:mixin:$puzzleMixinsVersion")
+//        runtimeOnly("org.spongepowered:mixin:$mixinsVersion")
+
+        // Asm
+        implementation("org.ow2.asm:asm:$asmVersion")
+        implementation("org.ow2.asm:asm-tree:$asmVersion")
+        implementation("org.ow2.asm:asm-util:$asmVersion")
+        implementation("org.ow2.asm:asm-analysis:$asmVersion")
+        implementation("org.ow2.asm:asm-commons:$asmVersion")
+
+        // Google
+        implementation("com.google.code.gson:gson:$gsonVersion")
+        implementation("com.google.guava:guava:$guavaVersion-jre")
+
+        // Log4j
+        implementation("org.apache.logging.log4j:log4j-api:$log4jVersion")
+        implementation("org.apache.logging.log4j:log4j-core:$log4jVersion")
+        implementation("org.apache.logging.log4j:log4j-slf4j2-impl:$log4jVersion")
+
+        // Jopt Simple
+        implementation("net.sf.jopt-simple:jopt-simple:$joptSimpleVersion")
+
+        // Reflections
+        implementation("org.reflections:reflections:$reflectionsVersion")
+
+        // Cosmic Reach
+        implementation("finalforeach:cosmicreach:$cosmicReachVersion")
+    }
+
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = "net.appel.main.Main"
+//    mainClass = "net.minecraft.launchwrapper.Launch"
+}
+
+shadowJar {
+    manifest {
+        attributes(
+                "Main-Class": "net.appel.main.Main"
+        )
+    }
+}
