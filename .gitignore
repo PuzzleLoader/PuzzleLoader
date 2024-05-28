@@ -33,6 +33,6 @@ natives
 *.py
 Libraries.json
 .idea
-src/main/java/dev
 /pmods
-/pmods/fluxapi-0.6.1-dev-fat.jar
+.gradle
+build
