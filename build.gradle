@@ -31,8 +31,8 @@ repositories {
 
 dependencies {
     // Mixin
-    compileOnly("dev.crmodders:mixin:$puzzleMixinsVersion")
-//    compileOnly("org.spongepowered:mixin:$mixinsVersion")
+//    compileOnly("dev.crmodders:mixin:$puzzleMixinsVersion")
+    compileOnly("org.spongepowered:mixin:$mixinsVersion")
 
     // Asm
     implementation("org.ow2.asm:asm:$asmVersion")
@@ -65,8 +65,8 @@ tasks.register("runLoader", JavaExec) {
 
     dependencies {
         // Mixin
-        runtimeOnly("dev.crmodders:mixin:$puzzleMixinsVersion")
-//        runtimeOnly("org.spongepowered:mixin:$mixinsVersion")
+//        runtimeOnly("dev.crmodders:mixin:$puzzleMixinsVersion")
+        runtimeOnly("org.spongepowered:mixin:$mixinsVersion")
 
         // Asm
         implementation("org.ow2.asm:asm:$asmVersion")
@@ -95,8 +95,9 @@ tasks.register("runLoader", JavaExec) {
     }
 
     classpath = sourceSets.main.runtimeClasspath
-    mainClass = "net.appel.main.Main"
+//    mainClass = "net.appel.main.Main"
 //    mainClass = "net.minecraft.launchwrapper.Launch"
+    mainClass = "dev.crmodders.puzzle.launch.Piece"
 }
 
 shadowJar {

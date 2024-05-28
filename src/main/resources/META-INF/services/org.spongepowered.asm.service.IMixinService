@@ -1,1 +1,1 @@
-net.appel.mixin.LaunchWrapperMixinService
+dev.crmodders.puzzle.minimixin.PuzzleLoaderMixinService
