@@ -1,6 +1,6 @@
 package dev.crmodders.puzzle.minimixin;
 
-import dev.crmodders.puzzle.launch.Piece;
+import net.minecraft.launchwrapper.Launch;
 import org.spongepowered.asm.service.IGlobalPropertyService;
 import org.spongepowered.asm.service.IPropertyKey;
 
@@ -9,7 +9,7 @@ public class Blackboard implements IGlobalPropertyService {
     /**
      * Property key
      */
-    class Key implements IPropertyKey {
+    static class Key implements IPropertyKey {
         
         private final String key;
 
@@ -24,7 +24,7 @@ public class Blackboard implements IGlobalPropertyService {
     }
 
     public Blackboard() {
-        Piece.classLoader.hashCode();
+        Launch.classLoader.hashCode();
     }
     
     @Override
@@ -42,7 +42,7 @@ public class Blackboard implements IGlobalPropertyService {
     @Override
     @SuppressWarnings("unchecked")
     public final <T> T getProperty(IPropertyKey key) {
-        return (T)Piece.blackboard.get(key.toString());
+        return (T)Launch.blackboard.get(key.toString());
     }
 
     /**
@@ -53,7 +53,7 @@ public class Blackboard implements IGlobalPropertyService {
      */
     @Override
     public final void setProperty(IPropertyKey key, Object value) {
-        Piece.blackboard.put(key.toString(), value);
+        Launch.blackboard.put(key.toString(), value);
     }
     
     /**
@@ -68,7 +68,7 @@ public class Blackboard implements IGlobalPropertyService {
     @Override
     @SuppressWarnings("unchecked")
     public final <T> T getProperty(IPropertyKey key, T defaultValue) {
-        Object value = Piece.blackboard.get(key.toString());
+        Object value = Launch.blackboard.get(key.toString());
         return value != null ? (T)value : defaultValue;
     }
     
@@ -83,7 +83,7 @@ public class Blackboard implements IGlobalPropertyService {
      */
     @Override
     public final String getPropertyString(IPropertyKey key, String defaultValue) {
-        Object value = Piece.blackboard.get(key.toString());
+        Object value = Launch.blackboard.get(key.toString());
         return value != null ? value.toString() : defaultValue;
     }
 

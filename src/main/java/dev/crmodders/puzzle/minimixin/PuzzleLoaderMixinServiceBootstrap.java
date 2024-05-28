@@ -1,4 +1,4 @@
-/*
+package dev.crmodders.puzzle.minimixin;/*
  * This file is part of Mixin, licensed under the MIT License (MIT).
  *
  * Copyright (c) SpongePowered <https://www.spongepowered.org>
@@ -22,21 +22,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package dev.crmodders.puzzle.minimixin;
 
-import dev.crmodders.puzzle.launch.Piece;
+import net.minecraft.launchwrapper.Launch;
 import org.spongepowered.asm.service.IMixinServiceBootstrap;
 import org.spongepowered.asm.service.ServiceInitialisationException;
 
 /**
- * Bootstrap for PuzzleLoader service
+ * Bootstrap for LaunchWrapper service
  */
 public class PuzzleLoaderMixinServiceBootstrap implements IMixinServiceBootstrap {
 
     private static final String SERVICE_PACKAGE = "org.spongepowered.asm.service.";
     private static final String LAUNCH_PACKAGE = "org.spongepowered.asm.launch.";
     private static final String LOGGING_PACKAGE = "org.spongepowered.asm.logging.";
-    
+
     private static final String MIXIN_UTIL_PACKAGE = "org.spongepowered.asm.util.";
     private static final String LEGACY_ASM_PACKAGE = "org.spongepowered.asm.lib.";
     private static final String ASM_PACKAGE = "org.objectweb.asm.";
@@ -44,32 +43,32 @@ public class PuzzleLoaderMixinServiceBootstrap implements IMixinServiceBootstrap
 
     @Override
     public String getName() {
-        return "PuzzleLoaderBootstrap";
+        return "LaunchWrapper";
     }
 
     @Override
     public String getServiceClassName() {
-        return PuzzleLoaderMixinService.class.getName();
+        return PuzzleLoaderMixinServiceBootstrap.class.getName();
     }
 
     @Override
     public void bootstrap() {
         try {
-            Piece.classLoader.hashCode();
+            Launch.classLoader.hashCode();
         } catch (Throwable th) {
             throw new ServiceInitialisationException(this.getName() + " is not available");
         }
-        
+
         // Essential ones
-        Piece.classLoader.addClassLoaderExclusion(PuzzleLoaderMixinServiceBootstrap.SERVICE_PACKAGE);
-        Piece.classLoader.addClassLoaderExclusion(PuzzleLoaderMixinServiceBootstrap.LAUNCH_PACKAGE);
-        Piece.classLoader.addClassLoaderExclusion(PuzzleLoaderMixinServiceBootstrap.LOGGING_PACKAGE);
+        Launch.classLoader.addClassLoaderExclusion(PuzzleLoaderMixinServiceBootstrap.SERVICE_PACKAGE);
+        Launch.classLoader.addClassLoaderExclusion(PuzzleLoaderMixinServiceBootstrap.LAUNCH_PACKAGE);
+        Launch.classLoader.addClassLoaderExclusion(PuzzleLoaderMixinServiceBootstrap.LOGGING_PACKAGE);
 
         // Important ones
-        Piece.classLoader.addClassLoaderExclusion(PuzzleLoaderMixinServiceBootstrap.ASM_PACKAGE);
-        Piece.classLoader.addClassLoaderExclusion(PuzzleLoaderMixinServiceBootstrap.LEGACY_ASM_PACKAGE);
-        Piece.classLoader.addClassLoaderExclusion(PuzzleLoaderMixinServiceBootstrap.MIXIN_PACKAGE);
-        Piece.classLoader.addClassLoaderExclusion(PuzzleLoaderMixinServiceBootstrap.MIXIN_UTIL_PACKAGE);
+        Launch.classLoader.addClassLoaderExclusion(PuzzleLoaderMixinServiceBootstrap.ASM_PACKAGE);
+        Launch.classLoader.addClassLoaderExclusion(PuzzleLoaderMixinServiceBootstrap.LEGACY_ASM_PACKAGE);
+        Launch.classLoader.addClassLoaderExclusion(PuzzleLoaderMixinServiceBootstrap.MIXIN_PACKAGE);
+        Launch.classLoader.addClassLoaderExclusion(PuzzleLoaderMixinServiceBootstrap.MIXIN_UTIL_PACKAGE);
     }
 
 }

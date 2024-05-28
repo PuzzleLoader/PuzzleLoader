@@ -24,19 +24,26 @@
  */
 package dev.crmodders.puzzle.minimixin;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableList.Builder;
-import com.google.common.collect.Sets;
-import com.google.common.io.ByteStreams;
-import com.google.common.io.Closeables;
-import dev.crmodders.puzzle.launch.Piece;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
+
 import dev.crmodders.puzzle.transformers.IClassNameTransformer;
 import dev.crmodders.puzzle.transformers.IClassTransformer;
+import net.minecraft.launchwrapper.Launch;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.tree.ClassNode;
-import org.spongepowered.asm.launch.GlobalProperties;
 import org.spongepowered.asm.launch.GlobalProperties.Keys;
 import org.spongepowered.asm.launch.platform.MainAttributes;
 import org.spongepowered.asm.launch.platform.container.ContainerHandleURI;
@@ -46,7 +53,14 @@ import org.spongepowered.asm.logging.ILogger;
 import org.spongepowered.asm.mixin.MixinEnvironment.CompatibilityLevel;
 import org.spongepowered.asm.mixin.MixinEnvironment.Phase;
 import org.spongepowered.asm.mixin.throwables.MixinException;
-import org.spongepowered.asm.service.*;
+import org.spongepowered.asm.service.IClassBytecodeProvider;
+import org.spongepowered.asm.service.IClassProvider;
+import org.spongepowered.asm.service.IClassTracker;
+import org.spongepowered.asm.service.ILegacyClassTransformer;
+import org.spongepowered.asm.service.IMixinAuditTrail;
+import org.spongepowered.asm.service.ITransformer;
+import org.spongepowered.asm.service.ITransformerProvider;
+import org.spongepowered.asm.service.MixinServiceAbstract;
 import org.spongepowered.asm.service.modlauncher.LoggerAdapterLog4j2;
 import org.spongepowered.asm.transformers.MixinClassReader;
 import org.spongepowered.asm.util.Constants;
@@ -54,45 +68,47 @@ import org.spongepowered.asm.util.Files;
 import org.spongepowered.asm.util.perf.Profiler;
 import org.spongepowered.asm.util.perf.Profiler.Section;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.*;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableList.Builder;
+import com.google.common.collect.Sets;
+import com.google.common.io.ByteStreams;
+import com.google.common.io.Closeables;
 
 /**
- * Mixin service for PuzzleLoader
+ * Mixin service for launchwrapper
  */
 public class PuzzleLoaderMixinService extends MixinServiceAbstract implements IClassProvider, IClassBytecodeProvider, ITransformerProvider {
 
     // Blackboard keys
     public static final Keys BLACKBOARD_KEY_TWEAKCLASSES = Keys.of("TweakClasses");
     public static final Keys BLACKBOARD_KEY_TWEAKS = Keys.of("Tweaks");
-    
-//    private static final String MIXIN_TWEAKER_CLASS = MixinServiceAbstract.LAUNCH_PACKAGE + "MixinTweaker";
-    
+
+    private static final String MIXIN_TWEAKER_CLASS = MixinServiceAbstract.LAUNCH_PACKAGE + "MixinTweaker";
+
     // Consts
-    private static final String STATE_TWEAKER = MixinServiceAbstract.MIXIN_PACKAGE + "EnvironmentStateTweaker";
     private static final String TRANSFORMER_PROXY_CLASS = MixinServiceAbstract.MIXIN_PACKAGE + "transformer.Proxy";
-    
+
     /**
      * Known re-entrant transformers, other re-entrant transformers will
      * detected automatically 
      */
-    private static final Set<String> excludeTransformers = Sets.newHashSet();
-    
+    private static final Set<String> excludeTransformers = Sets.<String>newHashSet(
+            "net.minecraftforge.fml.common.asm.transformers.EventSubscriptionTransformer",
+            "cpw.mods.fml.common.asm.transformers.EventSubscriptionTransformer",
+            "net.minecraftforge.fml.common.asm.transformers.TerminalTransformer",
+            "cpw.mods.fml.common.asm.transformers.TerminalTransformer"
+    );
+
     /**
      * Log4j2 logger
      */
     private static final Logger logger = LogManager.getLogger();
 
     /**
-     * Utility for reflecting into Piece ClassLoader
+     * Utility for reflecting into Launch ClassLoader
      */
     private final PuzzleClassLoaderUtil classLoaderUtil;
-    
+
     /**
      * Local transformer chain, this consists of all transformers present at the
      * init phase with the exclusion of the mixin transformer itself and known
@@ -105,24 +121,24 @@ public class PuzzleLoaderMixinService extends MixinServiceAbstract implements IC
      * Class name transformer (if present)
      */
     private IClassNameTransformer nameTransformer;
-    
+
     public PuzzleLoaderMixinService() {
-        this.classLoaderUtil = new PuzzleClassLoaderUtil(Piece.classLoader);
+        this.classLoaderUtil = new PuzzleClassLoaderUtil(Launch.classLoader);
     }
-    
+
     @Override
     public String getName() {
-        return "PuzzleLoaderService";
+        return "LaunchWrapper";
     }
-    
+
     /* (non-Javadoc)
      * @see org.spongepowered.asm.service.IMixinService#isValid()
      */
     @Override
     public boolean isValid() {
         try {
-            // Detect PuzzleLoader
-            Piece.classLoader.hashCode();
+            // Detect launchwrapper
+            Launch.classLoader.hashCode();
         } catch (Throwable ex) {
             return false;
         }
@@ -135,9 +151,9 @@ public class PuzzleLoaderMixinService extends MixinServiceAbstract implements IC
     @Override
     public void prepare() {
         // Only needed in dev, in production this would be handled by the tweaker
-        Piece.classLoader.addClassLoaderExclusion(MixinServiceAbstract.LAUNCH_PACKAGE);
+        Launch.classLoader.addClassLoaderExclusion(MixinServiceAbstract.LAUNCH_PACKAGE);
     }
-    
+
     /* (non-Javadoc)
      * @see org.spongepowered.asm.service.IMixinService#getInitialPhase()
      */
@@ -148,21 +164,21 @@ public class PuzzleLoaderMixinService extends MixinServiceAbstract implements IC
             System.setProperty("mixin.env.remapRefMap", "true");
         }
 
-        if (PuzzleLoaderMixinService.findInStackTrace("dev.crmodders.puzzle.launch.Piece", "launch") > 132) {
+        if (PuzzleLoaderMixinService.findInStackTrace("net.minecraft.launchwrapper.Launch", "launch") > 132) {
             return Phase.DEFAULT;
         }
         return Phase.PREINIT;
     }
-    
+
     /* (non-Javadoc)
      * @see org.spongepowered.asm.service.IMixinService
      *      #getMaxCompatibilityLevel()
      */
     @Override
     public CompatibilityLevel getMaxCompatibilityLevel() {
-        return CompatibilityLevel.JAVA_17;
+        return CompatibilityLevel.JAVA_8;
     }
-    
+
     @Override
     protected ILogger createLogger(String name) {
         return new LoggerAdapterLog4j2(name);
@@ -173,27 +189,21 @@ public class PuzzleLoaderMixinService extends MixinServiceAbstract implements IC
      */
     @Override
     public void init() {
-//        if (PuzzleLoaderMixinService.findInStackTrace("dev.crmodders.puzzle.launch.Piece", "launch") < 4) {
-//            PuzzleLoaderMixinService.logger.error("MixinBootstrap.doInit() called during a tweak constructor!");
-//        }
+        if (PuzzleLoaderMixinService.findInStackTrace("net.minecraft.launchwrapper.Launch", "launch") < 4) {
+            PuzzleLoaderMixinService.logger.error("MixinBootstrap.doInit() called during a tweak constructor!");
+        }
 
-//        List<String> tweakClasses = GlobalProperties.<List<String>>get(PuzzleLoaderMixinService.BLACKBOARD_KEY_TWEAKCLASSES);
-//        if (tweakClasses != null) {
-//            tweakClasses.add(PuzzleLoaderMixinService.STATE_TWEAKER);
-//        }
-        
         super.init();
     }
-    
+
     /* (non-Javadoc)
      * @see org.spongepowered.asm.service.IMixinService#getPlatformAgents()
      */
     @Override
     public Collection<String> getPlatformAgents() {
-        return ImmutableList.<String>of(
-        );
+        return ImmutableList.<String>of();
     }
-    
+
     @Override
     public IContainerHandle getPrimaryContainer() {
         URI uri = null;
@@ -207,7 +217,7 @@ public class PuzzleLoaderMixinService extends MixinServiceAbstract implements IC
         }
         return new ContainerHandleVirtual(this.getName());
     }
-    
+
     @Override
     public Collection<IContainerHandle> getMixinContainers() {
         Builder<IContainerHandle> list = ImmutableList.<IContainerHandle>builder();
@@ -217,6 +227,7 @@ public class PuzzleLoaderMixinService extends MixinServiceAbstract implements IC
     }
 
     private void getContainersFromClassPath(Builder<IContainerHandle> list) {
+        // We know this is deprecated, it works for LW though, so access directly
         URL[] sources = this.getClassPath();
         if (sources != null) {
             for (URL url : sources) {
@@ -228,91 +239,135 @@ public class PuzzleLoaderMixinService extends MixinServiceAbstract implements IC
                     }
                     MainAttributes attributes = MainAttributes.of(uri);
                     String tweaker = attributes.get(Constants.ManifestAttributes.TWEAKER);
-//                    if (PuzzleLoaderMixinService.MIXIN_TWEAKER_CLASS.equals(tweaker)) {
-//                        list.add(new ContainerHandleURI(uri));
-//                    }
+                    if (PuzzleLoaderMixinService.MIXIN_TWEAKER_CLASS.equals(tweaker)) {
+                        list.add(new ContainerHandleURI(uri));
+                    }
                 } catch (Exception ex) {
                     ex.printStackTrace();
-                } 
+                }
             }
         }
     }
 
+    /* (non-Javadoc)
+     * @see org.spongepowered.asm.service.IMixinService#getClassProvider()
+     */
     @Override
     public IClassProvider getClassProvider() {
         return this;
     }
-    
+
+    /* (non-Javadoc)
+     * @see org.spongepowered.asm.service.IMixinService#getBytecodeProvider()
+     */
     @Override
     public IClassBytecodeProvider getBytecodeProvider() {
         return this;
     }
-    
+
+    /* (non-Javadoc)
+     * @see org.spongepowered.asm.service.IMixinService#getTransformerProvider()
+     */
     @Override
     public ITransformerProvider getTransformerProvider() {
         return this;
     }
-    
+
+    /* (non-Javadoc)
+     * @see org.spongepowered.asm.service.IMixinService#getClassTracker()
+     */
     @Override
     public IClassTracker getClassTracker() {
         return this.classLoaderUtil;
     }
-    
+
+    /* (non-Javadoc)
+     * @see org.spongepowered.asm.service.IMixinService#getAuditTrail()
+     */
     @Override
     public IMixinAuditTrail getAuditTrail() {
         return null;
     }
-    
+
+    /* (non-Javadoc)
+     * @see org.spongepowered.asm.service.IClassProvider#findClass(
+     *      java.lang.String)
+     */
     @Override
     public Class<?> findClass(String name) throws ClassNotFoundException {
-        return Piece.classLoader.findClass(name);
+        return Launch.classLoader.findClass(name);
     }
 
+    /* (non-Javadoc)
+     * @see org.spongepowered.asm.service.IClassProvider#findClass(
+     *      java.lang.String, boolean)
+     */
     @Override
     public Class<?> findClass(String name, boolean initialize) throws ClassNotFoundException {
-        return Class.forName(name, initialize, Piece.classLoader);
+        return Class.forName(name, initialize, Launch.classLoader);
     }
-    
+
+    /* (non-Javadoc)
+     * @see org.spongepowered.asm.service.IClassProvider#findAgentClass(
+     *      java.lang.String, boolean)
+     */
     @Override
     public Class<?> findAgentClass(String name, boolean initialize) throws ClassNotFoundException {
-        return Class.forName(name, initialize, Piece.class.getClassLoader());
+        return Class.forName(name, initialize, Launch.class.getClassLoader());
     }
-    
+
+    /* (non-Javadoc)
+     * @see org.spongepowered.asm.service.IMixinService#beginPhase()
+     */
     @Override
     public void beginPhase() {
-//        Piece.classLoader.registerTransformer(PuzzleLoaderMixinService.TRANSFORMER_PROXY_CLASS);
+        Launch.classLoader.registerTransformer(PuzzleLoaderMixinService.TRANSFORMER_PROXY_CLASS);
         this.delegatedTransformers = null;
     }
-    
+
+    /* (non-Javadoc)
+     * @see org.spongepowered.asm.service.IMixinService#checkEnv(
+     *      java.lang.Object)
+     */
     @Override
     public void checkEnv(Object bootSource) {
-        if (bootSource.getClass().getClassLoader() != Piece.class.getClassLoader()) {
+        if (bootSource.getClass().getClassLoader() != Launch.class.getClassLoader()) {
             throw new MixinException("Attempted to init the mixin environment in the wrong classloader");
         }
     }
-    
+
+    /* (non-Javadoc)
+     * @see org.spongepowered.asm.service.IMixinService#getResourceAsStream(
+     *      java.lang.String)
+     */
     @Override
     public InputStream getResourceAsStream(String name) {
-        return Piece.classLoader.getResourceAsStream(name);
+        return Launch.classLoader.getResourceAsStream(name);
     }
-    
+
+    /* (non-Javadoc)
+     * @see org.spongepowered.asm.service.IClassProvider#getClassPath()
+     */
     @Override
     @Deprecated
     public URL[] getClassPath() {
-        return Piece.classLoader.getSources().toArray(new URL[0]);
+        return Launch.classLoader.getSources().toArray(new URL[0]);
     }
-    
+
+    /* (non-Javadoc)
+     * @see org.spongepowered.asm.service.IMixinService#getTransformers()
+     */
     @Override
     public Collection<ITransformer> getTransformers() {
-        List<IClassTransformer> transformers = Piece.classLoader.getTransformers();
-        List<ITransformer> wrapped = new ArrayList<ITransformer>(transformers.size());
+        List<IClassTransformer> transformers = Launch.classLoader.getTransformers();
+        List<ITransformer> wrapped = new ArrayList<>(transformers.size());
         for (IClassTransformer transformer : transformers) {
             if (transformer instanceof ITransformer) {
                 wrapped.add((ITransformer)transformer);
             } else {
                 wrapped.add(new PuzzleTransformerHandle(transformer));
             }
-            
+
             if (transformer instanceof IClassNameTransformer) {
                 PuzzleLoaderMixinService.logger.debug("Found name transformer: {}", transformer.getClass().getName());
                 this.nameTransformer = (IClassNameTransformer)transformer;
@@ -325,19 +380,19 @@ public class PuzzleLoaderMixinService extends MixinServiceAbstract implements IC
     /**
      * Returns (and generates if necessary) the transformer delegation list for
      * this environment.
-     * 
+     *
      * @return current transformer delegation list (read-only)
      */
     @Override
     public List<ITransformer> getDelegatedTransformers() {
         return Collections.<ITransformer>unmodifiableList(this.getDelegatedLegacyTransformers());
     }
-    
+
     private List<ILegacyClassTransformer> getDelegatedLegacyTransformers() {
         if (this.delegatedTransformers == null) {
             this.buildTransformerDelegationList();
         }
-        
+
         return this.delegatedTransformers;
     }
 
@@ -354,7 +409,7 @@ public class PuzzleLoaderMixinService extends MixinServiceAbstract implements IC
             if (!(transformer instanceof ILegacyClassTransformer)) {
                 continue;
             }
-            
+
             ILegacyClassTransformer legacyTransformer = (ILegacyClassTransformer)transformer;
             String transformerName = legacyTransformer.getName();
             boolean include = true;
@@ -377,13 +432,13 @@ public class PuzzleLoaderMixinService extends MixinServiceAbstract implements IC
 
     /**
      * Adds a transformer to the transformer exclusions list
-     * 
+     *
      * @param name Class transformer exclusion to add
      */
     @Override
     public void addTransformerExclusion(String name) {
         PuzzleLoaderMixinService.excludeTransformers.add(name);
-        
+
         // Force rebuild of the list
         this.delegatedTransformers = null;
     }
@@ -391,7 +446,7 @@ public class PuzzleLoaderMixinService extends MixinServiceAbstract implements IC
     /**
      * Retrieve class bytes using available classloaders, does not transform the
      * class
-     * 
+     *
      * @param name class name
      * @param transformedName transformed class name
      * @return class bytes or null if not found
@@ -400,16 +455,16 @@ public class PuzzleLoaderMixinService extends MixinServiceAbstract implements IC
      */
     @Deprecated
     public byte[] getClassBytes(String name, String transformedName) throws IOException {
-        byte[] classBytes = Piece.classLoader.getClassBytes(name);
+        byte[] classBytes = Launch.classLoader.getClassBytes(name);
         if (classBytes != null) {
             return classBytes;
         }
 
         URLClassLoader appClassLoader;
-        if (Piece.class.getClassLoader() instanceof URLClassLoader) {
-            appClassLoader = (URLClassLoader) Piece.class.getClassLoader();
+        if (Launch.class.getClassLoader() instanceof URLClassLoader) {
+            appClassLoader = (URLClassLoader) Launch.class.getClassLoader();
         } else {
-            appClassLoader = new URLClassLoader(new URL[]{}, Piece.class.getClassLoader());
+            appClassLoader = new URLClassLoader(new URL[]{}, Launch.class.getClassLoader());
         }
 
         InputStream classStream = null;
@@ -423,10 +478,10 @@ public class PuzzleLoaderMixinService extends MixinServiceAbstract implements IC
             Closeables.closeQuietly(classStream);
         }
     }
-    
+
     /**
      * Loads class bytecode from the classpath
-     * 
+     *
      * @param className Name of the class to load
      * @param runTransformers True to run the loaded bytecode through the
      *      delegate transformer chain
@@ -438,7 +493,7 @@ public class PuzzleLoaderMixinService extends MixinServiceAbstract implements IC
     public byte[] getClassBytes(String className, boolean runTransformers) throws ClassNotFoundException, IOException {
         String transformedName = className.replace('/', '.');
         String name = this.unmapClassName(transformedName);
-        
+
         Profiler profiler = Profiler.getProfiler("mixin");
         Section loadTime = profiler.begin(Profiler.ROOT, "class.load");
         byte[] classBytes = this.getClassBytes(name, transformedName);
@@ -460,7 +515,7 @@ public class PuzzleLoaderMixinService extends MixinServiceAbstract implements IC
     /**
      * Since we obtain the class bytes with getClassBytes(), we need to apply
      * the transformers ourself
-     * 
+     *
      * @param name class name
      * @param transformedName transformed class name
      * @param basicClass input class bytes
@@ -475,18 +530,18 @@ public class PuzzleLoaderMixinService extends MixinServiceAbstract implements IC
         for (ILegacyClassTransformer transformer : this.getDelegatedLegacyTransformers()) {
             // Clear the re-entrance semaphore
             this.lock.clear();
-            
+
             int pos = transformer.getName().lastIndexOf('.');
             String simpleName = transformer.getName().substring(pos + 1);
             Section transformTime = profiler.begin(Profiler.FINE, simpleName.toLowerCase(Locale.ROOT));
             transformTime.setInfo(transformer.getName());
             basicClass = transformer.transformClassBytes(name, transformedName, basicClass);
             transformTime.end();
-            
+
             if (this.lock.isSet()) {
                 // Also add it to the exclusion list so we can exclude it if the environment triggers a rebuild
                 this.addTransformerExclusion(transformer.getName());
-                
+
                 this.lock.clear();
                 PuzzleLoaderMixinService.logger.info("A re-entrant transformer '{}' was detected and will no longer process meta class data",
                         transformer.getName());
@@ -500,16 +555,16 @@ public class PuzzleLoaderMixinService extends MixinServiceAbstract implements IC
         if (this.nameTransformer == null) {
             this.findNameTransformer();
         }
-        
+
         if (this.nameTransformer != null) {
             return this.nameTransformer.unmapClassName(className);
         }
-        
+
         return className;
     }
 
     private void findNameTransformer() {
-        List<IClassTransformer> transformers = Piece.classLoader.getTransformers();
+        List<IClassTransformer> transformers = Launch.classLoader.getTransformers();
         for (IClassTransformer transformer : transformers) {
             if (transformer instanceof IClassNameTransformer) {
                 PuzzleLoaderMixinService.logger.debug("Found name transformer: {}", transformer.getClass().getName());
@@ -526,19 +581,28 @@ public class PuzzleLoaderMixinService extends MixinServiceAbstract implements IC
     public ClassNode getClassNode(String className) throws ClassNotFoundException, IOException {
         return this.getClassNode(className, this.getClassBytes(className, true), ClassReader.EXPAND_FRAMES);
     }
-    
+
     /* (non-Javadoc)
      * @see org.spongepowered.asm.service.IClassBytecodeProvider#getClassNode(
      *      java.lang.String, boolean)
      */
     @Override
     public ClassNode getClassNode(String className, boolean runTransformers) throws ClassNotFoundException, IOException {
-        return this.getClassNode(className, this.getClassBytes(className, true), ClassReader.EXPAND_FRAMES);
+        return this.getClassNode(className, this.getClassBytes(className, runTransformers), ClassReader.EXPAND_FRAMES);
     }
+
+    /* (non-Javadoc)
+     * @see org.spongepowered.asm.service.IClassBytecodeProvider#getClassNode(
+     *      java.lang.String, boolean, int)
+     */
+//    @Override
+//    public ClassNode getClassNode(String className, boolean runTransformers, int flags) throws ClassNotFoundException, IOException {
+//        return this.getClassNode(className, this.getClassBytes(className, runTransformers), flags);
+//    }
 
     /**
      * Gets an ASM Tree for the supplied class bytecode
-     * 
+     *
      * @param classBytes Class bytecode
      * @param flags ClassReader flags
      * @return ASM Tree view of the specified class 
@@ -552,19 +616,19 @@ public class PuzzleLoaderMixinService extends MixinServiceAbstract implements IC
 
     private static int findInStackTrace(String className, String methodName) {
         Thread currentThread = Thread.currentThread();
-        
+
         if (!"main".equals(currentThread.getName())) {
             return 0;
         }
-        
+
         StackTraceElement[] stackTrace = currentThread.getStackTrace();
         for (StackTraceElement s : stackTrace) {
             if (className.equals(s.getClassName()) && methodName.equals(s.getMethodName())) {
                 return s.getLineNumber();
             }
         }
-        
+
         return 0;
     }
-    
+
 }

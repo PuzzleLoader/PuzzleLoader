@@ -6,7 +6,7 @@ import dev.crmodders.puzzle.providers.api.GameProviderScaffold;
 import finalforeach.cosmicreach.GameAssetLoader;
 import finalforeach.cosmicreach.lwjgl3.Lwjgl3Launcher;
 import dev.crmodders.puzzle.mod.ModLocator;
-import dev.crmodders.puzzle.launch.PuzzleClassLoader;
+import net.minecraft.launchwrapper.PuzzleClassLoader;
 import org.spongepowered.asm.launch.MixinBootstrap;
 import org.spongepowered.asm.launch.platform.CommandLineOptions;
 import org.spongepowered.asm.mixin.MixinEnvironment;
@@ -25,7 +25,8 @@ public class CosmicReachProvider implements GameProviderScaffold {
     String MIXIN_GOTO_PHASE = "gotoPhase";
 
     public CosmicReachProvider() {
-        runStaticMethod(getDeclaredMethod(MixinBootstrap.class, MIXIN_START));
+        MixinBootstrap.start();
+//        runStaticMethod(getDeclaredMethod(MixinBootstrap.class, MIXIN_START));
     }
 
     @Override
@@ -69,7 +70,8 @@ public class CosmicReachProvider implements GameProviderScaffold {
 
     @Override
     public void initArgs(String[] args) {
-        runStaticMethod(getDeclaredMethod(MixinBootstrap.class, MIXIN_DO_INIT, CommandLineOptions.class), CommandLineOptions.of(List.of(args)));
+        MixinBootstrap.doInit(CommandLineOptions.of(List.of(args)));
+//        runStaticMethod(getDeclaredMethod(MixinBootstrap.class, MIXIN_DO_INIT, CommandLineOptions.class), CommandLineOptions.of(List.of(args)));
     }
 
     @Override
@@ -80,11 +82,13 @@ public class CosmicReachProvider implements GameProviderScaffold {
         mixinConfigs.add("internal.mixins.json");
 
         for (ModContainer mod : ModLocator.LocatedMods.values()) {
+            System.out.println(Arrays.toString(mod.extraInfo.mixins()));
             mixinConfigs.addAll(Arrays.stream(mod.extraInfo.mixins()).toList());
         }
 
-        Mixins.addConfigurations(mixinConfigs.toArray(new String[0]));
-        runStaticMethod(getDeclaredMethod(MixinBootstrap.class, MIXIN_INJECT));
+        mixinConfigs.forEach(Mixins::addConfiguration);
+        MixinBootstrap.inject();
+//        runStaticMethod(getDeclaredMethod(MixinBootstrap.class, MIXIN_INJECT));
     }
 
 

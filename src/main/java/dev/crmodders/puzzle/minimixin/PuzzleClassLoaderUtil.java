@@ -1,6 +1,6 @@
 package dev.crmodders.puzzle.minimixin;
 
-import dev.crmodders.puzzle.launch.PuzzleClassLoader;
+import net.minecraft.launchwrapper.PuzzleClassLoader;
 import org.spongepowered.asm.service.IClassTracker;
 
 import java.lang.reflect.Field;

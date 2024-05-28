@@ -1,13 +1,16 @@
 package dev.crmodders.puzzle.launch;
 
 import dev.crmodders.puzzle.providers.api.GameProviderScaffold;
-import dev.crmodders.puzzle.providers.impl.CosmicReachProvider;
 import dev.crmodders.puzzle.utils.MethodUtil;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import dev.crmodders.puzzle.mod.ModLocator;
+import net.appel.tweakers.CosmicReachClientTweaker;
+import net.minecraft.launchwrapper.PuzzleClassLoader;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.Configurator;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,6 +28,7 @@ public class Piece {
     public static PuzzleClassLoader classLoader;
 
     public GameProviderScaffold provider;
+    public Class<? extends GameProviderScaffold> providerClass = CosmicReachClientTweaker.class;
 
     public static Logger logger = LogManager.getLogger("Puzzle | Loader");
 
@@ -95,25 +99,31 @@ public class Piece {
     }
 
     public static void main(String[] args) {
+        Logger logger = LogManager.getRootLogger();
+        Configurator.setAllLevels(logger.getName(), Level.DEBUG);
+
         new Piece().start(args);
     }
 
     public void start(String[] args) {
-        this.provider = new CosmicReachProvider();
 
         try {
             final OptionParser parser = new OptionParser();
             parser.allowsUnrecognizedOptions();
 
             final OptionSet options = parser.parse(args);
+            classLoader.addClassLoaderExclusion(providerClass.getName().substring(0, providerClass.getName().lastIndexOf('.')));
+            provider = (GameProviderScaffold) Class.forName(providerClass.getName(), true, classLoader).newInstance();
 
             provider.initArgs(args);
             provider.inject(classLoader);
 
+            String[] providerArgs = provider.getArgs().toArray(new String[0]);
+
             Class<?> clazz = Class.forName(provider.getEntrypoint(), false, classLoader);
             Method main = MethodUtil.getMethod(clazz,"main", String[].class);
             logger.info("Launching {} version {}", provider.getName(), provider.getRawVersion());
-            MethodUtil.runStaticMethod(main, (Object) provider.getArgs().toArray(new String[0]));
+            MethodUtil.runStaticMethod(main, (Object) providerArgs);
         } catch (Exception e) {
             logger.error("Unable To Launch", e);
             System.exit(1);

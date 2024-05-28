@@ -60,6 +60,7 @@ public class ModLocator {
                         if (modJson != null) {
                             String strInfo = new String(jar.getInputStream(modJson).readAllBytes());
                             ModInfo info = gsonInstance.fromJson(strInfo, ModInfo.class);
+                            logger.info("Discovered Mod \"{}\" with ID \"{}\"", info.name(), info.id());
                             LocatedMods.put(info.id(), new ModContainer(info));
                         }
                     }

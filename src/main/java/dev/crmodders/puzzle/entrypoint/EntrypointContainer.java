@@ -1,6 +1,7 @@
 package dev.crmodders.puzzle.entrypoint;
 
-import dev.crmodders.puzzle.launch.Piece;
+
+import net.minecraft.launchwrapper.Launch;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,14 +15,16 @@ public class EntrypointContainer {
 
     public <T> Collection<Class<T>> getClasses(String key, Class<T> type) {
         Collection<Class<T>> classes = new ArrayList<>();
-        for (Class<?> clazz : entrypointClasses.get(key)){
-            Class<T> foundClass = null;
-            for (Class<?> invokees : clazz.getInterfaces()) {
-                if (invokees.getName().equals(type.getName())) {
-                    foundClass = (Class<T>) clazz;
+        if (entrypointClasses.get(key) != null) {
+            for (Class<?> clazz : entrypointClasses.get(key)){
+                Class<T> foundClass = null;
+                for (Class<?> invokees : clazz.getInterfaces()) {
+                    if (invokees.getName().equals(type.getName())) {
+                        foundClass = (Class<T>) clazz;
+                    }
                 }
+                classes.add(foundClass);
             }
-            classes.add(foundClass);
         }
         return classes;
     }
@@ -42,7 +45,7 @@ public class EntrypointContainer {
             Collection<Class<?>> classes = new ArrayList<>();
             for (String clazz : entrypoints.get(key)) {
                 try {
-                    classes.add(Class.forName(clazz, false, Piece.classLoader));
+                    classes.add(Class.forName(clazz, false, Launch.classLoader));
                 } catch (ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }

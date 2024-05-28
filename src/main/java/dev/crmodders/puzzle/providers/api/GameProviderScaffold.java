@@ -1,7 +1,7 @@
 package dev.crmodders.puzzle.providers.api;
 
 import dev.crmodders.puzzle.mod.Version;
-import dev.crmodders.puzzle.launch.PuzzleClassLoader;
+import net.minecraft.launchwrapper.PuzzleClassLoader;
 
 import java.util.Collection;
 
