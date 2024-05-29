@@ -4,6 +4,7 @@
   "package": "dev.crmodders.puzzle.mixins",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "entrypoint.LoadInitModsMixin",
     "entrypoint.PreGameLaunchInit"
   ],
   "client": [],
