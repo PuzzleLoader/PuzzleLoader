@@ -1,6 +1,7 @@
 package dev.crmodders.puzzle.entrypoint.interfaces;
 
 import dev.crmodders.puzzle.annotations.Stable;
+import dev.crmodders.puzzle.launch.Piece;
 import dev.crmodders.puzzle.utils.PuzzleEntrypointUtil;
 
 /* The pre initializer entrypoint for PuzzleLoader */
@@ -12,6 +13,8 @@ public interface PreInitModInitializer {
     void onPreInit();
 
     static void invokeEntrypoint() {
+        Piece.MOD_LAUNCH_STATE = Piece.LAUNCH_STATE.PRE_INIT;
+
         PuzzleEntrypointUtil.invoke(ENTRYPOINT_KEY, ModInitializer.class, ModInitializer::onInit);
     }
 

@@ -6,12 +6,20 @@ import java.util.function.Consumer;
 
 public class ModContainer {
 
-    public ModInfo extraInfo;
+    public ModJsonInfo JSON_INFO;
     private final EntrypointContainer entrypointContainer;
 
-    public ModContainer(ModInfo info) {
-        this.extraInfo = info;
+    public final String NAME;
+    public final String ID;
+    public final Version VERSION;
+
+    public ModContainer(ModJsonInfo info) {
+        this.JSON_INFO = info;
         this.entrypointContainer = new EntrypointContainer(info.entrypoints());
+
+        NAME = info.name();
+        ID = info.id();
+        VERSION = Version.parseVersion(info.version());
     }
 
     public <T> void invokeEntrypoint(String key, Class<T> type, Consumer<? super T> invoker) {

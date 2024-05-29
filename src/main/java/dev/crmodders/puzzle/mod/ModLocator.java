@@ -59,7 +59,7 @@ public class ModLocator {
                         if (modJson == null) modJson = jar.getEntry("puzzle.mod.json");
                         if (modJson != null) {
                             String strInfo = new String(jar.getInputStream(modJson).readAllBytes());
-                            ModInfo info = gsonInstance.fromJson(strInfo, ModInfo.class);
+                            ModJsonInfo info = gsonInstance.fromJson(strInfo, ModJsonInfo.class);
                             logger.info("Discovered Mod \"{}\" with ID \"{}\"", info.name(), info.id());
                             LocatedMods.put(info.id(), new ModContainer(info));
                         }
@@ -72,6 +72,7 @@ public class ModLocator {
 
     }
 
+    // TODO: Verify Mod Dependencies
     public static void verifyDependencies() {
 
     }

@@ -18,13 +18,22 @@ public class Piece {
     public Class<? extends GameProvider> DEFAULT_PROVIDER = CosmicReachProvider.class;
     public GameProvider provider;
 
-    public static Map<String, Object> blackboard = new HashMap<>();
+    public static Map<String, Object> blackboard;
     public static PuzzleClassLoader classLoader;
 
-    public static Logger logger = LogManager.getLogger("Puzzle | Loader");
+    public static final Logger logger = LogManager.getLogger("Puzzle | Loader");
 
     public static void main(String[] args) {
         new Piece().launch(args);
+    }
+
+    public static LAUNCH_STATE MOD_LAUNCH_STATE;
+
+    public enum LAUNCH_STATE {
+        PRE_MIXIN_INJECT,
+        PRE_INIT,
+        INIT,
+        IN_GAME
     }
 
     private Piece() {

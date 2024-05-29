@@ -3,7 +3,7 @@ package dev.crmodders.puzzle.mod;
 import java.util.Collection;
 import java.util.Map;
 
-public record ModInfo(
+public record ModJsonInfo(
         String id,
         String version,
         String name,

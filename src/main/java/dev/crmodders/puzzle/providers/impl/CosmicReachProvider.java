@@ -2,7 +2,7 @@ package dev.crmodders.puzzle.providers.impl;
 
 import dev.crmodders.puzzle.entrypoint.interfaces.PreMixinModInitializer;
 import dev.crmodders.puzzle.mod.ModContainer;
-import dev.crmodders.puzzle.mod.ModInfo;
+import dev.crmodders.puzzle.mod.ModJsonInfo;
 import dev.crmodders.puzzle.mod.Version;
 import dev.crmodders.puzzle.providers.api.GameProvider;
 import finalforeach.cosmicreach.GameAssetLoader;
@@ -85,7 +85,7 @@ public class CosmicReachProvider implements GameProvider {
         dependencies.put("cosmic-reach", getGameVersion().toString());
 
         /* Puzzle Loader as a Mod */
-        ModLocator.LocatedMods.put("puzzle-loader", new ModContainer(new ModInfo(
+        ModLocator.LocatedMods.put("puzzle-loader", new ModContainer(new ModJsonInfo(
                 "puzzle-loader",
                 "1.0.0",
                 "Puzzle Loader",
@@ -98,7 +98,7 @@ public class CosmicReachProvider implements GameProvider {
         )));
 
         /* Cosmic Reach as a mod */
-        ModLocator.LocatedMods.put(getId(), new ModContainer(new ModInfo(
+        ModLocator.LocatedMods.put(getId(), new ModContainer(new ModJsonInfo(
                 getId(),
                 getGameVersion().toString(),
                 getName(),
@@ -129,7 +129,7 @@ public class CosmicReachProvider implements GameProvider {
         mixinConfigs.add("internal.mixins.json");
 
         for (ModContainer mod : ModLocator.LocatedMods.values()) {
-            mixinConfigs.addAll(Arrays.stream(mod.extraInfo.mixins()).toList());
+            mixinConfigs.addAll(Arrays.stream(mod.JSON_INFO.mixins()).toList());
         }
 
         mixinConfigs.forEach(Mixins::addConfiguration);

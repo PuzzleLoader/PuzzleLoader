@@ -1,6 +1,7 @@
 package dev.crmodders.puzzle.entrypoint.interfaces;
 
 import dev.crmodders.puzzle.annotations.Stable;
+import dev.crmodders.puzzle.launch.Piece;
 import dev.crmodders.puzzle.utils.PuzzleEntrypointUtil;
 
 /* The Main init entrypoint for PuzzleLoader */
@@ -13,7 +14,10 @@ public interface ModInitializer {
     void onInit();
 
     static void invokeEntrypoint() {
+        Piece.MOD_LAUNCH_STATE = Piece.LAUNCH_STATE.INIT;
+
         PuzzleEntrypointUtil.invoke(ENTRYPOINT_KEY, ModInitializer.class, ModInitializer::onInit);
+        Piece.MOD_LAUNCH_STATE = Piece.LAUNCH_STATE.IN_GAME;
     }
 
 }
