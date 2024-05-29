@@ -4,7 +4,7 @@ import java.util.Objects;
 
 /**
  * Stores information about Registered Objects in FluxAPI
- * such as {@link dev.crmodders.flux.api.resource.ResourceLocation}
+ * such as {@link ResourceLocation}
  * contains a namespace and name
  * namespaces are usually the modid
  * @author Mr-Zombii

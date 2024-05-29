@@ -5,7 +5,7 @@ import dev.crmodders.puzzle.launch.PuzzleClassLoader;
 
 import java.util.Collection;
 
-public interface GameProviderScaffold {
+public interface GameProvider {
 
     // Game Names
     String getId();

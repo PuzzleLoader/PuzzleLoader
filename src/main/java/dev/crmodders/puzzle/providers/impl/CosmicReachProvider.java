@@ -1,10 +1,9 @@
 package dev.crmodders.puzzle.providers.impl;
 
-import dev.crmodders.puzzle.launch.Piece;
 import dev.crmodders.puzzle.mod.ModContainer;
 import dev.crmodders.puzzle.mod.ModInfo;
 import dev.crmodders.puzzle.mod.Version;
-import dev.crmodders.puzzle.providers.api.GameProviderScaffold;
+import dev.crmodders.puzzle.providers.api.GameProvider;
 import finalforeach.cosmicreach.GameAssetLoader;
 import finalforeach.cosmicreach.lwjgl3.Lwjgl3Launcher;
 import dev.crmodders.puzzle.mod.ModLocator;
@@ -18,12 +17,11 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.*;
-import java.util.jar.JarFile;
 import java.util.regex.Pattern;
 
 import static dev.crmodders.puzzle.utils.MethodUtil.*;
 
-public class CosmicReachProvider implements GameProviderScaffold {
+public class CosmicReachProvider implements GameProvider {
 
     String MIXIN_START = "start";
     String MIXIN_DO_INIT = "doInit";
@@ -91,7 +89,7 @@ public class CosmicReachProvider implements GameProviderScaffold {
                 "1.0.0",
                 "Puzzle Loader",
                 "A new dedicated modloader for Cosmic Reach",
-                new String[] { "Zombii" },
+                new String[] { "Zombii", "Nanobass" },
                 new HashMap<>(),
                 new HashMap<>(),
                 new String[]{ "internal.mixins.json", "accessors.mixins.json" },
@@ -99,10 +97,10 @@ public class CosmicReachProvider implements GameProviderScaffold {
         )));
 
         /* Cosmic Reach as a mod */
-        ModLocator.LocatedMods.put("cosmic-reach", new ModContainer(new ModInfo(
-                "cosmic-reach",
+        ModLocator.LocatedMods.put(getId(), new ModContainer(new ModInfo(
+                getId(),
                 getGameVersion().toString(),
-                "Cosmic Reach",
+                getName(),
                 "The base Game",
                 new String[] { "FinalForEach" },
                 new HashMap<>(),
@@ -127,7 +125,6 @@ public class CosmicReachProvider implements GameProviderScaffold {
         mixinConfigs.add("internal.mixins.json");
 
         for (ModContainer mod : ModLocator.LocatedMods.values()) {
-            System.out.println(Arrays.toString(mod.extraInfo.mixins()));
             mixinConfigs.addAll(Arrays.stream(mod.extraInfo.mixins()).toList());
         }
 

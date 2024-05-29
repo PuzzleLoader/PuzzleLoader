@@ -1,8 +1,13 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
 plugins {
+    id("maven-publish")
     id("java")
     id("java-library")
     id("com.github.johnrengelman.shadow") version("8.1.1")
 }
+
+group = "dev.crmodders"
 
 repositories {
     mavenCentral()
@@ -83,13 +88,16 @@ tasks.register("runLoader", JavaExec) {
         implementation("org.apache.logging.log4j:log4j-slf4j2-impl:$log4jVersion")
 
         // Sl4j
-        implementation("org.slf4j:slf4j-api:2.0.10")
+        implementation("org.slf4j:slf4j-api:$slf4jVersion")
 
         // Jopt Simple
         implementation("net.sf.jopt-simple:jopt-simple:$joptSimpleVersion")
 
         // Reflections
         implementation("org.reflections:reflections:$reflectionsVersion")
+
+        // Event Bus
+        implementation("org.greenrobot:eventbus:$eventbusVersion")
 
         // Cosmic Reach
         implementation("finalforeach:cosmicreach:$cosmicReachVersion")
@@ -102,7 +110,82 @@ tasks.register("runLoader", JavaExec) {
 shadowJar {
     manifest {
         attributes(
-                "Main-Class": "net.appel.main.Main"
+                "Main-Class": "dev.crmodders.puzzle.launch.Piece"
         )
+    }
+}
+
+// Maven
+tasks.register("buildJars") {
+    group = "loader"
+
+    dependsOn("buildFatJar")
+    dependsOn("buildSourcesJar")
+}
+
+tasks.register("buildFatJar", ShadowJar) {
+    group = "loader"
+
+    manifest {
+        attributes(
+                "Main-Class": "dev.crmodders.puzzle.launch.Piece"
+        )
+    }
+
+    dependsOn("compileJava")
+    dependsOn("processResources")
+
+    from(processResources.destinationDir)
+    from(sourceSets.main.java.classesDirectory)
+
+    archiveFileName = "${id}-${version}-fat.jar"
+}
+
+tasks.register("buildSourcesJar", Jar) {
+    group = "loader"
+
+    from(sourceSets.main.allSource)
+    archiveFileName = "${id}-${version}-sources.jar"
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "crmReleases"
+            url = "https://maven.crmodders.dev/releases"
+            credentials{
+                username = System.getenv("CRMReleasesUsername")
+                password = System.getenv("CRMReleasesPassword")
+            }
+            authentication {
+                basic(BasicAuthentication)
+            }
+        }
+
+        maven {
+            name = "crmSnapshots"
+            url = "https://maven.crmodders.dev/snapshots"
+            credentials{
+                username = System.getenv("CRMSnapshotsUsername")
+                password = System.getenv("CRMSnapshotsPassword")
+            }
+            authentication {
+                basic(BasicAuthentication)
+            }
+        }
+    }
+    assemble.dependsOn buildSourcesJar, buildFatJar
+    publications {
+        maven(MavenPublication) {
+            groupId = group
+            if (System.getenv("COMMIT_ID") != null) {
+                artifactId = System.getenv("COMMIT_ID")
+            } else {
+                artifactId = id
+            }
+
+            artifact buildFatJar
+            artifact source: buildSourcesJar, classifier: 'source', extension: 'jar'
+        }
     }
 }

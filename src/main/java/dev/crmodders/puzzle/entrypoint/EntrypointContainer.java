@@ -1,6 +1,7 @@
 package dev.crmodders.puzzle.entrypoint;
 
 
+import dev.crmodders.puzzle.annotations.Internal;
 import dev.crmodders.puzzle.launch.Piece;
 
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
+@Internal
 public class EntrypointContainer {
 
     private final Map<String, Collection<Class<?>>> entrypointClasses;
