@@ -39,7 +39,7 @@ import java.util.Set;
 
 import dev.crmodders.puzzle.transformers.IClassNameTransformer;
 import dev.crmodders.puzzle.transformers.IClassTransformer;
-import net.minecraft.launchwrapper.Launch;
+import dev.crmodders.puzzle.launch.Piece;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.objectweb.asm.ClassReader;
@@ -79,30 +79,19 @@ import com.google.common.io.Closeables;
  */
 public class PuzzleLoaderMixinService extends MixinServiceAbstract implements IClassProvider, IClassBytecodeProvider, ITransformerProvider {
 
-    // Blackboard keys
-    public static final Keys BLACKBOARD_KEY_TWEAKCLASSES = Keys.of("TweakClasses");
-    public static final Keys BLACKBOARD_KEY_TWEAKS = Keys.of("Tweaks");
-
     private static final String MIXIN_TWEAKER_CLASS = MixinServiceAbstract.LAUNCH_PACKAGE + "MixinTweaker";
-
-    // Consts
-    private static final String TRANSFORMER_PROXY_CLASS = MixinServiceAbstract.MIXIN_PACKAGE + "transformer.Proxy";
+    private static final String TRANSFORMER_PROXY_CLASS = MixinServiceAbstract.MIXIN_PACKAGE + "transformer.MixinProxy";
 
     /**
      * Known re-entrant transformers, other re-entrant transformers will
      * detected automatically 
      */
-    private static final Set<String> excludeTransformers = Sets.<String>newHashSet(
-            "net.minecraftforge.fml.common.asm.transformers.EventSubscriptionTransformer",
-            "cpw.mods.fml.common.asm.transformers.EventSubscriptionTransformer",
-            "net.minecraftforge.fml.common.asm.transformers.TerminalTransformer",
-            "cpw.mods.fml.common.asm.transformers.TerminalTransformer"
-    );
+    private static final Set<String> excludeTransformers = Sets.newHashSet();
 
     /**
      * Log4j2 logger
      */
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger logger = LogManager.getLogger("PuzzleLoader | MixinService");
 
     /**
      * Utility for reflecting into Launch ClassLoader
@@ -123,7 +112,7 @@ public class PuzzleLoaderMixinService extends MixinServiceAbstract implements IC
     private IClassNameTransformer nameTransformer;
 
     public PuzzleLoaderMixinService() {
-        this.classLoaderUtil = new PuzzleClassLoaderUtil(Launch.classLoader);
+        this.classLoaderUtil = new PuzzleClassLoaderUtil(Piece.classLoader);
     }
 
     @Override
@@ -138,7 +127,7 @@ public class PuzzleLoaderMixinService extends MixinServiceAbstract implements IC
     public boolean isValid() {
         try {
             // Detect launchwrapper
-            Launch.classLoader.hashCode();
+            Piece.classLoader.hashCode();
         } catch (Throwable ex) {
             return false;
         }
@@ -151,7 +140,7 @@ public class PuzzleLoaderMixinService extends MixinServiceAbstract implements IC
     @Override
     public void prepare() {
         // Only needed in dev, in production this would be handled by the tweaker
-        Launch.classLoader.addClassLoaderExclusion(MixinServiceAbstract.LAUNCH_PACKAGE);
+        Piece.classLoader.addClassLoaderExclusion(MixinServiceAbstract.LAUNCH_PACKAGE);
     }
 
     /* (non-Javadoc)
@@ -190,7 +179,7 @@ public class PuzzleLoaderMixinService extends MixinServiceAbstract implements IC
     @Override
     public void init() {
         if (PuzzleLoaderMixinService.findInStackTrace("net.minecraft.launchwrapper.Launch", "launch") < 4) {
-            PuzzleLoaderMixinService.logger.error("MixinBootstrap.doInit() called during a tweak constructor!");
+            logger.error("MixinBootstrap.doInit() called during a tweak constructor!");
         }
 
         super.init();
@@ -295,7 +284,7 @@ public class PuzzleLoaderMixinService extends MixinServiceAbstract implements IC
      */
     @Override
     public Class<?> findClass(String name) throws ClassNotFoundException {
-        return Launch.classLoader.findClass(name);
+        return Piece.classLoader.findClass(name);
     }
 
     /* (non-Javadoc)
@@ -304,7 +293,7 @@ public class PuzzleLoaderMixinService extends MixinServiceAbstract implements IC
      */
     @Override
     public Class<?> findClass(String name, boolean initialize) throws ClassNotFoundException {
-        return Class.forName(name, initialize, Launch.classLoader);
+        return Class.forName(name, initialize, Piece.classLoader);
     }
 
     /* (non-Javadoc)
@@ -313,7 +302,7 @@ public class PuzzleLoaderMixinService extends MixinServiceAbstract implements IC
      */
     @Override
     public Class<?> findAgentClass(String name, boolean initialize) throws ClassNotFoundException {
-        return Class.forName(name, initialize, Launch.class.getClassLoader());
+        return Class.forName(name, initialize, Piece.class.getClassLoader());
     }
 
     /* (non-Javadoc)
@@ -321,7 +310,7 @@ public class PuzzleLoaderMixinService extends MixinServiceAbstract implements IC
      */
     @Override
     public void beginPhase() {
-        Launch.classLoader.registerTransformer(PuzzleLoaderMixinService.TRANSFORMER_PROXY_CLASS);
+        Piece.classLoader.registerTransformer(PuzzleLoaderMixinService.TRANSFORMER_PROXY_CLASS);
         this.delegatedTransformers = null;
     }
 
@@ -331,7 +320,7 @@ public class PuzzleLoaderMixinService extends MixinServiceAbstract implements IC
      */
     @Override
     public void checkEnv(Object bootSource) {
-        if (bootSource.getClass().getClassLoader() != Launch.class.getClassLoader()) {
+        if (bootSource.getClass().getClassLoader() != Piece.class.getClassLoader()) {
             throw new MixinException("Attempted to init the mixin environment in the wrong classloader");
         }
     }
@@ -342,7 +331,7 @@ public class PuzzleLoaderMixinService extends MixinServiceAbstract implements IC
      */
     @Override
     public InputStream getResourceAsStream(String name) {
-        return Launch.classLoader.getResourceAsStream(name);
+        return Piece.classLoader.getResourceAsStream(name);
     }
 
     /* (non-Javadoc)
@@ -351,7 +340,7 @@ public class PuzzleLoaderMixinService extends MixinServiceAbstract implements IC
     @Override
     @Deprecated
     public URL[] getClassPath() {
-        return Launch.classLoader.getSources().toArray(new URL[0]);
+        return Piece.classLoader.getSources().toArray(new URL[0]);
     }
 
     /* (non-Javadoc)
@@ -359,7 +348,7 @@ public class PuzzleLoaderMixinService extends MixinServiceAbstract implements IC
      */
     @Override
     public Collection<ITransformer> getTransformers() {
-        List<IClassTransformer> transformers = Launch.classLoader.getTransformers();
+        List<IClassTransformer> transformers = Piece.classLoader.getTransformers();
         List<ITransformer> wrapped = new ArrayList<>(transformers.size());
         for (IClassTransformer transformer : transformers) {
             if (transformer instanceof ITransformer) {
@@ -455,16 +444,16 @@ public class PuzzleLoaderMixinService extends MixinServiceAbstract implements IC
      */
     @Deprecated
     public byte[] getClassBytes(String name, String transformedName) throws IOException {
-        byte[] classBytes = Launch.classLoader.getClassBytes(name);
+        byte[] classBytes = Piece.classLoader.getClassBytes(name);
         if (classBytes != null) {
             return classBytes;
         }
 
         URLClassLoader appClassLoader;
-        if (Launch.class.getClassLoader() instanceof URLClassLoader) {
-            appClassLoader = (URLClassLoader) Launch.class.getClassLoader();
+        if (Piece.class.getClassLoader() instanceof URLClassLoader) {
+            appClassLoader = (URLClassLoader) Piece.class.getClassLoader();
         } else {
-            appClassLoader = new URLClassLoader(new URL[]{}, Launch.class.getClassLoader());
+            appClassLoader = new URLClassLoader(new URL[]{}, Piece.class.getClassLoader());
         }
 
         InputStream classStream = null;
@@ -564,7 +553,7 @@ public class PuzzleLoaderMixinService extends MixinServiceAbstract implements IC
     }
 
     private void findNameTransformer() {
-        List<IClassTransformer> transformers = Launch.classLoader.getTransformers();
+        List<IClassTransformer> transformers = Piece.classLoader.getTransformers();
         for (IClassTransformer transformer : transformers) {
             if (transformer instanceof IClassNameTransformer) {
                 PuzzleLoaderMixinService.logger.debug("Found name transformer: {}", transformer.getClass().getName());

@@ -1,7 +1,7 @@
 package dev.crmodders.puzzle.entrypoint;
 
 
-import net.minecraft.launchwrapper.Launch;
+import dev.crmodders.puzzle.launch.Piece;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -45,7 +45,7 @@ public class EntrypointContainer {
             Collection<Class<?>> classes = new ArrayList<>();
             for (String clazz : entrypoints.get(key)) {
                 try {
-                    classes.add(Class.forName(clazz, false, Launch.classLoader));
+                    classes.add(Class.forName(clazz, false, Piece.classLoader));
                 } catch (ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }

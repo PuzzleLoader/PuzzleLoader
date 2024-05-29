@@ -23,7 +23,7 @@ package dev.crmodders.puzzle.minimixin;/*
  * THE SOFTWARE.
  */
 
-import net.minecraft.launchwrapper.Launch;
+import dev.crmodders.puzzle.launch.Piece;
 import org.spongepowered.asm.service.IMixinServiceBootstrap;
 import org.spongepowered.asm.service.ServiceInitialisationException;
 
@@ -54,21 +54,21 @@ public class PuzzleLoaderMixinServiceBootstrap implements IMixinServiceBootstrap
     @Override
     public void bootstrap() {
         try {
-            Launch.classLoader.hashCode();
+            Piece.classLoader.hashCode();
         } catch (Throwable th) {
             throw new ServiceInitialisationException(this.getName() + " is not available");
         }
 
         // Essential ones
-        Launch.classLoader.addClassLoaderExclusion(PuzzleLoaderMixinServiceBootstrap.SERVICE_PACKAGE);
-        Launch.classLoader.addClassLoaderExclusion(PuzzleLoaderMixinServiceBootstrap.LAUNCH_PACKAGE);
-        Launch.classLoader.addClassLoaderExclusion(PuzzleLoaderMixinServiceBootstrap.LOGGING_PACKAGE);
+        Piece.classLoader.addClassLoaderExclusion(PuzzleLoaderMixinServiceBootstrap.SERVICE_PACKAGE);
+        Piece.classLoader.addClassLoaderExclusion(PuzzleLoaderMixinServiceBootstrap.LAUNCH_PACKAGE);
+        Piece.classLoader.addClassLoaderExclusion(PuzzleLoaderMixinServiceBootstrap.LOGGING_PACKAGE);
 
         // Important ones
-        Launch.classLoader.addClassLoaderExclusion(PuzzleLoaderMixinServiceBootstrap.ASM_PACKAGE);
-        Launch.classLoader.addClassLoaderExclusion(PuzzleLoaderMixinServiceBootstrap.LEGACY_ASM_PACKAGE);
-        Launch.classLoader.addClassLoaderExclusion(PuzzleLoaderMixinServiceBootstrap.MIXIN_PACKAGE);
-        Launch.classLoader.addClassLoaderExclusion(PuzzleLoaderMixinServiceBootstrap.MIXIN_UTIL_PACKAGE);
+        Piece.classLoader.addClassLoaderExclusion(PuzzleLoaderMixinServiceBootstrap.ASM_PACKAGE);
+        Piece.classLoader.addClassLoaderExclusion(PuzzleLoaderMixinServiceBootstrap.LEGACY_ASM_PACKAGE);
+        Piece.classLoader.addClassLoaderExclusion(PuzzleLoaderMixinServiceBootstrap.MIXIN_PACKAGE);
+        Piece.classLoader.addClassLoaderExclusion(PuzzleLoaderMixinServiceBootstrap.MIXIN_UTIL_PACKAGE);
     }
 
 }

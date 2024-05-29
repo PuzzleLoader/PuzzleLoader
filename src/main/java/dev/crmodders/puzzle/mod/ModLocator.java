@@ -72,6 +72,10 @@ public class ModLocator {
 
     }
 
+    public static void verifyDependencies() {
+
+    }
+
     public static void crawlModsFolder(Collection<URL> urls) {
         File modsFolder = new File("pmods");
         if (!modsFolder.exists()) {
