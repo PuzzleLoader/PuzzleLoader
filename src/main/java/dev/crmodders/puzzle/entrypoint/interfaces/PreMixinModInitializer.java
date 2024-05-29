@@ -6,14 +6,14 @@ import dev.crmodders.puzzle.utils.PuzzleEntrypointUtil;
 /* The Main init entrypoint for PuzzleLoader */
 
 @Stable
-public interface ModInitializer {
+public interface PreMixinModInitializer {
 
-    String ENTRYPOINT_KEY = "init";
+    String ENTRYPOINT_KEY = "preMixinInject";
 
-    void onInit();
+    void onPreMixinInject();
 
     static void invokeEntrypoint() {
-        PuzzleEntrypointUtil.invoke(ENTRYPOINT_KEY, ModInitializer.class, ModInitializer::onInit);
+        PuzzleEntrypointUtil.invoke(ENTRYPOINT_KEY, PreMixinModInitializer.class, PreMixinModInitializer::onPreMixinInject);
     }
 
 }

@@ -5,7 +5,7 @@ import dev.crmodders.puzzle.utils.PuzzleEntrypointUtil;
 
 /* The pre initializer entrypoint for PuzzleLoader */
 @Stable
-public interface ModPreInitializer {
+public interface PreInitModInitializer {
 
     String ENTRYPOINT_KEY = "preInit";
 

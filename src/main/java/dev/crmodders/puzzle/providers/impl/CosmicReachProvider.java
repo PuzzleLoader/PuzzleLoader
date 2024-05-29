@@ -1,5 +1,6 @@
 package dev.crmodders.puzzle.providers.impl;
 
+import dev.crmodders.puzzle.entrypoint.interfaces.PreMixinModInitializer;
 import dev.crmodders.puzzle.mod.ModContainer;
 import dev.crmodders.puzzle.mod.ModInfo;
 import dev.crmodders.puzzle.mod.Version;
@@ -109,6 +110,7 @@ public class CosmicReachProvider implements GameProvider {
                 new HashMap<>()
         )));
 
+        // TODO: VERIFY MOD DEPENDENCIES
         ModLocator.verifyDependencies();
 
         File cosmicReach = searchForCosmicReach();
@@ -119,6 +121,8 @@ public class CosmicReachProvider implements GameProvider {
                 throw new RuntimeException(e);
             }
         }
+
+        PreMixinModInitializer.invokeEntrypoint();
 
         // Load Mixins
         List<String> mixinConfigs = new ArrayList<>();

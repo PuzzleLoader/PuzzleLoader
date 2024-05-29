@@ -1,18 +1,19 @@
 package dev.crmodders.puzzle.mixins.logging;
 
-import com.badlogic.gdx.ApplicationLogger;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationLogger;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Mixin(Lwjgl3ApplicationLogger.class)
-public class Lwjgl3ApplicationLoggerMixin implements ApplicationLogger {
+public class Lwjgl3ApplicationLoggerMixin {
 
     @Unique
     private static Map<String, Logger> cache = new HashMap<>();
@@ -25,33 +26,39 @@ public class Lwjgl3ApplicationLoggerMixin implements ApplicationLogger {
         return logger;
     }
 
-    @Overwrite
-    public void log(String tag, String msg) {
+    @Inject(method = "log(Ljava/lang/String;Ljava/lang/String;)V", at = @At("HEAD"), cancellable = true)
+    public void log(String tag, String msg, CallbackInfo ci) {
         taggedLogger(tag).info(msg);
+        ci.cancel();
     }
 
-    @Overwrite
-    public void log(String tag, String msg, Throwable throwable) {
+    @Inject(method = "log(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)V", at = @At("HEAD"), cancellable = true)
+    public void log(String tag, String msg, Throwable throwable, CallbackInfo ci) {
         taggedLogger(tag).info(msg, throwable);
+        ci.cancel();
     }
 
-    @Overwrite
-    public void error(String tag, String msg) {
+    @Inject(method = "error(Ljava/lang/String;Ljava/lang/String;)V", at = @At("HEAD"), cancellable = true)
+    public void error(String tag, String msg, CallbackInfo ci) {
         taggedLogger(tag).error(msg);
+        ci.cancel();
     }
 
-    @Overwrite
-    public void error(String tag, String msg, Throwable throwable) {
+    @Inject(method = "error(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)V", at = @At("HEAD"), cancellable = true)
+    public void error(String tag, String msg, Throwable throwable, CallbackInfo ci) {
         taggedLogger(tag).error(msg, throwable);
+        ci.cancel();
     }
 
-    @Overwrite
-    public void debug(String tag, String msg) {
+    @Inject(method = "debug(Ljava/lang/String;Ljava/lang/String;)V", at = @At("HEAD"), cancellable = true)
+    public void debug(String tag, String msg, CallbackInfo ci) {
         taggedLogger(tag).debug(msg, msg);
+        ci.cancel();
     }
 
-    @Overwrite
-    public void debug(String tag, String msg, Throwable throwable) {
+    @Inject(method = "debug(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)V", at = @At("HEAD"), cancellable = true)
+    public void debug(String tag, String msg, Throwable throwable, CallbackInfo ci) {
         taggedLogger(tag).debug(msg, msg, throwable);
+        ci.cancel();
     }
 }

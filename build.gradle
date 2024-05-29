@@ -60,6 +60,13 @@ dependencies {
     // Reflections
     implementation("org.reflections:reflections:$reflectionsVersion")
 
+    // Graal VM Polygot
+    implementation("org.graalvm.polyglot:polyglot:$graalvmVersion")
+    implementation("org.graalvm.polyglot:tools:$graalvmVersion")
+
+    // Graal VM Polygot Languages
+    implementation("org.graalvm.polyglot:js:$graalvmVersion")
+
     // Cosmic Reach
     compileOnly("finalforeach:cosmicreach:$cosmicReachVersion")
 }
