@@ -1,16 +1,11 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "dev.crmodders.puzzle.mixins",
+  "package": "dev.crmodders.puzzle.core.mixins",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "assets.AssetLoaderMixin",
     "entrypoint.LoadInitModsMixin",
     "entrypoint.PreGameLaunchInit",
-    "logging.BlockGameMixin",
-    "logging.GameShaderMixin",
-    "logging.GameStateMixin",
-    "logging.Lwjgl3ApplicationLoggerMixin",
     "window.IconMixin",
     "window.TitleMixin"
   ],

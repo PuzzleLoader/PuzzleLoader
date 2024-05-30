@@ -1,6 +1,6 @@
 package dev.crmodders.puzzle.utils;
 
-import dev.crmodders.puzzle.mod.ModLocator;
+import dev.crmodders.puzzle.core.mod.ModLocator;
 
 import java.util.function.Consumer;
 
