@@ -1,6 +1,7 @@
 package dev.crmodders.puzzle.core.mod;
 
 import com.google.gson.Gson;
+import dev.crmodders.puzzle.core.providers.api.GameProvider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,6 +19,59 @@ public class ModLocator {
     public static Gson gsonInstance = new Gson();
 
     public static Map<String, ModContainer> LocatedMods = new HashMap<>();
+
+    public static void AddBuiltinMods(GameProvider provider) {
+        Map<String, String> dependencies = new HashMap<>();
+        dependencies.put("cosmic-reach", provider.getGameVersion().toString());
+
+        /* Puzzle Loader as a Mod */
+        ModLocator.LocatedMods.put("puzzle-loader", new ModContainer(new ModJsonInfo(
+                "puzzle-loader",
+                "1.0.0",
+                "Puzzle Loader",
+                "A new dedicated modloader for Cosmic Reach",
+                new String[] { "Zombii", "Nanobass" },
+                new HashMap<>(),
+                new HashMap<>(),
+                new String[]{ "internal.mixins.json", "accessors.mixins.json" },
+                dependencies
+        )));
+
+        /* Cosmic Reach as a mod */
+        ModLocator.LocatedMods.put(provider.getId(), new ModContainer(new ModJsonInfo(
+                provider.getId(),
+                provider.getGameVersion().toString(),
+                provider.getName(),
+                "The base Game",
+                new String[] { "FinalForEach" },
+                new HashMap<>(),
+                new HashMap<>(),
+                new String[]{},
+                new HashMap<>()
+        )));
+
+        Map<String, String> fluxDependencies = new HashMap<>();
+        fluxDependencies.put("cosmic-reach", provider.getGameVersion().toString());
+        fluxDependencies.put("puzzle-loader", "1.0.0");
+
+        Map<String, Collection<String>> fluxEntrypoints = new HashMap<>();
+        fluxEntrypoints.put("preInit", List.of("dev.crmodders.flux.FluxPuzzle"));
+
+        /* Flux API as a mod */
+        ModLocator.LocatedMods.put("fluxapi", new ModContainer(new ModJsonInfo(
+                "fluxapi",
+                "0.6.3",
+                "Flux API",
+                "The central modding API for Cosmic Reach Fabric/Quilt/Puzzle",
+                new String[] { "Mr Zombii", "Nanobass", "CoolGI" },
+                fluxEntrypoints,
+                new HashMap<>(),
+                new String[]{
+                        "fluxapi.mixins.json"
+                },
+                fluxDependencies
+        )));
+    }
 
     public static Collection<URL> getUrlsOnClasspath() {
         return getUrlsOnClasspath(new ArrayList<>());

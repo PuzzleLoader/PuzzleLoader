@@ -3,6 +3,7 @@ package dev.crmodders.puzzle.core.entrypoint.interfaces;
 import dev.crmodders.puzzle.annotations.Stable;
 import dev.crmodders.puzzle.core.launch.Piece;
 import dev.crmodders.puzzle.utils.PuzzleEntrypointUtil;
+import org.slf4j.LoggerFactory;
 
 /* The pre initializer entrypoint for PuzzleLoader */
 @Stable

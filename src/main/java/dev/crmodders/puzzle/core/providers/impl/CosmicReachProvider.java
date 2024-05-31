@@ -1,5 +1,6 @@
 package dev.crmodders.puzzle.core.providers.impl;
 
+import dev.crmodders.flux.FluxPuzzle;
 import dev.crmodders.puzzle.core.entrypoint.interfaces.PreMixinModInitializer;
 import dev.crmodders.puzzle.core.mod.ModContainer;
 import dev.crmodders.puzzle.core.mod.ModJsonInfo;
@@ -81,34 +82,7 @@ public class CosmicReachProvider implements GameProvider {
     public void inject(PuzzleClassLoader classLoader) {
         ModLocator.getMods(List.of(classLoader.getURLs()));
 
-        Map<String, String> dependencies = new HashMap<>();
-        dependencies.put("cosmic-reach", getGameVersion().toString());
-
-        /* Puzzle Loader as a Mod */
-        ModLocator.LocatedMods.put("puzzle-loader", new ModContainer(new ModJsonInfo(
-                "puzzle-loader",
-                "1.0.0",
-                "Puzzle Loader",
-                "A new dedicated modloader for Cosmic Reach",
-                new String[] { "Zombii", "Nanobass" },
-                new HashMap<>(),
-                new HashMap<>(),
-                new String[]{ "internal.mixins.json", "accessors.mixins.json" },
-                dependencies
-        )));
-
-        /* Cosmic Reach as a mod */
-        ModLocator.LocatedMods.put(getId(), new ModContainer(new ModJsonInfo(
-                getId(),
-                getGameVersion().toString(),
-                getName(),
-                "The base Game",
-                new String[] { "FinalForEach" },
-                new HashMap<>(),
-                new HashMap<>(),
-                new String[]{},
-                new HashMap<>()
-        )));
+        ModLocator.AddBuiltinMods(this);
 
         // TODO: VERIFY MOD DEPENDENCIES
         ModLocator.verifyDependencies();
@@ -122,12 +96,12 @@ public class CosmicReachProvider implements GameProvider {
             }
         }
 
-        PreMixinModInitializer.invokeEntrypoint();
+//        PreMixinModInitializer.invokeEntrypoint();
 
         // Load Mixins
         List<String> mixinConfigs = new ArrayList<>();
         mixinConfigs.add("internal.mixins.json");
-        
+
         for (ModContainer mod : ModLocator.LocatedMods.values()) {
             mixinConfigs.addAll(Arrays.stream(mod.JSON_INFO.mixins()).toList());
         }

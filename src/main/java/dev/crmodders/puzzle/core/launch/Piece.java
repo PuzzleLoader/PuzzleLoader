@@ -16,7 +16,7 @@ import org.apache.logging.log4j.Logger;
 
 public class Piece {
     public Class<? extends GameProvider> DEFAULT_PROVIDER = CosmicReachProvider.class;
-    public GameProvider provider;
+    public static GameProvider provider;
 
     public static Map<String, Object> blackboard;
     public static PuzzleClassLoader classLoader;
@@ -54,6 +54,7 @@ public class Piece {
         final OptionSet options = parser.parse(args);
         try {
             classLoader.addClassLoaderExclusion(DEFAULT_PROVIDER.getName().substring(0, DEFAULT_PROVIDER.getName().lastIndexOf('.')));
+            classLoader.addClassLoaderExclusion("dev.crmodders.puzzle");
             provider = (GameProvider) Class.forName(DEFAULT_PROVIDER.getName(), true, classLoader).newInstance();
 
             provider.initArgs(args);

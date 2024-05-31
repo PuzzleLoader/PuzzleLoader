@@ -2,9 +2,9 @@ package dev.crmodders.puzzle.core.mixins.assets;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import dev.crmodders.flux.tags.Identifier;
 import finalforeach.cosmicreach.GameAssetLoader;
 import finalforeach.cosmicreach.io.SaveLocation;
-import dev.crmodders.puzzle.game.tags.Identifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.spongepowered.asm.mixin.*;

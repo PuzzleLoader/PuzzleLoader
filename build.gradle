@@ -5,6 +5,7 @@ plugins {
     id("java")
     id("java-library")
     id("com.github.johnrengelman.shadow") version("8.1.1")
+    id 'org.jetbrains.kotlin.jvm'
 }
 
 group = "dev.crmodders"
@@ -39,6 +40,9 @@ dependencies {
     // Mixin
     compileOnly("org.spongepowered:mixin:$mixinsVersion")
 
+    // FluxAPI
+    implementation("dev.crmodders:fluxapi:$fluxApiVersion")
+
     // Asm
     implementation("org.ow2.asm:asm:$asmVersion")
     implementation("org.ow2.asm:asm-tree:$asmVersion")
@@ -70,6 +74,7 @@ dependencies {
 
     // Cosmic Reach
     compileOnly("finalforeach:cosmicreach:$cosmicReachVersion")
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 }
 
 tasks.register("runLoader", JavaExec) {
@@ -112,7 +117,7 @@ tasks.register("runLoader", JavaExec) {
     }
 
     classpath = sourceSets.main.runtimeClasspath
-    mainClass = "dev.crmodders.puzzle.core.launch.Piece2"
+    mainClass = "dev.crmodders.puzzle.core.launch.Piece"
 }
 
 shadowJar {
@@ -196,4 +201,7 @@ publishing {
             artifact source: buildSourcesJar, classifier: 'source', extension: 'jar'
         }
     }
+}
+kotlin {
+    jvmToolchain(17)
 }

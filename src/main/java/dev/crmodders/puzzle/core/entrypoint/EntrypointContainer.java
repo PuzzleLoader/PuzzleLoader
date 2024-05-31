@@ -3,6 +3,7 @@ package dev.crmodders.puzzle.core.entrypoint;
 
 import dev.crmodders.puzzle.annotations.Internal;
 import dev.crmodders.puzzle.core.launch.Piece;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,6 +18,7 @@ public class EntrypointContainer {
 
     public <T> Collection<Class<T>> getClasses(String key, Class<T> type) {
         Collection<Class<T>> classes = new ArrayList<>();
+
         if (entrypointClasses.get(key) != null) {
             for (Class<?> clazz : entrypointClasses.get(key)){
                 Class<T> foundClass = null;
@@ -47,7 +49,8 @@ public class EntrypointContainer {
             Collection<Class<?>> classes = new ArrayList<>();
             for (String clazz : entrypoints.get(key)) {
                 try {
-                    classes.add(Class.forName(clazz, false, Piece.classLoader));
+                    Class claz = Class.forName(clazz, false, Piece.classLoader);
+                    classes.add(claz);
                 } catch (ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }
