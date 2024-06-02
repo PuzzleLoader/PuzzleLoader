@@ -67,7 +67,7 @@ public class ModLocator {
                 fluxEntrypoints,
                 new HashMap<>(),
                 new String[]{
-                        "fluxapi.mixins.json"
+
                 },
                 fluxDependencies
         )));

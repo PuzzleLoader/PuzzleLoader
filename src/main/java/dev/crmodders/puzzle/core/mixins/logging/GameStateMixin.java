@@ -13,6 +13,7 @@ import java.io.PrintStream;
 
 @Mixin(GameState.class)
 public class GameStateMixin {
+
     @Unique
     private static Logger logger = LogManager.getLogger("CR | Gamestate");
 

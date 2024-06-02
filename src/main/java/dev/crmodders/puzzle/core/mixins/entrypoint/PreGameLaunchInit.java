@@ -4,7 +4,6 @@ import dev.crmodders.puzzle.core.entrypoint.interfaces.PreInitModInitializer;
 import dev.crmodders.puzzle.core.launch.Piece;
 import finalforeach.cosmicreach.lwjgl3.Lwjgl3Launcher;
 import dev.crmodders.puzzle.core.mod.ModLocator;
-import org.slf4j.LoggerFactory;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

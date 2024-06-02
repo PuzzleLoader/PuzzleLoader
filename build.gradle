@@ -6,6 +6,7 @@ plugins {
     id("java-library")
     id("com.github.johnrengelman.shadow") version("8.1.1")
     id 'org.jetbrains.kotlin.jvm'
+    id "cosmicloom"
 }
 
 group = "dev.crmodders"
@@ -75,6 +76,10 @@ dependencies {
     // Cosmic Reach
     compileOnly("finalforeach:cosmicreach:$cosmicReachVersion")
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+}
+
+loom {
+    accessWidenerPath = file("src/main/resources/accesswidener/puzzle.accesswidener")
 }
 
 tasks.register("runLoader", JavaExec) {

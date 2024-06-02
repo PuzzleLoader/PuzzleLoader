@@ -13,6 +13,7 @@ import java.io.PrintStream;
 
 @Mixin(GameShader.class)
 public class GameShaderMixin {
+
     @Unique
     private static Logger logger = LogManager.getLogger("CR | Shaders");
 

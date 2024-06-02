@@ -54,7 +54,13 @@ public class Piece {
         final OptionSet options = parser.parse(args);
         try {
             classLoader.addClassLoaderExclusion(DEFAULT_PROVIDER.getName().substring(0, DEFAULT_PROVIDER.getName().lastIndexOf('.')));
-            classLoader.addClassLoaderExclusion("dev.crmodders.puzzle");
+            classLoader.addClassLoaderExclusion("dev.crmodders.puzzle.annotations");
+            classLoader.addClassLoaderExclusion("dev.crmodders.puzzle.core.entrypoint");
+            classLoader.addClassLoaderExclusion("dev.crmodders.puzzle.core.launch");
+            classLoader.addClassLoaderExclusion("dev.crmodders.puzzle.core.mod");
+            classLoader.addClassLoaderExclusion("dev.crmodders.puzzle.core.providers");
+            classLoader.addClassLoaderExclusion("dev.crmodders.puzzle.core.tags");
+            classLoader.addClassLoaderExclusion("dev.crmodders.puzzle.utils");
             provider = (GameProvider) Class.forName(DEFAULT_PROVIDER.getName(), true, classLoader).newInstance();
 
             provider.initArgs(args);
