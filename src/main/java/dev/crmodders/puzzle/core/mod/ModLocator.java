@@ -1,6 +1,7 @@
 package dev.crmodders.puzzle.core.mod;
 
 import com.google.gson.Gson;
+import dev.crmodders.flux.FluxPuzzle;
 import dev.crmodders.puzzle.core.providers.api.GameProvider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,7 +31,7 @@ public class ModLocator {
                 "1.0.0",
                 "Puzzle Loader",
                 "A new dedicated modloader for Cosmic Reach",
-                new String[] { "Zombii", "Nanobass" },
+                new String[] { "Zombii" },
                 new HashMap<>(),
                 new HashMap<>(),
                 new String[]{ "internal.mixins.json", "accessors.mixins.json" },
@@ -55,7 +56,7 @@ public class ModLocator {
         fluxDependencies.put("puzzle-loader", "1.0.0");
 
         Map<String, Collection<String>> fluxEntrypoints = new HashMap<>();
-        fluxEntrypoints.put("preInit", List.of("dev.crmodders.flux.FluxPuzzle"));
+        fluxEntrypoints.put("preInit", List.of(FluxPuzzle.class.getName()));
 
         /* Flux API as a mod */
         ModLocator.LocatedMods.put("fluxapi", new ModContainer(new ModJsonInfo(

@@ -7,12 +7,16 @@ import dev.crmodders.puzzle.utils.MethodUtil;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.*;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.spongepowered.asm.mixin.MixinEnvironment;
+import org.spongepowered.asm.util.JavaVersion;
+import org.spongepowered.asm.util.asm.ASM;
 
 public class Piece {
     public Class<? extends GameProvider> DEFAULT_PROVIDER = CosmicReachProvider.class;
@@ -37,6 +41,21 @@ public class Piece {
     }
 
     private Piece() {
+        // "Hack" asm to get it to not yell at me (:
+        try {
+            ASM.getApiVersionString();
+
+            Field majorVersion = ASM.class.getDeclaredField("majorVersion");
+            majorVersion.setAccessible(true);
+            majorVersion.set(null, 9);
+
+            Field minorVersion = ASM.class.getDeclaredField("minorVersion");
+            minorVersion.setAccessible(true);
+            minorVersion.set(null, 7);
+        } catch (IllegalAccessException | NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        }
+
         List<URL> classPath = new ArrayList<>();
 
         classPath.addAll(ModLocator.getUrlsOnClasspath());

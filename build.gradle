@@ -5,8 +5,7 @@ plugins {
     id("java")
     id("java-library")
     id("com.github.johnrengelman.shadow") version("8.1.1")
-    id 'org.jetbrains.kotlin.jvm'
-    id "cosmicloom"
+//    id "puzzle_gradle" version "1.0.2-dev"
 }
 
 group = "dev.crmodders"
@@ -66,21 +65,20 @@ dependencies {
     // Reflections
     implementation("org.reflections:reflections:$reflectionsVersion")
 
-    // Jython
-    implementation("org.python:jython-slim:2.7.3")
-
-    // Lua J
-    implementation("party.iroiro.luajava:luajit:$luaJVersion")
-    implementation("party.iroiro.luajava:luajit-platform:$luaJVersion:natives-desktop")
+////     Jython
+//    implementation("org.python:jython-slim:2.7.3")
+//
+////     Lua J
+//    implementation("party.iroiro.luajava:luajit:$luaJVersion")
+//    implementation("party.iroiro.luajava:luajit-platform:$luaJVersion:natives-desktop")
 
     // Cosmic Reach
     compileOnly("finalforeach:cosmicreach:$cosmicReachVersion")
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 }
 
-loom {
-    accessWidenerPath = file("src/main/resources/accesswidener/puzzle.accesswidener")
-}
+//puzzle_loader {
+//    accessWidenerPath = file("src/main/resources/accesswidener/puzzle.accesswidener")
+//}
 
 tasks.register("runLoader", JavaExec) {
     group = "loader"
@@ -154,7 +152,8 @@ tasks.register("buildFatJar", ShadowJar) {
     dependsOn("processResources")
 
     from(processResources.destinationDir)
-    from(sourceSets.main.java.classesDirectory)
+    from(sourceSets.main.runtimeClasspath)
+    from(sourceSets.main.output)
 
     archiveFileName = "${id}-${version}-fat.jar"
 }
@@ -179,34 +178,15 @@ publishing {
                 basic(BasicAuthentication)
             }
         }
-
-        maven {
-            name = "crmSnapshots"
-            url = "https://maven.crmodders.dev/snapshots"
-            credentials{
-                username = System.getenv("CRMSnapshotsUsername")
-                password = System.getenv("CRMSnapshotsPassword")
-            }
-            authentication {
-                basic(BasicAuthentication)
-            }
-        }
     }
     assemble.dependsOn buildSourcesJar, buildFatJar
     publications {
         maven(MavenPublication) {
             groupId = group
-            if (System.getenv("COMMIT_ID") != null) {
-                artifactId = System.getenv("COMMIT_ID")
-            } else {
-                artifactId = id
-            }
+            artifactId = id
 
             artifact buildFatJar
             artifact source: buildSourcesJar, classifier: 'source', extension: 'jar'
         }
     }
-}
-kotlin {
-    jvmToolchain(17)
 }
