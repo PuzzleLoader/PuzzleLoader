@@ -34,7 +34,7 @@ public class ModLocator {
                 new String[] { "Zombii" },
                 new HashMap<>(),
                 new HashMap<>(),
-                new String[]{ "internal.mixins.json", "accessors.mixins.json" },
+                new String[]{ "internal.mixins.json", "accessors.mixins.json"},
                 dependencies
         )));
 
@@ -47,7 +47,9 @@ public class ModLocator {
                 new String[] { "FinalForEach" },
                 new HashMap<>(),
                 new HashMap<>(),
-                new String[]{},
+                new String[]{
+                        "fluxMicro.mixins.json"
+                },
                 new HashMap<>()
         )));
 

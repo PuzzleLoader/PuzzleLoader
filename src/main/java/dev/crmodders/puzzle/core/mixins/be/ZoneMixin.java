@@ -1,6 +1,9 @@
 package dev.crmodders.puzzle.core.mixins.be;
 
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.utils.IntMap;
+import com.badlogic.gdx.utils.LongMap;
+import dev.crmodders.puzzle.accessors.Point3DMapAccessor;
 import dev.crmodders.puzzle.core.entities.blocks.interfaces.IRenderable;
 import dev.crmodders.puzzle.core.entities.blocks.interfaces.ITickable;
 import finalforeach.cosmicreach.util.Point3DMap;
@@ -20,19 +23,26 @@ public class ZoneMixin implements IRenderable {
 
     @Inject(method = "runScheduledTriggers", at = @At("HEAD"))
     private void zoneUpdate(CallbackInfo ci) {
-        chunks.forEach(chunk -> {
-            if(chunk instanceof ITickable tickable) {
-                tickable.onTick(1f / 20f); // TODO get tps here
+        for (LongMap.Entry<IntMap<Chunk>> intMapEntry : ((Point3DMapAccessor<Chunk>) chunks).getMap()) {
+            for (IntMap.Entry<Chunk> chunkEntry : intMapEntry.value) {
+                if(chunkEntry.value instanceof ITickable tickable) {
+                    tickable.onTick(1f / 20f); // TODO get tps here
+                }
             }
+        }
+        chunks.forEach(chunk -> {
+
         });
     }
 
     @Override
     public void onRender(Camera camera, float dt) {
-        chunks.forEach(chunk -> {
-            if(chunk instanceof IRenderable renderable) {
-                renderable.onRender(camera, dt);
+        for (LongMap.Entry<IntMap<Chunk>> intMapEntry : ((Point3DMapAccessor<Chunk>) chunks).getMap()) {
+            for (IntMap.Entry<Chunk> chunkEntry : intMapEntry.value) {
+                if(chunkEntry.value instanceof IRenderable renderable) {
+                    renderable.onRender(camera, dt);
+                }
             }
-        });
+        }
     }
 }

@@ -41,7 +41,7 @@ public class Piece {
     }
 
     private Piece() {
-        // "Hack" asm to get it to not yell at me (:
+        // try "Hack" asm to get it to not yell at me (:
         try {
             ASM.getApiVersionString();
 

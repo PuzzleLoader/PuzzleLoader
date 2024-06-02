@@ -1,13 +1,13 @@
 package dev.crmodders.puzzle.core.mixins.be;
 
 import com.badlogic.gdx.graphics.Camera;
+import com.llamalad7.mixinextras.sugar.Local;
 import dev.crmodders.puzzle.core.entities.blocks.ExtendedBlockEntity;
 import dev.crmodders.puzzle.core.entities.blocks.interfaces.INeighborUpdateListener;
 import dev.crmodders.puzzle.core.entities.blocks.interfaces.IRenderable;
 import dev.crmodders.puzzle.core.entities.blocks.interfaces.ITickable;
 import dev.crmodders.puzzle.utils.DirectionUtil;
 import finalforeach.cosmicreach.blockentities.BlockEntity;
-import finalforeach.cosmicreach.blocks.Block;
 import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.constants.Direction;
 import finalforeach.cosmicreach.util.IPoint3DMap;
@@ -41,8 +41,6 @@ public abstract class ChunkMixin implements ITickable, IRenderable {
 
     @Shadow public int chunkZ;
 
-    @Shadow public abstract BlockEntity getBlockEntity(int localX, int localY, int localZ);
-
     @Override
     public void onTick(float tps) {
         if(blockEntities != null)
@@ -64,16 +62,14 @@ public abstract class ChunkMixin implements ITickable, IRenderable {
     }
 
     @Inject(method = "setBlockEntity", at= @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/blockentities/BlockEntity;onRemove()V", shift = At.Shift.AFTER), locals = LocalCapture.CAPTURE_FAILHARD)
-    private void destroyBlockEntity(BlockState blockState, int localX, int localY, int localZ, CallbackInfoReturnable<BlockEntity> cir) {
-        BlockEntity blockEntity = getBlockEntity(localX, localY, localZ);
+    private void destroyBlockEntity(BlockState blockState, int localX, int localY, int localZ, CallbackInfoReturnable<BlockEntity> cir, @Local BlockEntity blockEntity) {
         if(blockEntity instanceof ExtendedBlockEntity extendedBlockEntity) {
             extendedBlockEntity.position = null;
         }
     }
 
     @Inject(method = "setBlockEntity", at= @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/blockentities/BlockEntity;onCreate(Lfinalforeach/cosmicreach/blocks/BlockState;)V", shift = At.Shift.BEFORE))
-    private void initializeBlockEntity(BlockState blockState, int localX, int localY, int localZ, CallbackInfoReturnable<BlockEntity> cir) {
-        BlockEntity blockEntity = getBlockEntity(localX, localY, localZ);
+    private void initializeBlockEntity(BlockState blockState, int localX, int localY, int localZ, CallbackInfoReturnable<BlockEntity> cir, @Local BlockEntity blockEntity) {
         if(blockEntity instanceof ExtendedBlockEntity extendedBlockEntity) {
             extendedBlockEntity.initialize((Chunk) (Object) this, localX, localY, localZ);
         }
@@ -94,7 +90,7 @@ public abstract class ChunkMixin implements ITickable, IRenderable {
     }
 
     @Inject(method = "setBlockEntity", at= @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/blockentities/BlockEntity;onCreate(Lfinalforeach/cosmicreach/blocks/BlockState;)V", shift = At.Shift.AFTER), locals = LocalCapture.CAPTURE_FAILHARD)
-    private void fireNeighbors(BlockState blockState, int localX, int localY, int localZ, CallbackInfoReturnable<BlockEntity> cir, Block block, BlockEntity blockEntity) {
+    private void fireNeighbors(BlockState blockState, int localX, int localY, int localZ, CallbackInfoReturnable<BlockEntity> cir, @Local BlockEntity blockEntity) {
         for(Direction face : Direction.values()) {
             int neighborX = blockX + localX + face.getXOffset();
             int neighborY = blockY + localY + face.getYOffset();
