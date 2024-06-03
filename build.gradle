@@ -13,7 +13,7 @@ group = "dev.crmodders"
 repositories {
     mavenCentral()
 
-    maven { url 'https://jitpack.io' }
+    maven { url "https://jitpack.io" }
     maven { url "https://maven.google.com/" }
     maven { url "https://maven.crmodders.dev/releases" }
     maven { url "https://maven.crmodders.dev/snapshots" }

@@ -1,4 +1,4 @@
-package dev.crmodders.puzzle.core.mixins.bugfixes;
+package dev.crmodders.puzzle.bugfixes;
 
 import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.blocks.BlockStateGenerator;

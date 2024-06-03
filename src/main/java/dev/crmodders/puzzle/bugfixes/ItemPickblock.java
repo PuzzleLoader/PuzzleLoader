@@ -1,4 +1,4 @@
-package dev.crmodders.puzzle.core.mixins.bugfixes;
+package dev.crmodders.puzzle.bugfixes;
 
 import finalforeach.cosmicreach.blocks.Block;
 import finalforeach.cosmicreach.items.Item;
