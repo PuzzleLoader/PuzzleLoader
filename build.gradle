@@ -17,7 +17,7 @@ repositories {
     maven { url "https://maven.google.com/" }
     maven { url "https://maven.crmodders.dev/releases" }
     maven { url "https://maven.crmodders.dev/snapshots" }
-    maven { url "https://maven.fabricmc.net/" }
+    maven { url "https://repo.spongepowered.org/repository/maven-public/" }
 
     ivy {
         name "Cosmic Reach"
@@ -38,11 +38,15 @@ repositories {
 
 dependencies {
     // Mixin
-    compileOnly("net.fabricmc:sponge-mixin:$fabricMixinVersion+mixin.$baseMixinVersion")
+    compileOnly("org.spongepowered:mixin:$mixinVersion")
     implementation(annotationProcessor("io.github.llamalad7:mixinextras-common:$mixinExtrasVersion"))
 
     // FluxAPI
     implementation("dev.crmodders:fluxapi:$fluxApiVersion")
+
+    // Google Stuffs
+    implementation("com.google.guava:guava:$guavaVersion")
+    implementation("com.google.code.gson:gson:$gsonVersion")
 
     // Asm
     compileOnly("org.ow2.asm:asm:$asmVersion")
@@ -82,33 +86,33 @@ tasks.register("runLoader", JavaExec) {
 
     dependencies {
         // Mixin
-        runtimeOnly("net.fabricmc:sponge-mixin:$fabricMixinVersion+mixin.$baseMixinVersion")
+        runtimeOnly("org.spongepowered:mixin:$mixinVersion")
+        runtimeOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:$mixinExtrasVersion"))
 
-        implementation(annotationProcessor("io.github.llamalad7:mixinextras-common:$mixinExtrasVersion"))
+        // FluxAPI
+        runtimeOnly("dev.crmodders:fluxapi:$fluxApiVersion")
+
+        // Google Stuffs
+        runtimeOnly("com.google.guava:guava:$guavaVersion")
+        runtimeOnly("com.google.code.gson:gson:$gsonVersion")
 
         // Asm
-        compileOnly("org.ow2.asm:asm:$asmVersion")
-        compileOnly("org.ow2.asm:asm-tree:$asmVersion")
-        compileOnly("org.ow2.asm:asm-util:$asmVersion")
-        compileOnly("org.ow2.asm:asm-analysis:$asmVersion")
-        compileOnly("org.ow2.asm:asm-commons:$asmVersion")
+        runtimeOnly("org.ow2.asm:asm:$asmVersion")
+        runtimeOnly("org.ow2.asm:asm-tree:$asmVersion")
+        runtimeOnly("org.ow2.asm:asm-util:$asmVersion")
+        runtimeOnly("org.ow2.asm:asm-analysis:$asmVersion")
+        runtimeOnly("org.ow2.asm:asm-commons:$asmVersion")
 
         // Log4j
-        implementation("org.apache.logging.log4j:log4j-api:$log4jVersion")
-        implementation("org.apache.logging.log4j:log4j-core:$log4jVersion")
-        implementation("org.apache.logging.log4j:log4j-slf4j2-impl:$log4jVersion")
-
-        // Sl4j
-        implementation("org.slf4j:slf4j-api:$slf4jVersion")
+        runtimeOnly("org.apache.logging.log4j:log4j-api:$log4jVersion")
+        runtimeOnly("org.apache.logging.log4j:log4j-core:$log4jVersion")
+        runtimeOnly("org.apache.logging.log4j:log4j-slf4j2-impl:$log4jVersion")
 
         // Jopt Simple
-        implementation("net.sf.jopt-simple:jopt-simple:$joptSimpleVersion")
+        runtimeOnly("net.sf.jopt-simple:jopt-simple:$joptSimpleVersion")
 
         // Reflections
-        implementation("org.reflections:reflections:$reflectionsVersion")
-
-        // Event Bus
-        implementation("org.greenrobot:eventbus:$eventbusVersion")
+        runtimeOnly("org.reflections:reflections:$reflectionsVersion")
 
         // Cosmic Reach
         runtimeOnly("finalforeach:cosmicreach:$cosmicReachVersion")

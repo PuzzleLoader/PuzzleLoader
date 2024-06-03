@@ -1,4 +1,4 @@
-package dev.crmodders.puzzle.core.mixins.blocks;
+package dev.crmodders.puzzle.core.mixins.bugfixes;
 
 import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.blocks.BlockStateGenerator;
@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(BlockStateGenerator.class)
-public class BlockStateGeneratorMixin {
+public class BlockStateGeneratorCopyFixer {
 
     @Redirect(method = "generate", at = @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/blocks/BlockState;copy(Z)Lfinalforeach/cosmicreach/blocks/BlockState;"))
     private BlockState fixedCopy(BlockState oldState, boolean initialize) {

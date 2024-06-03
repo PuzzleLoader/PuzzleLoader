@@ -37,6 +37,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Sets;
+import com.google.common.io.ByteStreams;
+import com.google.common.io.Closeables;
 import net.minecraft.launchwrapper.IClassNameTransformer;
 import net.minecraft.launchwrapper.IClassTransformer;
 import dev.crmodders.puzzle.core.launch.Piece;
@@ -66,10 +70,6 @@ import org.spongepowered.asm.util.Constants;
 import org.spongepowered.asm.util.Files;
 import org.spongepowered.asm.util.perf.Profiler;
 import org.spongepowered.asm.util.perf.Profiler.Section;
-import org.spongepowered.include.com.google.common.collect.ImmutableList;
-import org.spongepowered.include.com.google.common.collect.Sets;
-import org.spongepowered.include.com.google.common.io.ByteStreams;
-import org.spongepowered.include.com.google.common.io.Closeables;
 
 /**
  * Mixin service for launchwrapper
@@ -457,6 +457,7 @@ public class PuzzleLoaderMixinService extends MixinServiceAbstract implements IC
         try {
             final String resourcePath = transformedName.replace('.', '/').concat(".class");
             classStream = appClassLoader.getResourceAsStream(resourcePath);
+            assert classStream != null;
             return ByteStreams.toByteArray(classStream);
         } catch (Exception ex) {
             return null;

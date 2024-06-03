@@ -41,21 +41,6 @@ public class Piece {
     }
 
     private Piece() {
-        // try "Hack" asm to get it to not yell at me (:
-        try {
-            ASM.getApiVersionString();
-
-            Field majorVersion = ASM.class.getDeclaredField("majorVersion");
-            majorVersion.setAccessible(true);
-            majorVersion.set(null, 9);
-
-            Field minorVersion = ASM.class.getDeclaredField("minorVersion");
-            minorVersion.setAccessible(true);
-            minorVersion.set(null, 7);
-        } catch (IllegalAccessException | NoSuchFieldException e) {
-            throw new RuntimeException(e);
-        }
-
         List<URL> classPath = new ArrayList<>();
 
         classPath.addAll(ModLocator.getUrlsOnClasspath());
