@@ -1,6 +1,7 @@
 package dev.crmodders.puzzle.core.mod;
 
 import dev.crmodders.puzzle.core.entrypoint.EntrypointContainer;
+import net.minecraft.launchwrapper.IClassTransformer;
 
 import java.util.function.Consumer;
 

@@ -5,7 +5,7 @@ import dev.crmodders.puzzle.core.launch.PuzzleClassLoader;
 
 import java.util.Collection;
 
-public interface GameProvider {
+public interface IGameProvider {
 
     // Game Names
     String getId();
@@ -20,6 +20,7 @@ public interface GameProvider {
     Collection<String> getArgs();
 
     // Inits
+    void registerTransformers(PuzzleClassLoader classLoader);
     void initArgs(String[] args);
     void inject(PuzzleClassLoader classLoader);
 

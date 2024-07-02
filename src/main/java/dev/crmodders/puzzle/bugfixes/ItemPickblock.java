@@ -17,7 +17,7 @@ public class ItemPickblock {
     @Inject(method = "setItem", at = @At("HEAD"), cancellable = true)
     private void setItem(Item item, CallbackInfo ci) {
         if (item == null) {
-            item = Block.allBlocks.first().getDefaultBlockState().item;
+            item = Block.allBlocks.first().getDefaultBlockState().getItem();
             ci.cancel();
         }
     }

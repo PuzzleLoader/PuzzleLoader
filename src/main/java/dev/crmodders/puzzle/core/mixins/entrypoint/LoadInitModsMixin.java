@@ -1,6 +1,6 @@
 package dev.crmodders.puzzle.core.mixins.entrypoint;
 
-import dev.crmodders.flux.engine.GameLoader;
+//import dev.crmodders.flux.engine.GameLoader;
 import dev.crmodders.puzzle.core.entrypoint.interfaces.ModInitializer;
 import finalforeach.cosmicreach.BlockGame;
 import finalforeach.cosmicreach.gamestates.GameState;
@@ -15,7 +15,7 @@ public class LoadInitModsMixin {
     @Inject(method = "create", at = @At("TAIL"))
     public void onInit(CallbackInfo ci) {
         ModInitializer.invokeEntrypoint();
-        GameState.switchToGameState(new GameLoader());
+//        GameState.switchToGameState(new GameLoader());
     }
 
 }

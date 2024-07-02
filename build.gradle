@@ -1,11 +1,9 @@
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-
 plugins {
     id("maven-publish")
     id("java")
     id("java-library")
     id("com.github.johnrengelman.shadow") version("8.1.1")
-//    id "puzzle_gradle" version "1.0.2-dev"
+    id "cr_puzzle_gradle" version "1.0.24-dev"
 }
 
 group = "dev.crmodders"
@@ -38,15 +36,15 @@ repositories {
 
 dependencies {
     // Mixin
-    compileOnly("org.spongepowered:mixin:$mixinVersion")
-    implementation(annotationProcessor("io.github.llamalad7:mixinextras-common:$mixinExtrasVersion"))
+//    compileOnly("org.spongepowered:mixin:$mixinVersion")
+    bundle(annotationProcessor("io.github.llamalad7:mixinextras-common:$mixinExtrasVersion"))
 
     // FluxAPI
-    implementation("dev.crmodders:fluxapi:$fluxApiVersion")
+//    bundle("dev.crmodders:fluxapi:$fluxApiVersion")
 
     // Google Stuffs
-    implementation("com.google.guava:guava:$guavaVersion")
-    implementation("com.google.code.gson:gson:$gsonVersion")
+    bundle("com.google.guava:guava:$guavaVersion")
+    bundle("com.google.code.gson:gson:$gsonVersion")
 
     // Asm
     compileOnly("org.ow2.asm:asm:$asmVersion")
@@ -56,15 +54,15 @@ dependencies {
     compileOnly("org.ow2.asm:asm-commons:$asmVersion")
 
     // Log4j
-    implementation("org.apache.logging.log4j:log4j-api:$log4jVersion")
-    implementation("org.apache.logging.log4j:log4j-core:$log4jVersion")
-    implementation("org.apache.logging.log4j:log4j-slf4j2-impl:$log4jVersion")
+    bundle("org.apache.logging.log4j:log4j-api:$log4jVersion")
+    bundle("org.apache.logging.log4j:log4j-core:$log4jVersion")
+    bundle("org.apache.logging.log4j:log4j-slf4j2-impl:$log4jVersion")
 
     // Jopt Simple
-    implementation("net.sf.jopt-simple:jopt-simple:$joptSimpleVersion")
+    bundle("net.sf.jopt-simple:jopt-simple:$joptSimpleVersion")
 
     // Reflections
-    implementation("org.reflections:reflections:$reflectionsVersion")
+    bundle("org.reflections:reflections:$reflectionsVersion")
 
 ////     Jython
 //    implementation("org.python:jython-slim:2.7.3")
@@ -74,7 +72,7 @@ dependencies {
 //    implementation("party.iroiro.luajava:luajit-platform:$luaJVersion:natives-desktop")
 
     // Cosmic Reach
-    compileOnly("finalforeach:cosmicreach:$cosmicReachVersion")
+//    compileOnly("finalforeach:cosmicreach:$cosmicReachVersion")
 }
 
 //puzzle_loader {
@@ -85,12 +83,11 @@ tasks.register("runLoader", JavaExec) {
     group = "loader"
 
     dependencies {
-        // Mixin
         runtimeOnly("org.spongepowered:mixin:$mixinVersion")
         runtimeOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:$mixinExtrasVersion"))
 
         // FluxAPI
-        runtimeOnly("dev.crmodders:fluxapi:$fluxApiVersion")
+//        runtimeOnly("dev.crmodders:fluxapi:$fluxApiVersion")
 
         // Google Stuffs
         runtimeOnly("com.google.guava:guava:$guavaVersion")
@@ -113,57 +110,11 @@ tasks.register("runLoader", JavaExec) {
 
         // Reflections
         runtimeOnly("org.reflections:reflections:$reflectionsVersion")
-
-        // Cosmic Reach
         runtimeOnly("finalforeach:cosmicreach:$cosmicReachVersion")
     }
 
     classpath = sourceSets.main.runtimeClasspath
     mainClass = "dev.crmodders.puzzle.core.launch.Piece"
-}
-
-shadowJar {
-    manifest {
-        attributes(
-                "Main-Class": "dev.crmodders.puzzle.core.launch.Piece"
-        )
-    }
-}
-
-// Maven
-tasks.register("buildJars") {
-    group = "loader"
-
-    dependsOn("buildFatJar")
-    dependsOn("buildSourcesJar")
-}
-
-tasks.register("buildFatJar", ShadowJar) {
-    group = "loader"
-
-    manifest {
-        attributes(
-                "Main-Class": "dev.crmodders.puzzle.core.launch.Piece"
-        )
-    }
-
-    dependsOn("compileJava")
-    dependsOn("processResources")
-
-    from(processResources.destinationDir)
-    from(sourceSets.main.runtimeClasspath)
-    from(sourceSets.main.output)
-
-    mergeServiceFiles()
-
-    archiveFileName = "${id}-${version}-fat.jar"
-}
-
-tasks.register("buildSourcesJar", Jar) {
-    group = "loader"
-
-    from(sourceSets.main.allSource)
-    archiveFileName = "${id}-${version}-sources.jar"
 }
 
 publishing {
@@ -180,13 +131,13 @@ publishing {
             }
         }
     }
-    assemble.dependsOn buildSourcesJar, buildFatJar
+    assemble.dependsOn buildSourcesJar, buildBundleJar
     publications {
         maven(MavenPublication) {
             groupId = group
             artifactId = id
 
-            artifact buildFatJar
+            artifact source: buildBundleJar, classifier: '', extension: 'jar'
             artifact source: buildSourcesJar, classifier: 'source', extension: 'jar'
         }
     }

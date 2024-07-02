@@ -52,11 +52,11 @@ public abstract class ChunkMixin implements ITickable, IRenderable {
     }
 
     @Override
-    public void onRender(Camera camera, float dt) {
+    public void onRender(Camera camera) {
         if(blockEntities != null)
             blockEntities.forEach(entity -> {
                 if(entity instanceof IRenderable renderable) {
-                    renderable.onRender(camera, dt);
+                    renderable.onRender(camera);
                 }
             });
     }

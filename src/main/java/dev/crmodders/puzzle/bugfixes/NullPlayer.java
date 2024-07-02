@@ -13,14 +13,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(InGame.class)
 public class NullPlayer {
 
-    @Shadow private static Player player;
+    @Shadow private static Player localPlayer;
 
     @Inject(method = "loadWorld(Lfinalforeach/cosmicreach/world/World;)V", at = @At("TAIL"))
     private void setLocalPlayer(World world, CallbackInfo ci) {
-        if (player.getEntity() == null) {
-            player.setEntity(new Entity());
-            player.getZone(world).allEntities.add(player.getEntity());
-            player.setPosition(0, 300, 0);
-        }
+//        if (localPlayer.getEntity() == null) {
+//            localPlayer.setEntity(new Entity());
+//            localPlayer.getZone(world).allEntities.add(localPlayer.getEntity());
+//            localPlayer.setPosition(0, 300, 0);
+//        }
     }
 }

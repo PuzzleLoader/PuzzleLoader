@@ -22,7 +22,7 @@ public class BlockGameMixin {
         logger.info(x);
     }
 
-    @Redirect(method = "create", at = @At(value = "INVOKE", target = "Ljava/io/PrintStream;println(Ljava/lang/String;)V"))
+    @Redirect(method = "printGLInfo", at = @At(value = "INVOKE", target = "Ljava/io/PrintStream;println(Ljava/lang/String;)V"))
     private void print2(PrintStream instance, String x) {
         logger.info(x);
     }

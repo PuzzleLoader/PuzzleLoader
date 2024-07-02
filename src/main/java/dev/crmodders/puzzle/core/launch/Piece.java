@@ -1,26 +1,22 @@
 package dev.crmodders.puzzle.core.launch;
 
 import dev.crmodders.puzzle.core.mod.ModLocator;
-import dev.crmodders.puzzle.core.providers.api.GameProvider;
+import dev.crmodders.puzzle.core.providers.api.IGameProvider;
 import dev.crmodders.puzzle.core.providers.impl.CosmicReachProvider;
 import dev.crmodders.puzzle.utils.MethodUtil;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.*;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.spongepowered.asm.mixin.MixinEnvironment;
-import org.spongepowered.asm.util.JavaVersion;
-import org.spongepowered.asm.util.asm.ASM;
 
 public class Piece {
-    public Class<? extends GameProvider> DEFAULT_PROVIDER = CosmicReachProvider.class;
-    public static GameProvider provider;
+    public Class<? extends IGameProvider> DEFAULT_PROVIDER = CosmicReachProvider.class;
+    public static IGameProvider provider;
 
     public static Map<String, Object> blackboard;
     public static PuzzleClassLoader classLoader;
@@ -34,7 +30,7 @@ public class Piece {
     public static LAUNCH_STATE MOD_LAUNCH_STATE;
 
     public enum LAUNCH_STATE {
-        PRE_MIXIN_INJECT,
+        TRANSFORMER_INJECT,
         PRE_INIT,
         INIT,
         IN_GAME
@@ -65,8 +61,10 @@ public class Piece {
             classLoader.addClassLoaderExclusion("dev.crmodders.puzzle.core.providers");
             classLoader.addClassLoaderExclusion("dev.crmodders.puzzle.core.tags");
             classLoader.addClassLoaderExclusion("dev.crmodders.puzzle.utils");
-            provider = (GameProvider) Class.forName(DEFAULT_PROVIDER.getName(), true, classLoader).newInstance();
 
+            provider = (IGameProvider) Class.forName(DEFAULT_PROVIDER.getName(), true, classLoader).newInstance();
+
+            provider.registerTransformers(classLoader);
             provider.initArgs(args);
             provider.inject(classLoader);
 

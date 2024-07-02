@@ -17,7 +17,7 @@ public class GameStateMixin {
     @Unique
     private static Logger logger = LogManager.getLogger("CR | Gamestate");
 
-    @Redirect(method = "switchToGameState", at = @At(value = "INVOKE", target = "Ljava/io/PrintStream;println(Ljava/lang/String;)V"))
+    @Redirect(method = "lambda$switchToGameState$0", at = @At(value = "INVOKE", target = "Ljava/io/PrintStream;println(Ljava/lang/String;)V"))
     private static void printCapture(PrintStream instance, String x) {
         logger.info(x);
     }

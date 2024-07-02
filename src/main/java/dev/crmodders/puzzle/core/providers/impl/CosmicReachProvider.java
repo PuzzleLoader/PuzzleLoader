@@ -1,11 +1,9 @@
 package dev.crmodders.puzzle.core.providers.impl;
 
-import dev.crmodders.flux.FluxPuzzle;
-import dev.crmodders.puzzle.core.entrypoint.interfaces.PreMixinModInitializer;
+import dev.crmodders.puzzle.core.entrypoint.interfaces.TransformerInitializer;
 import dev.crmodders.puzzle.core.mod.ModContainer;
-import dev.crmodders.puzzle.core.mod.ModJsonInfo;
 import dev.crmodders.puzzle.core.mod.Version;
-import dev.crmodders.puzzle.core.providers.api.GameProvider;
+import dev.crmodders.puzzle.core.providers.api.IGameProvider;
 import finalforeach.cosmicreach.GameAssetLoader;
 import finalforeach.cosmicreach.lwjgl3.Lwjgl3Launcher;
 import dev.crmodders.puzzle.core.mod.ModLocator;
@@ -23,7 +21,7 @@ import java.util.regex.Pattern;
 
 import static dev.crmodders.puzzle.utils.MethodUtil.*;
 
-public class CosmicReachProvider implements GameProvider {
+public class CosmicReachProvider implements IGameProvider {
 
     String MIXIN_START = "start";
     String MIXIN_DO_INIT = "doInit";
@@ -74,15 +72,24 @@ public class CosmicReachProvider implements GameProvider {
     }
 
     @Override
+    public void registerTransformers(PuzzleClassLoader classLoader) {
+        ModLocator.getMods(List.of(classLoader.getURLs()));
+
+        ModLocator.AddBuiltinMods(this);
+
+        TransformerInitializer.invokeTransformers(classLoader);
+    }
+
+    @Override
     public void initArgs(String[] args) {
         runStaticMethod(getDeclaredMethod(MixinBootstrap.class, MIXIN_DO_INIT, CommandLineOptions.class), CommandLineOptions.of(List.of(args)));
     }
 
     @Override
     public void inject(PuzzleClassLoader classLoader) {
-        ModLocator.getMods(List.of(classLoader.getURLs()));
+//        ModLocator.getMods(List.of(classLoader.getURLs()));
 
-        ModLocator.AddBuiltinMods(this);
+//        ModLocator.AddBuiltinMods(this);
 
         // TODO: VERIFY MOD DEPENDENCIES
         ModLocator.verifyDependencies();
@@ -95,8 +102,6 @@ public class CosmicReachProvider implements GameProvider {
                 throw new RuntimeException(e);
             }
         }
-
-//        PreMixinModInitializer.invokeEntrypoint();
 
         // Load Mixins
         List<String> mixinConfigs = new ArrayList<>();

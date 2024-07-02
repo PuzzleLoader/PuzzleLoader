@@ -85,6 +85,12 @@ public class PuzzleClassLoader extends URLClassLoader {
         }
     }
 
+    public void registerTransformers(String... transformerClassNames) {
+        for (String transformerClassName : transformerClassNames) {
+            registerTransformer(transformerClassName);
+        }
+    }
+
     @Override
     public Class<?> findClass(final String name) throws ClassNotFoundException {
         if (invalidClasses.contains(name)) {
@@ -130,15 +136,14 @@ public class PuzzleClassLoader extends URLClassLoader {
             CodeSigner[] signers = null;
 
             if (lastDot > -1 && !untransformedName.startsWith("net.minecraft.")) {
-                if (urlConnection instanceof JarURLConnection) {
-                    final JarURLConnection jarURLConnection = (JarURLConnection) urlConnection;
+                if (urlConnection instanceof JarURLConnection jarURLConnection) {
                     final JarFile jarFile = jarURLConnection.getJarFile();
 
                     if (jarFile != null && jarFile.getManifest() != null) {
                         final Manifest manifest = jarFile.getManifest();
                         final JarEntry entry = jarFile.getJarEntry(fileName);
 
-                        Package pkg = getPackage(packageName);
+                        Package pkg = getDefinedPackage(packageName);
                         getClassBytes(untransformedName);
                         signers = entry.getCodeSigners();
                         if (pkg == null) {
@@ -152,7 +157,7 @@ public class PuzzleClassLoader extends URLClassLoader {
                         }
                     }
                 } else {
-                    Package pkg = getPackage(packageName);
+                    Package pkg = getDefinedPackage(packageName);
                     if (pkg == null) {
                         pkg = definePackage(packageName, null, null, null, null, null, null, null);
                     } else if (pkg.isSealed()) {
