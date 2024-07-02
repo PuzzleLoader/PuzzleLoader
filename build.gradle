@@ -3,13 +3,14 @@ plugins {
     id("java")
     id("java-library")
     id("com.github.johnrengelman.shadow") version("8.1.1")
-    id "cr_puzzle_gradle" version "1.0.24-dev"
+    id "cr_puzzle_gradle" version "1.0.30-dev"
 }
 
 group = "dev.crmodders"
 
 puzzle_loader {
-    accessWidenerPath = file("src/main/resources/access.accesswidener")
+    accessManipulatorPath = file("src/main/resources/puzzle_loader.manipulator")
+//    accessWidenerPath = file("src/main/resources/access.accesswidener")
 }
 
 repositories {
@@ -20,22 +21,6 @@ repositories {
     maven { url "https://maven.crmodders.dev/releases" }
     maven { url "https://maven.crmodders.dev/snapshots" }
     maven { url "https://repo.spongepowered.org/repository/maven-public/" }
-
-    ivy {
-        name "Cosmic Reach"
-        url "https://cosmic-archive.netlify.app/"
-        patternLayout {
-            artifact "/Cosmic Reach-[revision].jar"
-        }
-        // This is required in Gradle 6.0+ as metadata file (ivy.xml) is mandatory
-        metadataSources {
-            artifact()
-        }
-
-        content {
-            includeGroup "finalforeach"
-        }
-    }
 }
 
 dependencies {

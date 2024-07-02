@@ -22,7 +22,7 @@ public class ManipulatorClassWriter {
     }
 
     public byte[] applyManipulations() {
-        reader.accept(new ClassTransformerVisitor(className, Opcodes.ASM9), ClassReader.SKIP_DEBUG);
+        reader.accept(new ClassTransformerVisitor(className, Opcodes.ASM9, writer), ClassReader.SKIP_DEBUG);
         return writer.toByteArray();
     }
 

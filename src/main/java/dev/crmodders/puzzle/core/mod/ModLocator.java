@@ -36,11 +36,13 @@ public class ModLocator {
                 "Puzzle Loader",
                 "A new dedicated modloader for Cosmic Reach",
                 new String[] { "Zombii" },
-                new HashMap<>(),
+                entrypoints,
                 new HashMap<>(),
                 new String[]{ "internal.mixins.json", "accessors.mixins.json", "bugfixes.mixins.json" },
                 dependencies,
-                null
+                null,
+//                "puzzle_loader.manipulator",
+                "puzzle_loader.accesswidener"
         )));
 
         /* Cosmic Reach as a mod */
@@ -54,6 +56,7 @@ public class ModLocator {
                 new HashMap<>(),
                 new String[]{},
                 new HashMap<>(),
+                null,
                 null
         )));
 
@@ -120,7 +123,7 @@ public class ModLocator {
                             String strInfo = new String(jar.getInputStream(modJson).readAllBytes());
                             ModJsonInfo info = gsonInstance.fromJson(strInfo, ModJsonInfo.class);
                             logger.info("Discovered Mod \"{}\" with ID \"{}\"", info.name(), info.id());
-                            LocatedMods.put(info.id(), new ModContainer(info));
+                            LocatedMods.put(info.id(), new ModContainer(info, jar));
                         }
                     }
                 } catch (IOException e) {

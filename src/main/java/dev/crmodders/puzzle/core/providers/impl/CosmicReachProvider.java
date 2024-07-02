@@ -74,9 +74,9 @@ public class CosmicReachProvider implements IGameProvider {
     @Override
     public void registerTransformers(PuzzleClassLoader classLoader) {
         ModLocator.getMods(List.of(classLoader.getURLs()));
-
         ModLocator.AddBuiltinMods(this);
 
+        System.out.println("E");
         TransformerInitializer.invokeTransformers(classLoader);
     }
 

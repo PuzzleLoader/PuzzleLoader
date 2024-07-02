@@ -12,9 +12,12 @@ public interface TransformerInitializer {
 
     static void invokeTransformers(PuzzleClassLoader classLoader) {
         Piece.MOD_LAUNCH_STATE = Piece.LAUNCH_STATE.TRANSFORMER_INJECT;
+
+        System.out.println("transformers1");
         PuzzleEntrypointUtil.invoke(ENTRYPOINT_KEY,
                 TransformerInitializer.class,
                 transformerInitializer -> {
+                    System.out.println("transformers2");
                     transformerInitializer.onTransformerInit(classLoader);
                 });
     }

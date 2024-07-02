@@ -71,6 +71,7 @@ public class PuzzleClassLoader extends URLClassLoader {
         addTransformerExclusion("org.bouncycastle.");
         addTransformerExclusion("org.bouncycastle.");
         addClassLoaderExclusion("dev.crmodders.puzzle.core.launch.transformers.");
+        addClassLoaderExclusion("dev.crmodders.puzzle.access_manipulator.");
     }
 
     public void registerTransformer(IClassTransformer transformer) {
