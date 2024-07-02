@@ -73,6 +73,17 @@ public class PuzzleClassLoader extends URLClassLoader {
         addClassLoaderExclusion("dev.crmodders.puzzle.core.launch.transformers.");
     }
 
+    public void registerTransformer(IClassTransformer transformer) {
+        try {
+            transformers.add(transformer);
+            if (transformer instanceof IClassNameTransformer && renameTransformer == null) {
+                renameTransformer = (IClassNameTransformer) transformer;
+            }
+        } catch (Exception e) {
+            logger.log(Level.ERROR, "A critical problem occurred registering the ASM transformer class {}", transformer.getClass().getName(), e);
+        }
+    }
+
     public void registerTransformer(String transformerClassName) {
         try {
             IClassTransformer transformer = (IClassTransformer) loadClass(transformerClassName).newInstance();

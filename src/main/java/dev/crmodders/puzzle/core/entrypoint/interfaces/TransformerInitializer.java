@@ -6,7 +6,7 @@ import dev.crmodders.puzzle.utils.PuzzleEntrypointUtil;
 
 public interface TransformerInitializer {
 
-    String ENTRYPOINT_KEY = "registryTransformers";
+    String ENTRYPOINT_KEY = "transformers";
 
     void onTransformerInit(PuzzleClassLoader classLoader);
 

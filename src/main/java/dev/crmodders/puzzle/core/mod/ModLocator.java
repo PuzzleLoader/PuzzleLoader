@@ -27,7 +27,7 @@ public class ModLocator {
         dependencies.put("cosmic-reach", provider.getGameVersion().toString());
 
         Map<String, Collection<String>> entrypoints = new HashMap<>();
-        entrypoints.put("registerTransformers", List.of(PuzzleTransformers.class.getName()));
+        entrypoints.put("transformers", List.of(PuzzleTransformers.class.getName()));
 
         /* Puzzle Loader as a Mod */
         ModLocator.LocatedMods.put("puzzle-loader", new ModContainer(new ModJsonInfo(
