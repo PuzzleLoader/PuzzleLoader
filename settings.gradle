@@ -10,4 +10,18 @@ pluginManagement {
     }
 }
 
+buildscript() {
+    repositories {
+        maven {
+            name "JitPack"
+            url "https://jitpack.io"
+        }
+
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.codeberg.CRModders:cosmic-loom:1.0.0"
+    }
+}
+
 rootProject.name = "PuzzleLoader"

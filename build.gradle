@@ -8,6 +8,10 @@ plugins {
 
 group = "dev.crmodders"
 
+puzzle_loader {
+    accessWidenerPath = file("src/main/resources/access.accesswidener")
+}
+
 repositories {
     mavenCentral()
 
