@@ -13,7 +13,7 @@ import java.util.Map;
 public class AccessManipulatorTransformer implements IClassTransformer {
 
     public static Map<String, ClassModifier> classesToModify;
-    public static Map<String, Map<String /*field name*/, FieldModifierPair>> fieldsToModify;
+    public static Map<String, Map<String, FieldModifierPair>> fieldsToModify;
     public static Map<String, List<MethodModifierPair>> methodsToModify;
 
     @Override
