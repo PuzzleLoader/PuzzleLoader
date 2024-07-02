@@ -6,6 +6,7 @@ import net.minecraft.launchwrapper.IClassTransformer;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -18,12 +19,9 @@ public class AccessManipulatorTransformer implements IClassTransformer {
     @Override
     public byte[] transform(String name, String transformedName, byte[] classBytes) {
         if (classesToModify.containsKey(transformedName)) {
-            System.out.println("Transformed Class " + name);
-            ClassReader reader = new ClassReader(classBytes);
-
-            int updatedAccess = classesToModify.get(transformedName).updateFlags(reader.getAccess());
-            ClassWriter writer = new ClassWriter(reader, updatedAccess);
-            return writer.toByteArray();
+            System.out.println("Manipulated Class " + name);
+            ManipulatorClassWriter writer = new ManipulatorClassWriter(transformedName, classBytes);
+            return writer.applyManipulations();
         } else {
             return classBytes;
         }
