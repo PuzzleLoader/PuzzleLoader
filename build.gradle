@@ -10,7 +10,7 @@ group = "dev.crmodders"
 
 puzzle_loader {
     accessManipulatorPath = file("src/main/resources/puzzle_loader.manipulator")
-//    accessWidenerPath = file("src/main/resources/access.accesswidener")
+//    accessWidenerPath = file("src/main/resources/puzzle_loader.accesswidener")
 }
 
 repositories {
@@ -63,10 +63,6 @@ dependencies {
     // Cosmic Reach
 //    compileOnly("finalforeach:cosmicreach:$cosmicReachVersion")
 }
-
-//puzzle_loader {
-//    accessWidenerPath = file("src/main/resources/accesswidener/puzzle.accesswidener")
-//}
 
 tasks.register("runLoader", JavaExec) {
     group = "loader"

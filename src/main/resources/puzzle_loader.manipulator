@@ -1,1 +1,2 @@
 public field finalforeach/cosmicreach/entities/Entity sightRange
+public method finalforeach/cosmicreach/gamestates/InGame unloadZone (Lfinalforeach/cosmicreach/world/Zone;)V

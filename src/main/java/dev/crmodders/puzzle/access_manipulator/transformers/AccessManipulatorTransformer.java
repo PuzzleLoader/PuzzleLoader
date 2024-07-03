@@ -1,5 +1,6 @@
 package dev.crmodders.puzzle.access_manipulator.transformers;
 
+import dev.crmodders.puzzle.access_manipulator.AccessTransformerReader;
 import dev.crmodders.puzzle.access_manipulator.AccessWidenerReader;
 import dev.crmodders.puzzle.access_manipulator.ManipulatorReader;
 import dev.crmodders.puzzle.access_manipulator.pairs.FieldModifierPair;
@@ -56,9 +57,11 @@ public class AccessManipulatorTransformer implements IClassTransformer {
             if (container.JAR != null) {
                 doPath0(container, container.JSON_INFO.accessWidener(), AccessWidenerReader::read);
                 doPath0(container, container.JSON_INFO.accessManipulator(), ManipulatorReader::read);
+                doPath0(container, container.JSON_INFO.accessTransformer(), AccessTransformerReader::read);
             } else {
                 doPath1(container.JSON_INFO.accessWidener(), AccessWidenerReader::read);
                 doPath1(container.JSON_INFO.accessManipulator(), ManipulatorReader::read);
+                doPath1(container.JSON_INFO.accessTransformer(), AccessTransformerReader::read);
             }
         }
     }

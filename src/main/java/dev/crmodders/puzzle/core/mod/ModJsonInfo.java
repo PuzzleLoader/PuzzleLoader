@@ -14,5 +14,6 @@ public record ModJsonInfo(
         String[] mixins,
         Map<String, String> dependencies,
         String accessManipulator,
+        String accessTransformer,
         String accessWidener
 ) {}

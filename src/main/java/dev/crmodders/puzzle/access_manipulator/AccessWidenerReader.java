@@ -18,13 +18,13 @@ public class AccessWidenerReader {
 
     public static void read(String contents) {
         try {
-            readManipulator(contents);
+            readWidener(contents);
         }catch (IOException e){
             throw new RuntimeException(e);
         }
     }
 
-    public static void readManipulator(String contents) throws IOException {
+    public static void readWidener(String contents) throws IOException {
         BufferedReader reader =  new BufferedReader(new StringReader(contents));
         String ln;
         while((ln = reader.readLine())!=null){

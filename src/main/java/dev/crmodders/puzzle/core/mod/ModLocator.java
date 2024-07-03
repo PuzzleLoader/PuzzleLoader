@@ -40,9 +40,11 @@ public class ModLocator {
                 new HashMap<>(),
                 new String[]{ "internal.mixins.json", "accessors.mixins.json", "bugfixes.mixins.json" },
                 dependencies,
-                null,
 //                "puzzle_loader.manipulator",
-                "puzzle_loader.accesswidener"
+                null,
+                "META-INF/accesstransformer.cfg",
+                null
+//                "puzzle_loader.accesswidener"
         )));
 
         /* Cosmic Reach as a mod */
@@ -56,6 +58,7 @@ public class ModLocator {
                 new HashMap<>(),
                 new String[]{},
                 new HashMap<>(),
+                null,
                 null,
                 null
         )));

@@ -1,3 +1,4 @@
 accessWidener v2 named
 
 accessible field finalforeach/cosmicreach/entities/Entity sightRange F
+accessible method finalforeach/cosmicreach/gamestates/InGame unloadZone (Lfinalforeach/cosmicreach/world/Zone;)V

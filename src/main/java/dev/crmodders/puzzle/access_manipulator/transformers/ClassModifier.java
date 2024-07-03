@@ -3,10 +3,22 @@ package dev.crmodders.puzzle.access_manipulator.transformers;
 import org.objectweb.asm.Opcodes;
 
 public enum ClassModifier {
-    MUTABLE(Opcodes.ACC_PUBLIC, new int[]{ Opcodes.ACC_FINAL }, true, new int[]{ Opcodes.ACC_PUBLIC }),
+
+    // Regular Modifiers
     PUBLIC(Opcodes.ACC_PUBLIC, new int[]{ Opcodes.ACC_PRIVATE, Opcodes.ACC_PROTECTED }),
     PRIVATE(Opcodes.ACC_PRIVATE, new int[]{ Opcodes.ACC_PUBLIC, Opcodes.ACC_PROTECTED }),
-    PROTECTED(Opcodes.ACC_PROTECTED, new int[]{ Opcodes.ACC_PUBLIC, Opcodes.ACC_PRIVATE });
+    PROTECTED(Opcodes.ACC_PROTECTED, new int[]{ Opcodes.ACC_PUBLIC, Opcodes.ACC_PRIVATE }),
+
+    // Mutable Modifiers
+    MUTABLE(Opcodes.ACC_PUBLIC, new int[]{ Opcodes.ACC_FINAL }, true, new int[]{ Opcodes.ACC_PUBLIC }),
+    PUBLIC_MUTABLE(Opcodes.ACC_PUBLIC, new int[]{ Opcodes.ACC_FINAL, Opcodes.ACC_PRIVATE, Opcodes.ACC_PROTECTED }),
+    PRIVATE_MUTABLE(Opcodes.ACC_PRIVATE, new int[]{ Opcodes.ACC_FINAL, Opcodes.ACC_PUBLIC, Opcodes.ACC_PROTECTED }),
+    PROTECTED_MUTABLE(Opcodes.ACC_PROTECTED, new int[]{ Opcodes.ACC_FINAL, Opcodes.ACC_PUBLIC, Opcodes.ACC_PRIVATE }),
+
+    // Immutable Modifiers
+    PUBLIC_IMMUTABLE(new int[] { Opcodes.ACC_PUBLIC, Opcodes.ACC_FINAL }, new int[]{ Opcodes.ACC_PRIVATE, Opcodes.ACC_PROTECTED }),
+    PRIVATE_IMMUTABLE(new int[] { Opcodes.ACC_PRIVATE, Opcodes.ACC_FINAL }, new int[]{ Opcodes.ACC_PUBLIC, Opcodes.ACC_PROTECTED }),
+    PROTECTED_IMMUTABLE(new int[] { Opcodes.ACC_PROTECTED, Opcodes.ACC_FINAL }, new int[]{ Opcodes.ACC_PUBLIC, Opcodes.ACC_PRIVATE });
 
     final int[] newFlags;
     final int[] incompatibleFlags;
