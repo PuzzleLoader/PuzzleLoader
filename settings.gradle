@@ -1,26 +1,13 @@
 pluginManagement {
     repositories {
         maven { url "https://maven.crmodders.dev/plugins" }
+        maven { url "https://maven.crmodders.dev/releases" }
         maven {
             name "JitPack"
             url "https://jitpack.io"
         }
         mavenCentral()
         gradlePluginPortal()
-    }
-}
-
-buildscript() {
-    repositories {
-        maven {
-            name "JitPack"
-            url "https://jitpack.io"
-        }
-
-        mavenCentral()
-    }
-    dependencies {
-        classpath "org.codeberg.CRModders:cosmic-loom:1.0.0"
     }
 }
 
