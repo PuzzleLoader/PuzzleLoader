@@ -2,6 +2,7 @@ package dev.crmodders.puzzle.core.mod;
 
 import com.google.gson.Gson;
 //import dev.crmodders.puzzle.core.internalMods.FluxPuzzle;
+import dev.crmodders.puzzle.core.internalMods.FluxPuzzle;
 import dev.crmodders.puzzle.core.internalMods.PuzzleTransformers;
 import dev.crmodders.puzzle.core.providers.api.IGameProvider;
 import org.apache.logging.log4j.LogManager;
@@ -67,22 +68,24 @@ public class ModLocator {
         fluxDependencies.put("cosmic-reach", provider.getGameVersion().toString());
         fluxDependencies.put("puzzle-loader", "1.0.0");
 
-//        Map<String, Collection<String>> fluxEntrypoints = new HashMap<>();
-//        fluxEntrypoints.put("preInit", List.of(FluxPuzzle.class.getName()));
-//
-//        /* Flux API as a mod */
-//        ModLocator.LocatedMods.put("fluxapi", new ModContainer(new ModJsonInfo(
-//                "fluxapi",
-//                "0.7.3",
-//                "Flux API",
-//                "The central modding API for Cosmic Reach Fabric/Quilt/Puzzle",
-//                new String[] { "Mr Zombii", "Nanobass", "CoolGI" },
-//                fluxEntrypoints,
-//                new HashMap<>(),
-//                new String[]{ "fluxMicro.mixins.json" },
-//                fluxDependencies,
-//                null
-//        )));
+        Map<String, Collection<String>> fluxEntrypoints = new HashMap<>();
+        fluxEntrypoints.put("preInit", List.of(FluxPuzzle.class.getName()));
+
+        /* Flux API as a mod */
+        ModLocator.LocatedMods.put("fluxapi", new ModContainer(new ModJsonInfo(
+                "fluxapi",
+                "0.7.4",
+                "Flux API",
+                "The central modding API for Cosmic Reach Fabric/Quilt/Puzzle",
+                new String[] { "Mr Zombii", "Nanobass", "CoolGI" },
+                fluxEntrypoints,
+                new HashMap<>(),
+                new String[]{ "fluxapi.mixins.json" },
+                fluxDependencies,
+                null,
+                null,
+                null
+        )));
     }
 
     public static Collection<URL> getUrlsOnClasspath() {
