@@ -137,9 +137,22 @@ public class ModLocator {
 
     }
 
-    // TODO: Verify Mod Dependencies
+    // TODO: Verify Mod Dependencies (Partial completed by repletsin5)
     public static void verifyDependencies() {
-
+        logger.warn("Can't check mod version. No support for semantic versioning");
+        for(var mod : LocatedMods.values()){
+            logger.info("Mod deps for {}", mod.ID);
+            for (Map.Entry<String, String> entry : mod.JSON_INFO.dependencies().entrySet()) {
+                logger.info("\t{}: {}", entry.getKey(),entry.getValue());
+                if(LocatedMods.get(entry.getKey()) == null){
+                    logger.fatal("can not find mod dependency: {} for mod id: {}", entry.getKey(),mod.ID);
+                }
+                else {
+                    //TODO: Version checking. Need semantic versioning compat and the ability to define allowed versions.
+                    return;
+                }
+            }
+        }
     }
 
     public static void crawlModsFolder(Collection<URL> urls) {
