@@ -41,7 +41,7 @@ public class ModLocator {
                 new HashMap<>(),
                 new String[]{ "internal.mixins.json", "accessors.mixins.json", "bugfixes.mixins.json" },
                 dependencies,
-//                "puzzle_loader.manipulator",
+                "puzzle_loader.manipulator",
                 null,
                 "META-INF/accesstransformer.cfg",
                 null
