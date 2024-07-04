@@ -4,7 +4,6 @@
   "package": "dev.crmodders.puzzle.bugfixes",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "BlockRegisterer",
     "BlockStateGeneratorCopyFixer",
     "ItemPickblock",
     "NullPlayer"

@@ -35,7 +35,7 @@ public interface PuzzleEntityUtil {
         Array<Player> players = zone.players;
         Entity closest = null;
         float closestDst = Float.MAX_VALUE;
-        float range = ((EntityAccessor) sourceEntity).getSightRange();
+        float range = sourceEntity.sightRange;
 
         for (Player p : players) {
             Entity pe = p.getEntity();
