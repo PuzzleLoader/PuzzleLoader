@@ -43,8 +43,8 @@ public class ModLocator {
                 dependencies,
                 "puzzle_loader.manipulator",
                 null,
-                //"META-INF/accesstransformer.cfg",
                 null
+//                "META-INF/accesstransformer.cfg",
 //                "puzzle_loader.accesswidener"
         )));
 
