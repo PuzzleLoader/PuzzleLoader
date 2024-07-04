@@ -76,7 +76,6 @@ public class CosmicReachProvider implements IGameProvider {
         ModLocator.getMods(List.of(classLoader.getURLs()));
         ModLocator.AddBuiltinMods(this);
 
-        System.out.println("E");
         TransformerInitializer.invokeTransformers(classLoader);
     }
 
