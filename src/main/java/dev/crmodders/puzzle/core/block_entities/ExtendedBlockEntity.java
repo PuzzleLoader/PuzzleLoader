@@ -1,4 +1,4 @@
-package dev.crmodders.puzzle.core.entities.blocks;
+package dev.crmodders.puzzle.core.block_entities;
 
 import dev.crmodders.flux.tags.Identifier;
 import dev.crmodders.puzzle.annotations.Internal;

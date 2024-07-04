@@ -1,4 +1,4 @@
-package dev.crmodders.puzzle.core.entities.blocks.util;
+package dev.crmodders.puzzle.core.block_entities.util;
 
 import com.badlogic.gdx.utils.Array;
 import finalforeach.cosmicreach.entities.Entity;

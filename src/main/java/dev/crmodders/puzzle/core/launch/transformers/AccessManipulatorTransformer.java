@@ -6,7 +6,6 @@ import dev.crmodders.puzzle.core.mod.ModContainer;
 import dev.crmodders.puzzle.core.mod.ModLocator;
 import net.minecraft.launchwrapper.IClassTransformer;
 
-import java.util.HashMap;
 import java.util.List;
 
 public class AccessManipulatorTransformer implements IClassTransformer {

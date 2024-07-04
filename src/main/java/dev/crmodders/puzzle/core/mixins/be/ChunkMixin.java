@@ -2,10 +2,10 @@ package dev.crmodders.puzzle.core.mixins.be;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.crmodders.puzzle.core.entities.blocks.ExtendedBlockEntity;
-import dev.crmodders.puzzle.core.entities.blocks.interfaces.INeighborUpdateListener;
-import dev.crmodders.puzzle.core.entities.blocks.interfaces.IRenderable;
-import dev.crmodders.puzzle.core.entities.blocks.interfaces.ITickable;
+import dev.crmodders.puzzle.core.block_entities.ExtendedBlockEntity;
+import dev.crmodders.puzzle.core.block_entities.interfaces.INeighborUpdateListener;
+import dev.crmodders.puzzle.core.block_entities.interfaces.IRenderable;
+import dev.crmodders.puzzle.core.block_entities.interfaces.ITickable;
 import dev.crmodders.puzzle.utils.DirectionUtil;
 import finalforeach.cosmicreach.blockentities.BlockEntity;
 import finalforeach.cosmicreach.blocks.BlockState;

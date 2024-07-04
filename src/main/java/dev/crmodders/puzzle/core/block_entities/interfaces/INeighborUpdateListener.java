@@ -1,4 +1,4 @@
-package dev.crmodders.puzzle.core.entities.blocks.interfaces;
+package dev.crmodders.puzzle.core.block_entities.interfaces;
 
 import finalforeach.cosmicreach.blockentities.BlockEntity;
 import finalforeach.cosmicreach.blocks.BlockState;

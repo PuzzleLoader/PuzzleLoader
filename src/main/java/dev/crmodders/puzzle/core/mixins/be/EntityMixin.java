@@ -1,6 +1,6 @@
 package dev.crmodders.puzzle.core.mixins.be;
 
-import dev.crmodders.puzzle.core.entities.blocks.util.EntityAccessor;
+import dev.crmodders.puzzle.core.block_entities.util.EntityAccessor;
 import finalforeach.cosmicreach.entities.Entity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
