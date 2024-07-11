@@ -1,2 +1,5 @@
 public field finalforeach/cosmicreach/entities/Entity sightRange
 public method finalforeach/cosmicreach/gamestates/InGame unloadZone (Lfinalforeach/cosmicreach/world/Zone;)V
+
+public class dev/crmodders/flux/FluxRegistries$SLF4JEventBusLogger
+public method dev/crmodders/flux/FluxRegistries$SLF4JEventBusLogger <init> ()V

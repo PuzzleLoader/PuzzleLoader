@@ -1,6 +1,7 @@
 package dev.crmodders.puzzle.core.entities.util;
 
 import com.badlogic.gdx.utils.Array;
+import dev.crmodders.flux.tags.Identifier;
 import finalforeach.cosmicreach.entities.Entity;
 import finalforeach.cosmicreach.entities.Player;
 import finalforeach.cosmicreach.world.Zone;
@@ -22,6 +23,32 @@ public interface PuzzleEntityUtil {
                         } else if (closestDst > dst) {
                             closestDst = dst;
                             closest = entity;
+                        }
+                    }
+                }
+            }
+        }
+
+        return closest;
+    }
+
+    static Entity getClosestEntity(Zone zone, Entity sourceEntity, Identifier entityId) {
+        Entity closest = null;
+        float closestDst = Float.MAX_VALUE;
+        float range = sourceEntity.sightRange;
+
+        for (Entity entity : zone.allEntities) {
+            if (entity != null) {
+                if (entity != sourceEntity) {
+                    if (Identifier.fromString(entity.entityTypeId).equals(entityId)) {
+                        float dst = sourceEntity.position.dst(entity.position);
+                        if (!(dst > range)) {
+                            if (closest == null) {
+                                closest = entity;
+                            } else if (closestDst > dst) {
+                                closestDst = dst;
+                                closest = entity;
+                            }
                         }
                     }
                 }

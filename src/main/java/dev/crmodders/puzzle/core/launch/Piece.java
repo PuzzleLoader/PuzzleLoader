@@ -11,11 +11,13 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.*;
 
+import joptsimple.OptionSpec;
+import joptsimple.OptionSpecBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class Piece {
-    public Class<? extends IGameProvider> DEFAULT_PROVIDER = CosmicReachProvider.class;
+    public String DEFAULT_PROVIDER = CosmicReachProvider.class.getName();
     public static IGameProvider provider;
 
     public static Map<String, Object> blackboard;
@@ -53,7 +55,10 @@ public class Piece {
 
         final OptionSet options = parser.parse(args);
         try {
-            classLoader.addClassLoaderExclusion(DEFAULT_PROVIDER.getName().substring(0, DEFAULT_PROVIDER.getName().lastIndexOf('.')));
+            OptionSpec<String> provider_option = parser.accepts("--gameProvider").withOptionalArg().ofType(String.class);
+            OptionSpec<String> modFolder_option = parser.accepts("--modFolder").withOptionalArg().ofType(String.class);
+
+            classLoader.addClassLoaderExclusion(DEFAULT_PROVIDER.substring(0, DEFAULT_PROVIDER.lastIndexOf('.')));
             classLoader.addClassLoaderExclusion("dev.crmodders.puzzle.annotations");
             classLoader.addClassLoaderExclusion("dev.crmodders.puzzle.core.entrypoint");
             classLoader.addClassLoaderExclusion("dev.crmodders.puzzle.core.launch");
@@ -62,7 +67,12 @@ public class Piece {
             classLoader.addClassLoaderExclusion("dev.crmodders.puzzle.core.tags");
             classLoader.addClassLoaderExclusion("dev.crmodders.puzzle.utils");
 
-            provider = (IGameProvider) Class.forName(DEFAULT_PROVIDER.getName(), true, classLoader).newInstance();
+            if (options.has(provider_option))
+                provider = (IGameProvider) Class.forName(provider_option.value(options ), true, classLoader).newInstance();
+            else
+                provider = (IGameProvider) Class.forName(DEFAULT_PROVIDER, true, classLoader).newInstance();
+
+
 
             provider.registerTransformers(classLoader);
             provider.initArgs(args);

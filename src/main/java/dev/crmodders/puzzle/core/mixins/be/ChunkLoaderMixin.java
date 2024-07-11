@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 @Mixin(ChunkLoader.class)
 public class ChunkLoaderMixin {
 
-    @Inject(method = "readRegion", at = @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/io/ChunkLoader;readChunk(ILfinalforeach/cosmicreach/io/ChunkByteReader;Lfinalforeach/cosmicreach/world/Chunk;)V", shift = At.Shift.BEFORE), locals = LocalCapture.CAPTURE_FAILHARD)
+    @Inject(method = "readRegion", at = @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/io/ChunkLoader;readChunk(ILfinalforeach/cosmicreach/io/ChunkByteReader;Lfinalforeach/cosmicreach/world/Zone;Lfinalforeach/cosmicreach/world/Chunk;)V", shift = At.Shift.BEFORE), locals = LocalCapture.CAPTURE_FAILHARD)
     private static void shiftZoneAddChunk(Zone zone, int rx, int ry, int rz, ChunkColumn cc, CallbackInfo ci, @Local Chunk chunk) {
         zone.addChunk(chunk);
     }

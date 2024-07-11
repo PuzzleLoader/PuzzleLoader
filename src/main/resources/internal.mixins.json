@@ -5,12 +5,12 @@
   "plugin": "dev.crmodders.puzzle.core.mixins.mixinextras.MixinExtrasConfigPlugin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "be.ChunkLoaderMixin",
+    "be.ChunkMixin",
+    "be.InGameMixin",
+    "be.ZoneMixin",
     "entrypoint.LoadInitModsMixin",
     "entrypoint.PreGameLaunchInit",
-    "logging.BlockGameMixin",
-    "logging.GameShaderMixin",
-    "logging.GameStateMixin",
-    "logging.Lwjgl3ApplicationLoggerMixin",
     "window.IconMixin",
     "window.TitleMixin"
   ],
