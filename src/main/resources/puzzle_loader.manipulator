@@ -8,3 +8,7 @@ public method finalforeach/cosmicreach/rendering/BatchCoords blockZ ()I
 public field finalforeach/cosmicreach/rendering/MeshData shader
 public field finalforeach/cosmicreach/rendering/MeshData vertices
 public field finalforeach/cosmicreach/rendering/MeshData renderOrder
+
+public field finalforeach/cosmicreach/rendering/BatchMaterial batchCoords
+public field finalforeach/cosmicreach/rendering/BatchMaterial shader
+public field finalforeach/cosmicreach/rendering/BatchMaterial renderOrder

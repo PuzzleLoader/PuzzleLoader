@@ -1,5 +1,6 @@
 package dev.crmodders.puzzle.core.mixins.entrypoint;
 
+import dev.crmodders.puzzle.core.Globals;
 import dev.crmodders.puzzle.core.entrypoint.interfaces.PreInitModInitializer;
 import dev.crmodders.puzzle.core.launch.Piece;
 import finalforeach.cosmicreach.lwjgl3.Lwjgl3Launcher;
@@ -16,6 +17,7 @@ public class PreGameLaunchInit {
     private static void loadPreLaunch(String[] args, CallbackInfo ci) {
         ModLocator.getMods();
         ModLocator.AddBuiltinMods(Piece.provider);
+        Globals.initRenderers();
         PreInitModInitializer.invokeEntrypoint();
     }
 
