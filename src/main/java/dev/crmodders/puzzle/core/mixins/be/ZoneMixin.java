@@ -23,27 +23,46 @@ public class ZoneMixin implements IRenderable {
 
     @Inject(method = "runScheduledTriggers", at = @At("HEAD"))
     private void zoneUpdate(CallbackInfo ci) {
-        for (LongMap.Entry<IntMap<Chunk>> intMapEntry : ((Point3DMapAccessor<Chunk>) chunks).getMap()) {
-            if (intMapEntry.value != null) {
-                for (IntMap.Entry<Chunk> chunkEntry : intMapEntry.value) {
-                    if(chunkEntry.value instanceof ITickable tickable) {
-                        tickable.onTick(1f / 20f); // TODO get tps here
-                    }
+        chunks.forEach((chunk) -> {
+                if (chunk instanceof ITickable tickable) {
+                    tickable.onTick(1f / 20f);
                 }
-            }
-        }
+        });
+//        for (IntMap<Chunk> chunkIntMap : ((Point3DMapAccessor<Chunk>) chunks).getMap().) {
+//            for (Chunk chunk : chunkIntMap.values()) {
+//                if (chunk instanceof ITickable tickable) {
+//                    tickable.onTick(1f / 20f);
+//                }
+//            }
+//        }
+//        for (LongMap.Entry<IntMap<Chunk>> intMapEntry : ((Point3DMapAccessor<Chunk>) chunks).getMap()) {
+//            if (intMapEntry.value != null) {
+//                for (IntMap.Entry<Chunk> chunkEntry : intMapEntry.value) {
+//                    if(chunkEntry.value instanceof ITickable tickable) {
+//                        tickable.onTick(1f / 20f); // TODO get tps here
+//                    }
+//                }
+//            }
+//        }
     }
 
     @Override
     public void onRender(Camera camera) {
-        for (LongMap.Entry<IntMap<Chunk>> intMapEntry : ((Point3DMapAccessor<Chunk>) chunks).getMap()) {
-            if (intMapEntry.value != null) {
-                for (IntMap.Entry<Chunk> chunkEntry : intMapEntry.value) {
-                    if(chunkEntry.value instanceof IRenderable renderable) {
-                        renderable.onRender(camera);
-                    }
+        for (IntMap<Chunk> chunkIntMap : ((Point3DMapAccessor<Chunk>) chunks).getMap().values().toArray()) {
+            for (Chunk chunk : chunkIntMap.values().toArray()) {
+                if (chunk instanceof IRenderable renderable) {
+                    renderable.onRender(camera);
                 }
             }
         }
+//        for (LongMap.Entry<IntMap<Chunk>> intMapEntry : ((Point3DMapAccessor<Chunk>) chunks).getMap()) {
+//            if (intMapEntry.value != null) {
+//                for (IntMap.Entry<Chunk> chunkEntry : intMapEntry.value) {
+//                    if(chunkEntry.value instanceof IRenderable renderable) {
+//                        renderable.onRender(camera);
+//                    }
+//                }
+//            }
+//        }
     }
 }

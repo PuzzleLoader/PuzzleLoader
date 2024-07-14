@@ -1,7 +1,9 @@
 package dev.crmodders.puzzle.core.mixins.be;
 
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.utils.IntMap;
 import com.llamalad7.mixinextras.sugar.Local;
+import dev.crmodders.puzzle.accessors.Point3DMapAccessor;
 import dev.crmodders.puzzle.core.block_entities.ExtendedBlockEntity;
 import dev.crmodders.puzzle.core.block_entities.interfaces.INeighborUpdateListener;
 import dev.crmodders.puzzle.core.block_entities.interfaces.IRenderable;
@@ -44,21 +46,35 @@ public abstract class ChunkMixin implements ITickable, IRenderable {
     @Override
     public void onTick(float tps) {
         if(blockEntities != null)
-            blockEntities.forEach(entity -> {
-                if(entity instanceof ITickable tickable) {
-                    tickable.onTick(tps);
+            for (IntMap<BlockEntity> blockEntityMap : ((Point3DMapAccessor<BlockEntity>) blockEntities).getMap().values()) {
+                for (BlockEntity blockEntity : blockEntityMap.values()) {
+                    if (blockEntity instanceof ITickable tickable) {
+                        tickable.onTick(tps);
+                    }
                 }
-            });
+            }
+//            blockEntities.forEach(entity -> {
+//                if(entity instanceof ITickable tickable) {
+//                    tickable.onTick(tps);
+//                }
+//            });
     }
 
     @Override
     public void onRender(Camera camera) {
         if(blockEntities != null)
-            blockEntities.forEach(entity -> {
-                if(entity instanceof IRenderable renderable) {
-                    renderable.onRender(camera);
+            for (IntMap<BlockEntity> blockEntityMap : ((Point3DMapAccessor<BlockEntity>) blockEntities).getMap().values()) {
+                for (BlockEntity blockEntity : blockEntityMap.values()) {
+                    if (blockEntity instanceof IRenderable renderable) {
+                        renderable.onRender(camera);
+                    }
                 }
-            });
+            }
+//            blockEntities.forEach(entity -> {
+//                if(entity instanceof IRenderable renderable) {
+//                    renderable.onRender(camera);
+//                }
+//            });
     }
 
     @Inject(method = "setBlockEntity", at= @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/blockentities/BlockEntity;onRemove()V", shift = At.Shift.AFTER), locals = LocalCapture.CAPTURE_FAILHARD)
