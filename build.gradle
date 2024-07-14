@@ -3,7 +3,7 @@ plugins {
     id "java"
     id "java-library"
     id "com.github.johnrengelman.shadow"  version "8.1.1"
-    id "cr_puzzle_gradle" version "1.0.55-dev"
+    id "cr_puzzle_gradle" version "1.0.60-dev"
 }
 
 group = "dev.crmodders"
