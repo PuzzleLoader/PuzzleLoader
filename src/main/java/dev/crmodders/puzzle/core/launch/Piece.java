@@ -55,8 +55,8 @@ public class Piece {
 
         final OptionSet options = parser.parse(args);
         try {
-            OptionSpec<String> provider_option = parser.accepts("--gameProvider").withOptionalArg().ofType(String.class);
-            OptionSpec<String> modFolder_option = parser.accepts("--modFolder").withOptionalArg().ofType(String.class);
+            OptionSpec<String> provider_option = parser.accepts("gameProvider").withOptionalArg().ofType(String.class);
+            OptionSpec<String> modFolder_option = parser.accepts("modFolder").withOptionalArg().ofType(String.class);
 
             classLoader.addClassLoaderExclusion(DEFAULT_PROVIDER.substring(0, DEFAULT_PROVIDER.lastIndexOf('.')));
             classLoader.addClassLoaderExclusion("dev.crmodders.puzzle.annotations");

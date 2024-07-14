@@ -26,7 +26,7 @@ public class ModLocator {
     public static void AddBuiltinMods(IGameProvider provider) {
 
         /* Puzzle Loader as a Mod */
-        ModJsonInfo.ModInfoBuilder puzzleLoaderInfo = ModJsonInfo.builder();
+        ModInfoBuilder puzzleLoaderInfo = ModInfoBuilder.newBuilder();
         {
             puzzleLoaderInfo.setName("Puzzle Loader");
             puzzleLoaderInfo.setDesc("A new dedicated modloader for Cosmic Reach");
@@ -42,20 +42,20 @@ public class ModLocator {
                     "puzzle_loader.manipulator"
             );
 
-            ModLocator.LocatedMods.put("puzzle-loader", puzzleLoaderInfo.build().createModContainer());
+            ModLocator.LocatedMods.put("puzzle-loader", puzzleLoaderInfo.buildToModContainer());
         }
 
         /* Cosmic Reach as a mod */
-        ModJsonInfo.ModInfoBuilder cosmicReachInfo = ModJsonInfo.builder();
+        ModInfoBuilder cosmicReachInfo = ModInfoBuilder.newBuilder();
         {
             cosmicReachInfo.setName(provider.getName());
             cosmicReachInfo.setDesc("The base Game");
             cosmicReachInfo.addAuthor("FinalForEach");
-            ModLocator.LocatedMods.put(provider.getId(), cosmicReachInfo.build().createModContainer());
+            ModLocator.LocatedMods.put(provider.getId(), cosmicReachInfo.buildToModContainer());
         }
 
         /* Flux API as a mod */
-        ModJsonInfo.ModInfoBuilder fluxAPIInfo = ModJsonInfo.builder();
+        ModInfoBuilder fluxAPIInfo = ModInfoBuilder.newBuilder();
         {
             fluxAPIInfo.setName("Flux API");
             fluxAPIInfo.setId("fluxapi");
@@ -67,7 +67,7 @@ public class ModLocator {
             fluxAPIInfo.addAuthors("Mr Zombii", "Nanobass", "CoolGI");
             fluxAPIInfo.addMixinConfig("fluxapi.mixins.json");
 
-            ModLocator.LocatedMods.put("fluxapi", fluxAPIInfo.build().createModContainer());
+            ModLocator.LocatedMods.put("fluxapi", fluxAPIInfo.buildToModContainer());
         }
     }
 

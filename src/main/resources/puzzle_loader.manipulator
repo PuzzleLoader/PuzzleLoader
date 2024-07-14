@@ -1,5 +1,10 @@
 public field finalforeach/cosmicreach/entities/Entity sightRange
 public method finalforeach/cosmicreach/gamestates/InGame unloadZone (Lfinalforeach/cosmicreach/world/Zone;)V
 
-public class dev/crmodders/flux/FluxRegistries$SLF4JEventBusLogger
-public method dev/crmodders/flux/FluxRegistries$SLF4JEventBusLogger <init> ()V
+public method finalforeach/cosmicreach/rendering/BatchCoords blockX ()I
+public method finalforeach/cosmicreach/rendering/BatchCoords blockY ()I
+public method finalforeach/cosmicreach/rendering/BatchCoords blockZ ()I
+
+public field finalforeach/cosmicreach/rendering/MeshData shader
+public field finalforeach/cosmicreach/rendering/MeshData vertices
+public field finalforeach/cosmicreach/rendering/MeshData renderOrder
