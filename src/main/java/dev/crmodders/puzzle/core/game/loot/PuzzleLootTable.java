@@ -31,7 +31,6 @@ public class PuzzleLootTable {
         for (LootOption option : loot.options) {
             LootDrop[] drops = new LootDrop[option.lootStacks.length];
             for (int i = 0; i < option.lootStacks.length; i++) {
-                System.out.println(option.lootStacks[i].item.getID());
                 drops[i] = new LootDrop(
                         option.lootStacks[i].item,
                         option.lootStacks[i].minAmount,
