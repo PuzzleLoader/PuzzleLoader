@@ -13,7 +13,7 @@ import java.util.Set;
 public class Globals {
 
     public static List<IZoneRenderer> renderers = new ArrayList<>();
-    public static int rendererIndex=0;
+    public static int rendererIndex = 0;
 
     public static void initRenderers() {
         Logger LOGGER =  LoggerFactory.getLogger("Puzzle | Renderers");
@@ -24,13 +24,13 @@ public class Globals {
         LOGGER.warn("Getting renderers");
 
         for (Class<? extends IZoneRenderer> c : classes) {
-                try {
-                    LOGGER.warn("\t{}",c.getName());
-                    renderers.add(c.getDeclaredConstructor().newInstance());
-                } catch (InstantiationException | IllegalAccessException | NoSuchMethodException |
-                         InvocationTargetException e) {
-                    LOGGER.warn("Can't use class \"{}\" as renderer",c.getName());
-                }
+            try {
+                LOGGER.warn("\t{}",c.getName());
+                renderers.add(c.getDeclaredConstructor().newInstance());
+            } catch (InstantiationException | IllegalAccessException | NoSuchMethodException |
+                     InvocationTargetException e) {
+                 LOGGER.warn("Can't use class \"{}\" as renderer",c.getName());
+            }
         }
 
     }

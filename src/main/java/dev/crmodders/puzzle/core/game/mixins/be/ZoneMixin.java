@@ -31,8 +31,8 @@ public class ZoneMixin implements IRenderable {
 
     @Override
     public void onRender(Camera camera) {
-        for (IntMap<Chunk> chunkIntMap : ((Point3DMapAccessor<Chunk>) chunks).getMap().values().toArray()) {
-            for (Chunk chunk : chunkIntMap.values().toArray()) {
+        for (IntMap<Chunk> chunkIntMap : ((Point3DMapAccessor<Chunk>) chunks).getMap().values()) {
+            for (Chunk chunk : chunkIntMap.values()) {
                 if (chunk instanceof IRenderable renderable) {
                     renderable.onRender(camera);
                 }
