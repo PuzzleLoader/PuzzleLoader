@@ -1,6 +1,6 @@
 package dev.crmodders.puzzle.utils;
 
-public enum AnsiColour {
+public enum AnsiColours {
     RESET("\u001B[0m"),
     BLACK("\u001B[30m"),
     RED("\u001B[31m"),
@@ -40,7 +40,7 @@ public enum AnsiColour {
 
     final String code;
 
-    AnsiColour(String code) {
+    AnsiColours(String code) {
         this.code = code;
     }
 
@@ -48,7 +48,7 @@ public enum AnsiColour {
         return code;
     }
 
-    public AnsiColour getBright() {
+    public AnsiColours getBright() {
         return switch (this) {
             case BLACK -> BRIGHT_BLACK;
             case RED -> BRIGHT_RED;
@@ -70,7 +70,7 @@ public enum AnsiColour {
         };
     }
     
-    public AnsiColour getBackground() {
+    public AnsiColours getBackground() {
         return switch (this) {
             case BLACK -> BG_BLACK;
             case RED -> BG_RED;
