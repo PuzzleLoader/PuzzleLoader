@@ -66,7 +66,7 @@ public enum AnsiColours {
             case BG_PURPLE -> BRIGHT_BG_PURPLE;
             case BG_CYAN -> BRIGHT_BG_CYAN;
             case BG_WHITE -> BRIGHT_BG_WHITE;
-            default -> colour;
+            default -> this;
         };
     }
     
