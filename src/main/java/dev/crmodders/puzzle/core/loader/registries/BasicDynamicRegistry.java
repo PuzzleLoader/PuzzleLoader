@@ -1,6 +1,7 @@
 package dev.crmodders.puzzle.core.loader.registries;
 
 import dev.crmodders.flux.tags.Identifier;
+import javassist.bytecode.DuplicateMemberException;
 
 import java.util.*;
 
@@ -18,6 +19,7 @@ public class BasicDynamicRegistry<T> implements IRegistry.IDynamic<T> {
 
     @Override
     public T store(Identifier id, T object) {
+        if (dynamicStorage.containsKey(id)) throw new RuntimeException("CANNOT HAVE 2+ OBJECTS WITH SAME ID \"" + id + "\" IN REGISTRY \"" + registryId + "\"");
         dynamicStorage.put(id, object);
         registryObjects.add(new RegistryObject<>(this, id));
         return object;

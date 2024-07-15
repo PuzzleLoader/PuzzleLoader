@@ -23,6 +23,7 @@ public class BasicFreezableRegistry<T> implements IRegistry.IFreezing<T>, IStora
     @Override
     public RegistryObject<T> register(Identifier id, Supplier<T> objectSupplier) {
         if (isFrozen) throw new RuntimeException("Registry \"" + registryId + "\" is frozen");
+        if (pendingRegistyObjects.containsKey(id)) throw new RuntimeException("CANNOT HAVE 2+ OBJECTS WITH SAME ID \"" + id + "\" IN REGISTRY \"" + registryId + "\"");
         pendingRegistyObjects.put(id, objectSupplier);
         registryObjects.add(new RegistryObject<>(this, id));
         return registryObjects.get(registryObjects.size() - 1);
