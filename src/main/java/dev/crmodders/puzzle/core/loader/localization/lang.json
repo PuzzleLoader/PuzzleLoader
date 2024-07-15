@@ -1,0 +1,14 @@
+{
+  "language_tag": "",
+  "version": {
+    "major": 1,
+    "minor": 0
+  },
+  "namespaces": [ "base" ],
+  "base": {
+    "q": "q",
+    "e": {
+      "e": "q"
+    }
+  }
+}
