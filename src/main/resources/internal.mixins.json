@@ -9,9 +9,10 @@
     "be.ChunkMixin",
     "be.InGameMixin",
     "be.ZoneMixin",
-    "ui.OptionsMixin",
     "entrypoint.LoadInitModsMixin",
     "entrypoint.PreGameLaunchInit",
+    "loot.LootTableMixin",
+    "ui.OptionsMixin",
     "window.IconMixin",
     "window.TitleMixin"
   ],

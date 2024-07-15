@@ -12,3 +12,16 @@ public field finalforeach/cosmicreach/rendering/MeshData renderOrder
 public field finalforeach/cosmicreach/rendering/BatchMaterial batchCoords
 public field finalforeach/cosmicreach/rendering/BatchMaterial shader
 public field finalforeach/cosmicreach/rendering/BatchMaterial renderOrder
+
+public field finalforeach/cosmicreach/rendering/ChunkBatch seen
+public field finalforeach/cosmicreach/rendering/ChunkBatch chunkMeshGroups
+public field finalforeach/cosmicreach/rendering/ChunkBatch disposed
+public field finalforeach/cosmicreach/rendering/ChunkBatch boundingBox
+
+public field finalforeach/cosmicreach/items/loot/Loot lootId
+public field finalforeach/cosmicreach/items/loot/Loot options
+public field finalforeach/cosmicreach/items/loot/LootOption lootStacks
+public field finalforeach/cosmicreach/items/loot/LootOption weight
+public field finalforeach/cosmicreach/items/loot/LootStack item
+public field finalforeach/cosmicreach/items/loot/LootStack minAmount
+public field finalforeach/cosmicreach/items/loot/LootStack maxAmount

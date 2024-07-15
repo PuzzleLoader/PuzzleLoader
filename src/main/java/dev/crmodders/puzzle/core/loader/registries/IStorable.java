@@ -10,11 +10,4 @@ interface IStorable<T> extends IRegistry<T> {
     RegistryObject<T> register(Identifier id, Supplier<T> objectSupplier);
     T get(Identifier id) throws NotFoundException;
 
-    class NotStorableException extends Exception {
-
-        public NotStorableException(String msg) {
-            super(msg);
-        }
-    }
-
 }

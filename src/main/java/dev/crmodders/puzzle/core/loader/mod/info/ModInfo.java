@@ -63,14 +63,14 @@ public class ModInfo {
         MixinConfigs = ImmutableList.copyOf(jsonInfo.mixins());
 
         var RequiredDependenciesBuilder = ImmutableMap.<String, Version>builder();
-        for (String key : jsonInfo.entrypoints().keySet()) {
+        for (String key : jsonInfo.dependencies().keySet()) {
             RequiredDependenciesBuilder.put(key, Version.parseVersion(jsonInfo.dependencies().get(key)));
         }
         RequiredDependencies = RequiredDependenciesBuilder.build();
 
         var OptionalDependenciesBuilder = ImmutableMap.<String, Version>builder();
-        for (String key : jsonInfo.entrypoints().keySet()) {
-            OptionalDependenciesBuilder.put(key, Version.parseVersion(jsonInfo.dependencies().get(key)));
+        for (String key : jsonInfo.optional().keySet()) {
+            OptionalDependenciesBuilder.put(key, Version.parseVersion(jsonInfo.optional().get(key)));
         }
         OptionalDependencies = OptionalDependenciesBuilder.build();
 

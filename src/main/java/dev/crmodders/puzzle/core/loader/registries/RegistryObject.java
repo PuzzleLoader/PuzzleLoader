@@ -13,14 +13,14 @@ public class RegistryObject<T> {
         this.id = id;
     }
 
-    public T getObject() throws IStorable.NotStorableException, NotFoundException {
+    public T getObject() throws NotStorableException, NotFoundException {
         if (registry instanceof IStorable<T> storable) {
             return storable.get(id);
         }
         if (registry instanceof IRegistry.IDynamic<T> dynamic) {
             return dynamic.get(id);
         }
-        throw new IStorable.NotStorableException("The registry " + registry.getId() + " was not an Instance of " + IStorable.class.getName());
+        throw new NotStorableException("The registry " + registry.getId() + " was not an Instance of " + IStorable.class.getName());
     }
 
     public IRegistry<T> getRegistry() {

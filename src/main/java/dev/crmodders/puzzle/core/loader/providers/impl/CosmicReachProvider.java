@@ -128,9 +128,9 @@ public class CosmicReachProvider implements IGameProvider {
             puzzleLoaderInfo.addEntrypoint("transformers", PuzzleTransformers.class.getName());
             puzzleLoaderInfo.addDependency("cosmic-reach", getGameVersion());
             puzzleLoaderInfo.addMixinConfigs(
-//                    "internal.mixins.json",
-//                    "accessors.mixins.json",
-//                    "bugfixes.mixins.json"
+                    "internal.mixins.json",
+                    "accessors.mixins.json",
+                    "bugfixes.mixins.json"
             );
             puzzleLoaderInfo.setAccessTransformerType(
                     AccessTransformerType.ACCESS_MANIPULATOR,

@@ -24,7 +24,7 @@ public class RegistryIterator<T> implements Iterator<T> {
     public T next() {
         try {
             return it.next().getObject();
-        } catch (IStorable.NotStorableException | NotFoundException e) {
+        } catch (NotStorableException | NotFoundException e) {
             throw new RuntimeException(e);
         }
     }

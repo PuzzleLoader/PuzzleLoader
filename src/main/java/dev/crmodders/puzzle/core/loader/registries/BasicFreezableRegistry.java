@@ -18,6 +18,7 @@ public class BasicFreezableRegistry<T> implements IRegistry.IFreezing<T>, IStora
         registryId = id;
         pendingRegistyObjects = new HashMap<>();
         registryObjects = new ArrayList<>();
+        registeredObjects = new HashMap<>();
     }
 
     @Override
@@ -62,5 +63,6 @@ public class BasicFreezableRegistry<T> implements IRegistry.IFreezing<T>, IStora
         for (Identifier id : pendingRegistyObjects.keySet()) {
             registeredObjects.put(id, pendingRegistyObjects.get(id).get());
         }
+        pendingRegistyObjects.clear();
     }
 }
