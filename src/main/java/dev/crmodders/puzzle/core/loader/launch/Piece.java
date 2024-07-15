@@ -67,7 +67,7 @@ public class Piece {
             classLoader.addClassLoaderExclusion("dev.crmodders.puzzle.utils");
 
             if (options.has(provider_option))
-                provider = (IGameProvider) Class.forName(provider_option.value(options ), true, classLoader).newInstance();
+                provider = (IGameProvider) Class.forName(provider_option.value(options), true, classLoader).newInstance();
             else
                 provider = (IGameProvider) Class.forName(DEFAULT_PROVIDER, true, classLoader).newInstance();
 

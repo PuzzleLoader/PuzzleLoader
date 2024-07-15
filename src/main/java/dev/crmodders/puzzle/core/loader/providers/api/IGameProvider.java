@@ -24,4 +24,5 @@ public interface IGameProvider {
     void initArgs(String[] args);
     void inject(PuzzleClassLoader classLoader);
 
+    void addBuiltinMods();
 }

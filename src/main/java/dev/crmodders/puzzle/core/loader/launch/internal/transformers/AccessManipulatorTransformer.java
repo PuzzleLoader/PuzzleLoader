@@ -1,4 +1,4 @@
-package dev.crmodders.puzzle.core.loader.launch.transformers;
+package dev.crmodders.puzzle.core.loader.launch.internal.transformers;
 
 import dev.crmodders.puzzle.access_manipulators.AccessManipulators;
 import dev.crmodders.puzzle.core.loader.launch.Piece;
@@ -12,7 +12,7 @@ public class AccessManipulatorTransformer implements IClassTransformer {
 
     public AccessManipulatorTransformer() {
         ModLocator.getMods(List.of(Piece.classLoader.getURLs()));
-        ModLocator.AddBuiltinMods(Piece.provider);
+        Piece.provider.addBuiltinMods();
 
         readAccessManipulators();
     }
@@ -25,9 +25,9 @@ public class AccessManipulatorTransformer implements IClassTransformer {
 
     public void readAccessManipulators() {
         for (ModContainer container : ModLocator.LocatedMods.values()) {
-                doPath0(container.JSON_INFO.accessWidener());
-                doPath0(container.JSON_INFO.accessManipulator());
-                doPath0(container.JSON_INFO.accessTransformer());
+                doPath0(container.INFO.AccessWidener);
+                doPath0(container.INFO.AccessManipulator);
+                doPath0(container.INFO.AccessTransformer);
         }
     }
 

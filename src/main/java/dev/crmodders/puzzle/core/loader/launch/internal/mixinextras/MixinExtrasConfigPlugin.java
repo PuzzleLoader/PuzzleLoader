@@ -1,4 +1,4 @@
-package dev.crmodders.puzzle.core.loader.mixinextras;
+package dev.crmodders.puzzle.core.loader.launch.internal.mixinextras;
 
 import com.llamalad7.mixinextras.MixinExtrasBootstrap;
 import org.objectweb.asm.tree.ClassNode;

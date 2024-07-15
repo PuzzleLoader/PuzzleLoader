@@ -16,7 +16,7 @@ public class PreGameLaunchInit {
     @Inject(method = "main", at = @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/lwjgl3/Lwjgl3Launcher;createApplication()Lcom/badlogic/gdx/backends/lwjgl3/Lwjgl3Application;"))
     private static void loadPreLaunch(String[] args, CallbackInfo ci) {
         ModLocator.getMods();
-        ModLocator.AddBuiltinMods(Piece.provider);
+        Piece.provider.addBuiltinMods();
         Globals.initRenderers();
         PreInitModInitializer.invokeEntrypoint();
     }

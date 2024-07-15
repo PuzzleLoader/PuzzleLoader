@@ -1,4 +1,4 @@
-package dev.crmodders.puzzle.core.loader.minimixin;
+package dev.crmodders.puzzle.core.loader.launch.internal.minimixin;
 
 import dev.crmodders.puzzle.core.loader.launch.Piece;
 import org.spongepowered.asm.service.IGlobalPropertyService;

@@ -84,7 +84,7 @@ public class ModInfo {
     }
 
     public ModContainer getOrCreateModContainer() {
-        if (Container != null) Container = new ModContainer(this);
+        if (Container == null) Container = new ModContainer(this);
         return Container;
     }
 

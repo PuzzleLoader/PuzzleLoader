@@ -2,7 +2,7 @@
   "required": true,
   "minVersion": "0.8",
   "package": "dev.crmodders.puzzle.core.game.mixins",
-  "plugin": "dev.crmodders.puzzle.core.loader.mixinextras.MixinExtrasConfigPlugin",
+  "plugin": "dev.crmodders.puzzle.core.loader.launch.internal.mixinextras.MixinExtrasConfigPlugin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "be.ChunkLoaderMixin",

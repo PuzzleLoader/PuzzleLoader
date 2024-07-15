@@ -1,7 +1,6 @@
 package dev.crmodders.puzzle.core.game.mixins.ui;
 
 import dev.crmodders.puzzle.core.game.Globals;
-import dev.crmodders.puzzle.core.game.rendering.TestZoneRenderer;
 import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.rendering.BatchedZoneRenderer;
 import finalforeach.cosmicreach.settings.GraphicsSettings;

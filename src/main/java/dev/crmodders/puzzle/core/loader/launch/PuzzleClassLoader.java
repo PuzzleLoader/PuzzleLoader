@@ -70,7 +70,7 @@ public class PuzzleClassLoader extends URLClassLoader {
         addTransformerExclusion("com.google.common.");
         addTransformerExclusion("org.bouncycastle.");
         addTransformerExclusion("org.bouncycastle.");
-        addClassLoaderExclusion("dev.crmodders.puzzle.core.loader.launch.transformers.");
+        addClassLoaderExclusion("dev.crmodders.puzzle.core.loader.launch.internal.transformers.");
         addClassLoaderExclusion("dev.crmodders.puzzle.access_manipulator.");
     }
 

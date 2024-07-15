@@ -1,4 +1,4 @@
-package dev.crmodders.puzzle.core.loader.minimixin;/*
+package dev.crmodders.puzzle.core.loader.launch.internal.minimixin;/*
  * This file is part of Mixin, licensed under the MIT License (MIT).
  *
  * Copyright (c) SpongePowered <https://www.spongepowered.org>

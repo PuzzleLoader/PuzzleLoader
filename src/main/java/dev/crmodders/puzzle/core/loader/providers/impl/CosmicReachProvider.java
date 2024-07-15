@@ -1,8 +1,13 @@
 package dev.crmodders.puzzle.core.loader.providers.impl;
 
+//import dev.crmodders.puzzle.core.game.internal.mods.FluxPuzzle;
 import dev.crmodders.puzzle.core.loader.entrypoint.interfaces.TransformerInitializer;
+import dev.crmodders.puzzle.core.loader.launch.Piece;
+import dev.crmodders.puzzle.core.loader.launch.internal.mods.PuzzleTransformers;
+import dev.crmodders.puzzle.core.loader.mod.AccessTransformerType;
 import dev.crmodders.puzzle.core.loader.mod.ModContainer;
 import dev.crmodders.puzzle.core.loader.mod.Version;
+import dev.crmodders.puzzle.core.loader.mod.info.ModInfo;
 import dev.crmodders.puzzle.core.loader.providers.api.IGameProvider;
 import finalforeach.cosmicreach.GameAssetLoader;
 import finalforeach.cosmicreach.lwjgl3.Lwjgl3Launcher;
@@ -74,7 +79,7 @@ public class CosmicReachProvider implements IGameProvider {
     @Override
     public void registerTransformers(PuzzleClassLoader classLoader) {
         ModLocator.getMods(List.of(classLoader.getURLs()));
-        ModLocator.AddBuiltinMods(this);
+        addBuiltinMods();
 
         TransformerInitializer.invokeTransformers(classLoader);
     }
@@ -104,14 +109,61 @@ public class CosmicReachProvider implements IGameProvider {
 
         // Load Mixins
         List<String> mixinConfigs = new ArrayList<>();
-        mixinConfigs.add("internal.mixins.json");
 
         for (ModContainer mod : ModLocator.LocatedMods.values()) {
-            mixinConfigs.addAll(Arrays.stream(mod.JSON_INFO.mixins()).toList());
+            mixinConfigs.addAll(mod.INFO.MixinConfigs);
         }
 
         mixinConfigs.forEach(Mixins::addConfiguration);
         runStaticMethod(getDeclaredMethod(MixinBootstrap.class, MIXIN_INJECT));
+    }
+
+    @Override
+    public void addBuiltinMods() {
+        /* Puzzle Loader as a Mod */
+        ModInfo.Builder puzzleLoaderInfo = ModInfo.Builder.New();
+        {
+            puzzleLoaderInfo.setName("Puzzle Loader");
+            puzzleLoaderInfo.setDesc("A new dedicated modloader for Cosmic Reach");
+            puzzleLoaderInfo.addEntrypoint("transformers", PuzzleTransformers.class.getName());
+            puzzleLoaderInfo.addDependency("cosmic-reach", getGameVersion());
+            puzzleLoaderInfo.addMixinConfigs(
+//                    "internal.mixins.json",
+//                    "accessors.mixins.json",
+//                    "bugfixes.mixins.json"
+            );
+            puzzleLoaderInfo.setAccessTransformerType(
+                    AccessTransformerType.ACCESS_MANIPULATOR,
+                    "puzzle_loader.manipulator"
+            );
+
+            ModLocator.LocatedMods.put("puzzle-loader", puzzleLoaderInfo.build().getOrCreateModContainer());
+        }
+
+        /* Cosmic Reach as a mod */
+        ModInfo.Builder cosmicReachInfo = ModInfo.Builder.New();
+        {
+            cosmicReachInfo.setName(getName());
+            cosmicReachInfo.setDesc("The base Game");
+            cosmicReachInfo.addAuthor("FinalForEach");
+            ModLocator.LocatedMods.put(getId(), cosmicReachInfo.build().getOrCreateModContainer());
+        }
+
+//        /* Flux API as a mod */
+//        ModInfo.Builder fluxAPIInfo = ModInfo.Builder.New();
+//        {
+//            fluxAPIInfo.setName("Flux API");
+//            fluxAPIInfo.setId("fluxapi");
+//            fluxAPIInfo.setVersion("0.7.4");
+//            fluxAPIInfo.setDesc("The central modding API for Cosmic Reach Fabric/Quilt/Puzzle");
+//            fluxAPIInfo.addEntrypoint("preInit", FluxPuzzle.class.getName());
+//            fluxAPIInfo.addDependency("cosmic-reach", getGameVersion());
+//            fluxAPIInfo.addDependency("puzzle-loader", Version.parseVersion("1.0.0"));
+//            fluxAPIInfo.addAuthors("Mr Zombii", "Nanobass", "CoolGI");
+//            fluxAPIInfo.addMixinConfig("fluxapi.mixins.json");
+//
+//            ModLocator.LocatedMods.put("fluxapi", fluxAPIInfo.build().getOrCreateModContainer());
+//        }
     }
 
     static File lookForJarVariations(String offs) {

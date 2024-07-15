@@ -7,6 +7,7 @@ public record Version(
 ) {
 
     public static Version parseVersion(String ver) {
+        if (ver == null) return new Version(0, 0, 0);
         String[] pieces = ver.split("\\.");
         return new Version(
                 Integer.parseInt(pieces[0]),

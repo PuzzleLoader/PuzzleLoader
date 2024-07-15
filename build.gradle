@@ -30,7 +30,7 @@ dependencies {
     bundle(annotationProcessor("io.github.llamalad7:mixinextras-common:$mixinExtrasVersion"))
 
     // FluxAPI
-    bundle("dev.crmodders:fluxapi:$fluxApiVersion")
+//    bundle("dev.crmodders:fluxapi:$fluxApiVersion")
 
 //     Google Stuffs
     bundle("com.google.guava:guava:$guavaVersion")
@@ -73,7 +73,7 @@ tasks.register("runLoader", JavaExec) {
         runtimeOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:$mixinExtrasVersion"))
 
         // FluxAPI
-        runtimeOnly("dev.crmodders:fluxapi:$fluxApiVersion")
+//        runtimeOnly("dev.crmodders:fluxapi:$fluxApiVersion")
 
         // Google Stuffs
         runtimeOnly("com.google.guava:guava:$guavaVersion")

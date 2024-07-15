@@ -7,7 +7,7 @@ public class PuzzleTransformers implements TransformerInitializer {
 
     @Override
     public void onTransformerInit(PuzzleClassLoader classLoader) {
-        classLoader.registerTransformer("dev.crmodders.puzzle.core.loader.launch.transformers.AccessManipulatorTransformer");
+        classLoader.registerTransformer("dev.crmodders.puzzle.core.loader.launch.internal.transformers.AccessManipulatorTransformer");
     }
 
 }

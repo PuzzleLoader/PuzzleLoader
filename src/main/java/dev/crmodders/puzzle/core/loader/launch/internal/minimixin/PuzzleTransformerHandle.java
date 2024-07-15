@@ -1,4 +1,4 @@
-package dev.crmodders.puzzle.core.loader.minimixin;
+package dev.crmodders.puzzle.core.loader.launch.internal.minimixin;
 
 import net.minecraft.launchwrapper.IClassTransformer;
 import org.spongepowered.asm.service.IClassProvider;
