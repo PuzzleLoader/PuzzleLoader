@@ -15,7 +15,6 @@ public class LoadInitModsMixin {
     @Inject(method = "create", at = @At("TAIL"))
     public void onInit(CallbackInfo ci) {
         ModInitializer.invokeEntrypoint();
-//        GameState.switchToGameState(new GameLoader());
     }
 
 }

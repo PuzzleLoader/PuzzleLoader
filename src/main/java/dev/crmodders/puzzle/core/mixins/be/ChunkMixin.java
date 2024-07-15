@@ -70,11 +70,6 @@ public abstract class ChunkMixin implements ITickable, IRenderable {
                     }
                 }
             }
-//            blockEntities.forEach(entity -> {
-//                if(entity instanceof IRenderable renderable) {
-//                    renderable.onRender(camera);
-//                }
-//            });
     }
 
     @Inject(method = "setBlockEntity", at= @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/blockentities/BlockEntity;onRemove()V", shift = At.Shift.AFTER), locals = LocalCapture.CAPTURE_FAILHARD)

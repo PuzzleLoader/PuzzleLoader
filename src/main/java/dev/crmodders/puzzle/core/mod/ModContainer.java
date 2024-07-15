@@ -1,15 +1,14 @@
 package dev.crmodders.puzzle.core.mod;
 
 import dev.crmodders.puzzle.core.entrypoint.EntrypointContainer;
-import net.minecraft.launchwrapper.IClassTransformer;
+import dev.crmodders.puzzle.core.mod.info.ModInfo;
 
 import java.util.function.Consumer;
-import java.util.jar.JarFile;
 import java.util.zip.ZipFile;
 
 public class ModContainer {
 
-    public ModJsonInfo JSON_INFO;
+    public ModInfo INFO;
     private final EntrypointContainer entrypointContainer;
 
     public final String NAME;
@@ -17,23 +16,17 @@ public class ModContainer {
     public final Version VERSION;
     public final ZipFile JAR;
 
-    public ModContainer(ModJsonInfo info) {
-        this.JSON_INFO = info;
-        this.entrypointContainer = new EntrypointContainer(info.entrypoints());
-
-        NAME = info.name();
-        ID = info.id();
-        VERSION = Version.parseVersion(info.version());
-        JAR = null;
+    public ModContainer(ModInfo info) {
+        this(info, null);
     }
 
-    public ModContainer(ModJsonInfo info, ZipFile jar) {
-        this.JSON_INFO = info;
-        this.entrypointContainer = new EntrypointContainer(info.entrypoints());
+    public ModContainer(ModInfo info, ZipFile jar) {
+        this.INFO = info;
+        this.entrypointContainer = new EntrypointContainer(info.Entrypoints);
 
-        NAME = info.name();
-        ID = info.id();
-        VERSION = Version.parseVersion(info.version());
+        NAME = info.DisplayName;
+        ID = info.ModID;
+        VERSION = info.ModVersion;
         JAR = jar;
     }
 

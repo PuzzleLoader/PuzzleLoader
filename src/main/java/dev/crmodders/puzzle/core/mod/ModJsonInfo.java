@@ -9,7 +9,7 @@ public record ModJsonInfo(
         String description,
         String[] authors,
         Map<String, Collection<String>> entrypoints,
-        Map<String, String> meta,
+        Map<String, Object> meta,
         String[] mixins,
         Map<String, String> dependencies,
         Map<String, String> optional,

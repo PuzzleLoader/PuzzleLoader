@@ -1,9 +1,11 @@
 package dev.crmodders.puzzle.core.mod;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 //import dev.crmodders.puzzle.core.internalMods.FluxPuzzle;
 import dev.crmodders.puzzle.core.internalMods.FluxPuzzle;
 import dev.crmodders.puzzle.core.internalMods.PuzzleTransformers;
+import dev.crmodders.puzzle.core.mod.info.ModInfo;
 import dev.crmodders.puzzle.core.providers.api.IGameProvider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,7 +28,7 @@ public class ModLocator {
     public static void AddBuiltinMods(IGameProvider provider) {
 
         /* Puzzle Loader as a Mod */
-        ModInfoBuilder puzzleLoaderInfo = ModInfoBuilder.newBuilder();
+        ModInfo.Builder puzzleLoaderInfo = ModInfo.Builder.New();
         {
             puzzleLoaderInfo.setName("Puzzle Loader");
             puzzleLoaderInfo.setDesc("A new dedicated modloader for Cosmic Reach");
@@ -42,20 +44,20 @@ public class ModLocator {
                     "puzzle_loader.manipulator"
             );
 
-            ModLocator.LocatedMods.put("puzzle-loader", puzzleLoaderInfo.buildToModContainer());
+            ModLocator.LocatedMods.put("puzzle-loader", puzzleLoaderInfo.build().getOrCreateModContainer());
         }
 
         /* Cosmic Reach as a mod */
-        ModInfoBuilder cosmicReachInfo = ModInfoBuilder.newBuilder();
+        ModInfo.Builder cosmicReachInfo = ModInfo.Builder.New();
         {
             cosmicReachInfo.setName(provider.getName());
             cosmicReachInfo.setDesc("The base Game");
             cosmicReachInfo.addAuthor("FinalForEach");
-            ModLocator.LocatedMods.put(provider.getId(), cosmicReachInfo.buildToModContainer());
+            ModLocator.LocatedMods.put(provider.getId(), cosmicReachInfo.build().getOrCreateModContainer());
         }
 
         /* Flux API as a mod */
-        ModInfoBuilder fluxAPIInfo = ModInfoBuilder.newBuilder();
+        ModInfo.Builder fluxAPIInfo = ModInfo.Builder.New();
         {
             fluxAPIInfo.setName("Flux API");
             fluxAPIInfo.setId("fluxapi");
@@ -67,7 +69,7 @@ public class ModLocator {
             fluxAPIInfo.addAuthors("Mr Zombii", "Nanobass", "CoolGI");
             fluxAPIInfo.addMixinConfig("fluxapi.mixins.json");
 
-            ModLocator.LocatedMods.put("fluxapi", fluxAPIInfo.buildToModContainer());
+            ModLocator.LocatedMods.put("fluxapi", fluxAPIInfo.build().getOrCreateModContainer());
         }
     }
 
@@ -112,7 +114,7 @@ public class ModLocator {
                             String strInfo = new String(jar.getInputStream(modJson).readAllBytes());
                             ModJsonInfo info = gsonInstance.fromJson(strInfo, ModJsonInfo.class);
                             logger.info("Discovered Mod \"{}\" with ID \"{}\"", info.name(), info.id());
-                            LocatedMods.put(info.id(), new ModContainer(info, jar));
+                            LocatedMods.put(info.id(), new ModContainer(ModInfo.fromModJsonInfo(info), jar));
                         }
                     }
                 } catch (IOException e) {
@@ -128,7 +130,7 @@ public class ModLocator {
         logger.warn("Can't check mod version. No support for semantic versioning");
         for(var mod : LocatedMods.values()){
             logger.info("Mod deps for {}", mod.ID);
-            for (Map.Entry<String, String> entry : mod.JSON_INFO.dependencies().entrySet()) {
+            for (Map.Entry<String, Version> entry : mod.INFO.RequiredDependencies.entrySet()) {
                 logger.info("\t{}: {}", entry.getKey(),entry.getValue());
                 if(LocatedMods.get(entry.getKey()) == null){
                     logger.fatal("can not find mod dependency: {} for mod id: {}", entry.getKey(),mod.ID);

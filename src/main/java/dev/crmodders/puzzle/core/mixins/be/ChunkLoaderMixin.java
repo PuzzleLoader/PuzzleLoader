@@ -21,8 +21,6 @@ public class ChunkLoaderMixin {
     }
 
     @Redirect(method = "readRegion", at = @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/world/Zone;addChunk(Lfinalforeach/cosmicreach/world/Chunk;)V"))
-    private static void removeOldAddChunk(Zone instance, Chunk chunk) {
-
-    }
+    private static void removeOldAddChunk(Zone instance, Chunk chunk) {}
 
 }
