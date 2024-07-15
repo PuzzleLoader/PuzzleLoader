@@ -100,7 +100,7 @@ tasks.register("runLoader", JavaExec) {
     }
 
     classpath = sourceSets.main.runtimeClasspath
-    mainClass = "dev.crmodders.puzzle.core.launch.Piece"
+    mainClass = "dev.crmodders.puzzle.core.loader.launch.Piece"
 }
 
 publishing {

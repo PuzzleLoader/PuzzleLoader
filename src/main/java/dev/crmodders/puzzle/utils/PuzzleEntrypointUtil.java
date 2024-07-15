@@ -1,8 +1,6 @@
 package dev.crmodders.puzzle.utils;
 
-import dev.crmodders.puzzle.core.mod.ModLocator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import dev.crmodders.puzzle.core.loader.mod.ModLocator;
 
 import java.util.function.Consumer;
 
