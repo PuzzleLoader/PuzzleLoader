@@ -2,10 +2,7 @@ package dev.crmodders.puzzle.core.localization.parsers;
 
 import dev.crmodders.puzzle.core.localization.Language;
 import dev.crmodders.puzzle.loader.mod.Version;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,82 +12,99 @@ import java.util.regex.Pattern;
 
 public class LangCrypticParser implements LangParser {
 
-    private static final Pattern transPattern = Pattern.compile("\\S+\\.\\S+");
+    private static final Pattern transPattern = Pattern.compile("\\S+::\\S+");
     private final boolean nestedTranslations;
+    private boolean hasNamespace = false;
+    private String[] parts; // helpful variable for string split.
+    private final List<String> namespaces = new ArrayList<>();
 
     public LangCrypticParser(boolean nested) {
-        nestedTranslations = nested;
+        this.nestedTranslations = nested;
     }
-
-
     @Override
-    public Language parse(String source) {
+    public ParseResult parse(String source) {
         Language language = new Language();
+        Map<String, String> translatables = new HashMap<>();
 
-        HashMap<String, String> translatables = new HashMap<>();
         String[] lines = source.split("\n");
         for (String line : lines) {
             if (!line.startsWith("~")) {
-                String[] parts = line.split("->", 2);
-                String key = parts[0].replace("::", ".");
-                String value = parts.length > 1 ? parts[1] : "";
-                // Replace :: with . to support all translation files
-                String[] keyParts = key.split("\\.");
-                if (keyParts.length > 1) {
-                    key = keyParts[0] + ":" + String.join(".", Arrays.copyOfRange(keyParts, 1, keyParts.length));
+                parts = line.split("->", 2);
+                String key = parts[0].replace("::", ".").trim();
+                String value = parts.length > 1 ? parts[1].trim() : "";
+
+                if (key.startsWith("namespaces")) {
+                    namespaces.addAll(Arrays.asList(value.split(",")));
+                } else {
+                    parts = key.split("\\.");
+                    if (parts.length > 1 && namespaces.contains(parts[0])) {
+                        hasNamespace = true;
+                        key = parts[0] + ":" + String.join(".", Arrays.copyOfRange(parts, 1, parts.length));
+                        // should I not add if not in namespaces??
+                    }
+                    translatables.put(key, value);
                 }
-                System.out.println(key);
-                translatables.put(key, value);
             }
         }
-        // if you really want nested translations
-        if (nestedTranslations) resolveTranslations(translatables);
 
-        System.out.println(translatables.containsKey("language_tag"));
+        if (namespaces.isEmpty()) {
+            return ParseResult.error(ParseResult.Errors.Namespaces, false);
+        }
+        if (!hasNamespace) {
+            return ParseResult.error(ParseResult.Errors.NameSpaceContent, false);
+        }
+
+        if (nestedTranslations) {
+            resolveTranslations(translatables);
+        }
+
         if (translatables.containsKey("language_tag")) {
             language.languageTag = translatables.get("language_tag");
-        } //  avoid extra code execution, there is no point if this is not defined
+            translatables.remove("language_tag");
+        } else return ParseResult.error(ParseResult.Errors.LanguageTag,false);
 
         int major = 0, minor = 0, patch = 0;
 
-        if (translatables.containsKey("version:major")) {
-            major = Integer.parseInt(translatables.get("version:major").trim());
+        // should we allow all empty?
+        if (translatables.containsKey("version.major")) {
+            major = Integer.parseInt(translatables.remove("version.major").trim());
         }
-        if (translatables.containsKey("version:minor")) {
-            minor = Integer.parseInt(translatables.get("version:minor").trim());
+        if (translatables.containsKey("version.minor")) {
+            minor = Integer.parseInt(translatables.remove("version.minor").trim());
         }
         if (translatables.containsKey("version:patch")) {
-            patch = Integer.parseInt(translatables.get("version:patch").trim());
+            patch = Integer.parseInt(translatables.remove("version:patch").trim());
         }
 
-        if (translatables.containsKey("namespaces")) {
-            language.namespaces = translatables.get("namespaces").split(",");
-        }
+        if (major == 0 && minor == 0 && patch == 0) return ParseResult.error(ParseResult.Errors.Version, false);
+
         language.version = new Version(major, minor, patch);
+        language.namespaces = namespaces.toArray(new String[0]);
         language.translations = translatables;
 
-        System.out.println(translatables);
-
-        return language;
+        return ParseResult.parsed(language);
     }
 
     @Override
-    public boolean canParse(String fileName, String source) {
-        boolean crypticFormat = false;
+    public ParseResult canParse(String fileName, String source) {
         if (!fileName.endsWith(".cr")) {
-            crypticFormat = transPattern.matcher(source).find();
+            return ParseResult.error("None", transPattern.matcher(source).find());
         }
-        return fileName.endsWith("cr") || crypticFormat;
+        return ParseResult.error("None", fileName.endsWith(".cr"));
     }
 
-    private static void resolveTranslations(Map<String, String> translatables) {
+    private void resolveTranslations(Map<String, String> translatables) {
         for (Map.Entry<String, String> entry : translatables.entrySet()) {
             String translation = entry.getValue();
             Matcher matcher = transPattern.matcher(translation);
             while (matcher.find()) {
                 String found = matcher.group();
-                // replace :: with . to support all translation files
-                String resolvedTranslation = translatables.getOrDefault(found.replace("::", "."), "Unknown");
+                String internalKey = found.replace("::",".").trim();
+                parts = internalKey.split("\\.");
+                if (namespaces.contains(parts[0])) {
+                    internalKey = parts[0] + ":" + String.join(".", Arrays.copyOfRange(parts, 1, parts.length));
+                }
+                String resolvedTranslation = translatables.getOrDefault(internalKey, "Unknown");
                 translation = translation.replace(found, resolvedTranslation);
             }
             entry.setValue(translation);
