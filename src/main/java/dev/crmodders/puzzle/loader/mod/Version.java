@@ -1,5 +1,7 @@
 package dev.crmodders.puzzle.loader.mod;
 
+import org.slf4j.LoggerFactory;
+
 public record Version(
         int Major,
         int Minor,
@@ -7,6 +9,17 @@ public record Version(
 ) {
 
     public static Version parseVersion(String ver) {
+
+        try {
+            return parseVersionWithThrow(ver);
+        }
+        catch (NumberFormatException e){
+            LoggerFactory.getLogger("Puzzle | Version parsing").error("Can't parse version");
+            return new Version(0,0,0);
+        }
+    }
+
+    public static Version parseVersionWithThrow(String ver) throws NumberFormatException {
         if (ver == null) return new Version(0, 0, 0);
         String[] pieces = ver.split("\\.");
         return new Version(

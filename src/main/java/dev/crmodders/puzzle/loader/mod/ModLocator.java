@@ -15,6 +15,8 @@ import java.util.function.Consumer;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import static dev.crmodders.puzzle.loader.mod.VersionParser.hasDependencyVersion;
+
 public class ModLocator {
 
     public static Logger logger = LogManager.getLogger("Puzzle | ModLocator");
@@ -74,19 +76,21 @@ public class ModLocator {
 
     }
 
-    // TODO: Verify Mod Dependencies (Partial completed by repletsin5)
     public static void verifyDependencies() {
-        logger.warn("Can't check mod version. No support for semantic versioning");
+        logger.warn("Warning! Only partial semantic versioning support");
         for(var mod : locatedMods.values()){
-            logger.info("Mod deps for {}", mod.ID);
-            for (Map.Entry<String, Version> entry : mod.INFO.RequiredDependencies.entrySet()) {
-                logger.info("\t{}: {}", entry.getKey(),entry.getValue());
-                if(locatedMods.get(entry.getKey()) == null){
-                    logger.fatal("can not find mod dependency: {} for mod id: {}", entry.getKey(),mod.ID);
-                }
-                else {
-                    //TODO: Version checking. Need semantic versioning compat and the ability to define allowed versions.
-                    return;
+            if(!mod.INFO.JsonInfo.dependencies().isEmpty()) {
+                logger.info("Mod deps for {}", mod.ID);
+                for (Map.Entry<String, String> entry : mod.INFO.JsonInfo.dependencies().entrySet()) {
+                    logger.info("\t{}: {}", entry.getKey(), entry.getValue());
+                    var modDep = locatedMods.get(entry.getKey());
+                    if (modDep == null) {
+                        throw new RuntimeException(String.format("can not find mod dependency: %s for mod id: %s", entry.getKey(), mod.ID));
+                    } else {
+                        if (!hasDependencyVersion(modDep.VERSION, entry.getValue())) {
+                            throw new RuntimeException(String.format("Mod id: %s, requires: %s version of %s, got: %s", mod.ID, entry.getValue(), modDep.ID, modDep.VERSION));
+                        }
+                    }
                 }
             }
         }
