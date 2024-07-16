@@ -131,6 +131,7 @@ public class CosmicReachProvider implements IGameProvider {
                     "accessors.mixins.json",
                     "bugfixes.mixins.json"
             );
+            puzzleLoaderInfo.setVersion("1.3.1");
             puzzleLoaderInfo.setAccessTransformerType(
                     AccessTransformerType.ACCESS_MANIPULATOR,
                     "puzzle_loader.manipulator"
@@ -145,24 +146,10 @@ public class CosmicReachProvider implements IGameProvider {
             cosmicReachInfo.setName(getName());
             cosmicReachInfo.setDesc("The base Game");
             cosmicReachInfo.addAuthor("FinalForEach");
+            cosmicReachInfo.setVersion(getGameVersion());
             ModLocator.locatedMods.put(getId(), cosmicReachInfo.build().getOrCreateModContainer());
         }
 
-//        /* Flux API as a mod */
-//        ModInfo.Builder fluxAPIInfo = ModInfo.Builder.New();
-//        {
-//            fluxAPIInfo.setName("Flux API");
-//            fluxAPIInfo.setId("fluxapi");
-//            fluxAPIInfo.setVersion("0.7.4");
-//            fluxAPIInfo.setDesc("The central modding API for Cosmic Reach Fabric/Quilt/Puzzle");
-//            fluxAPIInfo.addEntrypoint("preInit", FluxPuzzle.class.getName());
-//            fluxAPIInfo.addDependency("cosmic-reach", getGameVersion());
-//            fluxAPIInfo.addDependency("puzzle-loader", Version.parseVersion("1.0.0"));
-//            fluxAPIInfo.addAuthors("Mr Zombii", "Nanobass", "CoolGI");
-//            fluxAPIInfo.addMixinConfig("fluxapi.mixins.json");
-//
-//            ModLocator.LocatedMods.put("fluxapi", fluxAPIInfo.build().getOrCreateModContainer());
-//        }
     }
 
     static File lookForJarVariations(String offs) {
