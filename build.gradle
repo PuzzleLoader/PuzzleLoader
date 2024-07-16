@@ -24,6 +24,9 @@ repositories {
     maven { url "https://repo.spongepowered.org/repository/maven-public/" }
 }
 
+// do not remove fucks up building
+tasks.buildBundleJar.configure {dependsOn(tasks.compileJava)}
+
 dependencies {
 //     Mixin
     compileOnly("org.spongepowered:mixin:$mixinVersion")
@@ -68,7 +71,7 @@ dependencies {
 tasks.register("runLoader", JavaExec) {
     group = "loader"
 
-    dependencies {
+    /*dependencies {
         runtimeOnly("org.spongepowered:mixin:$mixinVersion")
         runtimeOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:$mixinExtrasVersion"))
 
@@ -97,7 +100,7 @@ tasks.register("runLoader", JavaExec) {
         // Reflections
         runtimeOnly("org.reflections:reflections:$reflectionsVersion")
 //        runtimeOnly("finalforeach:cosmicreach:$cosmic_reach_version")
-    }
+    }*/
 
     classpath = sourceSets.main.runtimeClasspath
     mainClass = "dev.crmodders.puzzle.core.loader.launch.Piece"

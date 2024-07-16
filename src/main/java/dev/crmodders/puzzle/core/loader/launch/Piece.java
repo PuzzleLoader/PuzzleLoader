@@ -1,8 +1,13 @@
 package dev.crmodders.puzzle.core.loader.launch;
 
+import dev.crmodders.flux.tags.Identifier;
+import dev.crmodders.puzzle.core.game.PuzzleRegistries;
+import dev.crmodders.puzzle.core.game.loot.PuzzleLootTable;
+import dev.crmodders.puzzle.core.loader.localization.Language;
 import dev.crmodders.puzzle.core.loader.mod.ModLocator;
 import dev.crmodders.puzzle.core.loader.providers.api.IGameProvider;
 import dev.crmodders.puzzle.core.loader.providers.impl.CosmicReachProvider;
+import dev.crmodders.puzzle.core.loader.registries.RegistryObject;
 import dev.crmodders.puzzle.utils.MethodUtil;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
@@ -76,6 +81,19 @@ public class Piece {
             provider.registerTransformers(classLoader);
             provider.initArgs(args);
             provider.inject(classLoader);
+
+            /* TODO register all game languages and do that
+
+            Language.registerLanguage("testlang.json");
+            Identifier id = Language.registerLanguage("testlang.cr");
+            if (id != null) {
+                PuzzleRegistries.PuzzleLanguages.freeze();
+                Language lang = new RegistryObject<>(PuzzleRegistries.PuzzleLanguages, id).getObject();
+                System.out.println(lang.translate("base:nice::coke"));
+                System.out.println(lang.translate("base:nice.coke"));
+
+
+            }*/
 
             String[] providerArgs = provider.getArgs().toArray(new String[0]);
 
