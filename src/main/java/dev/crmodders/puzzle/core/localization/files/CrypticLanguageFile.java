@@ -5,8 +5,8 @@ import dev.crmodders.puzzle.core.localization.ILanguageFile;
 import dev.crmodders.puzzle.core.localization.TranslationEntry;
 import dev.crmodders.puzzle.core.localization.TranslationKey;
 import dev.crmodders.puzzle.core.localization.TranslationLocale;
+import dev.crmodders.puzzle.loader.mod.Version;
 
-import java.io.IOException;
 import java.io.Serial;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -16,11 +16,12 @@ public class CrypticLanguageFile extends HashMap<TranslationKey, TranslationEntr
     @Serial
     private static final long serialVersionUID = 235800189204634733L;
 
-    public static CrypticLanguageFile loadLanguageFile(FileHandle file) throws IOException {
+    public static CrypticLanguageFile loadLanguageFile(FileHandle file) {
         return new CrypticLanguageFile(file.readString());
     }
 
-    private TranslationLocale locale;
+    private TranslationLocale locale = null;
+    private final Version version;
     private final Set<TranslationLocale> fallbacks = new HashSet<>();
 
     public CrypticLanguageFile(String source) {
@@ -29,40 +30,42 @@ public class CrypticLanguageFile extends HashMap<TranslationKey, TranslationEntr
         for (String line : lines) {
             if (!line.startsWith("~")) {
                 String[] parts = line.split("->", 2);
-                String key = parts[0].replace("::", ".");
-                String value = parts.length > 1 ? parts[1] : "";
-                // Replace :: with . to support all translation files
-                String[] keyParts = key.split("\\.");
-                if (keyParts.length > 1) {
-                    key = keyParts[0] + ":" + String.join(".", Arrays.copyOfRange(keyParts, 1, keyParts.length));
+                if (parts[0].equals("language_tag")) {
+                    // have to be early set or will skip translations till it reads this
+                    locale = TranslationLocale.fromLanguageTag(parts[1].trim());
+                } else {
+                    String key = parts[0].replace("::", ".");
+                    String value = parts.length > 1 ? parts[1] : "";
+                    // Replace :: with . to support all translation files
+                    String[] keyParts = key.split("\\.");
+                    if (keyParts.length > 1 && locale != null && keyParts[0].equals(locale.toLanguageTag())) {
+                        key = keyParts[0] + ":" + String.join(".", Arrays.copyOfRange(keyParts, 1, keyParts.length));
+                    }
+                    translatables.put(key, value);
                 }
-                translatables.put(key, value);
             }
         }
-        // if you really want nested translations, YES I WANT EVERYTHING
-        resolveTranslations(translatables);
-
-        if (translatables.containsKey("language_tag")) {
-            locale = TranslationLocale.fromLanguageTag(translatables.get("language_tag"));
-        } //  avoid extra code execution, there is no point if this is not defined
-
-        int major = 0, minor = 0, patch = 0;
-
-        if (translatables.containsKey("version:major")) {
-            major = Integer.parseInt(translatables.get("version:major").trim());
-        }
-        if (translatables.containsKey("version:minor")) {
-            minor = Integer.parseInt(translatables.get("version:minor").trim());
-        }
-        if (translatables.containsKey("version:patch")) {
-            patch = Integer.parseInt(translatables.get("version:patch").trim());
+        // if you really want nested translations, YES I WANT EVERYTHING, nuh uh made it a setting improves speed
+        if (translatables.containsKey("nesting")) {
+            if (Boolean.parseBoolean(translatables.get("nesting").trim())) {
+                resolveTranslations(translatables);
+            }
         }
 
-        // if (translatables.containsKey("namespaces")) {
-            // language.namespaces = translatables.get("namespaces").split(",");
-        // }
+        int major = 1, minor = 0, patch = 0;
 
-        // language.version = new Version(major, minor, patch);
+        if (translatables.containsKey("version.major")) {
+            major = Integer.parseInt(translatables.get("version.major").trim());
+        }
+        if (translatables.containsKey("version.minor")) {
+            minor = Integer.parseInt(translatables.get("version.minor").trim());
+        }
+        if (translatables.containsKey("version.patch")) {
+            patch = Integer.parseInt(translatables.get("version.patch").trim());
+        }
+
+        version = new Version(major, minor, patch);
+
         for(Map.Entry<String, String> entry : translatables.entrySet()) {
             put(new TranslationKey(entry.getKey()), new TranslationEntry(entry.getValue()));
         }
@@ -75,7 +78,7 @@ public class CrypticLanguageFile extends HashMap<TranslationKey, TranslationEntr
 
     @Override
     public TranslationEntry get(TranslationKey key) {
-        return get((Object) key);
+        return get((Object) new TranslationKey(key.getIdentifier().replace("::", ".")));
     }
 
     @Override
@@ -98,24 +101,26 @@ public class CrypticLanguageFile extends HashMap<TranslationKey, TranslationEntr
         return new ArrayList<>(fallbacks);
     }
 
-    private static final Pattern transPattern = Pattern.compile("\\S+\\.\\S+");
-
-    public boolean canParse(String fileName, String source) {
-        boolean crypticFormat = false;
-        if (!fileName.endsWith(".cr")) {
-            crypticFormat = transPattern.matcher(source).find();
-        }
-        return fileName.endsWith("cr") || crypticFormat;
+    public Version getVersion() {
+        return version;
     }
 
-    private static void resolveTranslations(Map<String, String> translatables) {
+    // needs to remain as :: because in the file it is `base::test->help translation::stuff`
+    private static final Pattern transPattern = Pattern.compile("\\S+::\\S+");
+
+    private void resolveTranslations(Map<String, String> translatables) {
         for (Map.Entry<String, String> entry : translatables.entrySet()) {
             String translation = entry.getValue();
             Matcher matcher = transPattern.matcher(translation);
             while (matcher.find()) {
                 String found = matcher.group();
+                String internalKey = found.replace("::",".").trim();
+                String[] parts = internalKey.split("\\.");
+                if (parts[0].equals(locale.toLanguageTag())) {
+                    internalKey = parts[0] + ":" + String.join(".", Arrays.copyOfRange(parts, 1, parts.length));
+                }
                 // replace :: with . to support all translation files
-                String resolvedTranslation = translatables.getOrDefault(found.replace("::", "."), "Unknown");
+                String resolvedTranslation = translatables.getOrDefault(internalKey, "Unknown");
                 translation = translation.replace(found, resolvedTranslation);
             }
             entry.setValue(translation);
