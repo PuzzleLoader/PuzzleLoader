@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.llamalad7.mixinextras.lib.apache.commons.tuple.ImmutablePair;
 import com.llamalad7.mixinextras.lib.apache.commons.tuple.Pair;
-import dev.crmodders.flux.tags.Identifier;
+import dev.crmodders.puzzle.core.resources.Identifier;
 import dev.crmodders.puzzle.game.PuzzleRegistries;
 import dev.crmodders.puzzle.core.registries.IRegistry;
 import finalforeach.cosmicreach.blocks.BlockState;

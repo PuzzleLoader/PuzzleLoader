@@ -1,6 +1,6 @@
 package dev.crmodders.puzzle.game;
 
-import dev.crmodders.flux.tags.Identifier;
+import dev.crmodders.puzzle.core.resources.Identifier;
 import dev.crmodders.puzzle.game.loot.PuzzleLootTable;
 import dev.crmodders.puzzle.core.localization.Language;
 import dev.crmodders.puzzle.core.registries.BasicFreezableRegistry;

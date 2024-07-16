@@ -5,8 +5,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.BoundingBox;
 import com.badlogic.gdx.utils.*;
 import dev.crmodders.puzzle.game.serialization.api.IPuzzleBinaryDeserializer;
-import dev.crmodders.puzzle.utils.MethodUtil;
-import dev.dewy.nbt.Nbt;
+import dev.crmodders.puzzle.utils.ClassUtil;
 import dev.dewy.nbt.api.registry.TagTypeRegistry;
 import dev.dewy.nbt.tags.collection.CompoundTag;
 import finalforeach.cosmicreach.io.CosmicReachBinaryDeserializer;
@@ -16,7 +15,6 @@ import finalforeach.cosmicreach.savelib.crbin.CosmicReachBinarySchema;
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.util.Base64;
-import java.util.zip.GZIPInputStream;
 
 public class PuzzleNBTDeserializer implements IPuzzleBinaryDeserializer {
 
@@ -181,7 +179,7 @@ public class PuzzleNBTDeserializer implements IPuzzleBinaryDeserializer {
     }
 
     private <T extends ICosmicReachBinarySerializable> T readObj(Class<T> elementType, CosmicReachBinaryDeserializer d) {
-        T obj = MethodUtil.newInstance(elementType);
+        T obj = ClassUtil.newInstance(elementType);
         obj.read(d);
         return obj;
     }
@@ -189,7 +187,7 @@ public class PuzzleNBTDeserializer implements IPuzzleBinaryDeserializer {
     public <T extends ICosmicReachBinarySerializable> T readObj(String name, Class<T> elementType) {
         if (!compound.contains(name)) return null;
 
-        T obj = MethodUtil.newInstance(elementType);
+        T obj = ClassUtil.newInstance(elementType);
         obj.read(new PuppetBinaryDeserializer(new PuzzleNBTDeserializer(compound.getCompound(name))));
         return obj;
     }

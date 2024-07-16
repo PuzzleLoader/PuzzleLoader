@@ -1,6 +1,6 @@
 package dev.crmodders.puzzle.core.registries;
 
-import dev.crmodders.flux.tags.Identifier;
+import dev.crmodders.puzzle.core.resources.Identifier;
 import javassist.NotFoundException;
 
 public class RegistryObject<T> {

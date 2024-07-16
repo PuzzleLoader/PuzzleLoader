@@ -1,6 +1,6 @@
 package dev.crmodders.puzzle.core.eventbus;
 
-import dev.crmodders.flux.tags.Identifier;
+import dev.crmodders.puzzle.core.resources.Identifier;
 import dev.crmodders.puzzle.core.eventbus.annotation.EVSub;
 import dev.crmodders.puzzle.core.registries.BasicDynamicRegistry;
 import dev.crmodders.puzzle.core.registries.IRegistry;

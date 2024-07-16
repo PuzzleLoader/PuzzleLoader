@@ -1,6 +1,6 @@
 package dev.crmodders.puzzle.game.blockentities;
 
-import dev.crmodders.flux.tags.Identifier;
+import dev.crmodders.puzzle.core.resources.Identifier;
 import dev.crmodders.puzzle.annotations.Internal;
 import finalforeach.cosmicreach.blockentities.BlockEntity;
 import finalforeach.cosmicreach.blocks.BlockPosition;

@@ -1,6 +1,6 @@
 package dev.crmodders.puzzle.game.blockentities;
 
-import dev.crmodders.flux.tags.Identifier;
+import dev.crmodders.puzzle.core.resources.Identifier;
 import dev.crmodders.puzzle.game.blockentities.interfaces.ITickable;
 
 public class TickingBlockEntity extends ExtendedBlockEntity implements ITickable {

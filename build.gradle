@@ -57,12 +57,15 @@ dependencies {
     // Reflections
     bundle("org.reflections:reflections:$reflectionsVersion")
 
+    // NBT
+    bundle("dev.dewy:nbt:$nbtVersion")
+
 //     Jython
-    implementation("org.python:jython-slim:2.7.3")
+//    implementation("org.python:jython-slim:2.7.3")
 
 //     Lua J
-    implementation("party.iroiro.luajava:luajit:$luaJVersion")
-    implementation("party.iroiro.luajava:luajit-platform:$luaJVersion:natives-desktop")
+//    implementation("party.iroiro.luajava:luajit:$luaJVersion")
+//    implementation("party.iroiro.luajava:luajit-platform:$luaJVersion:natives-desktop")
 
     // Cosmic Reach
 //    compileOnly("finalforeach:cosmicreach:0.1.39")
@@ -103,7 +106,7 @@ tasks.register("runLoader", JavaExec) {
     }*/
 
     classpath = sourceSets.main.runtimeClasspath
-    mainClass = "dev.crmodders.puzzle.core.loader.launch.Piece"
+    mainClass = "dev.crmodders.puzzle.loader.launch.Piece"
 }
 
 publishing {

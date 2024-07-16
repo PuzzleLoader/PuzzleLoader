@@ -1,7 +1,5 @@
 package dev.crmodders.puzzle.loader.launch;
 
-import dev.crmodders.puzzle.core.game.PuzzleRegistries;
-import dev.crmodders.puzzle.core.game.loot.PuzzleLootTable;
 import dev.crmodders.puzzle.loader.mod.ModLocator;
 import dev.crmodders.puzzle.loader.providers.api.IGameProvider;
 import dev.crmodders.puzzle.loader.providers.impl.CosmicReachProvider;
@@ -61,11 +59,10 @@ public class Piece {
 
             classLoader.addClassLoaderExclusion(DEFAULT_PROVIDER.substring(0, DEFAULT_PROVIDER.lastIndexOf('.')));
             classLoader.addClassLoaderExclusion("dev.crmodders.puzzle.annotations");
-            classLoader.addClassLoaderExclusion("dev.crmodders.puzzle.core.loader.entrypoint");
-            classLoader.addClassLoaderExclusion("dev.crmodders.puzzle.core.loader.launch");
-            classLoader.addClassLoaderExclusion("dev.crmodders.puzzle.core.loader.mod");
-            classLoader.addClassLoaderExclusion("dev.crmodders.puzzle.core.loader.providers");
-            classLoader.addClassLoaderExclusion("dev.crmodders.puzzle.core.tags");
+            classLoader.addClassLoaderExclusion("dev.crmodders.puzzle.loader.entrypoint");
+            classLoader.addClassLoaderExclusion("dev.crmodders.puzzle.loader.launch");
+            classLoader.addClassLoaderExclusion("dev.crmodders.puzzle.loader.mod");
+            classLoader.addClassLoaderExclusion("dev.crmodders.puzzle.loader.providers");
             classLoader.addClassLoaderExclusion("dev.crmodders.puzzle.utils");
 
             if (options.has(provider_option))

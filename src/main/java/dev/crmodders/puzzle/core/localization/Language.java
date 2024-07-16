@@ -1,7 +1,7 @@
 package dev.crmodders.puzzle.core.localization;
 
-import dev.crmodders.flux.tags.Identifier;
-import dev.crmodders.puzzle.core.game.PuzzleRegistries;
+import dev.crmodders.puzzle.core.resources.Identifier;
+import dev.crmodders.puzzle.game.PuzzleRegistries;
 import dev.crmodders.puzzle.loader.launch.Piece;
 import dev.crmodders.puzzle.core.localization.parsers.LangCrypticParser;
 import dev.crmodders.puzzle.core.localization.parsers.LangJsonParser;
