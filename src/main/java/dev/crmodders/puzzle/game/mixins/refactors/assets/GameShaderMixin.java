@@ -1,7 +1,7 @@
 package dev.crmodders.puzzle.game.mixins.refactors.assets;
 
 import com.badlogic.gdx.files.FileHandle;
-import dev.crmodders.puzzle.core.resources.Identifier;
+import dev.crmodders.puzzle.core.Identifier;
 import finalforeach.cosmicreach.GameAssetLoader;
 import finalforeach.cosmicreach.rendering.shaders.GameShader;
 import org.spongepowered.asm.mixin.Mixin;

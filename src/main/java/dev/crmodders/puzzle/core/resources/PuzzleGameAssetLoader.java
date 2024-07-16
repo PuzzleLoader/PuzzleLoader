@@ -1,12 +1,13 @@
-package dev.crmodders.puzzle.core.resources.assets;
+package dev.crmodders.puzzle.core.resources;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.files.FileHandle;
 import de.pottgames.tuningfork.SoundBuffer;
-import dev.crmodders.puzzle.core.resources.ResourceLocation;
 import dev.crmodders.puzzle.utils.AnsiColours;
+import dev.crmodders.puzzle.core.Identifier;
+import dev.crmodders.puzzle.core.localization.files.LanguageFileVersion1;
 import finalforeach.cosmicreach.io.SaveLocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,10 +17,10 @@ public class PuzzleGameAssetLoader {
     private static final Logger LOGGER = LoggerFactory.getLogger("Puzzle | AssetLoader");
 
     public static FileHandle locateAsset(String fileName) {
-        return locateAsset(ResourceLocation.fromString(fileName));
+        return locateAsset(Identifier.fromString(fileName));
     }
 
-    public static FileHandle locateAsset(ResourceLocation location) {
+    public static FileHandle locateAsset(Identifier location) {
         FileHandle classpathLocationFile = Gdx.files.classpath("assets/%s/%s".formatted(location.namespace, location.name));
         if (classpathLocationFile.exists()) {
             LOGGER.info("Loading " + AnsiColours.PURPLE + "\"{}\"" + AnsiColours.WHITE + "from Java Mod " + AnsiColours.GREEN + "\"{}\"" + AnsiColours.WHITE, location.name, location.namespace);
@@ -50,8 +51,7 @@ public class PuzzleGameAssetLoader {
         FileHandleResolver resolver = PuzzleGameAssetLoader::locateAsset;
         assetManager = new AssetManager(resolver);
         assetManager.setLoader(SoundBuffer.class, new TuningForkLoader(resolver));
-        // TODO: POSSIBLY CHANGE LOCALIZATION SYSTEM OR 2 OF THEM IDK
-//        assetManager.setLoader(LanguageFileVersion1.class, new LanguageFileLoader(resolver));
+        assetManager.setLoader(LanguageFileVersion1.class, new LanguageFileLoader(resolver));
     }
 
     public <T> void load(String fileName, Class<T> assetClass) {
@@ -75,16 +75,16 @@ public class PuzzleGameAssetLoader {
         assetManager.unload(fileName);
     }
 
-    public <T> void loadResource(ResourceLocation location, Class<T> assetClass) {
+    public <T> void loadResource(Identifier location, Class<T> assetClass) {
         assetManager.load(location.toString(), assetClass);
     }
 
-    public <T> T loadResourceSync(ResourceLocation location, Class<T> assetClass) {
+    public <T> T loadResourceSync(Identifier location, Class<T> assetClass) {
         assetManager.load(location.toString(), assetClass);
         return assetManager.finishLoadingAsset(location.toString());
     }
 
-    public <T> T getResource(ResourceLocation location, Class<T> assetClass) {
+    public <T> T getResource(Identifier location, Class<T> assetClass) {
         if(!assetManager.isLoaded(location.toString())) {
             LOGGER.error("Asset not loaded {} ({}) loading now", location, assetClass.getSimpleName());
             return loadResourceSync(location, assetClass);
@@ -92,7 +92,7 @@ public class PuzzleGameAssetLoader {
         return assetManager.get(location.toString(), assetClass);
     }
 
-    public void unloadResource(ResourceLocation location) {
+    public void unloadResource(Identifier location) {
         assetManager.unload(location.toString());
     }
 

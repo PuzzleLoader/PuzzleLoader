@@ -4,9 +4,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.llamalad7.mixinextras.lib.apache.commons.tuple.ImmutablePair;
 import com.llamalad7.mixinextras.lib.apache.commons.tuple.Pair;
-import dev.crmodders.puzzle.core.resources.Identifier;
-import dev.crmodders.puzzle.game.PuzzleRegistries;
-import dev.crmodders.puzzle.core.registries.IRegistry;
+import dev.crmodders.puzzle.core.Identifier;
 import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.entities.ItemEntity;
 import finalforeach.cosmicreach.items.Item;
@@ -40,10 +38,6 @@ public class PuzzleLootTable {
         }
 
         return new ImmutablePair<>(lootId, table);
-    }
-
-    public static void registerLootTable(Identifier id, PuzzleLootTable table) {
-        IRegistry.register(PuzzleRegistries.PuzzleLootTables, id, () -> table);
     }
 
     public void addDrop(float weight, LootDrop... drops) {

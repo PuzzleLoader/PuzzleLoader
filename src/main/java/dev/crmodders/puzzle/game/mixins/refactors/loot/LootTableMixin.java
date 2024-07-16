@@ -2,15 +2,13 @@ package dev.crmodders.puzzle.game.mixins.refactors.loot;
 
 import com.badlogic.gdx.utils.ObjectMap;
 import com.llamalad7.mixinextras.lib.apache.commons.tuple.Pair;
-import dev.crmodders.puzzle.core.resources.Identifier;
-import dev.crmodders.puzzle.game.PuzzleRegistries;
+import dev.crmodders.puzzle.core.Identifier;
+import dev.crmodders.puzzle.core.PuzzleRegistries;
+import dev.crmodders.puzzle.core.registries.NotReadableException;
+import dev.crmodders.puzzle.core.registries.RegistryObject;
 import dev.crmodders.puzzle.game.loot.PuppetLootClass;
 import dev.crmodders.puzzle.game.loot.PuzzleLootTable;
-import dev.crmodders.puzzle.core.registries.IRegistry;
-import dev.crmodders.puzzle.core.registries.NotStorableException;
-import dev.crmodders.puzzle.core.registries.RegistryObject;
 import finalforeach.cosmicreach.items.loot.Loot;
-import javassist.NotFoundException;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
@@ -42,9 +40,9 @@ public class LootTableMixin {
     public static Loot get(String lootId) {
         try {
             Identifier id = Identifier.fromString(lootId);
-            RegistryObject<PuzzleLootTable> table = new RegistryObject<>(PuzzleRegistries.PuzzleLootTables, id);
-            return new PuppetLootClass(id, table.getObject());
-        } catch (NotStorableException | NotFoundException e) {
+            RegistryObject<PuzzleLootTable> table = new RegistryObject<>(PuzzleRegistries.LOOT_TABLES, id);
+            return new PuppetLootClass(id, table.get());
+        } catch (NotReadableException e) {
             throw new RuntimeException(e);
         }
     }
@@ -56,17 +54,17 @@ public class LootTableMixin {
     @Overwrite
     public static void registerLoot(Loot loot) {
         Pair<Identifier, PuzzleLootTable> table = PuzzleLootTable.fromVanillaTable(loot);
-        IRegistry.register(PuzzleRegistries.PuzzleLootTables, table.getLeft(), table::getRight);
+        RegistryObject.register(PuzzleRegistries.LOOT_TABLES, table.getLeft(), table::getRight);
     }
 
     @Inject(method = "loadLoot", at = @At("TAIL"))
-    private static void lootLootTables(CallbackInfo ci) {
+    private static void loadLootTables(CallbackInfo ci) {
         for (Loot loot : lootMap.values()) {
             Pair<Identifier, PuzzleLootTable> table = PuzzleLootTable.fromVanillaTable(loot);
-            IRegistry.register(PuzzleRegistries.PuzzleLootTables, table.getLeft(), table::getRight);
+            RegistryObject.register(PuzzleRegistries.LOOT_TABLES, table.getLeft(), table::getRight);
         }
         lootMap.clear();
-        PuzzleRegistries.PuzzleLootTables.freeze();
+        PuzzleRegistries.LOOT_TABLES.freeze();
     }
 
 }

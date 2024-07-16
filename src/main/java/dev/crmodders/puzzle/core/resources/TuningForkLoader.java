@@ -1,4 +1,4 @@
-package dev.crmodders.puzzle.core.resources.assets;
+package dev.crmodders.puzzle.core.resources;
 
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetLoaderParameters;

@@ -1,18 +1,28 @@
-package dev.crmodders.puzzle.core.resources;
+package dev.crmodders.puzzle.core;
 
 import dev.crmodders.puzzle.annotations.Stable;
 
 import java.util.Objects;
 
 /**
- * Stores information about Registered Objects in FluxAPI
- * such as {@link ResourceLocation}
+ * Stores information about Registered Objects
  * contains a namespace and name
  * namespaces are usually the modid
  * @author Mr-Zombii
  */
 @Stable
 public class Identifier {
+
+    public static Identifier of(String namespace, String name) {
+        return new Identifier(namespace, name);
+    }
+
+    public static Identifier fromString(String id) {
+        int index = id.indexOf(':');
+        if(index == -1) return of("base", id);
+        if(index != id.lastIndexOf(':')) throw new IllegalArgumentException("Malformed Identifier String: \"" + id + "\"");
+        return of(id.substring(0, index), id.substring(index + 1));
+    }
 
     public String namespace;
     public String name;
@@ -22,11 +32,6 @@ public class Identifier {
     public Identifier(String namespace, String name) {
         this.namespace = namespace;
         this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return namespace + ":" + name;
     }
 
     @Override
@@ -42,10 +47,9 @@ public class Identifier {
         return Objects.hash(namespace, name);
     }
 
-    public static Identifier fromString(String id) {
-        if (!id.contains(":")) id = "base:"+id;
-        String[] splitId = id.split(":");
-        return new Identifier(splitId[0], splitId[1]);
+    @Override
+    public String toString() {
+        return namespace + ":" + name;
     }
 
 }

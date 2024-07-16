@@ -3,8 +3,8 @@ package dev.crmodders.puzzle.game.mixins.refactors.assets;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import de.pottgames.tuningfork.SoundBuffer;
-import dev.crmodders.puzzle.core.resources.ResourceLocation;
-import dev.crmodders.puzzle.core.resources.assets.PuzzleGameAssetLoader;
+import dev.crmodders.puzzle.core.Identifier;
+import dev.crmodders.puzzle.core.resources.PuzzleGameAssetLoader;
 import finalforeach.cosmicreach.GameAssetLoader;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -24,7 +24,7 @@ public class AssetLoaderMixin {
      **/
     @Overwrite
     public static FileHandle loadAsset(String fileName, boolean forceReload) {
-        ResourceLocation location = ResourceLocation.fromString(fileName);
+        Identifier location = Identifier.fromString(fileName);
         if (!forceReload && ALL_ASSETS.containsKey(location.toString())) {
             return ALL_ASSETS.get(location.toString());
         }

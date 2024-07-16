@@ -1,7 +1,7 @@
 package dev.crmodders.puzzle.game.loot;
 
 import com.badlogic.gdx.math.Vector3;
-import dev.crmodders.puzzle.core.resources.Identifier;
+import dev.crmodders.puzzle.core.Identifier;
 import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.items.Item;
 import finalforeach.cosmicreach.items.loot.Loot;

@@ -1,34 +1,32 @@
 package dev.crmodders.puzzle.core.registries;
 
-import dev.crmodders.puzzle.core.resources.Identifier;
-import javassist.NotFoundException;
+import dev.crmodders.puzzle.core.Identifier;
+
+import java.util.function.Supplier;
 
 public class RegistryObject<T> {
 
-    Identifier id;
-    IRegistry<T> registry;
+    /*
+        this is temporary until the load cycle is finished
+     */
+    public static <T> RegistryObject<T> register(IRegistry<T> registry, Identifier name, Supplier<T> supplier) {
+        return registry.store(name, supplier.get());
+    }
 
-    public RegistryObject(IRegistry<T> registry, Identifier id) {
+    private IRegistry<T> registry;
+    private Identifier name;
+
+    public RegistryObject(Identifier registry, Identifier name) {
+        throw new UnsupportedOperationException("not implemented");
+    }
+
+    public RegistryObject(IRegistry<T> registry, Identifier name) {
         this.registry = registry;
-        this.id = id;
+        this.name = name;
     }
 
-    public T getObject() throws NotStorableException, NotFoundException {
-        if (registry instanceof IStorable<T> storable) {
-            return storable.get(id);
-        }
-        if (registry instanceof IRegistry.IDynamic<T> dynamic) {
-            return dynamic.get(id);
-        }
-        throw new NotStorableException("The registry " + registry.getId() + " was not an Instance of " + IStorable.class.getName());
-    }
-
-    public IRegistry<T> getRegistry() {
-        return registry;
-    }
-
-    public Identifier getId() {
-        return id;
+    public T get() {
+        return registry.get(name);
     }
 
 }

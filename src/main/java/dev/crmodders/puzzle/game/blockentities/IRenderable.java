@@ -1,4 +1,4 @@
-package dev.crmodders.puzzle.game.blockentities.interfaces;
+package dev.crmodders.puzzle.game.blockentities;
 
 import com.badlogic.gdx.graphics.Camera;
 

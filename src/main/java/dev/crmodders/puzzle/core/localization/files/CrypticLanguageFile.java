@@ -1,32 +1,20 @@
-package dev.crmodders.puzzle.core.localization.parsers;
+package dev.crmodders.puzzle.core.localization.files;
 
-import dev.crmodders.puzzle.core.localization.Language;
-import dev.crmodders.puzzle.loader.mod.Version;
+import dev.crmodders.puzzle.core.localization.*;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.Serial;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/*
-  this code was originally for translations in CrypticClient by Tympanicblock61
-*/
+public class CrypticLanguageFile extends HashMap<TranslationKey, TranslationEntry> implements ILanguageFile {
+    @Serial
+    private static final long serialVersionUID = 235800189204634733L;
 
-public class LangCrypticParser implements LangParser {
+    private TranslationLocale locale;
+    private final Set<TranslationLocale> fallbacks = new HashSet<>();
 
-    private static final Pattern transPattern = Pattern.compile("\\S+\\.\\S+");
-    private final boolean nestedTranslations;
-
-    public LangCrypticParser(boolean nested) {
-        nestedTranslations = nested;
-    }
-
-
-    @Override
-    public Language parse(String source) {
-        Language language = new Language();
-
+    public CrypticLanguageFile(String source) {
         HashMap<String, String> translatables = new HashMap<>();
         String[] lines = source.split("\n");
         for (String line : lines) {
@@ -39,16 +27,14 @@ public class LangCrypticParser implements LangParser {
                 if (keyParts.length > 1) {
                     key = keyParts[0] + ":" + String.join(".", Arrays.copyOfRange(keyParts, 1, keyParts.length));
                 }
-                System.out.println(key);
                 translatables.put(key, value);
             }
         }
-        // if you really want nested translations
-        if (nestedTranslations) resolveTranslations(translatables);
+        // if you really want nested translations, YES I WANT EVERYTHING
+        resolveTranslations(translatables);
 
-        System.out.println(translatables.containsKey("language_tag"));
         if (translatables.containsKey("language_tag")) {
-            language.languageTag = translatables.get("language_tag");
+            locale = TranslationLocale.fromLanguageTag(translatables.get("language_tag"));
         } //  avoid extra code execution, there is no point if this is not defined
 
         int major = 0, minor = 0, patch = 0;
@@ -63,18 +49,48 @@ public class LangCrypticParser implements LangParser {
             patch = Integer.parseInt(translatables.get("version:patch").trim());
         }
 
-        if (translatables.containsKey("namespaces")) {
-            language.namespaces = translatables.get("namespaces").split(",");
+        // if (translatables.containsKey("namespaces")) {
+            // language.namespaces = translatables.get("namespaces").split(",");
+        // }
+
+        // language.version = new Version(major, minor, patch);
+        for(Map.Entry<String, String> entry : translatables.entrySet()) {
+            put(new TranslationKey(entry.getKey()), new TranslationEntry(entry.getValue()));
         }
-        language.version = new Version(major, minor, patch);
-        language.translations = translatables;
-
-        System.out.println(translatables);
-
-        return language;
     }
 
     @Override
+    public boolean contains(TranslationKey key) {
+        return containsKey(key);
+    }
+
+    @Override
+    public TranslationEntry get(TranslationKey key) {
+        return get((Object) key);
+    }
+
+    @Override
+    public Map<TranslationKey, TranslationEntry> all() {
+        return this;
+    }
+
+    @Override
+    public Map<TranslationKey, TranslationEntry> group(String id) {
+        return this; // TODO
+    }
+
+    @Override
+    public TranslationLocale locale() {
+        return locale;
+    }
+
+    @Override
+    public List<TranslationLocale> fallbacks() {
+        return new ArrayList<>(fallbacks);
+    }
+
+    private static final Pattern transPattern = Pattern.compile("\\S+\\.\\S+");
+
     public boolean canParse(String fileName, String source) {
         boolean crypticFormat = false;
         if (!fileName.endsWith(".cr")) {
@@ -96,4 +112,5 @@ public class LangCrypticParser implements LangParser {
             entry.setValue(translation);
         }
     }
+
 }

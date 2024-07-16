@@ -1,33 +1,21 @@
 package dev.crmodders.puzzle.core.registries;
 
-import dev.crmodders.puzzle.core.resources.Identifier;
+import dev.crmodders.puzzle.core.Identifier;
 
-import java.util.Iterator;
-import java.util.function.Supplier;
+import java.util.Set;
 
-public interface IRegistry<T> {
+public interface IRegistry<T> extends Iterable<T> {
 
-    static <T> RegistryObject<T> register(IRegistry<T> registry, Identifier id, Supplier<T> objectSupplier) {
-        assert registry instanceof IStorable<T>;
-        return ((IStorable<T>) registry).register(id, objectSupplier);
-    }
+    Identifier identifier();
 
-    static <T> T register(IRegistry.IDynamic<T> registry, Identifier id, T object) {
-        return registry.store(id, object);
-    }
+    boolean contains(Identifier name) throws NotReadableException;
+    T get(Identifier name) throws NotReadableException, MissingEntryException;
+    RegistryObject<T> store(Identifier id, T value) throws NotWritableException;
+    Set<Identifier> names() throws NotReadableException;
 
-    RegistryObject<T>[] getObjects();
-    Iterator<T> getIterator();
-    Identifier getId();
+    void freeze() throws AlreadyFrozenException;
 
-    interface IFreezing<T> extends IRegistry<T> {
-        boolean isFrozen();
-        void freeze();
-    }
-
-    interface IDynamic<T> extends IRegistry<T> {
-        T store(Identifier id, T object);
-        T get(Identifier id);
-    }
+    boolean readable();
+    boolean writable();
 
 }

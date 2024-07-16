@@ -1,7 +1,7 @@
 package dev.crmodders.puzzle.utils;
 
 import com.badlogic.gdx.utils.Array;
-import dev.crmodders.puzzle.core.resources.Identifier;
+import dev.crmodders.puzzle.core.Identifier;
 import finalforeach.cosmicreach.entities.Entity;
 import finalforeach.cosmicreach.entities.Player;
 import finalforeach.cosmicreach.world.Zone;

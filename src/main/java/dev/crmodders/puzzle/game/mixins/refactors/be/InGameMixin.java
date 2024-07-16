@@ -1,7 +1,7 @@
 package dev.crmodders.puzzle.game.mixins.refactors.be;
 
 import com.badlogic.gdx.graphics.PerspectiveCamera;
-import dev.crmodders.puzzle.game.blockentities.interfaces.IRenderable;
+import dev.crmodders.puzzle.game.blockentities.IRenderable;
 import finalforeach.cosmicreach.gamestates.InGame;
 import finalforeach.cosmicreach.world.Sky;
 import finalforeach.cosmicreach.world.Zone;

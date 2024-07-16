@@ -1,7 +1,7 @@
 package dev.crmodders.puzzle.game.mixins.refactors.assets;
 
 import de.pottgames.tuningfork.SoundBuffer;
-import dev.crmodders.puzzle.core.resources.Identifier;
+import dev.crmodders.puzzle.core.Identifier;
 import finalforeach.cosmicreach.GameAssetLoader;
 import finalforeach.cosmicreach.blockevents.actions.BlockActionPlaySound2D;
 import org.spongepowered.asm.mixin.Mixin;

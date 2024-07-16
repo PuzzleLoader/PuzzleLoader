@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.io.PrintStream;
 import java.util.List;
 
-import static dev.crmodders.puzzle.core.resources.assets.PuzzleGameAssetLoader.LOADER;
+import static dev.crmodders.puzzle.core.resources.PuzzleGameAssetLoader.LOADER;
 
 @Mixin(BlockGame.class)
 public class BlockGameMixin {
