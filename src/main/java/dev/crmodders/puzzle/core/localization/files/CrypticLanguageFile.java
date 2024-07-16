@@ -7,7 +7,6 @@ import dev.crmodders.puzzle.core.localization.TranslationKey;
 import dev.crmodders.puzzle.core.localization.TranslationLocale;
 import dev.crmodders.puzzle.loader.mod.Version;
 
-import java.io.IOException;
 import java.io.Serial;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -22,7 +21,7 @@ public class CrypticLanguageFile extends HashMap<TranslationKey, TranslationEntr
     }
 
     private TranslationLocale locale = null;
-    private Version version;
+    private final Version version;
     private final Set<TranslationLocale> fallbacks = new HashSet<>();
 
     public CrypticLanguageFile(String source) {
@@ -53,10 +52,6 @@ public class CrypticLanguageFile extends HashMap<TranslationKey, TranslationEntr
             }
         }
 
-        /*if (translatables.containsKey("language_tag")) {
-            locale = TranslationLocale.fromLanguageTag(translatables.get("language_tag"));
-        } //  avoid extra code execution, there is no point if this is not defined*/
-
         int major = 1, minor = 0, patch = 0;
 
         if (translatables.containsKey("version.major")) {
@@ -70,12 +65,6 @@ public class CrypticLanguageFile extends HashMap<TranslationKey, TranslationEntr
         }
 
         version = new Version(major, minor, patch);
-
-        // if (translatables.containsKey("namespaces")) {
-            // language.namespaces = translatables.get("namespaces").split(",");
-        // }
-
-        // language.version = new Version(major, minor, patch);
 
         for(Map.Entry<String, String> entry : translatables.entrySet()) {
             put(new TranslationKey(entry.getKey()), new TranslationEntry(entry.getValue()));
@@ -119,20 +108,12 @@ public class CrypticLanguageFile extends HashMap<TranslationKey, TranslationEntr
     // needs to remain as :: because in the file it is `base::test->help translation::stuff`
     private static final Pattern transPattern = Pattern.compile("\\S+::\\S+");
 
-    /*public boolean canParse(String fileName, String source) {
-        boolean crypticFormat = false;
-        if (!fileName.endsWith(".cr")) {
-            crypticFormat = transPattern.matcher(source).find();
-        }
-        return fileName.endsWith("cr") || crypticFormat;
-    }*/
-
     private void resolveTranslations(Map<String, String> translatables) {
         for (Map.Entry<String, String> entry : translatables.entrySet()) {
             String translation = entry.getValue();
             Matcher matcher = transPattern.matcher(translation);
             while (matcher.find()) {
-                String found = matcher.group()
+                String found = matcher.group();
                 String internalKey = found.replace("::",".").trim();
                 String[] parts = internalKey.split("\\.");
                 if (parts[0].equals(locale.toLanguageTag())) {
