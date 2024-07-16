@@ -104,7 +104,7 @@ public enum AnsiColours {
         return input.replaceAll("\u001B\\[[;\\d]*m", "");
     }
 
-    public static String apply(String text, AnsiColours colour) {
-        return colour.getCode() + text + RESET.getCode();
+    public static String apply(Object obj, AnsiColours colour) {
+        return colour.getCode() + obj.toString() + RESET.getCode();
     }
 }
