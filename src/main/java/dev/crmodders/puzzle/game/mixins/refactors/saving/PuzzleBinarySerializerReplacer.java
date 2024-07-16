@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.BoundingBox;
 import com.badlogic.gdx.utils.Array;
 import dev.crmodders.puzzle.game.serialization.api.IPuzzleBinarySerializer;
-import dev.crmodders.puzzle.game.serialization.impl.PuzzleNBTSerializer;
+import dev.crmodders.puzzle.game.serialization.impl.*;
 import dev.crmodders.puzzle.utils.ClassUtil;
 import finalforeach.cosmicreach.io.CosmicReachBinarySerializer;
 import finalforeach.cosmicreach.io.ICosmicReachBinarySerializable;
@@ -23,7 +23,7 @@ public abstract class PuzzleBinarySerializerReplacer implements IPuzzleBinarySer
     private static Class<? extends IPuzzleBinarySerializer> defaultSerializer;
 
     static {
-        defaultSerializer = PuzzleNBTSerializer.class;
+        defaultSerializer = PuzzleCosmicReachBinarySerializer.class;
     }
 
     @Unique
@@ -241,4 +241,8 @@ public abstract class PuzzleBinarySerializerReplacer implements IPuzzleBinarySer
         return masterSerializer.toBase64();
     }
 
+    @Override
+    public String getFileExt() {
+        return masterSerializer.getFileExt();
+    }
 }

@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.BoundingBox;
 import com.badlogic.gdx.utils.Array;
-import dev.crmodders.puzzle.game.serialization.impl.PuppetBinarySerializer;
+import dev.crmodders.puzzle.game.serialization.impl.wrappers.PuppetBinarySerializer;
 import finalforeach.cosmicreach.io.CosmicReachBinarySerializer;
 import finalforeach.cosmicreach.io.ICosmicReachBinarySerializable;
 
@@ -42,5 +42,7 @@ public interface IPuzzleBinarySerializer {
     // Serializer Outputs
     byte[] toBytes();
     String toBase64();
+
+    String getFileExt();
 
 }

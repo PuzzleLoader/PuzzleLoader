@@ -5,8 +5,8 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.BoundingBox;
 import com.badlogic.gdx.utils.Array;
 import dev.crmodders.puzzle.game.serialization.api.IPuzzleBinaryDeserializer;
-import dev.crmodders.puzzle.game.serialization.impl.PuppetBinaryDeserializer;
-import dev.crmodders.puzzle.game.serialization.impl.PuzzleNBTDeserializer;
+import dev.crmodders.puzzle.game.serialization.impl.*;
+import dev.crmodders.puzzle.game.serialization.impl.wrappers.PuppetBinaryDeserializer;
 import dev.crmodders.puzzle.utils.ClassUtil;
 import finalforeach.cosmicreach.io.CosmicReachBinaryDeserializer;
 import finalforeach.cosmicreach.io.ICosmicReachBinarySerializable;
@@ -31,7 +31,7 @@ public abstract class PuzzleBinaryDeserializerReplacer implements IPuzzleBinaryD
     private static Class<? extends IPuzzleBinaryDeserializer> defaultDeserializer;
 
     static {
-        defaultDeserializer = PuzzleNBTDeserializer.class;
+        defaultDeserializer = PuzzleCosmicReachBinaryDeserializer.class;
     }
 
     @Unique

@@ -32,9 +32,6 @@ dependencies {
     compileOnly("org.spongepowered:mixin:$mixinVersion")
     bundle(annotationProcessor("io.github.llamalad7:mixinextras-common:$mixinExtrasVersion"))
 
-    // FluxAPI
-//    bundle("dev.crmodders:fluxapi:$fluxApiVersion")
-
 //     Google Stuffs
     bundle("com.google.guava:guava:$guavaVersion")
     bundle("com.google.code.gson:gson:$gsonVersion")
@@ -60,50 +57,19 @@ dependencies {
     // NBT
     bundle("dev.dewy:nbt:$nbtVersion")
 
+    // HJson
+    bundle("org.hjson:hjson:$hjsonVersion")
+
 //     Jython
 //    implementation("org.python:jython-slim:2.7.3")
 
 //     Lua J
 //    implementation("party.iroiro.luajava:luajit:$luaJVersion")
 //    implementation("party.iroiro.luajava:luajit-platform:$luaJVersion:natives-desktop")
-
-    // Cosmic Reach
-//    compileOnly("finalforeach:cosmicreach:0.1.39")
 }
 
 tasks.register("runLoader", JavaExec) {
     group = "loader"
-
-    /*dependencies {
-        runtimeOnly("org.spongepowered:mixin:$mixinVersion")
-        runtimeOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:$mixinExtrasVersion"))
-
-        // FluxAPI
-//        runtimeOnly("dev.crmodders:fluxapi:$fluxApiVersion")
-
-        // Google Stuffs
-        runtimeOnly("com.google.guava:guava:$guavaVersion")
-        runtimeOnly("com.google.code.gson:gson:$gsonVersion")
-
-        // Asm
-        runtimeOnly("org.ow2.asm:asm:$asmVersion")
-        runtimeOnly("org.ow2.asm:asm-tree:$asmVersion")
-        runtimeOnly("org.ow2.asm:asm-util:$asmVersion")
-        runtimeOnly("org.ow2.asm:asm-analysis:$asmVersion")
-        runtimeOnly("org.ow2.asm:asm-commons:$asmVersion")
-
-        // Log4j
-        runtimeOnly("org.apache.logging.log4j:log4j-api:$log4jVersion")
-        runtimeOnly("org.apache.logging.log4j:log4j-core:$log4jVersion")
-        runtimeOnly("org.apache.logging.log4j:log4j-slf4j2-impl:$log4jVersion")
-
-        // Jopt Simple
-        runtimeOnly("net.sf.jopt-simple:jopt-simple:$joptSimpleVersion")
-
-        // Reflections
-        runtimeOnly("org.reflections:reflections:$reflectionsVersion")
-//        runtimeOnly("finalforeach:cosmicreach:$cosmic_reach_version")
-    }*/
 
     classpath = sourceSets.main.runtimeClasspath
     mainClass = "dev.crmodders.puzzle.loader.launch.Piece"

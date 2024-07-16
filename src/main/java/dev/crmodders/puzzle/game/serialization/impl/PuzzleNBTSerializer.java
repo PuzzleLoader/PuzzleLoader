@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.BoundingBox;
 import com.badlogic.gdx.utils.Array;
 import dev.crmodders.puzzle.game.serialization.api.IPuzzleBinarySerializer;
+import dev.crmodders.puzzle.game.serialization.impl.wrappers.PuppetBinarySerializer;
 import dev.dewy.nbt.api.registry.TagTypeRegistry;
 import dev.dewy.nbt.api.snbt.SnbtConfig;
 import dev.dewy.nbt.tags.TagType;
@@ -79,6 +80,11 @@ public class PuzzleNBTSerializer implements IPuzzleBinarySerializer {
     public String toBase64() {
         compound.setName("serializationMaster");
         return compoundToBase64(compound);
+    }
+
+    @Override
+    public String getFileExt() {
+        return ".nbt";
     }
 
     public void writeByteArray(String name, byte[] array) {

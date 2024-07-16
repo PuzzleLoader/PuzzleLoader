@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.BoundingBox;
 import com.badlogic.gdx.utils.*;
 import dev.crmodders.puzzle.game.serialization.api.IPuzzleBinaryDeserializer;
+import dev.crmodders.puzzle.game.serialization.impl.wrappers.PuppetBinaryDeserializer;
 import dev.crmodders.puzzle.utils.ClassUtil;
 import dev.dewy.nbt.api.registry.TagTypeRegistry;
 import dev.dewy.nbt.tags.collection.CompoundTag;

@@ -1,4 +1,4 @@
-package dev.crmodders.puzzle.game.serialization.impl;
+package dev.crmodders.puzzle.game.serialization.impl.wrappers;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;

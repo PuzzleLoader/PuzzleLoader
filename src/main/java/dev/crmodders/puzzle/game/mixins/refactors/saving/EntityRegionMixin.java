@@ -1,6 +1,7 @@
 package dev.crmodders.puzzle.game.mixins.refactors.saving;
 
 import com.badlogic.gdx.utils.ByteArray;
+import dev.crmodders.puzzle.game.serialization.api.IPuzzleBinarySerializer;
 import finalforeach.cosmicreach.io.CosmicReachBinarySerializer;
 import finalforeach.cosmicreach.world.EntityRegion;
 import finalforeach.cosmicreach.world.Zone;
@@ -22,17 +23,8 @@ public class EntityRegionMixin {
     public static String getEntityRegionFileName(Zone zone, int regionX, int regionY, int regionZ) {
         String regionFolderName = getEntityRegionFolderName(zone);
         CosmicReachBinarySerializer serializer = new CosmicReachBinarySerializer();
-        serializer.writeByte("test", (byte) 10);
-        Field field = null;
-        int byteLen = 0;
-        try {
-            field = CosmicReachBinarySerializer.class.getDeclaredField("bytes");
-            field.setAccessible(true);
-            byteLen = ((ByteArray) field.get(serializer)).size;
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
-        String regionFileName = regionFolderName + "/entityRegion_" + regionX + "_" + regionY + "_" + regionZ + (byteLen != 0 ? ".crbin" : ".dat");
+
+        String regionFileName = regionFolderName + "/entityRegion_" + regionX + "_" + regionY + "_" + regionZ + ((IPuzzleBinarySerializer) serializer).getFileExt();
         return regionFileName;
     }
 

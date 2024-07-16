@@ -1,4 +1,4 @@
-package dev.crmodders.puzzle.game.serialization.impl;
+package dev.crmodders.puzzle.game.serialization.impl.wrappers;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -129,5 +129,10 @@ public class PuppetBinarySerializer extends CosmicReachBinarySerializer implemen
     @Override
     public String toBase64() {
         return masterSerializer.toBase64();
+    }
+
+    @Override
+    public String getFileExt() {
+        return masterSerializer.getFileExt();
     }
 }
