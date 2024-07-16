@@ -6,6 +6,7 @@ import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.files.FileHandle;
 import de.pottgames.tuningfork.SoundBuffer;
 import dev.crmodders.puzzle.core.resources.ResourceLocation;
+import dev.crmodders.puzzle.utils.AnsiColours;
 import finalforeach.cosmicreach.io.SaveLocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,19 +22,19 @@ public class PuzzleGameAssetLoader {
     public static FileHandle locateAsset(ResourceLocation location) {
         FileHandle classpathLocationFile = Gdx.files.classpath("assets/%s/%s".formatted(location.namespace, location.name));
         if (classpathLocationFile.exists()) {
-            LOGGER.info("Loading \u001B[35m\"{}\"\u001B[37m from Java Mod \u001B[32m\"{}\"\u001B[37m", location.name, location.namespace);
+            LOGGER.info("Loading " + AnsiColours.PURPLE + "\"{}\"" + AnsiColours.WHITE + "from Java Mod " + AnsiColours.GREEN + "\"{}\"" + AnsiColours.WHITE, location.name, location.namespace);
             return classpathLocationFile;
         }
 
         FileHandle modLocationFile = Gdx.files.absolute(SaveLocation.getSaveFolderLocation() + "/mods/assets/" + location.name);
         if (modLocationFile.exists()) {
-            LOGGER.info("Loading \u001B[36m\"{}\"\u001B[37m from Mods Folder", location.name);
+            LOGGER.info("Loading " + AnsiColours.CYAN+"\"{}\"" + AnsiColours.WHITE + " from Mods Folder", location.name);
             return modLocationFile;
         }
 
         FileHandle vanillaLocationFile = Gdx.files.internal(location.name);
         if (vanillaLocationFile.exists()) {
-            LOGGER.info("Loading \u001B[33m\"{}\"\u001B[37m from Cosmic Reach", location.name);
+            LOGGER.info("Loading " + AnsiColours.YELLOW + "\"{}\""+AnsiColours.WHITE+" from Cosmic Reach", location.name);
             return vanillaLocationFile;
         }
 

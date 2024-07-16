@@ -1,5 +1,6 @@
 package dev.crmodders.puzzle.game.mixins.refactors.logging;
 
+import dev.crmodders.puzzle.utils.AnsiColours;
 import finalforeach.cosmicreach.gamestates.GameState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,9 +20,9 @@ public class GameStateMixin {
     @Redirect(method = "lambda$switchToGameState$0", at = @At(value = "INVOKE", target = "Ljava/io/PrintStream;println(Ljava/lang/String;)V"), require = 0)
     private static void printCapture(PrintStream instance, String x, GameState gameState) {
         if(currentGameState == null) {
-            LOGGER.info("Switched to GameState: \u001B[31m{}\u001B[37m", gameState.getClass().getSimpleName());
+            LOGGER.info("Switched to GameState: " + AnsiColours.RED +"{}" + AnsiColours.WHITE, gameState.getClass().getSimpleName());
         } else {
-            LOGGER.info("Switched from \u001B[31m{}\u001B[37m to \u001B[31m{}\u001B[37m", currentGameState.getClass().getSimpleName(), gameState.getClass().getSimpleName());
+            LOGGER.info("Switched from "+ AnsiColours.RED + "{}"+ AnsiColours.WHITE + " to " + AnsiColours.RED + "{}"+ AnsiColours.WHITE, currentGameState.getClass().getSimpleName(), gameState.getClass().getSimpleName());
         }
     }
 

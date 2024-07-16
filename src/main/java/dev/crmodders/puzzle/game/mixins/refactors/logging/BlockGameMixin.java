@@ -2,6 +2,7 @@ package dev.crmodders.puzzle.game.mixins.refactors.logging;
 
 import com.badlogic.gdx.assets.AssetManager;
 import dev.crmodders.puzzle.loader.launch.Piece;
+import dev.crmodders.puzzle.utils.AnsiColours;
 import finalforeach.cosmicreach.BlockGame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,14 +26,14 @@ public class BlockGameMixin {
 
     @Redirect(method = "dispose", at = @At(value = "INVOKE", target = "Ljava/io/PrintStream;println(Ljava/lang/String;)V"), require = 0)
     private void print1(PrintStream instance, String x) {
-        logger.info("\u001B[36m{}\u001B[37m", x);
+        logger.info(AnsiColours.CYAN + "{}" + AnsiColours.WHITE, x);
     }
 
     @Redirect(method = "printGLInfo", at = @At(value = "INVOKE", target = "Ljava/io/PrintStream;println(Ljava/lang/String;)V"), require = 0)
     private static void print2(PrintStream instance, String x) {
         List<String> lines = x.lines().toList();
         for(String line : lines) {
-            logger.info("\u001B[36m{}\u001B[37m", line);
+            logger.info(AnsiColours.CYAN + "{}" + AnsiColours.WHITE, line);
         }
     }
 

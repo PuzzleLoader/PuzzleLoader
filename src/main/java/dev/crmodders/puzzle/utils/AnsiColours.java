@@ -91,6 +91,10 @@ public enum AnsiColours {
             default -> this;
         };
     }
+    
+    public String toString(){
+        return code;
+    }
 
     public boolean isBright() {
         return name().startsWith("BRIGHT_");
