@@ -10,130 +10,113 @@ public class LangJsonParser implements LangParser {
     private JsonObject stored = null;
     private String languageTag = null;
     private JsonObject version = null;
-    private List<String> namespaces = new ArrayList<>();
+    private List<String> namespaces = Collections.emptyList();
     private boolean hasNamespace = false;
 
     @Override
-    public Language parse(String source) {
+    public ParseResult parse(String source) {
         if (!isInit()) {
             try {
                 getMembers(source);
-            } catch (JsonParseException ignored) {
-                // logger will log if it cannot parse in Language.java
-                return null;
+            } catch (JsonParseException ignored) {}
+            if (!isInit()) {
+                return ParseResult.error(getError(), false);
             }
         }
 
         Language language = new Language();
         language.languageTag = languageTag;
 
-        int major = 0, minor = 0, patch = 0;
-
-        if (version.has("major")) {
-            major = version.get("major").getAsInt();
-        }
-        if (version.has("minor")) {
-            minor = version.get("minor").getAsInt();
-        }
-        if (version.has("patch")) {
-            patch = version.get("patch").getAsInt();
-        }
+        // version != null unnecessary if we only want to parse languages with versions
+        int major = version != null && version.has("major") ? version.get("major").getAsInt() : 0;
+        int minor = version != null && version.has("minor") ? version.get("minor").getAsInt() : 0;
+        int patch = version != null && version.has("patch") ? version.get("patch").getAsInt() : 0;
 
         language.version = new Version(major, minor, patch);
         language.namespaces = namespaces.toArray(new String[0]);
 
-
-        // main parsing stuff
-        Deque<JsonElement> elements = new ArrayDeque<>();
-        Deque<String> keyStack = new ArrayDeque<>();
-
+        // Main parsing
+        Deque<Map.Entry<String, JsonElement>> elements = new ArrayDeque<>();
         for (Map.Entry<String, JsonElement> entry : stored.entrySet()) {
             if (namespaces.contains(entry.getKey())) {
-                elements.add(entry.getValue());
-                keyStack.add(entry.getKey());
+                elements.add(entry);
             }
         }
 
         while (!elements.isEmpty()) {
-            JsonElement element = elements.pop();
-            String currentKey = keyStack.pop();
+            Map.Entry<String, JsonElement> entry = elements.pop();
+            String currentKey = entry.getKey();
+            JsonElement element = entry.getValue();
 
             if (element.isJsonPrimitive()) {
-                System.out.println(currentKey+"->"+element.getAsString());
                 language.translations.put(currentKey, element.getAsString());
             } else if (element.isJsonObject()) {
                 for (Map.Entry<String, JsonElement> child : element.getAsJsonObject().entrySet()) {
-                    elements.push(child.getValue());
-                    if (namespaces.contains(currentKey)) {
-                        keyStack.push(currentKey + ":" + child.getKey());
-                    } else {
-                        keyStack.push(currentKey + "." + child.getKey());
-                    }
-                    // use dot for now
+                    elements.push(new AbstractMap.SimpleEntry<>(
+                            namespaces.contains(currentKey) ? currentKey + ":" + child.getKey() : currentKey + "." + child.getKey(),
+                            child.getValue()
+                    ));
                 }
             }
         }
 
-        return language;
+        return ParseResult.parsed(language);
     }
 
     @Override
-    public boolean canParse(String fileName, String source) {
+    public ParseResult canParse(String fileName, String source) {
         if (!fileName.endsWith(".json")) {
             try {
                 getMembers(source);
             } catch (JsonParseException ignored) {}
+            return ParseResult.error("None", isInit());
         }
-        return fileName.endsWith(".json") || isInit();
+        return ParseResult.error("None", fileName.endsWith(".json"));
     }
 
     private boolean isInit() {
-        // TODO more verbose logging for missing values
-        return (stored != null && languageTag != null && version != null && !namespaces.isEmpty() && hasNamespace);
+        return stored != null && languageTag != null && version != null && !namespaces.isEmpty() && hasNamespace;
     }
+
     private void reset() {
         stored = null;
         languageTag = null;
         version = null;
-        namespaces = new ArrayList<>();
+        namespaces = Collections.emptyList();
         hasNamespace = false;
     }
 
     private void getMembers(String source) throws JsonParseException {
         reset();
-        // detect the required parts
-        // string language_tag
-        // object version
-        // int/string version.major
-        // int/string version.minor
-        // int/string version.patch
-        // string list namespaces
-        // object {namespace} n* namespaces.length
-
         stored = JsonParser.parseString(source).getAsJsonObject();
-        if (stored.has("language_tag")) {
-            languageTag = stored.get("language_tag").getAsString();
-        } else return; // avoid extra code execution, there is no point if this is not defined
-        if (stored.has("version")) {
-            version = stored.getAsJsonObject("version");
-        } else return; // avoid extra code execution, there is no point if this is not defined
+
+        languageTag = stored.has("language_tag") ? stored.get("language_tag").getAsString() : null;
+        if (languageTag == null) return;
+
+        version = stored.has("version") ? stored.getAsJsonObject("version") : null;
+        if (version == null) return;
+
         if (stored.has("namespaces")) {
             namespaces = jsonToJavaList(stored.getAsJsonArray("namespaces"));
-            for (String namespace : namespaces) {
-                if (!hasNamespace && stored.has(namespace)) {
-                    hasNamespace = true;
-                    break;
-                }
-            }
+            hasNamespace = namespaces.stream().anyMatch(stored::has);
         }
     }
 
-
     private List<String> jsonToJavaList(JsonArray array) {
-        List<String> list = new ArrayList<>();
+        List<String> list = new ArrayList<>(array.size());
         for (JsonElement element : array) {
             list.add(element.getAsString());
         }
         return list;
+    }
+
+    private String getError() {
+        // should move this to ParseResult
+        if (stored == null) return "Cannot parse JsonObject.";
+        else if (languageTag == null) return "'language_tag' is missing. Initialization requires a language tag.";
+        else if (version == null) return "'version' is missing. Version information is missing.";
+        else if (namespaces.isEmpty()) return "'namespaces' is empty or missing. At least one namespace is required.";
+        else if (!hasNamespace) return "Namespace information is missing.";
+        return "Unknown Error";
     }
 }
