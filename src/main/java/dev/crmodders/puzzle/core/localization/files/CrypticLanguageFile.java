@@ -1,7 +1,12 @@
 package dev.crmodders.puzzle.core.localization.files;
 
-import dev.crmodders.puzzle.core.localization.*;
+import com.badlogic.gdx.files.FileHandle;
+import dev.crmodders.puzzle.core.localization.ILanguageFile;
+import dev.crmodders.puzzle.core.localization.TranslationEntry;
+import dev.crmodders.puzzle.core.localization.TranslationKey;
+import dev.crmodders.puzzle.core.localization.TranslationLocale;
 
+import java.io.IOException;
 import java.io.Serial;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -10,6 +15,10 @@ import java.util.regex.Pattern;
 public class CrypticLanguageFile extends HashMap<TranslationKey, TranslationEntry> implements ILanguageFile {
     @Serial
     private static final long serialVersionUID = 235800189204634733L;
+
+    public static CrypticLanguageFile loadLanguageFile(FileHandle file) throws IOException {
+        return new CrypticLanguageFile(file.readString());
+    }
 
     private TranslationLocale locale;
     private final Set<TranslationLocale> fallbacks = new HashSet<>();
