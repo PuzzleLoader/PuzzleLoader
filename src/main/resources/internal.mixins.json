@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "dev.crmodders.puzzle.core.game.mixins",
+  "package": "dev.crmodders.puzzle.game.mixins",
   "plugin": "dev.crmodders.puzzle.core.loader.launch.internal.mixinextras.MixinExtrasConfigPlugin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
@@ -12,6 +12,9 @@
     "entrypoint.LoadInitModsMixin",
     "entrypoint.PreGameLaunchInit",
     "loot.LootTableMixin",
+    "saving.EntityRegionMixin",
+    "saving.PuzzleBinaryDeserializerReplacer",
+    "saving.PuzzleBinarySerializerReplacer",
     "ui.OptionsMixin",
     "window.IconMixin",
     "window.TitleMixin"

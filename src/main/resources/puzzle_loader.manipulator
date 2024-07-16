@@ -1,5 +1,6 @@
+public class finalforeach/cosmicreach/io/ChunkByteReader
+
 public field finalforeach/cosmicreach/entities/Entity sightRange
-public method finalforeach/cosmicreach/gamestates/InGame unloadZone (Lfinalforeach/cosmicreach/world/Zone;)V
 
 public method finalforeach/cosmicreach/rendering/BatchCoords blockX ()I
 public method finalforeach/cosmicreach/rendering/BatchCoords blockY ()I
@@ -25,3 +26,7 @@ public field finalforeach/cosmicreach/items/loot/LootOption weight
 public field finalforeach/cosmicreach/items/loot/LootStack item
 public field finalforeach/cosmicreach/items/loot/LootStack minAmount
 public field finalforeach/cosmicreach/items/loot/LootStack maxAmount
+
+public field finalforeach/cosmicreach/io/CosmicReachBinaryDeserializer altSchemas
+public field finalforeach/cosmicreach/io/CosmicReachBinaryDeserializer strings
+public method finalforeach/cosmicreach/io/CosmicReachBinaryDeserializer readDataFromSchema (Lfinalforeach/cosmicreach/savelib/crbin/CosmicReachBinarySchema;Ljava/nio/ByteBuffer;)V

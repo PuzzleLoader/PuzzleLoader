@@ -2,9 +2,9 @@ package dev.crmodders.puzzle.utils;
 
 import finalforeach.cosmicreach.constants.Direction;
 
-public interface DirectionUtil {
+public class DirectionUtil {
 
-    static Direction opposite(Direction d) {
+    public static Direction opposite(Direction d) {
         return switch (d) {
             case NEG_X -> Direction.POS_X;
             case POS_X -> Direction.NEG_X;
