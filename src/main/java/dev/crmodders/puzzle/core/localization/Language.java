@@ -4,14 +4,7 @@ import dev.crmodders.puzzle.core.PuzzleRegistries;
 
 import java.util.List;
 
-public class Language {
-
-	private final ILanguageFile file;
-
-	public Language(ILanguageFile file) {
-		super();
-		this.file = file;
-	}
+public record Language(ILanguageFile file) {
 
 	public TranslationEntry entry(TranslationKey key) {
 		if (file.contains(key)) {
@@ -49,9 +42,4 @@ public class Language {
 	public TranslationString get(TranslationKey key, int index) {
 		return entry(key).string(index);
 	}
-
-	public ILanguageFile getFile() {
-		return file;
-	}
-
 }

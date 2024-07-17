@@ -3,19 +3,19 @@ package dev.crmodders.puzzle.core.localization;
 import dev.crmodders.puzzle.core.Identifier;
 import dev.crmodders.puzzle.core.localization.files.MergedLanguageFile;
 import dev.crmodders.puzzle.core.registries.MapRegistry;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class LanguageRegistry extends MapRegistry<Language> {
-
     private final Map<Identifier, ILanguageFile> files = new HashMap<>();
 
     public LanguageRegistry(Identifier identifier) {
         super(identifier, new HashMap<>(), true, false);
     }
 
-    public void register(ILanguageFile lang) {
+    public void register(@NotNull ILanguageFile lang) {
         TranslationLocale locale = lang.locale();
         Identifier localeIdentifier = locale.toIdentifier();
 
@@ -32,5 +32,4 @@ public class LanguageRegistry extends MapRegistry<Language> {
             values.put(localeIdentifier, language);
         }
     }
-
 }

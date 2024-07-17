@@ -1,5 +1,8 @@
 package dev.crmodders.puzzle.utils;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
 public enum AnsiColours {
     RESET("\u001B[0m"),
     BLACK("\u001B[30m"),
@@ -104,11 +107,12 @@ public enum AnsiColours {
         return name().contains("BG");
     }
 
-    public static String stripAnsiCodes(String input) {
+    @Contract(pure = true)
+    public static @NotNull String stripAnsiCodes(@NotNull String input) {
         return input.replaceAll("\u001B\\[[;\\d]*m", "");
     }
 
-    public static String apply(Object obj, AnsiColours colour) {
+    public static @NotNull String apply(@NotNull Object obj, @NotNull AnsiColours colour) {
         return colour.getCode() + obj.toString() + RESET.getCode();
     }
 }

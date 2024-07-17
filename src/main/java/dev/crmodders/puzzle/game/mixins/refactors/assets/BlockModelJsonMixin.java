@@ -13,7 +13,6 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(BlockModelJson.class)
 public class BlockModelJsonMixin {
-
     @Unique
     private static final Logger LOGGER = LoggerFactory.getLogger("BlockModelJson");
 

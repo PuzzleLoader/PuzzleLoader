@@ -11,15 +11,15 @@ import finalforeach.cosmicreach.io.ByteArrayUtils;
 import finalforeach.cosmicreach.io.ICosmicReachBinarySerializable;
 import finalforeach.cosmicreach.savelib.crbin.CosmicReachBinarySchema;
 import finalforeach.cosmicreach.savelib.crbin.SchemaType;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Base64;
 import java.util.function.IntConsumer;
 
 public class PuzzleCosmicReachBinarySerializer implements IPuzzleBinarySerializer {
-
     CosmicReachBinarySchema schema = new CosmicReachBinarySchema();
-    Array<CosmicReachBinarySchema> altSchemas = new Array(CosmicReachBinarySchema.class);
-    Array<String> strings = new Array();
+    Array<CosmicReachBinarySchema> altSchemas = new Array<>(CosmicReachBinarySchema.class);
+    Array<String> strings = new Array<>();
     ByteArray bytes = new ByteArray();
 
     public PuzzleCosmicReachBinarySerializer() {
@@ -98,61 +98,61 @@ public class PuzzleCosmicReachBinarySerializer implements IPuzzleBinarySerialize
 
     }
 
-    public void writeByteArray(String name, byte[] array) {
+    public void writeByteArray(String name, byte @NotNull [] array) {
         this.writeArray(name, SchemaType.BYTE_ARRAY, array.length, (i) -> {
             this.writeByte((String)null, array[i]);
         });
     }
 
-    public void writeBooleanArray(String name, boolean[] array) {
+    public void writeBooleanArray(String name, boolean @NotNull [] array) {
         this.writeArray(name, SchemaType.BOOLEAN_ARRAY, array.length, (i) -> {
             this.writeBoolean((String)null, array[i]);
         });
     }
 
-    public void writeShortArray(String name, short[] array) {
+    public void writeShortArray(String name, short @NotNull [] array) {
         this.writeArray(name, SchemaType.SHORT_ARRAY, array.length, (i) -> {
             this.writeShort((String)null, array[i]);
         });
     }
 
-    public void writeIntArray(String name, int[] array) {
+    public void writeIntArray(String name, int @NotNull [] array) {
         this.writeArray(name, SchemaType.INT_ARRAY, array.length, (i) -> {
             this.writeInt((String)null, array[i]);
         });
     }
 
-    public void writeLongArray(String name, long[] array) {
+    public void writeLongArray(String name, long @NotNull [] array) {
         this.writeArray(name, SchemaType.LONG_ARRAY, array.length, (i) -> {
             this.writeLong((String)null, array[i]);
         });
     }
 
-    public void writeFloatArray(String name, float[] array) {
+    public void writeFloatArray(String name, float @NotNull [] array) {
         this.writeArray(name, SchemaType.FLOAT_ARRAY, array.length, (i) -> {
             this.writeFloat((String)null, array[i]);
         });
     }
 
-    public void writeDoubleArray(String name, double[] array) {
+    public void writeDoubleArray(String name, double @NotNull [] array) {
         this.writeArray(name, SchemaType.DOUBLE_ARRAY, array.length, (i) -> {
             this.writeDouble((String)null, array[i]);
         });
     }
 
-    public void writeStringArray(String name, String[] array) {
+    public void writeStringArray(String name, String @NotNull [] array) {
         this.writeArray(name, SchemaType.STRING_ARRAY, array.length, (i) -> {
             this.writeString((String)null, array[i]);
         });
     }
 
-    public <T extends ICosmicReachBinarySerializable> void writeObjArray(String name, Array<T> array) {
+    public <T extends ICosmicReachBinarySerializable> void writeObjArray(String name, @NotNull Array<T> array) {
         this.writeArray(name, SchemaType.OBJ_ARRAY, array.size, (i) -> {
             this.writeObj((String)null, (ICosmicReachBinarySerializable)array.get(i));
         });
     }
 
-    public <T extends ICosmicReachBinarySerializable> void writeObjArray(String name, T[] array) {
+    public <T extends ICosmicReachBinarySerializable> void writeObjArray(String name, T @NotNull [] array) {
         this.writeArray(name, SchemaType.OBJ_ARRAY, array.length, (i) -> {
             this.writeObj((String)null, array[i]);
         });
@@ -208,12 +208,11 @@ public class PuzzleCosmicReachBinarySerializer implements IPuzzleBinarySerialize
         this.writeFloatArray(name, new float[]{vector.x, vector.y});
     }
 
-    public void writeVector3(String name, Vector3 vector) {
+    public void writeVector3(String name, @NotNull Vector3 vector) {
         this.writeFloatArray(name, new float[]{vector.x, vector.y, vector.z});
     }
 
-    public void writeBoundingBox(String name, BoundingBox bb) {
+    public void writeBoundingBox(String name, @NotNull BoundingBox bb) {
         this.writeFloatArray(name, new float[]{bb.min.x, bb.min.y, bb.min.z, bb.max.x, bb.max.y, bb.max.z});
     }
-
 }

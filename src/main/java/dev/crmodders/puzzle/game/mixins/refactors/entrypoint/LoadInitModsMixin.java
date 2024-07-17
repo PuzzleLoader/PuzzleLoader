@@ -10,10 +10,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(BlockGame.class)
 public class LoadInitModsMixin {
-
     @Inject(method = "create", at = @At("TAIL"))
     public void onInit(CallbackInfo ci) {
         ModInitializer.invokeEntrypoint();
     }
-
 }

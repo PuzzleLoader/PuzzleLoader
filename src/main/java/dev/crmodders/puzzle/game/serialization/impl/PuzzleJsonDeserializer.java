@@ -12,11 +12,11 @@ import finalforeach.cosmicreach.io.ICosmicReachBinarySerializable;
 import finalforeach.cosmicreach.savelib.crbin.CosmicReachBinarySchema;
 import org.hjson.JsonArray;
 import org.hjson.JsonObject;
+import org.jetbrains.annotations.NotNull;
 
 import java.nio.ByteBuffer;
 
 public class PuzzleJsonDeserializer implements IPuzzleBinaryDeserializer {
-
     JsonObject object;
 
     public PuzzleJsonDeserializer() {}
@@ -30,12 +30,12 @@ public class PuzzleJsonDeserializer implements IPuzzleBinaryDeserializer {
     }
 
     @Override
-    public void readDataFromSchema(CosmicReachBinarySchema schema, ByteBuffer byteBuffer) {
+    public void readDataFromSchema(CosmicReachBinarySchema schema, @NotNull ByteBuffer byteBuffer) {
         object = JsonObject.readHjson(new String(byteBuffer.array())).asObject();
     }
 
     @Override
-    public void prepareForRead(ByteBuffer byteBuffer) {
+    public void prepareForRead(@NotNull ByteBuffer byteBuffer) {
         object = JsonObject.readHjson(new String(byteBuffer.array())).asObject();
     }
 
@@ -135,13 +135,13 @@ public class PuzzleJsonDeserializer implements IPuzzleBinaryDeserializer {
         return objs;
     }
 
-    private PuzzleJsonDeserializer readObj(JsonObject tag, int i) {
+    private @NotNull PuzzleJsonDeserializer readObj(@NotNull JsonObject tag, int i) {
         PuzzleJsonDeserializer deserializer = new PuzzleJsonDeserializer();
         deserializer.object = tag.get(String.valueOf(i)).asObject();
         return deserializer;
     }
 
-    private <T extends ICosmicReachBinarySerializable> T readObj(Class<T> elementType, CosmicReachBinaryDeserializer d) {
+    private <T extends ICosmicReachBinarySerializable> @NotNull T readObj(Class<T> elementType, CosmicReachBinaryDeserializer d) {
         T obj = ClassUtil.newInstance(elementType);
         obj.read(d);
         return obj;

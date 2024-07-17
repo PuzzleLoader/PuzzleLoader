@@ -12,15 +12,14 @@ import java.util.Map;
 
 @Mixin(Lwjgl3ApplicationLogger.class)
 public class LLwjgl3ApplicationLoggerMixin implements ApplicationLogger {
-
     @Unique
-    private static final Map<String, Logger> cache = new HashMap<>();
+    private static final Map<String, Logger> LOGGER = new HashMap<>();
 
     @Unique
     private static Logger logger(String tag) {
-        if (cache.containsKey(tag)) return cache.get(tag);
+        if (LOGGER.containsKey(tag)) return LOGGER.get(tag);
         Logger logger = LoggerFactory.getLogger("CosmicReach | " + tag);
-        cache.put(tag, logger);
+        LOGGER.put(tag, logger);
         return logger;
     }
 

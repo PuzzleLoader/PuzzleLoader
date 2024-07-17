@@ -24,7 +24,6 @@ import java.util.Base64;
 
 @Mixin(CosmicReachBinaryDeserializer.class)
 public abstract class PuzzleBinaryDeserializerReplacer implements IPuzzleBinaryDeserializer {
-
     @Shadow protected abstract <T> T newInstance(Class<T> type);
 
     @Unique

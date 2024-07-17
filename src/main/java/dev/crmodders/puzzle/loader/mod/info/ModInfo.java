@@ -7,12 +7,13 @@ import dev.crmodders.puzzle.loader.mod.AccessTransformerType;
 import dev.crmodders.puzzle.loader.mod.ModContainer;
 import dev.crmodders.puzzle.loader.mod.ModJsonInfo;
 import dev.crmodders.puzzle.loader.mod.Version;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.jar.JarFile;
 
 public class ModInfo {
-
     // Info
     public final String DisplayName;
     public final String ModID;
@@ -38,7 +39,7 @@ public class ModInfo {
     public final ModJsonInfo JsonInfo;
     private ModContainer Container;
 
-    public ModInfo(ModJsonInfo jsonInfo) {
+    public ModInfo(@NotNull ModJsonInfo jsonInfo) {
         JsonInfo = jsonInfo;
 
         DisplayName = jsonInfo.name();
@@ -79,7 +80,8 @@ public class ModInfo {
         AccessWidener = jsonInfo.accessWidener();
     }
 
-    public static ModInfo fromModJsonInfo(ModJsonInfo info) {
+    @Contract("_ -> new")
+    public static @NotNull ModInfo fromModJsonInfo(ModJsonInfo info) {
         return new ModInfo(info);
     }
 
@@ -141,7 +143,7 @@ public class ModInfo {
             return this;
         }
 
-        public Builder setAuthors(Collection<String> authors) {
+        public Builder setAuthors(@NotNull Collection<String> authors) {
             this.authors = authors.stream().toList();
             return this;
         }
@@ -223,7 +225,7 @@ public class ModInfo {
 
 
 
-        public Builder setAccessTransformerType(AccessTransformerType transformerType, String transformerPath) {
+        public Builder setAccessTransformerType(@NotNull AccessTransformerType transformerType, String transformerPath) {
             switch (transformerType) {
                 case ACCESS_MANIPULATOR -> this.accessManipulator = transformerPath;
                 case ACCESS_TRANSFORMER -> this.accessWidener = transformerPath;
@@ -232,7 +234,7 @@ public class ModInfo {
             return this;
         }
 
-        private static Map<String, String> TransformDepencenciesMap(Map<String, Version> dependencies) {
+        private static @NotNull Map<String, String> TransformDepencenciesMap(@NotNull Map<String, Version> dependencies) {
             Map<String, String> map = new HashMap<>();
             for (String dep : dependencies.keySet()) {
                 map.put(dep, dependencies.get(dep).toString());
@@ -268,10 +270,10 @@ public class ModInfo {
             ));
         }
 
-        public static Builder New() {
+        @Contract(" -> new")
+        public static @NotNull Builder New() {
             return new Builder();
         }
 
     }
-
 }

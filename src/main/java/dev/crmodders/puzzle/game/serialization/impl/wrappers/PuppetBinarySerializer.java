@@ -9,7 +9,6 @@ import finalforeach.cosmicreach.io.CosmicReachBinarySerializer;
 import finalforeach.cosmicreach.io.ICosmicReachBinarySerializable;
 
 public class PuppetBinarySerializer extends CosmicReachBinarySerializer implements IPuzzleBinarySerializer {
-
     IPuzzleBinarySerializer masterSerializer;
 
     public PuppetBinarySerializer(IPuzzleBinarySerializer serializer) {

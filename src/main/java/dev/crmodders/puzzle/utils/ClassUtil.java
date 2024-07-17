@@ -6,7 +6,6 @@ import com.badlogic.gdx.utils.reflect.Constructor;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
 
 public class ClassUtil {
-
     public static <T> T newInstance(Class<T> type) {
         try {
             return ClassReflection.newInstance(type);

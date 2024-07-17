@@ -1,11 +1,14 @@
 package dev.crmodders.puzzle.core.registries;
 
 import dev.crmodders.puzzle.core.Identifier;
+import dev.crmodders.puzzle.core.registries.exception.AlreadyFrozenException;
+import dev.crmodders.puzzle.core.registries.exception.MissingEntryException;
+import dev.crmodders.puzzle.core.registries.exception.NotReadableException;
+import dev.crmodders.puzzle.core.registries.exception.NotWritableException;
 
 import java.util.Set;
 
 public interface IRegistry<T> extends Iterable<T> {
-
     Identifier identifier();
 
     boolean contains(Identifier name) throws NotReadableException;
@@ -17,5 +20,4 @@ public interface IRegistry<T> extends Iterable<T> {
 
     boolean readable();
     boolean writable();
-
 }

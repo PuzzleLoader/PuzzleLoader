@@ -12,7 +12,6 @@ import java.util.Objects;
 
 @Mixin(targets = "finalforeach/cosmicreach/gamestates/OptionsMenu$6") //The lambda for 'rendererButton'
 public abstract class OptionsMixin extends UIElement {
-
     public OptionsMixin(float x, float y, float w, float h) {
         super(x, y, w, h);
     }
@@ -26,7 +25,7 @@ public abstract class OptionsMixin extends UIElement {
         super.onClick();
         GameSingletons.zoneRenderer.unload();
         Globals.rendererIndex++;
-        if((Globals.rendererIndex) == Globals.renderers.size())
+        if(Globals.rendererIndex == Globals.renderers.size())
             Globals.rendererIndex=0;
 
         var renderer = Globals.renderers.get(Globals.rendererIndex);

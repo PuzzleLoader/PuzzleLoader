@@ -12,7 +12,6 @@ import dev.crmodders.puzzle.core.localization.files.LanguageFileVersion1;
 import java.io.IOException;
 
 public class LanguageFileLoader extends AsynchronousAssetLoader<LanguageFileVersion1, LanguageFileLoader.LanguageFileParameters> {
-
     public LanguageFileLoader(FileHandleResolver resolver) {
         super(resolver);
     }
@@ -38,5 +37,4 @@ public class LanguageFileLoader extends AsynchronousAssetLoader<LanguageFileVers
 
     public static class LanguageFileParameters extends AssetLoaderParameters<LanguageFileVersion1> {
     }
-
 }

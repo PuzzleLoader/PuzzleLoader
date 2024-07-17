@@ -12,7 +12,6 @@ import finalforeach.cosmicreach.savelib.crbin.CosmicReachBinarySchema;
 import java.nio.ByteBuffer;
 
 public class PuppetBinaryDeserializer extends CosmicReachBinaryDeserializer implements IPuzzleBinaryDeserializer {
-
     IPuzzleBinaryDeserializer masterDeserializer;
 
     public PuppetBinaryDeserializer(IPuzzleBinaryDeserializer deserializer) {

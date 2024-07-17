@@ -6,14 +6,16 @@ import dev.crmodders.puzzle.loader.providers.impl.CosmicReachProvider;
 import dev.crmodders.puzzle.utils.MethodUtil;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
-
-import java.lang.reflect.Method;
-import java.net.URL;
-import java.util.*;
-
 import joptsimple.OptionSpec;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.lang.reflect.Method;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Piece {
     public String DEFAULT_PROVIDER = CosmicReachProvider.class.getName();
@@ -22,7 +24,7 @@ public class Piece {
     public static Map<String, Object> blackboard;
     public static PuzzleClassLoader classLoader;
 
-    public static final Logger logger = LogManager.getLogger("Puzzle | Loader");
+    public static final Logger LOGGER = LogManager.getLogger("Puzzle | Loader");
 
     public static void main(String[] args) {
         new Piece().launch(args);
@@ -76,27 +78,14 @@ public class Piece {
             provider.initArgs(args);
             provider.inject(classLoader);
 
-            /* TODO register all game languages and do that
-
-            Language.registerLanguage("testlang.json");
-            Identifier id = Language.registerLanguage("testlang.cr");
-            if (id != null) {
-                PuzzleRegistries.PuzzleLanguages.freeze();
-                Language lang = new RegistryObject<>(PuzzleRegistries.PuzzleLanguages, id).getObject();
-                System.out.println(lang.translate("base:nice::coke"));
-                System.out.println(lang.translate("base:nice.coke"));
-
-
-            }*/
-
             String[] providerArgs = provider.getArgs().toArray(new String[0]);
 
             Class<?> clazz = Class.forName(provider.getEntrypoint(), false, classLoader);
             Method main = MethodUtil.getMethod(clazz,"main", String[].class);
-            logger.info("Launching {} version {}", provider.getName(), provider.getRawVersion());
+            LOGGER.info("Launching {} version {}", provider.getName(), provider.getRawVersion());
             MethodUtil.runStaticMethod(main, (Object) providerArgs);
         } catch (Exception e) {
-            logger.error("Unable To Launch", e);
+            LOGGER.error("Unable To Launch", e);
             System.exit(1);
         }
     }

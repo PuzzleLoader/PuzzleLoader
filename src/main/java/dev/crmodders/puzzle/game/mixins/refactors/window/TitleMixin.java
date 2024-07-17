@@ -9,7 +9,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Lwjgl3WindowConfiguration.class)
 public class TitleMixin {
-
     @Shadow String title;
 
     @Inject(method = "setTitle", at = @At("HEAD"), cancellable = true)
@@ -17,5 +16,4 @@ public class TitleMixin {
         this.title = "Puzzle Loader | " + title;
         ci.cancel();
     }
-
 }

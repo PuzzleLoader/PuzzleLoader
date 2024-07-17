@@ -1,11 +1,11 @@
 package dev.crmodders.puzzle.loader.launch.internal.minimixin;
 
 import dev.crmodders.puzzle.loader.launch.Piece;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.service.IGlobalPropertyService;
 import org.spongepowered.asm.service.IPropertyKey;
 
 public class Blackboard implements IGlobalPropertyService {
-    
     /**
      * Property key
      */
@@ -41,7 +41,7 @@ public class Blackboard implements IGlobalPropertyService {
      */
     @Override
     @SuppressWarnings("unchecked")
-    public final <T> T getProperty(IPropertyKey key) {
+    public final <T> T getProperty(@NotNull IPropertyKey key) {
         return (T) Piece.blackboard.get(key.toString());
     }
 
@@ -52,7 +52,7 @@ public class Blackboard implements IGlobalPropertyService {
      * @param value new value
      */
     @Override
-    public final void setProperty(IPropertyKey key, Object value) {
+    public final void setProperty(@NotNull IPropertyKey key, Object value) {
         Piece.blackboard.put(key.toString(), value);
     }
     
@@ -67,7 +67,7 @@ public class Blackboard implements IGlobalPropertyService {
      */
     @Override
     @SuppressWarnings("unchecked")
-    public final <T> T getProperty(IPropertyKey key, T defaultValue) {
+    public final <T> T getProperty(@NotNull IPropertyKey key, T defaultValue) {
         Object value = Piece.blackboard.get(key.toString());
         return value != null ? (T)value : defaultValue;
     }
@@ -82,9 +82,8 @@ public class Blackboard implements IGlobalPropertyService {
      * @return value from blackboard or default
      */
     @Override
-    public final String getPropertyString(IPropertyKey key, String defaultValue) {
+    public final String getPropertyString(@NotNull IPropertyKey key, String defaultValue) {
         Object value = Piece.blackboard.get(key.toString());
         return value != null ? value.toString() : defaultValue;
     }
-
 }

@@ -1,14 +1,16 @@
 package dev.crmodders.puzzle.loader.mod;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.LoggerFactory;
 
 public record Version(
-        int Major,
-        int Minor,
-        int Patch
+    int Major,
+    int Minor,
+    int Patch
 ) {
 
-    public static Version parseVersion(String ver) {
+    public static @NotNull Version parseVersion(String ver) {
 
         try {
             return parseVersionWithThrow(ver);
@@ -19,7 +21,8 @@ public record Version(
         }
     }
 
-    public static Version parseVersionWithThrow(String ver) throws NumberFormatException {
+    @Contract("_ -> new")
+    public static @NotNull Version parseVersionWithThrow(String ver) throws NumberFormatException {
         if (ver == null) return new Version(0, 0, 0);
         String[] pieces = ver.split("\\.");
         return new Version(
@@ -35,7 +38,7 @@ public record Version(
         SMALLER
     }
 
-    public SIZE_COMP otherIs(Version version) {
+    public SIZE_COMP otherIs(@NotNull Version version) {
         if (Major == version.Major && Minor == version.Minor && Patch == version.Patch) return SIZE_COMP.SAME;
         if (Major > version.Major()) return SIZE_COMP.LARGER;
         if (Minor > version.Minor() && Major <= version.Major) return SIZE_COMP.LARGER;

@@ -8,12 +8,14 @@ import dev.crmodders.puzzle.game.serialization.impl.wrappers.PuppetBinaryDeseria
 import finalforeach.cosmicreach.io.CosmicReachBinaryDeserializer;
 import finalforeach.cosmicreach.io.ICosmicReachBinarySerializable;
 import finalforeach.cosmicreach.savelib.crbin.CosmicReachBinarySchema;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.nio.ByteBuffer;
 
 public interface IPuzzleBinaryDeserializer {
-
-    static CosmicReachBinaryDeserializer createPuppetDeserializer(IPuzzleBinaryDeserializer deserializer) {
+    @Contract("_ -> new")
+    static @NotNull CosmicReachBinaryDeserializer createPuppetDeserializer(IPuzzleBinaryDeserializer deserializer) {
         return new PuppetBinaryDeserializer(deserializer);
     }
 
@@ -47,5 +49,4 @@ public interface IPuzzleBinaryDeserializer {
     Vector3 readVector3(String name);
     BoundingBox readBoundingBox(String name);
     <T extends ICosmicReachBinarySerializable> T readObj(String name, Class<T> baseType);
-
 }

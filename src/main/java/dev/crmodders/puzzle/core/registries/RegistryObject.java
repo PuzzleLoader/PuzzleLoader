@@ -1,20 +1,20 @@
 package dev.crmodders.puzzle.core.registries;
 
 import dev.crmodders.puzzle.core.Identifier;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Supplier;
 
 public class RegistryObject<T> {
-
     /*
         this is temporary until the load cycle is finished
      */
-    public static <T> RegistryObject<T> register(IRegistry<T> registry, Identifier name, Supplier<T> supplier) {
+    public static <T> RegistryObject<T> register(@NotNull IRegistry<T> registry, Identifier name, @NotNull Supplier<T> supplier) {
         return registry.store(name, supplier.get());
     }
 
-    private IRegistry<T> registry;
-    private Identifier name;
+    private final IRegistry<T> registry;
+    private final Identifier name;
 
     public RegistryObject(Identifier registry, Identifier name) {
         throw new UnsupportedOperationException("not implemented");
@@ -28,5 +28,4 @@ public class RegistryObject<T> {
     public T get() {
         return registry.get(name);
     }
-
 }

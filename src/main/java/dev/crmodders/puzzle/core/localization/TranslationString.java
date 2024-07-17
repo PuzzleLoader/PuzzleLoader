@@ -1,11 +1,12 @@
 package dev.crmodders.puzzle.core.localization;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class TranslationString {
-
     private static final Pattern pattern = Pattern.compile("\\{([^}]*)\\}");
 
     private final String translation;
@@ -20,7 +21,7 @@ public class TranslationString {
         this.compiledOffsets = new int[0];
     }
 
-    public void compile(List<String> parameters) {
+    public void compile(@NotNull List<String> parameters) {
         Matcher matcher = pattern.matcher(translation);
 
         StringBuilder compiled = new StringBuilder();

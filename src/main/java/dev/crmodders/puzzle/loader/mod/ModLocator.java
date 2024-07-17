@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import dev.crmodders.puzzle.loader.mod.info.ModInfo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,17 +19,16 @@ import java.util.zip.ZipFile;
 import static dev.crmodders.puzzle.loader.mod.VersionParser.hasDependencyVersion;
 
 public class ModLocator {
-
-    public static Logger logger = LogManager.getLogger("Puzzle | ModLocator");
+    public static Logger LOGGER = LogManager.getLogger("Puzzle | ModLocator");
     public static Gson gsonInstance = new Gson();
 
     public static Map<String, ModContainer> locatedMods = new HashMap<>();
 
-    public static Collection<URL> getUrlsOnClasspath() {
+    public static @NotNull Collection<URL> getUrlsOnClasspath() {
         return getUrlsOnClasspath(new ArrayList<>());
     }
 
-    public static Collection<URL> getUrlsOnClasspath(Collection<URL> urlz) {
+    public static @NotNull Collection<URL> getUrlsOnClasspath(Collection<URL> urlz) {
         Set<URL> urls = new HashSet<>(urlz);
 
         if (ModLocator.class.getClassLoader() instanceof URLClassLoader loader) {
@@ -64,7 +64,7 @@ public class ModLocator {
                         if (modJson != null) {
                             String strInfo = new String(jar.getInputStream(modJson).readAllBytes());
                             ModJsonInfo info = gsonInstance.fromJson(strInfo, ModJsonInfo.class);
-                            logger.info("Discovered Mod \"{}\" with ID \"{}\"", info.name(), info.id());
+                            LOGGER.info("Discovered Mod \"{}\" with ID \"{}\"", info.name(), info.id());
                             locatedMods.put(info.id(), new ModContainer(ModInfo.fromModJsonInfo(info), jar));
                         }
                     }
@@ -77,12 +77,12 @@ public class ModLocator {
     }
 
     public static void verifyDependencies() {
-        logger.warn("Warning! Only partial semantic versioning support");
+        LOGGER.warn("Warning! Only partial semantic versioning support");
         for(var mod : locatedMods.values()){
             if(!mod.INFO.JsonInfo.dependencies().isEmpty()) {
-                logger.info("Mod deps for {}", mod.ID);
+                LOGGER.info("Mod deps for {}", mod.ID);
                 for (Map.Entry<String, String> entry : mod.INFO.JsonInfo.dependencies().entrySet()) {
-                    logger.info("\t{}: {}", entry.getKey(), entry.getValue());
+                    LOGGER.info("\t{}: {}", entry.getKey(), entry.getValue());
                     var modDep = locatedMods.get(entry.getKey());
                     if (modDep == null) {
                         throw new RuntimeException(String.format("can not find mod dependency: %s for mod id: %s", entry.getKey(), mod.ID));
@@ -105,7 +105,7 @@ public class ModLocator {
 
         for (File modFile : Objects.requireNonNull(modsFolder.listFiles())) {
             try {
-                logger.info("Found Jar {}", modFile);
+                LOGGER.info("Found Jar {}", modFile);
                 urls.add(modFile.toURI().toURL());
             } catch (Exception ignore) {}
         }
@@ -116,5 +116,4 @@ public class ModLocator {
             container.invokeEntrypoint(key, type, invoker);
         });
     }
-
 }

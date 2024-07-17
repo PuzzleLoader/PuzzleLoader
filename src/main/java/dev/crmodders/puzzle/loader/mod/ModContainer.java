@@ -2,12 +2,12 @@ package dev.crmodders.puzzle.loader.mod;
 
 import dev.crmodders.puzzle.loader.entrypoint.EntrypointContainer;
 import dev.crmodders.puzzle.loader.mod.info.ModInfo;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
 import java.util.zip.ZipFile;
 
 public class ModContainer {
-
     public ModInfo INFO;
     private final EntrypointContainer entrypointContainer;
 
@@ -20,7 +20,7 @@ public class ModContainer {
         this(info, null);
     }
 
-    public ModContainer(ModInfo info, ZipFile jar) {
+    public ModContainer(@NotNull ModInfo info, ZipFile jar) {
         this.INFO = info;
         this.entrypointContainer = new EntrypointContainer(info.Entrypoints);
 
@@ -33,5 +33,4 @@ public class ModContainer {
     public <T> void invokeEntrypoint(String key, Class<T> type, Consumer<? super T> invoker) {
         entrypointContainer.invokeClasses(key, type, invoker);
     }
-
 }

@@ -5,7 +5,6 @@ import dev.crmodders.puzzle.loader.launch.PuzzleClassLoader;
 import dev.crmodders.puzzle.utils.PuzzleEntrypointUtil;
 
 public interface TransformerInitializer {
-
     String ENTRYPOINT_KEY = "transformers";
 
     void onTransformerInit(PuzzleClassLoader classLoader);
@@ -19,5 +18,4 @@ public interface TransformerInitializer {
                     transformerInitializer.onTransformerInit(classLoader);
                 });
     }
-
 }

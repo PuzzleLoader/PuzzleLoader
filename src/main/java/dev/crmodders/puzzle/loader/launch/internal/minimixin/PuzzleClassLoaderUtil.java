@@ -1,6 +1,7 @@
 package dev.crmodders.puzzle.loader.launch.internal.minimixin;
 
 import dev.crmodders.puzzle.loader.launch.PuzzleClassLoader;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.service.IClassTracker;
 
 import java.lang.reflect.Field;
@@ -11,7 +12,6 @@ import java.util.Set;
 
 /** Extracted and Modified from Mixins **/
 final class PuzzleClassLoaderUtil implements IClassTracker {
-
     public static final String CACHED_CLASSES_FIELD = "cachedClasses";
     public static final String INVALID_CLASSES_FIELD = "invalidClasses";
     public static final String CLASS_LOADER_EXCEPTIONS_FIELD = "classLoaderExceptions";
@@ -155,7 +155,7 @@ final class PuzzleClassLoaderUtil implements IClassTracker {
     }
 
     @SuppressWarnings("unchecked")
-    private static <T> T getField(PuzzleClassLoader classLoader, String fieldName) {
+    private static <T> @Nullable T getField(PuzzleClassLoader classLoader, String fieldName) {
         try {
             Field field = PuzzleClassLoader.class.getDeclaredField(fieldName);
             field.setAccessible(true);
@@ -163,5 +163,4 @@ final class PuzzleClassLoaderUtil implements IClassTracker {
         } catch (Exception ignored) {}
         return null;
     }
-
 }

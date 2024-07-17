@@ -12,7 +12,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Lwjgl3Launcher.class)
 public class PreGameLaunchInit {
-
     @Inject(method = "main", at = @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/lwjgl3/Lwjgl3Launcher;createApplication()Lcom/badlogic/gdx/backends/lwjgl3/Lwjgl3Application;"))
     private static void loadPreLaunch(String[] args, CallbackInfo ci) {
         ModLocator.getMods();
@@ -20,5 +19,4 @@ public class PreGameLaunchInit {
         Globals.initRenderers();
         PreInitModInitializer.invokeEntrypoint();
     }
-
 }

@@ -12,13 +12,14 @@ import dev.dewy.nbt.tags.collection.CompoundTag;
 import finalforeach.cosmicreach.io.CosmicReachBinaryDeserializer;
 import finalforeach.cosmicreach.io.ICosmicReachBinarySerializable;
 import finalforeach.cosmicreach.savelib.crbin.CosmicReachBinarySchema;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.util.Base64;
 
 public class PuzzleNBTDeserializer implements IPuzzleBinaryDeserializer {
-
     public CompoundTag compound;
 
     public PuzzleNBTDeserializer() {
@@ -28,7 +29,7 @@ public class PuzzleNBTDeserializer implements IPuzzleBinaryDeserializer {
         this.compound = tag;
     }
 
-    public static CompoundTag compoundFromStream(DataInputStream stream) {
+    public static @NotNull CompoundTag compoundFromStream(@NotNull DataInputStream stream) {
         TagTypeRegistry registry = new TagTypeRegistry();
         CompoundTag result = new CompoundTag();
         try {
@@ -44,16 +45,17 @@ public class PuzzleNBTDeserializer implements IPuzzleBinaryDeserializer {
         return result;
     }
 
-    public static CompoundTag compoundFromByteArray(byte[] bytes) {
+    public static @NotNull CompoundTag compoundFromByteArray(byte[] bytes) {
         DataInputStream input = new DataInputStream(new ByteArrayInputStream(bytes));
         return compoundFromStream(input);
     }
 
-    public static CompoundTag compoundFromBase64(String base64) {
+    public static @NotNull CompoundTag compoundFromBase64(String base64) {
         return compoundFromByteArray(Base64.getDecoder().decode(base64));
     }
 
-    public static CosmicReachBinaryDeserializer fromBase64(String base64) {
+    @Contract("_ -> new")
+    public static @NotNull CosmicReachBinaryDeserializer fromBase64(String base64) {
         PuzzleNBTDeserializer deserial = new PuzzleNBTDeserializer();
         ByteBuffer byteBuf = ByteBuffer.wrap(Base64.getDecoder().decode(base64));
         deserial.prepareForRead(byteBuf);
@@ -65,7 +67,7 @@ public class PuzzleNBTDeserializer implements IPuzzleBinaryDeserializer {
         return new PuzzleNBTDeserializer();
     }
 
-    public void readDataFromSchema(CosmicReachBinarySchema schema, ByteBuffer bytes) {
+    public void readDataFromSchema(CosmicReachBinarySchema schema, @NotNull ByteBuffer bytes) {
         compound = PuzzleNBTDeserializer.compoundFromByteArray(bytes.array());
     }
 
@@ -138,7 +140,7 @@ public class PuzzleNBTDeserializer implements IPuzzleBinaryDeserializer {
         return doubleArray;
     }
 
-    public void prepareForRead(ByteBuffer bytes) {
+    public void prepareForRead(@NotNull ByteBuffer bytes) {
         if (bytes.array().length != 0) {
             compound = PuzzleNBTDeserializer.compoundFromByteArray(bytes.array());
         }
@@ -179,7 +181,7 @@ public class PuzzleNBTDeserializer implements IPuzzleBinaryDeserializer {
         return compound.getString(name).getValue();
     }
 
-    private <T extends ICosmicReachBinarySerializable> T readObj(Class<T> elementType, CosmicReachBinaryDeserializer d) {
+    private <T extends ICosmicReachBinarySerializable> @NotNull T readObj(Class<T> elementType, CosmicReachBinaryDeserializer d) {
         T obj = ClassUtil.newInstance(elementType);
         obj.read(d);
         return obj;
@@ -193,7 +195,7 @@ public class PuzzleNBTDeserializer implements IPuzzleBinaryDeserializer {
         return obj;
     }
 
-    private PuzzleNBTDeserializer readObj(CompoundTag tag, int i) {
+    private @NotNull PuzzleNBTDeserializer readObj(@NotNull CompoundTag tag, int i) {
         PuzzleNBTDeserializer deserializer = new PuzzleNBTDeserializer();
         deserializer.compound = tag.getCompound(String.valueOf(i));
         return deserializer;

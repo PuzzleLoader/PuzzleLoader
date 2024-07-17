@@ -1,11 +1,11 @@
 package dev.crmodders.puzzle.loader.mod;
 
 import org.apache.logging.log4j.LogManager;
+import org.jetbrains.annotations.NotNull;
 
 public class VersionParser {
-
     //TODO:add ability to parse version ranges
-    public static boolean hasDependencyVersion(Version current, String wanted){
+    public static boolean hasDependencyVersion(Version current, @NotNull String wanted){
 
         if(wanted.isEmpty() || wanted.isBlank()){
             throw new RuntimeException("Invalid dependency version string");
@@ -42,5 +42,4 @@ public class VersionParser {
         }
 
     }
-
 }
