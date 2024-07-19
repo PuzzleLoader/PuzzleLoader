@@ -1,5 +1,3 @@
-public class finalforeach/cosmicreach/io/ChunkByteReader
-
 public field finalforeach/cosmicreach/entities/Entity sightRange
 
 public method finalforeach/cosmicreach/rendering/BatchCoords blockX ()I
