@@ -20,20 +20,19 @@ import static dev.crmodders.puzzle.core.resources.PuzzleGameAssetLoader.LOADER;
 
 @Mixin(BlockGame.class)
 public class BlockGameMixin {
-
     @Unique
-    private static final Logger logger = LoggerFactory.getLogger("CosmicReach | BlockGame");
+    private static final Logger LOGGER = LoggerFactory.getLogger("CosmicReach | BlockGame");
 
     @Redirect(method = "dispose", at = @At(value = "INVOKE", target = "Ljava/io/PrintStream;println(Ljava/lang/String;)V"), require = 0)
     private void print1(PrintStream instance, String x) {
-        logger.info(AnsiColours.CYAN + "{}" + AnsiColours.WHITE, x);
+        LOGGER.info(AnsiColours.CYAN + "{}" + AnsiColours.WHITE, x);
     }
 
     @Redirect(method = "printGLInfo", at = @At(value = "INVOKE", target = "Ljava/io/PrintStream;println(Ljava/lang/String;)V"), require = 0)
     private static void print2(PrintStream instance, String x) {
         List<String> lines = x.lines().toList();
         for(String line : lines) {
-            logger.info(AnsiColours.CYAN + "{}" + AnsiColours.WHITE, line);
+            LOGGER.info(AnsiColours.CYAN + "{}" + AnsiColours.WHITE, line);
         }
     }
 
@@ -41,7 +40,6 @@ public class BlockGameMixin {
     public void dispose(CallbackInfo ci) {
         AssetManager manager = LOADER.getAssetManager();
         manager.dispose();
-        Piece.logger.info("Puzzle API Destroyed");
+        Piece.LOGGER.info("Puzzle API Destroyed");
     }
-
 }

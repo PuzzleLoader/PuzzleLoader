@@ -7,12 +7,12 @@ import finalforeach.cosmicreach.items.Item;
 import finalforeach.cosmicreach.items.loot.Loot;
 import finalforeach.cosmicreach.items.loot.LootOption;
 import finalforeach.cosmicreach.world.Zone;
+import org.jetbrains.annotations.NotNull;
 
 public class PuppetLootClass extends Loot {
-
     PuzzleLootTable parentTable;
 
-    public PuppetLootClass(Identifier id, PuzzleLootTable table) {
+    public PuppetLootClass(@NotNull Identifier id, PuzzleLootTable table) {
         super(id.toString());
         parentTable = table;
     }
@@ -35,5 +35,4 @@ public class PuppetLootClass extends Loot {
     public void addOption(float weight, BlockState blockState, int min, int max) {
         throw new RuntimeException("The method \"addOption(float weight, BlockState blockState, int min, int max)\" is not implemented");
     }
-
 }

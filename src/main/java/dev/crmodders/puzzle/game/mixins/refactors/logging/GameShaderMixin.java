@@ -24,5 +24,4 @@ public class GameShaderMixin {
     private static void print2(PrintStream instance, String x) {
         LOGGER.info(x);
     }
-
 }

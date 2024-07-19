@@ -8,8 +8,6 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(Point3DMap.class)
 public interface Point3DMapAccessor<T> {
-
     @Accessor
     LongMap<IntMap<T>> getMap();
-
 }

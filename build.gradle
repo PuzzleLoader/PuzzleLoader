@@ -28,6 +28,8 @@ repositories {
 tasks.buildBundleJar.configure {dependsOn(tasks.compileJava)}
 
 dependencies {
+    implementation 'org.jetbrains:annotations:24.0.0'
+
 //     Mixin
     compileOnly("org.spongepowered:mixin:$mixinVersion")
     bundle(annotationProcessor("io.github.llamalad7:mixinextras-common:$mixinExtrasVersion"))

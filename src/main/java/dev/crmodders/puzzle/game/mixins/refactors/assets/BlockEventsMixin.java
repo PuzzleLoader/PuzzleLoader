@@ -10,7 +10,6 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(BlockEvents.class)
 public class BlockEventsMixin {
-
     @Redirect(method = "getInstance(Ljava/lang/String;Ljava/lang/String;)Lfinalforeach/cosmicreach/blockevents/BlockEvents;", at = @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/GameAssetLoader;loadAsset(Ljava/lang/String;)Lcom/badlogic/gdx/files/FileHandle;"))
     private static FileHandle getModelFromModID(String fileName) {
         String noFolder = fileName.replace("block_events/","");
@@ -21,5 +20,4 @@ public class BlockEventsMixin {
         }
         return GameAssetLoader.loadAsset(fileName);
     }
-
 }

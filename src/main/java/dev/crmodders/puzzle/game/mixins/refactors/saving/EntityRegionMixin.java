@@ -11,7 +11,6 @@ import static finalforeach.cosmicreach.world.EntityRegion.getEntityRegionFolderN
 
 @Mixin(EntityRegion.class)
 public class EntityRegionMixin {
-
     /**
      * @author Mr_Zombii
      * @reason Add NBT
@@ -20,9 +19,6 @@ public class EntityRegionMixin {
     public static String getEntityRegionFileName(Zone zone, int regionX, int regionY, int regionZ) {
         String regionFolderName = getEntityRegionFolderName(zone);
         CosmicReachBinarySerializer serializer = new CosmicReachBinarySerializer();
-
-        String regionFileName = regionFolderName + "/entityRegion_" + regionX + "_" + regionY + "_" + regionZ + ((IPuzzleBinarySerializer) serializer).getFileExt();
-        return regionFileName;
+        return regionFolderName + "/entityRegion_" + regionX + "_" + regionY + "_" + regionZ + ((IPuzzleBinarySerializer) serializer).getFileExt();
     }
-
 }

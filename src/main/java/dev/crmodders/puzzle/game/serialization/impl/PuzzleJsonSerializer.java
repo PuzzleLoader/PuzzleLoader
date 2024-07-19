@@ -9,15 +9,15 @@ import dev.crmodders.puzzle.game.serialization.impl.wrappers.PuppetBinarySeriali
 import finalforeach.cosmicreach.io.ICosmicReachBinarySerializable;
 import org.hjson.JsonArray;
 import org.hjson.JsonObject;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Base64;
 
 public class PuzzleJsonSerializer implements IPuzzleBinarySerializer {
-
     JsonObject object = new JsonObject();
 
     @Override
-    public void writeStringArray(String name, String[] array) {
+    public void writeStringArray(String name, String @NotNull [] array) {
         JsonArray array1 = new JsonArray();
         for (String s : array) {
             array1.add(s);
@@ -26,7 +26,7 @@ public class PuzzleJsonSerializer implements IPuzzleBinarySerializer {
     }
 
     @Override
-    public void writeBooleanArray(String name, boolean[] array) {
+    public void writeBooleanArray(String name, boolean @NotNull [] array) {
         JsonArray array1 = new JsonArray();
         for (boolean s : array) {
             array1.add(s);
@@ -35,7 +35,7 @@ public class PuzzleJsonSerializer implements IPuzzleBinarySerializer {
     }
 
     @Override
-    public void writeByteArray(String name, byte[] array) {
+    public void writeByteArray(String name, byte @NotNull [] array) {
         JsonArray array1 = new JsonArray();
         for (int s : array) {
             array1.add(s);
@@ -44,7 +44,7 @@ public class PuzzleJsonSerializer implements IPuzzleBinarySerializer {
     }
 
     @Override
-    public void writeShortArray(String name, short[] array) {
+    public void writeShortArray(String name, short @NotNull [] array) {
         JsonArray array1 = new JsonArray();
         for (int s : array) {
             array1.add(s);
@@ -53,7 +53,7 @@ public class PuzzleJsonSerializer implements IPuzzleBinarySerializer {
     }
 
     @Override
-    public void writeIntArray(String name, int[] array) {
+    public void writeIntArray(String name, int @NotNull [] array) {
         JsonArray array1 = new JsonArray();
         for (int s : array) {
             array1.add(s);
@@ -62,7 +62,7 @@ public class PuzzleJsonSerializer implements IPuzzleBinarySerializer {
     }
 
     @Override
-    public void writeLongArray(String name, long[] array) {
+    public void writeLongArray(String name, long @NotNull [] array) {
         JsonArray array1 = new JsonArray();
         for (long s : array) {
             array1.add(s);
@@ -71,7 +71,7 @@ public class PuzzleJsonSerializer implements IPuzzleBinarySerializer {
     }
 
     @Override
-    public void writeFloatArray(String name, float[] array) {
+    public void writeFloatArray(String name, float @NotNull [] array) {
         JsonArray array1 = new JsonArray();
         for (float s : array) {
             array1.add(s);
@@ -80,7 +80,7 @@ public class PuzzleJsonSerializer implements IPuzzleBinarySerializer {
     }
 
     @Override
-    public void writeDoubleArray(String name, double[] array) {
+    public void writeDoubleArray(String name, double @NotNull [] array) {
         JsonArray array1 = new JsonArray();
         for (double s : array) {
             array1.add(s);
@@ -88,14 +88,14 @@ public class PuzzleJsonSerializer implements IPuzzleBinarySerializer {
         object.set(name, array1);
     }
 
-    private <T extends ICosmicReachBinarySerializable> PuzzleJsonSerializer writeObj(T item) {
+    private <T extends ICosmicReachBinarySerializable> @NotNull PuzzleJsonSerializer writeObj(@NotNull T item) {
         PuzzleJsonSerializer serializer = new PuzzleJsonSerializer();
         item.write(new PuppetBinarySerializer(serializer));
         return serializer;
     }
 
     @Override
-    public <T extends ICosmicReachBinarySerializable> void writeObjArray(String name, Array<T> array) {
+    public <T extends ICosmicReachBinarySerializable> void writeObjArray(String name, @NotNull Array<T> array) {
         JsonObject tag = new JsonObject();
         tag.set("len", array.size);
         for (int i = 0; i < array.size; i++) {
@@ -105,7 +105,7 @@ public class PuzzleJsonSerializer implements IPuzzleBinarySerializer {
     }
 
     @Override
-    public <T extends ICosmicReachBinarySerializable> void writeObjArray(String name, T[] array) {
+    public <T extends ICosmicReachBinarySerializable> void writeObjArray(String name, T @NotNull [] array) {
         JsonObject tag = new JsonObject();
         tag.set("len", array.length);
         for (int i = 0; i < array.length; i++) {
@@ -150,7 +150,7 @@ public class PuzzleJsonSerializer implements IPuzzleBinarySerializer {
     }
 
     @Override
-    public void writeVector2(String name, Vector2 vector) {
+    public void writeVector2(String name, @NotNull Vector2 vector) {
         JsonObject object1 = new JsonObject();
         object1.set("x", vector.x);
         object1.set("y", vector.y);
@@ -159,7 +159,7 @@ public class PuzzleJsonSerializer implements IPuzzleBinarySerializer {
     }
 
     @Override
-    public void writeVector3(String name, Vector3 vector) {
+    public void writeVector3(String name, @NotNull Vector3 vector) {
         JsonObject object1 = new JsonObject();
         object1.set("x", vector.x);
         object1.set("y", vector.y);
@@ -169,16 +169,16 @@ public class PuzzleJsonSerializer implements IPuzzleBinarySerializer {
     }
 
     @Override
-    public void writeBoundingBox(String name, BoundingBox bb) {
+    public void writeBoundingBox(String name, @NotNull BoundingBox bb) {
         writeFloatArray(name, new float[]{bb.min.x, bb.min.y, bb.min.z, bb.max.x, bb.max.y, bb.max.z});
     }
 
-    public void writeSerializer(String name, PuzzleJsonSerializer serializer) {
+    public void writeSerializer(String name, @NotNull PuzzleJsonSerializer serializer) {
         object.set(name, serializer.object);
     }
 
     @Override
-    public <T extends ICosmicReachBinarySerializable> void writeObj(String name, T item) {
+    public <T extends ICosmicReachBinarySerializable> void writeObj(String name, @NotNull T item) {
         PuzzleJsonSerializer serializer = new PuzzleJsonSerializer();
         item.write(new PuppetBinarySerializer(serializer));
         writeSerializer(name, serializer);

@@ -1,6 +1,16 @@
 package dev.crmodders.puzzle.loader.launch;
 
-import java.io.*;
+import net.minecraft.launchwrapper.IClassNameTransformer;
+import net.minecraft.launchwrapper.IClassTransformer;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.io.Closeable;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -15,15 +25,8 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
-import net.minecraft.launchwrapper.IClassNameTransformer;
-import net.minecraft.launchwrapper.IClassTransformer;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 public class PuzzleClassLoader extends URLClassLoader {
-
-    public static Logger logger = LogManager.getLogger("Puzzle | Classloader");
+    public static Logger LOGGER = LogManager.getLogger("Puzzle | Classloader");
 
     public static final int BUFFER_SIZE = 1 << 12;
     private final List<URL> sources;
@@ -47,7 +50,7 @@ public class PuzzleClassLoader extends URLClassLoader {
     private static final boolean DEBUG = Boolean.parseBoolean(System.getProperty("legacy.debugClassLoading", "false"));
     private static final boolean DEBUG_FINER = DEBUG && Boolean.parseBoolean(System.getProperty("legacy.debugClassLoadingFiner", "false"));
 
-    public PuzzleClassLoader(Collection<URL> sources) {
+    public PuzzleClassLoader(@NotNull Collection<URL> sources) {
         this(sources.toArray(new URL[0]));
     }
 
@@ -81,7 +84,7 @@ public class PuzzleClassLoader extends URLClassLoader {
                 renameTransformer = (IClassNameTransformer) transformer;
             }
         } catch (Exception e) {
-            logger.log(Level.ERROR, "A critical problem occurred registering the ASM transformer class {}", transformer.getClass().getName(), e);
+            LOGGER.log(Level.ERROR, "A critical problem occurred registering the ASM transformer class {}", transformer.getClass().getName(), e);
         }
     }
 
@@ -93,11 +96,11 @@ public class PuzzleClassLoader extends URLClassLoader {
                 renameTransformer = (IClassNameTransformer) transformer;
             }
         } catch (Exception e) {
-            logger.log(Level.ERROR, "A critical problem occurred registering the ASM transformer class {}", transformerClassName, e);
+            LOGGER.log(Level.ERROR, "A critical problem occurred registering the ASM transformer class {}", transformerClassName, e);
         }
     }
 
-    public void registerTransformers(String... transformerClassNames) {
+    public void registerTransformers(String @NotNull ... transformerClassNames) {
         for (String transformerClassName : transformerClassNames) {
             registerTransformer(transformerClassName);
         }
@@ -162,9 +165,9 @@ public class PuzzleClassLoader extends URLClassLoader {
                             pkg = definePackage(packageName, manifest, jarURLConnection.getJarFileURL());
                         } else {
                             if (pkg.isSealed() && !pkg.isSealed(jarURLConnection.getJarFileURL())) {
-                                logger.error("The jar file {} is trying to seal already secured path {}", jarFile.getName(), packageName);
+                                LOGGER.error("The jar file {} is trying to seal already secured path {}", jarFile.getName(), packageName);
                             } else if (isSealed(packageName, manifest)) {
-                                logger.error("The jar file {} has a security seal for path {}, but that path is defined and not secure", jarFile.getName(), packageName);
+                                LOGGER.error("The jar file {} has a security seal for path {}, but that path is defined and not secure", jarFile.getName(), packageName);
                             }
                         }
                     }
@@ -173,7 +176,7 @@ public class PuzzleClassLoader extends URLClassLoader {
                     if (pkg == null) {
                         pkg = definePackage(packageName, null, null, null, null, null, null, null);
                     } else if (pkg.isSealed()) {
-                        logger.error("The URL {} is defining elements for sealed path {}", urlConnection.getURL(), packageName);
+                        LOGGER.error("The URL {} is defining elements for sealed path {}", urlConnection.getURL(), packageName);
                     }
                 }
             }
@@ -187,8 +190,8 @@ public class PuzzleClassLoader extends URLClassLoader {
         } catch (Throwable e) {
             invalidClasses.add(name);
             if (DEBUG) {
-                logger.trace("Exception encountered attempting classloading of {}", name, e);
-                logger.error("Exception encountered attempting classloading of", e);
+                LOGGER.trace("Exception encountered attempting classloading of {}", name, e);
+                LOGGER.error("Exception encountered attempting classloading of", e);
             }
             throw new ClassNotFoundException(name, e);
         }
@@ -210,7 +213,7 @@ public class PuzzleClassLoader extends URLClassLoader {
         return name;
     }
 
-    private boolean isSealed(final String path, final Manifest manifest) {
+    private boolean isSealed(final String path, final @NotNull Manifest manifest) {
         Attributes attributes = manifest.getAttributes(path);
         String sealed = null;
         if (attributes != null) {
@@ -226,7 +229,7 @@ public class PuzzleClassLoader extends URLClassLoader {
         return "true".equalsIgnoreCase(sealed);
     }
 
-    private URLConnection findCodeSourceConnectionFor(final String name) {
+    private @Nullable URLConnection findCodeSourceConnectionFor(final String name) {
         final URL resource = findResource(name);
         if (resource != null) {
             try {
@@ -241,14 +244,14 @@ public class PuzzleClassLoader extends URLClassLoader {
 
     private byte[] runTransformers(final String name, final String transformedName, byte[] basicClass) {
         if (DEBUG_FINER) {
-            logger.info("Beginning transform of {{} ({})} Start Length: %d", name, transformedName, (basicClass == null ? 0 : basicClass.length));
+            LOGGER.info("Beginning transform of {{} ({})} Start Length: %d", name, transformedName, (basicClass == null ? 0 : basicClass.length));
             for (final IClassTransformer transformer : transformers) {
                 final String transName = transformer.getClass().getName();
-                logger.info("Before Transformer {{} ({})} {}: %d", name, transformedName, transName, (basicClass == null ? 0 : basicClass.length));
+                LOGGER.info("Before Transformer {{} ({})} {}: %d", name, transformedName, transName, (basicClass == null ? 0 : basicClass.length));
                 basicClass = transformer.transform(name, transformedName, basicClass);
-                logger.info("After  Transformer {{} ({})} {}: %d", name, transformedName, transName, (basicClass == null ? 0 : basicClass.length));
+                LOGGER.info("After  Transformer {{} ({})} {}: %d", name, transformedName, transName, (basicClass == null ? 0 : basicClass.length));
             }
-            logger.info("Ending transform of {{} ({})} Start Length: %d", name, transformedName, (basicClass == null ? 0 : basicClass.length));
+            LOGGER.info("Ending transform of {{} ({})} Start Length: %d", name, transformedName, (basicClass == null ? 0 : basicClass.length));
         } else {
             for (final IClassTransformer transformer : transformers) {
                 basicClass = transformer.transform(name, transformedName, basicClass);
@@ -267,7 +270,7 @@ public class PuzzleClassLoader extends URLClassLoader {
         return sources;
     }
 
-    private byte[] readFully(InputStream stream) {
+    private byte @NotNull [] readFully(InputStream stream) {
         try {
             byte[] buffer = getOrCreateBuffer();
 
@@ -288,7 +291,7 @@ public class PuzzleClassLoader extends URLClassLoader {
             System.arraycopy(buffer, 0, result, 0, totalLength);
             return result;
         } catch (Throwable t) {
-            logger.warn("Problem loading class", t);
+            LOGGER.warn("Problem loading class", t);
             return new byte[0];
         }
     }
@@ -338,13 +341,13 @@ public class PuzzleClassLoader extends URLClassLoader {
             final URL classResource = findResource(resourcePath);
 
             if (classResource == null) {
-                if (DEBUG) logger.info("Failed to find class resource {}", resourcePath);
+                if (DEBUG) LOGGER.info("Failed to find class resource {}", resourcePath);
                 negativeResourceCache.add(name);
                 return null;
             }
             classStream = classResource.openStream();
 
-            if (DEBUG) logger.info("Loading class {} from resource {}", name, classResource.toString());
+            if (DEBUG) LOGGER.info("Loading class {} from resource {}", name, classResource.toString());
             final byte[] data = readFully(classStream);
             resourceCache.put(name, data);
             return data;

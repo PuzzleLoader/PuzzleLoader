@@ -17,7 +17,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Zone.class)
 public class ZoneMixin implements IRenderable {
-
     @Shadow private @Final Point3DMap<Chunk> chunks;
 
     @Inject(method = "runScheduledTriggers", at = @At("HEAD"))

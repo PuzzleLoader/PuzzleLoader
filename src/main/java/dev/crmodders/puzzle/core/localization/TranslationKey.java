@@ -1,12 +1,15 @@
 package dev.crmodders.puzzle.core.localization;
 
-public class TranslationKey {
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
+public class TranslationKey {
 	private final String identifier;
 
 	private final int hashCode;
 
-	public TranslationKey(String identifier) {
+	@Contract(pure = true)
+	public TranslationKey(@NotNull String identifier) {
 		this.identifier = identifier;
 		this.hashCode = identifier.hashCode();
 	}

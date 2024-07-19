@@ -1,13 +1,17 @@
 package dev.crmodders.puzzle.core.registries;
 
 import dev.crmodders.puzzle.core.Identifier;
+import dev.crmodders.puzzle.core.registries.exception.AlreadyFrozenException;
+import dev.crmodders.puzzle.core.registries.exception.MissingEntryException;
+import dev.crmodders.puzzle.core.registries.exception.NotReadableException;
+import dev.crmodders.puzzle.core.registries.exception.NotWritableException;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
 public class MapRegistry<T> implements IRegistry<T> {
-
     protected Identifier identifier;
     protected Map<Identifier, T> values;
     protected boolean readable, writable;
@@ -74,7 +78,7 @@ public class MapRegistry<T> implements IRegistry<T> {
     }
 
     @Override
-    public Iterator<T> iterator() {
+    public @NotNull Iterator<T> iterator() {
         if(readable)
             return values.values().iterator();
         else throw new NotReadableException(this);

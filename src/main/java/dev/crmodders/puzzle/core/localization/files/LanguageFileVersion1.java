@@ -4,6 +4,9 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import dev.crmodders.puzzle.core.localization.*;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,7 +18,8 @@ public class LanguageFileVersion1 extends HashMap<TranslationKey, TranslationEnt
 	@Serial
 	private static final long serialVersionUID = 6502650265026502L;
 
-	public static LanguageFileVersion1 loadLanguageFile(FileHandle file) throws IOException {
+	@Contract("_ -> new")
+	public static @NotNull LanguageFileVersion1 loadLanguageFile(FileHandle file) throws IOException {
 		JsonReader reader = new JsonReader();
 		try (InputStream is = file.read()) {
 			JsonValue value = reader.parse(is);
@@ -32,7 +36,7 @@ public class LanguageFileVersion1 extends HashMap<TranslationKey, TranslationEnt
 	private final int minorVersion;
 	private final Map<String, Integer> priorities;
 
-	public LanguageFileVersion1(JsonValue json) {
+	public LanguageFileVersion1(@NotNull JsonValue json) {
 		JsonValue language_tag = json.get("language_tag");
 		locale = TranslationLocale.fromLanguageTag(language_tag.asString());
 		JsonValue fallback_tag = json.get("fallback_tag");
@@ -50,6 +54,7 @@ public class LanguageFileVersion1 extends HashMap<TranslationKey, TranslationEnt
 			Map<TranslationKey, TranslationEntry> translation = parseId(id);
 			putAll(translation);
 		}
+		// lmao you set the ids
 	}
 
 	@Override
@@ -95,7 +100,7 @@ public class LanguageFileVersion1 extends HashMap<TranslationKey, TranslationEnt
 
 	// internal parser
 
-	private Map<TranslationKey, TranslationEntry> parseId(JsonValue id) {
+	private @NotNull Map<TranslationKey, TranslationEntry> parseId(@NotNull JsonValue id) {
 		int priority = id.getInt("priority");
 		JsonValue strings = id.get("strings");
 		JsonValue format_templates = id.get("format_templates");
@@ -103,7 +108,7 @@ public class LanguageFileVersion1 extends HashMap<TranslationKey, TranslationEnt
 		return parseStrings(id, strings, format_templates);
 	}
 
-	private List<String> getStringTree(JsonValue strings, JsonValue string) {
+	private @NotNull List<String> getStringTree(JsonValue strings, JsonValue string) {
 		List<String> walk = new ArrayList<>();
 		JsonValue parent = string;
 		do {
@@ -114,7 +119,7 @@ public class LanguageFileVersion1 extends HashMap<TranslationKey, TranslationEnt
 		return walk;
 	}
 
-	private JsonValue getFormatTemplateForStringTree(JsonValue strings, JsonValue format_templates, List<String> walk) {
+	private @Nullable JsonValue getFormatTemplateForStringTree(JsonValue strings, JsonValue format_templates, @NotNull List<String> walk) {
 		JsonValue child = format_templates;
 		for (String name : walk) {
 			if (child == null) {
@@ -125,7 +130,7 @@ public class LanguageFileVersion1 extends HashMap<TranslationKey, TranslationEnt
 		return child;
 	}
 
-	private Map<TranslationKey, TranslationEntry> parseStrings(JsonValue id, JsonValue strings, JsonValue format_templates) {
+	private @NotNull Map<TranslationKey, TranslationEntry> parseStrings(JsonValue id, JsonValue strings, JsonValue format_templates) {
 		Map<TranslationKey, TranslationEntry> entries = new HashMap<>();
 
 		List<JsonValue> list = new ArrayList<>();
@@ -150,7 +155,8 @@ public class LanguageFileVersion1 extends HashMap<TranslationKey, TranslationEnt
 		return entries;
 	}
 
-	private TranslationKey parseKey(JsonValue id, List<String> walk) {
+	@Contract("_, _ -> new")
+	private @NotNull TranslationKey parseKey(JsonValue id, @NotNull List<String> walk) {
 		StringBuilder builder = new StringBuilder();
 		for (String name : walk) {
 			builder.append(name).append(".");
@@ -159,7 +165,7 @@ public class LanguageFileVersion1 extends HashMap<TranslationKey, TranslationEnt
 		return new TranslationKey(id.name + ":" + builder);
 	}
 
-	private TranslationEntry parseEntry(JsonValue string, JsonValue format_template) {
+	private @NotNull TranslationEntry parseEntry(JsonValue string, JsonValue format_template) {
 		List<TranslationString> strings = parseArray(string).stream().map(TranslationString::new).toList();
 		if (format_template == null) {
 			return new TranslationEntry(strings);
@@ -169,7 +175,7 @@ public class LanguageFileVersion1 extends HashMap<TranslationKey, TranslationEnt
 		}
 	}
 
-	private List<String> parseArray(JsonValue array) {
+	private List<String> parseArray(@NotNull JsonValue array) {
 		if (array.isArray()) {
 			return Arrays.asList(array.asStringArray());
 		} else {

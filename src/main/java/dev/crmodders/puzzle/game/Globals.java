@@ -11,12 +11,11 @@ import java.util.List;
 import java.util.Set;
 
 public class Globals {
-
     public static List<IZoneRenderer> renderers = new ArrayList<>();
     public static int rendererIndex = 0;
 
     public static void initRenderers() {
-        Logger LOGGER =  LoggerFactory.getLogger("Puzzle | Renderers");
+        Logger LOGGER = LoggerFactory.getLogger("Puzzle | Renderers");
 
         Reflections ref = new Reflections();
 

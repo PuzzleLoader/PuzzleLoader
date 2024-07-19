@@ -6,7 +6,6 @@ import dev.crmodders.puzzle.loader.launch.PuzzleClassLoader;
 import java.util.Collection;
 
 public interface IGameProvider {
-
     // Game Names
     String getId();
     String getName();

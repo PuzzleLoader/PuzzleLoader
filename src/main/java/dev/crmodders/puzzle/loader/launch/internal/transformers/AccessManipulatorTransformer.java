@@ -9,7 +9,6 @@ import net.minecraft.launchwrapper.IClassTransformer;
 import java.util.List;
 
 public class AccessManipulatorTransformer implements IClassTransformer {
-
     public AccessManipulatorTransformer() {
         ModLocator.getMods(List.of(Piece.classLoader.getURLs()));
         Piece.provider.addBuiltinMods();
@@ -35,5 +34,4 @@ public class AccessManipulatorTransformer implements IClassTransformer {
     public byte[] transform(String name, String tname, byte[] classBytes) {
         return AccessManipulators.transformClass(tname, classBytes);
     }
-
 }

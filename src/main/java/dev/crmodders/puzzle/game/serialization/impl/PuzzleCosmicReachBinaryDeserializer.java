@@ -11,15 +11,15 @@ import finalforeach.cosmicreach.io.CosmicReachBinaryDeserializer;
 import finalforeach.cosmicreach.io.ICosmicReachBinarySerializable;
 import finalforeach.cosmicreach.savelib.crbin.CosmicReachBinarySchema;
 import finalforeach.cosmicreach.savelib.crbin.SchemaType;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.nio.ByteBuffer;
 import java.util.Base64;
-import java.util.Iterator;
 import java.util.function.IntFunction;
 import java.util.function.ObjIntConsumer;
 
 public class PuzzleCosmicReachBinaryDeserializer implements IPuzzleBinaryDeserializer {
-
     @Override
     public IPuzzleBinaryDeserializer newInst() {
         return new PuzzleCosmicReachBinaryDeserializer();
@@ -28,23 +28,23 @@ public class PuzzleCosmicReachBinaryDeserializer implements IPuzzleBinaryDeseria
     private CosmicReachBinarySchema schema;
     public Array<CosmicReachBinarySchema> altSchemas;
     public Array<String> strings;
-    private ObjectIntMap<String> intValues = new ObjectIntMap();
-    private ObjectLongMap<String> longValues = new ObjectLongMap();
-    private ObjectFloatMap<String> floatValues = new ObjectFloatMap();
-    private ObjectMap<String, Double> doubleValues = new ObjectMap();
-    private ObjectMap<String, Object> objValues = new ObjectMap();
+    private ObjectIntMap<String> intValues = new ObjectIntMap<>();
+    private ObjectLongMap<String> longValues = new ObjectLongMap<>();
+    private ObjectFloatMap<String> floatValues = new ObjectFloatMap<>();
+    private ObjectMap<String, Double> doubleValues = new ObjectMap<>();
+    private ObjectMap<String, Object> objValues = new ObjectMap<>();
 
     public PuzzleCosmicReachBinaryDeserializer() {
     }
 
-    public static CosmicReachBinaryDeserializer fromBase64(String base64) {
+    public static @NotNull CosmicReachBinaryDeserializer fromBase64(String base64) {
         CosmicReachBinaryDeserializer deserial = new CosmicReachBinaryDeserializer();
         ByteBuffer byteBuf = ByteBuffer.wrap(Base64.getDecoder().decode(base64));
         deserial.prepareForRead(byteBuf);
         return deserial;
     }
 
-    private void readSchema(CosmicReachBinarySchema schema, ByteBuffer bytes) {
+    private void readSchema(CosmicReachBinarySchema schema, @NotNull ByteBuffer bytes) {
         boolean validSchema = false;
 
         while(bytes.hasRemaining()) {
@@ -64,7 +64,7 @@ public class PuzzleCosmicReachBinaryDeserializer implements IPuzzleBinaryDeseria
         }
     }
 
-    private CosmicReachBinaryDeserializer readObj(ByteBuffer bytes) {
+    private @Nullable CosmicReachBinaryDeserializer readObj(ByteBuffer bytes) {
         int altSchema = ByteArrayUtils.readInt(bytes);
         if (altSchema == -1) {
             return null;
@@ -78,114 +78,61 @@ public class PuzzleCosmicReachBinaryDeserializer implements IPuzzleBinaryDeseria
         }
     }
 
-    public void readDataFromSchema(CosmicReachBinarySchema schema, ByteBuffer bytes) {
-        Iterator var3 = schema.getSchema().iterator();
+    public void readDataFromSchema(@NotNull CosmicReachBinarySchema schema, ByteBuffer bytes) {
+        for (CosmicReachBinarySchema.SchemaItem item : schema.getSchema()) {
+            String name = item.name();
+            int i;
+            switch (item.type()) {
+                case OBJ -> this.objValues.put(name, this.readObj(bytes));
+                case OBJ_ARRAY -> {
+                    int length = ByteArrayUtils.readInt(bytes);
+                    CosmicReachBinaryDeserializer[] subDeserial = new CosmicReachBinaryDeserializer[length];
 
-        while(true) {
-            while(var3.hasNext()) {
-                CosmicReachBinarySchema.SchemaItem item = (CosmicReachBinarySchema.SchemaItem)var3.next();
-                String name = item.name();
-                int i;
-                switch (item.type()) {
-                    case OBJ:
-                        this.objValues.put(name, this.readObj(bytes));
-                        break;
-                    case OBJ_ARRAY:
-                        int length = ByteArrayUtils.readInt(bytes);
-                        CosmicReachBinaryDeserializer[] subDeserial = new CosmicReachBinaryDeserializer[length];
+                    for (i = 0; i < length; ++i) {
+                        subDeserial[i] = this.readObj(bytes);
+                    }
 
-                        for(i = 0; i < length; ++i) {
-                            subDeserial[i] = this.readObj(bytes);
-                        }
-
-                        this.objValues.put(name, subDeserial);
-                        break;
-                    case BOOLEAN:
-                    case BYTE:
-                        this.intValues.put(name, ByteArrayUtils.readByte(bytes));
-                        break;
-                    case DOUBLE:
-                        this.doubleValues.put(name, ByteArrayUtils.readDouble(bytes));
-                        break;
-                    case FLOAT:
-                        this.floatValues.put(name, ByteArrayUtils.readFloat(bytes));
-                        break;
-                    case INT:
-                        this.intValues.put(name, ByteArrayUtils.readInt(bytes));
-                        break;
-                    case LONG:
-                        this.longValues.put(name, ByteArrayUtils.readLong(bytes));
-                        break;
-                    case SHORT:
-                        this.intValues.put(name, ByteArrayUtils.readShort(bytes));
-                        break;
-                    case STRING:
-                        i = ByteArrayUtils.readInt(bytes);
-                        this.intValues.put(name, i);
-                        break;
-                    case STRING_ARRAY:
-                        this.readArray(bytes, name, (len) -> {
-                            return new String[len];
-                        }, (arr, ix) -> {
-                            arr[ix] = (String)this.strings.get(ByteArrayUtils.readInt(bytes));
-                        });
-                        break;
-                    case BOOLEAN_ARRAY:
-                        this.readArray(bytes, name, (len) -> {
-                            return new boolean[len];
-                        }, (arr, ix) -> {
-                            arr[ix] = ByteArrayUtils.readByte(bytes) == 1;
-                        });
-                        break;
-                    case BYTE_ARRAY:
-                        this.readArray(bytes, name, (len) -> {
-                            return new byte[len];
-                        }, (arr, ix) -> {
-                            arr[ix] = ByteArrayUtils.readByte(bytes);
-                        });
-                        break;
-                    case DOUBLE_ARRAY:
-                        this.readArray(bytes, name, (len) -> {
-                            return new double[len];
-                        }, (arr, ix) -> {
-                            arr[ix] = ByteArrayUtils.readDouble(bytes);
-                        });
-                        break;
-                    case FLOAT_ARRAY:
-                        this.readArray(bytes, name, (len) -> {
-                            return new float[len];
-                        }, (arr, ix) -> {
-                            arr[ix] = ByteArrayUtils.readFloat(bytes);
-                        });
-                        break;
-                    case INT_ARRAY:
-                        this.readArray(bytes, name, (len) -> {
-                            return new int[len];
-                        }, (arr, ix) -> {
-                            arr[ix] = ByteArrayUtils.readInt(bytes);
-                        });
-                        break;
-                    case LONG_ARRAY:
-                        this.readArray(bytes, name, (len) -> {
-                            return new long[len];
-                        }, (arr, ix) -> {
-                            arr[ix] = ByteArrayUtils.readLong(bytes);
-                        });
-                        break;
-                    case SHORT_ARRAY:
-                        this.readArray(bytes, name, (len) -> {
-                            return new short[len];
-                        }, (arr, ix) -> {
-                            arr[ix] = ByteArrayUtils.readShort(bytes);
-                        });
+                    this.objValues.put(name, subDeserial);
                 }
+                case BOOLEAN, BYTE -> this.intValues.put(name, ByteArrayUtils.readByte(bytes));
+                case DOUBLE -> this.doubleValues.put(name, ByteArrayUtils.readDouble(bytes));
+                case FLOAT -> this.floatValues.put(name, ByteArrayUtils.readFloat(bytes));
+                case INT -> this.intValues.put(name, ByteArrayUtils.readInt(bytes));
+                case LONG -> this.longValues.put(name, ByteArrayUtils.readLong(bytes));
+                case SHORT -> this.intValues.put(name, ByteArrayUtils.readShort(bytes));
+                case STRING -> {
+                    i = ByteArrayUtils.readInt(bytes);
+                    this.intValues.put(name, i);
+                }
+                case STRING_ARRAY -> this.readArray(bytes, name, String[]::new, (arr, ix) -> {
+                    arr[ix] = this.strings.get(ByteArrayUtils.readInt(bytes));
+                });
+                case BOOLEAN_ARRAY -> this.readArray(bytes, name, boolean[]::new, (arr, ix) -> {
+                    arr[ix] = ByteArrayUtils.readByte(bytes) == 1;
+                });
+                case BYTE_ARRAY -> this.readArray(bytes, name, byte[]::new, (arr, ix) -> {
+                    arr[ix] = ByteArrayUtils.readByte(bytes);
+                });
+                case DOUBLE_ARRAY -> this.readArray(bytes, name, double[]::new, (arr, ix) -> {
+                    arr[ix] = ByteArrayUtils.readDouble(bytes);
+                });
+                case FLOAT_ARRAY -> this.readArray(bytes, name, float[]::new, (arr, ix) -> {
+                    arr[ix] = ByteArrayUtils.readFloat(bytes);
+                });
+                case INT_ARRAY -> this.readArray(bytes, name, int[]::new, (arr, ix) -> {
+                    arr[ix] = ByteArrayUtils.readInt(bytes);
+                });
+                case LONG_ARRAY -> this.readArray(bytes, name, long[]::new, (arr, ix) -> {
+                    arr[ix] = ByteArrayUtils.readLong(bytes);
+                });
+                case SHORT_ARRAY -> this.readArray(bytes, name, short[]::new, (arr, ix) -> {
+                    arr[ix] = ByteArrayUtils.readShort(bytes);
+                });
             }
-
-            return;
         }
     }
 
-    private <T> void readArray(ByteBuffer bytes, String name, IntFunction<T> arrCreator, ObjIntConsumer<T> perElement) {
+    private <T> void readArray(ByteBuffer bytes, String name, @NotNull IntFunction<T> arrCreator, ObjIntConsumer<T> perElement) {
         int length = ByteArrayUtils.readInt(bytes);
         T arr = arrCreator.apply(length);
 

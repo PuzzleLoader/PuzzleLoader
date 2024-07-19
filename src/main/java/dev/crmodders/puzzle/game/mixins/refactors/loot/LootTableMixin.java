@@ -4,7 +4,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.llamalad7.mixinextras.lib.apache.commons.tuple.Pair;
 import dev.crmodders.puzzle.core.Identifier;
 import dev.crmodders.puzzle.core.PuzzleRegistries;
-import dev.crmodders.puzzle.core.registries.NotReadableException;
+import dev.crmodders.puzzle.core.registries.exception.NotReadableException;
 import dev.crmodders.puzzle.core.registries.RegistryObject;
 import dev.crmodders.puzzle.game.loot.PuppetLootClass;
 import dev.crmodders.puzzle.game.loot.PuzzleLootTable;
@@ -19,7 +19,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Loot.class)
 public class LootTableMixin {
-
     @Shadow public static ObjectMap<String, Loot> lootMap;
 
     @Redirect(method = "loadLoot", at = @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/items/loot/Loot;registerLoot(Lfinalforeach/cosmicreach/items/loot/Loot;)V"))

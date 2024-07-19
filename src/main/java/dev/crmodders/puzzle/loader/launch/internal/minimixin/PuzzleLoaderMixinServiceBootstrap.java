@@ -31,7 +31,6 @@ import org.spongepowered.asm.service.ServiceInitialisationException;
  * Bootstrap for LaunchWrapper service
  */
 public class PuzzleLoaderMixinServiceBootstrap implements IMixinServiceBootstrap {
-
     private static final String SERVICE_PACKAGE = "org.spongepowered.asm.service.";
     private static final String LAUNCH_PACKAGE = "org.spongepowered.asm.launch.";
     private static final String LOGGING_PACKAGE = "org.spongepowered.asm.logging.";
@@ -70,5 +69,4 @@ public class PuzzleLoaderMixinServiceBootstrap implements IMixinServiceBootstrap
         Piece.classLoader.addClassLoaderExclusion(PuzzleLoaderMixinServiceBootstrap.MIXIN_PACKAGE);
         Piece.classLoader.addClassLoaderExclusion(PuzzleLoaderMixinServiceBootstrap.MIXIN_UTIL_PACKAGE);
     }
-
 }

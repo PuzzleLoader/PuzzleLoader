@@ -6,13 +6,13 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import dev.crmodders.puzzle.annotations.Internal;
 import dev.crmodders.puzzle.loader.launch.Piece;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.function.Consumer;
 
 @Internal
 public class EntrypointContainer {
-
     private final ImmutableMap<String, ImmutableCollection<Class<?>>> entrypointClasses;
 
     public <T> Collection<Class<T>> getClasses(String key, Class<T> type) {
@@ -42,7 +42,7 @@ public class EntrypointContainer {
         }
     }
 
-    public EntrypointContainer(ImmutableMap<String, ImmutableCollection<String>> entrypoints) {
+    public EntrypointContainer(@NotNull ImmutableMap<String, ImmutableCollection<String>> entrypoints) {
         ImmutableMap.Builder<String, ImmutableCollection<Class<?>>> entrypointClasses0 = ImmutableMap.builder();
         entrypoints.keySet().forEach(key -> {
             Collection<Class<?>> classes = new ArrayList<>();
@@ -59,7 +59,7 @@ public class EntrypointContainer {
         entrypointClasses = entrypointClasses0.build();
     }
 
-    public EntrypointContainer(Map<String, Collection<String>> entrypoints) {
+    public EntrypointContainer(@NotNull Map<String, Collection<String>> entrypoints) {
         ImmutableMap.Builder<String, ImmutableCollection<Class<?>>> entrypointClasses0 = ImmutableMap.builder();
         entrypoints.keySet().forEach(key -> {
             Collection<Class<?>> classes = new ArrayList<>();
@@ -75,5 +75,4 @@ public class EntrypointContainer {
         });
         entrypointClasses = entrypointClasses0.build();
     }
-
 }

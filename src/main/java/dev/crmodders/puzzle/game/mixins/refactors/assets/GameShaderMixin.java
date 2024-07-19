@@ -26,5 +26,4 @@ public class GameShaderMixin {
         Identifier id = Identifier.fromString(instance);
         return id.name.replaceAll(regex, replacement);
     }
-
 }

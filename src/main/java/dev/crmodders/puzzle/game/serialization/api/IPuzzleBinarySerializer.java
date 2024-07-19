@@ -7,10 +7,12 @@ import com.badlogic.gdx.utils.Array;
 import dev.crmodders.puzzle.game.serialization.impl.wrappers.PuppetBinarySerializer;
 import finalforeach.cosmicreach.io.CosmicReachBinarySerializer;
 import finalforeach.cosmicreach.io.ICosmicReachBinarySerializable;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 public interface IPuzzleBinarySerializer {
-
-    static CosmicReachBinarySerializer createPuppetSerializer(IPuzzleBinarySerializer serializer) {
+    @Contract("_ -> new")
+    static @NotNull CosmicReachBinarySerializer createPuppetSerializer(IPuzzleBinarySerializer serializer) {
         return new PuppetBinarySerializer(serializer);
     }
 
@@ -44,5 +46,4 @@ public interface IPuzzleBinarySerializer {
     String toBase64();
 
     String getFileExt();
-
 }

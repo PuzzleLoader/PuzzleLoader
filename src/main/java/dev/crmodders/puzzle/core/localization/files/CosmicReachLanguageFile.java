@@ -7,6 +7,8 @@ import dev.crmodders.puzzle.core.localization.ILanguageFile;
 import dev.crmodders.puzzle.core.localization.TranslationEntry;
 import dev.crmodders.puzzle.core.localization.TranslationKey;
 import dev.crmodders.puzzle.core.localization.TranslationLocale;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,7 +23,8 @@ public class CosmicReachLanguageFile extends HashMap<TranslationKey, Translation
 	@Serial
 	private static final long serialVersionUID = 5048234800713263956L;
 
-	public static CosmicReachLanguageFile loadLanguageFile(FileHandle file) throws IOException {
+	@Contract("_ -> new")
+	public static @NotNull CosmicReachLanguageFile loadLanguageFile(@NotNull FileHandle file) throws IOException {
 		JsonReader reader = new JsonReader();
 		try (InputStream is = file.read()) {
 			JsonValue value = reader.parse(is);
@@ -32,12 +35,12 @@ public class CosmicReachLanguageFile extends HashMap<TranslationKey, Translation
 	private TranslationLocale locale;
 	private final List<TranslationLocale> fallbacks = new ArrayList<>();
 
-	public CosmicReachLanguageFile(JsonValue json, String languageTag) {
+	public CosmicReachLanguageFile(@NotNull JsonValue json, String languageTag) {
 		parseMetadata(json.get("metadata"), languageTag);
 		parseStrings(json);
 	}
 
-	private void parseMetadata(JsonValue metadata, String languageTag) {
+	private void parseMetadata(@NotNull JsonValue metadata, @NotNull String languageTag) {
 		locale = TranslationLocale.fromLanguageTag(languageTag.replace("_", "-"));
 		if(metadata.has("fallbacks")) {
 			for (String fallback : metadata.get("fallbacks").asStringArray()) {
@@ -46,7 +49,7 @@ public class CosmicReachLanguageFile extends HashMap<TranslationKey, Translation
 		}
 	}
 
-	private void parseStrings(JsonValue json) {
+	private void parseStrings(@NotNull JsonValue json) {
 		for (int i = 0; i < json.size; i++) {
 			JsonValue string = json.get(i);
 			if (string.name.equals("metadata"))
@@ -86,5 +89,4 @@ public class CosmicReachLanguageFile extends HashMap<TranslationKey, Translation
 	public List<TranslationLocale> fallbacks() {
 		return fallbacks;
 	}
-
 }

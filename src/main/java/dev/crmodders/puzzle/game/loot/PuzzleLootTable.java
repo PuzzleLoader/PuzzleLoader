@@ -12,16 +12,18 @@ import finalforeach.cosmicreach.items.ItemStack;
 import finalforeach.cosmicreach.items.loot.Loot;
 import finalforeach.cosmicreach.items.loot.LootOption;
 import finalforeach.cosmicreach.world.Zone;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PuzzleLootTable {
-
     public PuzzleLootTable() {
     }
 
-    public static Pair<Identifier, PuzzleLootTable> fromVanillaTable(Loot loot) {
+    @Contract("_ -> new")
+    public static @NotNull Pair<Identifier, PuzzleLootTable> fromVanillaTable(@NotNull Loot loot) {
         Identifier lootId = Identifier.fromString(loot.lootId);
 
         PuzzleLootTable table = new PuzzleLootTable();
@@ -50,7 +52,7 @@ public class PuzzleLootTable {
         lootDrops.add(new ImmutablePair<>(weight, new LootDrop[]{new LootDrop(item, min, max)}));
     }
 
-    public void addDrop(float weight, BlockState state, int min, int max) {
+    public void addDrop(float weight, @NotNull BlockState state, int min, int max) {
         totalWeight += weight;
         lootDrops.add(new ImmutablePair<>(weight, new LootDrop[]{new LootDrop(state.getItem(), min, max)}));
     }
@@ -94,11 +96,11 @@ public class PuzzleLootTable {
                             item,
                             MathUtils.random(this.min, this.max)
                     )
-            ); itemDrop.setPosition(pos);
+            );
+            itemDrop.setPosition(pos);
             itemDrop.velocity.setToRandomDirection().scl(1.0F);
             zone.addEntity(itemDrop);
         }
 
     }
-
 }

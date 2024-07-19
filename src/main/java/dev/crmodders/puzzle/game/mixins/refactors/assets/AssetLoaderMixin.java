@@ -15,7 +15,6 @@ import java.util.HashMap;
 
 @Mixin(GameAssetLoader.class)
 public class AssetLoaderMixin {
-
     @Shadow @Final public static HashMap<String, FileHandle> ALL_ASSETS;
 
     /**
@@ -53,5 +52,4 @@ public class AssetLoaderMixin {
     public static Texture getTexture(String fileName) {
         return PuzzleGameAssetLoader.LOADER.loadSync(fileName, Texture.class);
     }
-
 }

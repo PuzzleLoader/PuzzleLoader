@@ -2,6 +2,7 @@ package dev.crmodders.puzzle.core.localization;
 
 import finalforeach.cosmicreach.lang.Lang;
 import finalforeach.cosmicreach.settings.Preferences;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,16 +11,15 @@ import java.util.List;
 import static dev.crmodders.puzzle.core.PuzzleRegistries.LANGUAGES;
 
 public class LanguageManager {
-
 	private static final Logger LOGGER = LoggerFactory.getLogger("Language Manager");
 	public static TranslationEntry UNDEFINED = new TranslationEntry();
 	private static Language selectedLanguage;
 
-	public static boolean hasLanguageInstalled(TranslationLocale locale) {
+	public static boolean hasLanguageInstalled(@NotNull TranslationLocale locale) {
 		return LANGUAGES.contains(locale.toIdentifier());
 	}
 
-	public static void selectLanguage(TranslationLocale locale) {
+	public static void selectLanguage(@NotNull TranslationLocale locale) {
 		Language newLanguage = LANGUAGES.get(locale.toIdentifier());
 		if (newLanguage != null) {
 			selectedLanguage = newLanguage;
@@ -60,5 +60,4 @@ public class LanguageManager {
 	public static String format(TranslationKey key, Object... args) {
 		return translate(key).string().format(args);
 	}
-
 }

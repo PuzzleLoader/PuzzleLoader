@@ -7,7 +7,6 @@ import finalforeach.cosmicreach.blocks.BlockPosition;
 import finalforeach.cosmicreach.world.Chunk;
 
 public class ExtendedBlockEntity extends BlockEntity {
-
     public Identifier blockEntityId;
     public BlockPosition position;
 
@@ -25,5 +24,4 @@ public class ExtendedBlockEntity extends BlockEntity {
     public void initialize(Chunk chunk, int localX, int localY, int localZ) {
         position = new BlockPosition(chunk, localX, localY, localZ);
     }
-
 }

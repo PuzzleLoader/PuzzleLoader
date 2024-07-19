@@ -11,6 +11,7 @@ import dev.dewy.nbt.api.snbt.SnbtConfig;
 import dev.dewy.nbt.tags.TagType;
 import dev.dewy.nbt.tags.collection.CompoundTag;
 import finalforeach.cosmicreach.io.ICosmicReachBinarySerializable;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -18,17 +19,16 @@ import java.util.Base64;
 import java.util.function.Supplier;
 
 public class PuzzleNBTSerializer implements IPuzzleBinarySerializer {
-
     public CompoundTag compound = new CompoundTag();
 
     public PuzzleNBTSerializer() {
     }
 
-    public void writeSerializer(String name, PuzzleNBTSerializer serializer) {
+    public void writeSerializer(String name, @NotNull PuzzleNBTSerializer serializer) {
         compound.put(name, serializer.compound);
     }
 
-    public static byte[] compoundToByteArray(CompoundTag tag) {
+    public static byte @NotNull [] compoundToByteArray(@NotNull CompoundTag tag) {
         TagTypeRegistry registry = new TagTypeRegistry();
 
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -46,7 +46,7 @@ public class PuzzleNBTSerializer implements IPuzzleBinarySerializer {
         return stream.toByteArray();
     }
 
-    public static String compoundToBase64(CompoundTag tag) {
+    public static @NotNull String compoundToBase64(CompoundTag tag) {
         byte[] bytes = compoundToByteArray(tag);
         return new String(Base64.getEncoder().encode(bytes), StandardCharsets.UTF_8);
     }
@@ -60,13 +60,13 @@ public class PuzzleNBTSerializer implements IPuzzleBinarySerializer {
         System.out.println(tag.toSnbt(2, registry, config));
     }
 
-    public <T extends ICosmicReachBinarySerializable> void writeObj(String name, T item) {
+    public <T extends ICosmicReachBinarySerializable> void writeObj(String name, @NotNull T item) {
         PuzzleNBTSerializer serializer = new PuzzleNBTSerializer();
         item.write(new PuppetBinarySerializer(serializer));
         writeSerializer(name, serializer);
     }
 
-    private <T extends ICosmicReachBinarySerializable> PuzzleNBTSerializer writeObj(T item) {
+    private <T extends ICosmicReachBinarySerializable> @NotNull PuzzleNBTSerializer writeObj(@NotNull T item) {
         PuzzleNBTSerializer serializer = new PuzzleNBTSerializer();
         item.write(new PuppetBinarySerializer(serializer));
         return serializer;
@@ -119,7 +119,7 @@ public class PuzzleNBTSerializer implements IPuzzleBinarySerializer {
         compound.putLongArray(name, array);
     }
 
-    public void writeFloatArray(String name, float[] array) {
+    public void writeFloatArray(String name, float @NotNull [] array) {
         CompoundTag tag = new CompoundTag(name);
         tag.putInt("len", array.length);
         for (int i = 0; i < array.length; i++) {
@@ -128,7 +128,7 @@ public class PuzzleNBTSerializer implements IPuzzleBinarySerializer {
         compound.put(tag);
     }
 
-    public void writeDoubleArray(String name, double[] array) {
+    public void writeDoubleArray(String name, double @NotNull [] array) {
         CompoundTag tag = new CompoundTag(name);
         tag.putInt("len", array.length);
         for (int i = 0; i < array.length; i++) {
@@ -137,7 +137,7 @@ public class PuzzleNBTSerializer implements IPuzzleBinarySerializer {
         compound.put(tag);
     }
 
-    public void writeStringArray(String name, String[] array) {
+    public void writeStringArray(String name, String @NotNull [] array) {
         CompoundTag tag = new CompoundTag(name);
         tag.putInt("len", array.length);
         for (int i = 0; i < array.length; i++) {
@@ -146,7 +146,7 @@ public class PuzzleNBTSerializer implements IPuzzleBinarySerializer {
         compound.put(tag);
     }
 
-    public <T extends ICosmicReachBinarySerializable> void writeObjArray(String name, Array<T> array) {
+    public <T extends ICosmicReachBinarySerializable> void writeObjArray(String name, @NotNull Array<T> array) {
         CompoundTag tag = new CompoundTag(name);
         tag.putInt("len", array.size);
         for (int i = 0; i < array.size; i++) {
@@ -155,7 +155,7 @@ public class PuzzleNBTSerializer implements IPuzzleBinarySerializer {
         compound.put(tag);
     }
 
-    public <T extends ICosmicReachBinarySerializable> void writeObjArray(String name, T[] array) {
+    public <T extends ICosmicReachBinarySerializable> void writeObjArray(String name, T @NotNull [] array) {
         CompoundTag tag = new CompoundTag(name);
         tag.putInt("len", array.length);
         for (int i = 0; i < array.length; i++) {
@@ -196,14 +196,14 @@ public class PuzzleNBTSerializer implements IPuzzleBinarySerializer {
         compound.putString(name, value);
     }
 
-    public void writeVector2(String name, Vector2 vector) {
+    public void writeVector2(String name, @NotNull Vector2 vector) {
         CompoundTag tag = new CompoundTag(name);
         tag.putFloat("x", vector.x);
         tag.putFloat("y", vector.y);
         compound.put(tag);
     }
 
-    public void writeVector3(String name, Vector3 vector) {
+    public void writeVector3(String name, @NotNull Vector3 vector) {
         CompoundTag tag = new CompoundTag(name);
         tag.putFloat("x", vector.x);
         tag.putFloat("y", vector.y);
@@ -211,8 +211,7 @@ public class PuzzleNBTSerializer implements IPuzzleBinarySerializer {
         compound.put(tag);
     }
 
-    public void writeBoundingBox(String name, BoundingBox bb) {
+    public void writeBoundingBox(String name, @NotNull BoundingBox bb) {
         writeFloatArray(name, new float[]{bb.min.x, bb.min.y, bb.min.z, bb.max.x, bb.max.y, bb.max.z});
     }
-
 }

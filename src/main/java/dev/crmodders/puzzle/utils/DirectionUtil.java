@@ -1,10 +1,12 @@
 package dev.crmodders.puzzle.utils;
 
 import finalforeach.cosmicreach.constants.Direction;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 public class DirectionUtil {
-
-    public static Direction opposite(Direction d) {
+    @Contract(pure = true)
+    public static Direction opposite(@NotNull Direction d) {
         return switch (d) {
             case NEG_X -> Direction.POS_X;
             case POS_X -> Direction.NEG_X;
@@ -14,5 +16,4 @@ public class DirectionUtil {
             case POS_Z -> Direction.NEG_Z;
         };
     }
-
 }

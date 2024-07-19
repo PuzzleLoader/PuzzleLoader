@@ -10,8 +10,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ItemStack.class)
-public class ItemPickblock {
-
+public class ItemPickBlock {
     @Shadow private Item item;
 
     @Inject(method = "setItem", at = @At("HEAD"), cancellable = true)
@@ -21,5 +20,4 @@ public class ItemPickblock {
             ci.cancel();
         }
     }
-
 }

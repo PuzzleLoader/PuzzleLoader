@@ -11,7 +11,6 @@ import de.pottgames.tuningfork.SoundBuffer;
 import de.pottgames.tuningfork.SoundLoader;
 
 public class TuningForkLoader extends AsynchronousAssetLoader<SoundBuffer, TuningForkLoader.TuningForkParameters> {
-
     public TuningForkLoader(FileHandleResolver resolver) {
         super(resolver);
     }
@@ -35,5 +34,4 @@ public class TuningForkLoader extends AsynchronousAssetLoader<SoundBuffer, Tunin
     public static class TuningForkParameters extends AssetLoaderParameters<SoundBuffer> {
         public boolean reverse = false;
     }
-
 }

@@ -12,6 +12,8 @@ import finalforeach.cosmicreach.GameAssetLoader;
 import finalforeach.cosmicreach.lwjgl3.Lwjgl3Launcher;
 import dev.crmodders.puzzle.loader.mod.ModLocator;
 import dev.crmodders.puzzle.loader.launch.PuzzleClassLoader;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.launch.MixinBootstrap;
 import org.spongepowered.asm.launch.platform.CommandLineOptions;
 import org.spongepowered.asm.mixin.MixinEnvironment;
@@ -26,7 +28,6 @@ import java.util.regex.Pattern;
 import static dev.crmodders.puzzle.utils.MethodUtil.*;
 
 public class CosmicReachProvider implements IGameProvider {
-
     String MIXIN_START = "start";
     String MIXIN_DO_INIT = "doInit";
     String MIXIN_INJECT = "inject";
@@ -76,7 +77,7 @@ public class CosmicReachProvider implements IGameProvider {
     }
 
     @Override
-    public void registerTransformers(PuzzleClassLoader classLoader) {
+    public void registerTransformers(@NotNull PuzzleClassLoader classLoader) {
         ModLocator.getMods(List.of(classLoader.getURLs()));
         addBuiltinMods();
 
@@ -152,10 +153,10 @@ public class CosmicReachProvider implements IGameProvider {
 
     }
 
-    static File lookForJarVariations(String offs) {
-        Pattern type1 = Pattern.compile("Cosmic Reach-[\\d]+\\.[\\d]+.[\\d]+\\.jar", Pattern.CASE_INSENSITIVE);
-        Pattern type2 = Pattern.compile("Cosmic_Reach-[\\d]+\\.[\\d]+.[\\d]+\\.jar", Pattern.CASE_INSENSITIVE);
-        Pattern type3 = Pattern.compile("CosmicReach-[\\d]+\\.[\\d]+.[\\d]+\\.jar", Pattern.CASE_INSENSITIVE);
+    static @Nullable File lookForJarVariations(String offs) {
+        Pattern type1 = Pattern.compile("Cosmic Reach-\\d+\\.\\d+.\\d+\\.jar", Pattern.CASE_INSENSITIVE);
+        Pattern type2 = Pattern.compile("Cosmic_Reach-\\d+\\.\\d+.\\d+\\.jar", Pattern.CASE_INSENSITIVE);
+        Pattern type3 = Pattern.compile("CosmicReach-\\d+\\.\\d+.\\d+\\.jar", Pattern.CASE_INSENSITIVE);
         for (File f : Objects.requireNonNull(new File(offs).listFiles())) {
             if (type1.matcher(f.getName()).find()) return f;
             if (type2.matcher(f.getName()).find()) return f;
@@ -167,14 +168,14 @@ public class CosmicReachProvider implements IGameProvider {
         return null;
     }
 
-    static File toCrJar(File f) {
+    static @Nullable File toCrJar(@NotNull File f) {
         if (!f.exists()) return null;
         return f;
     }
 
     public static String DEFAULT_PACKAGE = "finalforeach.cosmicreach.lwjgl3";
 
-    static File searchForCosmicReach() {
+    static @Nullable File searchForCosmicReach() {
         if (ClassLoader.getPlatformClassLoader().getDefinedPackage(DEFAULT_PACKAGE) == null) {File jarFile;
             jarFile = lookForJarVariations(".");
             if (jarFile != null) return toCrJar(jarFile);
@@ -183,6 +184,4 @@ public class CosmicReachProvider implements IGameProvider {
         }
         return null;
     }
-
-
 }

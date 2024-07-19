@@ -1,6 +1,8 @@
 package dev.crmodders.puzzle.core;
 
 import dev.crmodders.puzzle.annotations.Stable;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
@@ -12,12 +14,12 @@ import java.util.Objects;
  */
 @Stable
 public class Identifier {
-
-    public static Identifier of(String namespace, String name) {
+    @Contract(value = "_, _ -> new", pure = true)
+    public static @NotNull Identifier of(String namespace, String name) {
         return new Identifier(namespace, name);
     }
 
-    public static Identifier fromString(String id) {
+    public static @NotNull Identifier fromString(@NotNull String id) {
         int index = id.indexOf(':');
         if(index == -1) return of("base", id);
         if(index != id.lastIndexOf(':')) throw new IllegalArgumentException("Malformed Identifier String: \"" + id + "\"");
@@ -51,5 +53,4 @@ public class Identifier {
     public String toString() {
         return namespace + ":" + name;
     }
-
 }

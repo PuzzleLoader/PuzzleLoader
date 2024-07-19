@@ -9,18 +9,19 @@ import dev.crmodders.puzzle.utils.AnsiColours;
 import dev.crmodders.puzzle.core.Identifier;
 import dev.crmodders.puzzle.core.localization.files.LanguageFileVersion1;
 import finalforeach.cosmicreach.io.SaveLocation;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class PuzzleGameAssetLoader {
-
     private static final Logger LOGGER = LoggerFactory.getLogger("Puzzle | AssetLoader");
 
     public static FileHandle locateAsset(String fileName) {
         return locateAsset(Identifier.fromString(fileName));
     }
 
-    public static FileHandle locateAsset(Identifier location) {
+    public static @Nullable FileHandle locateAsset(@NotNull Identifier location) {
         FileHandle classpathLocationFile = Gdx.files.classpath("assets/%s/%s".formatted(location.namespace, location.name));
         if (classpathLocationFile.exists()) {
             LOGGER.info("Loading " + AnsiColours.PURPLE + "\"{}\"" + AnsiColours.WHITE + "from Java Mod " + AnsiColours.GREEN + "\"{}\"" + AnsiColours.WHITE, location.name, location.namespace);
@@ -75,16 +76,16 @@ public class PuzzleGameAssetLoader {
         assetManager.unload(fileName);
     }
 
-    public <T> void loadResource(Identifier location, Class<T> assetClass) {
+    public <T> void loadResource(@NotNull Identifier location, Class<T> assetClass) {
         assetManager.load(location.toString(), assetClass);
     }
 
-    public <T> T loadResourceSync(Identifier location, Class<T> assetClass) {
+    public <T> T loadResourceSync(@NotNull Identifier location, Class<T> assetClass) {
         assetManager.load(location.toString(), assetClass);
         return assetManager.finishLoadingAsset(location.toString());
     }
 
-    public <T> T getResource(Identifier location, Class<T> assetClass) {
+    public <T> T getResource(@NotNull Identifier location, Class<T> assetClass) {
         if(!assetManager.isLoaded(location.toString())) {
             LOGGER.error("Asset not loaded {} ({}) loading now", location, assetClass.getSimpleName());
             return loadResourceSync(location, assetClass);
@@ -92,7 +93,7 @@ public class PuzzleGameAssetLoader {
         return assetManager.get(location.toString(), assetClass);
     }
 
-    public void unloadResource(Identifier location) {
+    public void unloadResource(@NotNull Identifier location) {
         assetManager.unload(location.toString());
     }
 

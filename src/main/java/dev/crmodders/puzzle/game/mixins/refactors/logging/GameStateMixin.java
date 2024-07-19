@@ -25,5 +25,4 @@ public class GameStateMixin {
             LOGGER.info("Switched from "+ AnsiColours.RED + "{}"+ AnsiColours.WHITE + " to " + AnsiColours.RED + "{}"+ AnsiColours.WHITE, currentGameState.getClass().getSimpleName(), gameState.getClass().getSimpleName());
         }
     }
-
 }

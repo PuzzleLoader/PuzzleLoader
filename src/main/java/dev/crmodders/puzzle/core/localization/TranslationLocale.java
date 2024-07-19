@@ -1,6 +1,7 @@
 package dev.crmodders.puzzle.core.localization;
 
 import dev.crmodders.puzzle.core.Identifier;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Locale;
 import java.util.Objects;
@@ -8,8 +9,7 @@ import java.util.Objects;
 import static dev.crmodders.puzzle.core.Puzzle.MOD_ID;
 
 public class TranslationLocale {
-
-	public static TranslationLocale fromLanguageTag(String languageTag) {
+	public static @NotNull TranslationLocale fromLanguageTag(String languageTag) {
 		Locale locale = Locale.forLanguageTag(languageTag);
 		return new TranslationLocale(locale.getCountry(), locale.getDisplayCountry(), locale.getLanguage(), locale.getDisplayLanguage(), locale.getVariant(), locale.getDisplayVariant());
 	}
@@ -60,5 +60,4 @@ public class TranslationLocale {
 	public String toString() {
 		return toLanguageTag();
 	}
-
 }

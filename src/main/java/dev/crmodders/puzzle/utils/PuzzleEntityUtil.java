@@ -5,10 +5,10 @@ import dev.crmodders.puzzle.core.Identifier;
 import finalforeach.cosmicreach.entities.Entity;
 import finalforeach.cosmicreach.entities.Player;
 import finalforeach.cosmicreach.world.Zone;
+import org.jetbrains.annotations.NotNull;
 
 public class PuzzleEntityUtil {
-
-    public static Entity getClosestEntity(Zone zone, Entity sourceEntity) {
+    public static Entity getClosestEntity(@NotNull Zone zone, @NotNull Entity sourceEntity) {
         Entity closest = null;
         float closestDst = Float.MAX_VALUE;
         float range = sourceEntity.sightRange;
@@ -32,7 +32,7 @@ public class PuzzleEntityUtil {
         return closest;
     }
 
-    public static Entity getClosestEntity(Zone zone, Entity sourceEntity, Identifier entityId) {
+    public static Entity getClosestEntity(@NotNull Zone zone, @NotNull Entity sourceEntity, Identifier entityId) {
         Entity closest = null;
         float closestDst = Float.MAX_VALUE;
         float range = sourceEntity.sightRange;
@@ -58,7 +58,7 @@ public class PuzzleEntityUtil {
         return closest;
     }
 
-    public static Entity getClosestPlayerToEntity(Zone zone, Entity sourceEntity) {
+    public static Entity getClosestPlayerToEntity(@NotNull Zone zone, @NotNull Entity sourceEntity) {
         Array<Player> players = zone.players;
         Entity closest = null;
         float closestDst = Float.MAX_VALUE;

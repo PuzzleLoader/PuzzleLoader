@@ -4,6 +4,7 @@ import dev.crmodders.puzzle.core.localization.ILanguageFile;
 import dev.crmodders.puzzle.core.localization.TranslationEntry;
 import dev.crmodders.puzzle.core.localization.TranslationKey;
 import dev.crmodders.puzzle.core.localization.TranslationLocale;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.Serial;
 import java.util.*;
@@ -20,7 +21,7 @@ public class MergedLanguageFile extends HashMap<TranslationKey, TranslationEntry
 		this.locale = locale;
 	}
 
-	public void addLanguageFile(ILanguageFile file) {
+	public void addLanguageFile(@NotNull ILanguageFile file) {
 		putAll(file.all());
 		fallbacks.addAll(file.fallbacks());
 	}

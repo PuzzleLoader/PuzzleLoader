@@ -6,6 +6,8 @@ import dev.crmodders.puzzle.core.localization.TranslationEntry;
 import dev.crmodders.puzzle.core.localization.TranslationKey;
 import dev.crmodders.puzzle.core.localization.TranslationLocale;
 import dev.crmodders.puzzle.loader.mod.Version;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.Serial;
 import java.util.*;
@@ -16,7 +18,8 @@ public class CrypticLanguageFile extends HashMap<TranslationKey, TranslationEntr
     @Serial
     private static final long serialVersionUID = 235800189204634733L;
 
-    public static CrypticLanguageFile loadLanguageFile(FileHandle file) {
+    @Contract("_ -> new")
+    public static @NotNull CrypticLanguageFile loadLanguageFile(@NotNull FileHandle file) {
         return new CrypticLanguageFile(file.readString());
     }
 
@@ -24,7 +27,7 @@ public class CrypticLanguageFile extends HashMap<TranslationKey, TranslationEntr
     private final Version version;
     private final Set<TranslationLocale> fallbacks = new HashSet<>();
 
-    public CrypticLanguageFile(String source) {
+    public CrypticLanguageFile(@NotNull String source) {
         HashMap<String, String> translatables = new HashMap<>();
         String[] lines = source.split("\n");
         for (String line : lines) {
@@ -77,7 +80,7 @@ public class CrypticLanguageFile extends HashMap<TranslationKey, TranslationEntr
     }
 
     @Override
-    public TranslationEntry get(TranslationKey key) {
+    public TranslationEntry get(@NotNull TranslationKey key) {
         return get((Object) new TranslationKey(key.getIdentifier().replace("::", ".")));
     }
 
@@ -108,7 +111,7 @@ public class CrypticLanguageFile extends HashMap<TranslationKey, TranslationEntr
     // needs to remain as :: because in the file it is `base::test->help translation::stuff`
     private static final Pattern transPattern = Pattern.compile("\\S+::\\S+");
 
-    private void resolveTranslations(Map<String, String> translatables) {
+    private void resolveTranslations(@NotNull Map<String, String> translatables) {
         for (Map.Entry<String, String> entry : translatables.entrySet()) {
             String translation = entry.getValue();
             Matcher matcher = transPattern.matcher(translation);

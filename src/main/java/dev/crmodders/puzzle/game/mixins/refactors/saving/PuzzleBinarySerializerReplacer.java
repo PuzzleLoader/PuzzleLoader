@@ -18,7 +18,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(CosmicReachBinarySerializer.class)
 public abstract class PuzzleBinarySerializerReplacer implements IPuzzleBinarySerializer {
-
     @Unique
     private static Class<? extends IPuzzleBinarySerializer> defaultSerializer;
 

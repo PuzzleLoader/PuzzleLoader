@@ -25,7 +25,6 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(Chunk.class)
 public abstract class ChunkMixin implements ITickable, IRenderable {
-
     @Shadow
     IPoint3DMap<BlockEntity> blockEntities;
 
