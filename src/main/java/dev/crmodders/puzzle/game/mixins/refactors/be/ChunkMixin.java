@@ -8,7 +8,7 @@ import dev.crmodders.puzzle.game.blockentities.INeighborUpdateListener;
 import dev.crmodders.puzzle.game.blockentities.IRenderable;
 import dev.crmodders.puzzle.game.blockentities.ITickable;
 import dev.crmodders.puzzle.game.mixins.accessors.Point3DMapAccessor;
-import dev.crmodders.puzzle.utils.DirectionUtil;
+import dev.crmodders.puzzle.game.util.DirectionUtil;
 import finalforeach.cosmicreach.blockentities.BlockEntity;
 import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.constants.Direction;

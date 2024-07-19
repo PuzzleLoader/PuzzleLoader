@@ -1,4 +1,4 @@
-package dev.crmodders.puzzle.loader.providers.impl;
+package dev.crmodders.puzzle.game.provider;
 
 //import dev.crmodders.puzzle.game.internal.mods.FluxPuzzle;
 
@@ -29,8 +29,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-import static dev.crmodders.puzzle.utils.MethodUtil.getDeclaredMethod;
-import static dev.crmodders.puzzle.utils.MethodUtil.runStaticMethod;
+import static dev.crmodders.puzzle.util.MethodUtil.getDeclaredMethod;
+import static dev.crmodders.puzzle.util.MethodUtil.runStaticMethod;
 
 public class CosmicReachProvider implements IGameProvider {
     String MIXIN_START = "start";

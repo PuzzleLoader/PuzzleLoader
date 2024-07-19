@@ -2,7 +2,7 @@ package dev.crmodders.puzzle.game.mixins.refactors.logging;
 
 import com.badlogic.gdx.assets.AssetManager;
 import dev.crmodders.puzzle.loader.launch.Piece;
-import dev.crmodders.puzzle.utils.AnsiColours;
+import dev.crmodders.puzzle.util.AnsiColours;
 import finalforeach.cosmicreach.BlockGame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

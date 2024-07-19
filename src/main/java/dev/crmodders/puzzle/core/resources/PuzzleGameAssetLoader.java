@@ -7,7 +7,7 @@ import com.badlogic.gdx.files.FileHandle;
 import de.pottgames.tuningfork.SoundBuffer;
 import dev.crmodders.puzzle.core.Identifier;
 import dev.crmodders.puzzle.core.localization.files.LanguageFileVersion1;
-import dev.crmodders.puzzle.utils.AnsiColours;
+import dev.crmodders.puzzle.util.AnsiColours;
 import finalforeach.cosmicreach.io.SaveLocation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

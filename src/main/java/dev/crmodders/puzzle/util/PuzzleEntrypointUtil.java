@@ -1,4 +1,4 @@
-package dev.crmodders.puzzle.utils;
+package dev.crmodders.puzzle.util;
 
 import dev.crmodders.puzzle.loader.mod.ModContainer;
 import dev.crmodders.puzzle.loader.mod.ModLocator;

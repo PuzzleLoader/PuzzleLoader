@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.Array;
 import dev.crmodders.puzzle.game.serialization.api.IPuzzleBinaryDeserializer;
 import dev.crmodders.puzzle.game.serialization.impl.PuzzleCosmicReachBinaryDeserializer;
 import dev.crmodders.puzzle.game.serialization.impl.wrappers.PuppetBinaryDeserializer;
-import dev.crmodders.puzzle.utils.ClassUtil;
+import dev.crmodders.puzzle.util.ClassUtil;
 import finalforeach.cosmicreach.io.CosmicReachBinaryDeserializer;
 import finalforeach.cosmicreach.io.ICosmicReachBinarySerializable;
 import finalforeach.cosmicreach.savelib.crbin.CosmicReachBinarySchema;

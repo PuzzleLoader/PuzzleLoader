@@ -1,4 +1,4 @@
-package dev.crmodders.puzzle.utils;
+package dev.crmodders.puzzle.util;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;

@@ -1,6 +1,6 @@
 package dev.crmodders.puzzle.game.mixins.refactors.logging;
 
-import dev.crmodders.puzzle.utils.AnsiColours;
+import dev.crmodders.puzzle.util.AnsiColours;
 import finalforeach.cosmicreach.gamestates.GameState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

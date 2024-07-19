@@ -2,7 +2,7 @@ package dev.crmodders.puzzle.loader.entrypoint.interfaces;
 
 import dev.crmodders.puzzle.annotations.Stable;
 import dev.crmodders.puzzle.loader.launch.Piece;
-import dev.crmodders.puzzle.utils.PuzzleEntrypointUtil;
+import dev.crmodders.puzzle.util.PuzzleEntrypointUtil;
 
 /* The Main init entrypoint for PuzzleLoader */
 @Stable

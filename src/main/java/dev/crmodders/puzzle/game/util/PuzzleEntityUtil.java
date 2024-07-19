@@ -1,4 +1,4 @@
-package dev.crmodders.puzzle.utils;
+package dev.crmodders.puzzle.game.util;
 
 import com.badlogic.gdx.utils.Array;
 import dev.crmodders.puzzle.core.Identifier;

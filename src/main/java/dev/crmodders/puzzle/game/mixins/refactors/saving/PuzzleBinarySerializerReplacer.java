@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.collision.BoundingBox;
 import com.badlogic.gdx.utils.Array;
 import dev.crmodders.puzzle.game.serialization.api.IPuzzleBinarySerializer;
 import dev.crmodders.puzzle.game.serialization.impl.PuzzleCosmicReachBinarySerializer;
-import dev.crmodders.puzzle.utils.ClassUtil;
+import dev.crmodders.puzzle.util.ClassUtil;
 import finalforeach.cosmicreach.io.CosmicReachBinarySerializer;
 import finalforeach.cosmicreach.io.ICosmicReachBinarySerializable;
 import org.spongepowered.asm.mixin.Mixin;

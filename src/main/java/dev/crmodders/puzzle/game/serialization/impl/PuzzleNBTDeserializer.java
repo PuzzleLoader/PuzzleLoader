@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.collision.BoundingBox;
 import com.badlogic.gdx.utils.Array;
 import dev.crmodders.puzzle.game.serialization.api.IPuzzleBinaryDeserializer;
 import dev.crmodders.puzzle.game.serialization.impl.wrappers.PuppetBinaryDeserializer;
-import dev.crmodders.puzzle.utils.ClassUtil;
+import dev.crmodders.puzzle.util.ClassUtil;
 import dev.dewy.nbt.api.registry.TagTypeRegistry;
 import dev.dewy.nbt.tags.collection.CompoundTag;
 import finalforeach.cosmicreach.io.CosmicReachBinaryDeserializer;

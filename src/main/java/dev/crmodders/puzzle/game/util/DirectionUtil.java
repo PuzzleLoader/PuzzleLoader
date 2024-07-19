@@ -1,4 +1,4 @@
-package dev.crmodders.puzzle.utils;
+package dev.crmodders.puzzle.game.util;
 
 import finalforeach.cosmicreach.constants.Direction;
 import org.jetbrains.annotations.Contract;

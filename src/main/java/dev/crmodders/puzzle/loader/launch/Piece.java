@@ -1,9 +1,9 @@
 package dev.crmodders.puzzle.loader.launch;
 
+import dev.crmodders.puzzle.game.provider.CosmicReachProvider;
 import dev.crmodders.puzzle.loader.mod.ModLocator;
 import dev.crmodders.puzzle.loader.providers.api.IGameProvider;
-import dev.crmodders.puzzle.loader.providers.impl.CosmicReachProvider;
-import dev.crmodders.puzzle.utils.MethodUtil;
+import dev.crmodders.puzzle.util.MethodUtil;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
