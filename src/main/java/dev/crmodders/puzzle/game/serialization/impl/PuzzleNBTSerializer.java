@@ -13,7 +13,9 @@ import dev.dewy.nbt.tags.collection.CompoundTag;
 import finalforeach.cosmicreach.io.ICosmicReachBinarySerializable;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.function.Supplier;

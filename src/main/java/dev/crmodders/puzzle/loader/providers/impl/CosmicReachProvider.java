@@ -1,17 +1,18 @@
 package dev.crmodders.puzzle.loader.providers.impl;
 
 //import dev.crmodders.puzzle.game.internal.mods.FluxPuzzle;
+
 import dev.crmodders.puzzle.loader.entrypoint.interfaces.TransformerInitializer;
+import dev.crmodders.puzzle.loader.launch.PuzzleClassLoader;
 import dev.crmodders.puzzle.loader.launch.internal.mods.PuzzleTransformers;
 import dev.crmodders.puzzle.loader.mod.AccessTransformerType;
 import dev.crmodders.puzzle.loader.mod.ModContainer;
+import dev.crmodders.puzzle.loader.mod.ModLocator;
 import dev.crmodders.puzzle.loader.mod.Version;
 import dev.crmodders.puzzle.loader.mod.info.ModInfo;
 import dev.crmodders.puzzle.loader.providers.api.IGameProvider;
 import finalforeach.cosmicreach.GameAssetLoader;
 import finalforeach.cosmicreach.lwjgl3.Lwjgl3Launcher;
-import dev.crmodders.puzzle.loader.mod.ModLocator;
-import dev.crmodders.puzzle.loader.launch.PuzzleClassLoader;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.launch.MixinBootstrap;
@@ -22,10 +23,14 @@ import org.spongepowered.asm.mixin.Mixins;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
-import static dev.crmodders.puzzle.utils.MethodUtil.*;
+import static dev.crmodders.puzzle.utils.MethodUtil.getDeclaredMethod;
+import static dev.crmodders.puzzle.utils.MethodUtil.runStaticMethod;
 
 public class CosmicReachProvider implements IGameProvider {
     String MIXIN_START = "start";

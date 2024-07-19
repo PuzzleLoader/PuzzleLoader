@@ -8,7 +8,10 @@ import dev.crmodders.puzzle.annotations.Internal;
 import dev.crmodders.puzzle.loader.launch.Piece;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 @Internal

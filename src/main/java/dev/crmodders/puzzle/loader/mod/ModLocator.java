@@ -1,8 +1,6 @@
 package dev.crmodders.puzzle.loader.mod;
 
 import com.google.gson.Gson;
-//import dev.crmodders.puzzle.game.internal.mods.FluxPuzzle;
-//import dev.crmodders.puzzle.game.internal.mods.FluxPuzzle;
 import dev.crmodders.puzzle.loader.mod.info.ModInfo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,7 +8,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.*;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.zip.ZipEntry;

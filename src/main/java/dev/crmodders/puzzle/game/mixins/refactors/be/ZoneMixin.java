@@ -2,9 +2,9 @@ package dev.crmodders.puzzle.game.mixins.refactors.be;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.utils.IntMap;
-import dev.crmodders.puzzle.game.mixins.accessors.Point3DMapAccessor;
 import dev.crmodders.puzzle.game.blockentities.IRenderable;
 import dev.crmodders.puzzle.game.blockentities.ITickable;
+import dev.crmodders.puzzle.game.mixins.accessors.Point3DMapAccessor;
 import finalforeach.cosmicreach.util.Point3DMap;
 import finalforeach.cosmicreach.world.Chunk;
 import finalforeach.cosmicreach.world.Zone;

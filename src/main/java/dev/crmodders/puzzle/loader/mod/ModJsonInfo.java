@@ -1,6 +1,7 @@
 package dev.crmodders.puzzle.loader.mod;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Map;
 
 public record ModJsonInfo(
     String id,

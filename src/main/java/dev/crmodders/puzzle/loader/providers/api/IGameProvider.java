@@ -1,7 +1,7 @@
 package dev.crmodders.puzzle.loader.providers.api;
 
-import dev.crmodders.puzzle.loader.mod.Version;
 import dev.crmodders.puzzle.loader.launch.PuzzleClassLoader;
+import dev.crmodders.puzzle.loader.mod.Version;
 
 import java.util.Collection;
 

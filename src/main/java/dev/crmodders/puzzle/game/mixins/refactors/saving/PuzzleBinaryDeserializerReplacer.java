@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.BoundingBox;
 import com.badlogic.gdx.utils.Array;
 import dev.crmodders.puzzle.game.serialization.api.IPuzzleBinaryDeserializer;
-import dev.crmodders.puzzle.game.serialization.impl.*;
+import dev.crmodders.puzzle.game.serialization.impl.PuzzleCosmicReachBinaryDeserializer;
 import dev.crmodders.puzzle.game.serialization.impl.wrappers.PuppetBinaryDeserializer;
 import dev.crmodders.puzzle.utils.ClassUtil;
 import finalforeach.cosmicreach.io.CosmicReachBinaryDeserializer;
