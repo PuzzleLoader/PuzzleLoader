@@ -9,6 +9,7 @@ import dev.crmodders.puzzle.game.serialization.impl.wrappers.PuppetBinarySeriali
 import finalforeach.cosmicreach.io.ICosmicReachBinarySerializable;
 import org.hjson.JsonArray;
 import org.hjson.JsonObject;
+import org.hjson.Stringify;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Base64;
@@ -186,7 +187,7 @@ public class PuzzleJsonSerializer implements IPuzzleBinarySerializer {
 
     @Override
     public byte[] toBytes() {
-        return object.toString().getBytes();
+        return object.toString(Stringify.FORMATTED).getBytes();
     }
 
     @Override
