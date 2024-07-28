@@ -30,37 +30,29 @@ tasks.buildBundleJar.configure {dependsOn(tasks.compileJava)}
 dependencies {
     implementation 'org.jetbrains:annotations:24.0.0'
 
-//     Mixin
     compileOnly("org.spongepowered:mixin:$mixinVersion")
     bundle(annotationProcessor("io.github.llamalad7:mixinextras-common:$mixinExtrasVersion"))
 
-//     Google Stuffs
     bundle("com.google.guava:guava:$guavaVersion")
     bundle("com.google.code.gson:gson:$gsonVersion")
 
-    // Asm
+    bundle("org.hjson:hjson:$hjsonVersion")
+
     compileOnly("org.ow2.asm:asm:$asmVersion")
     compileOnly("org.ow2.asm:asm-tree:$asmVersion")
     compileOnly("org.ow2.asm:asm-util:$asmVersion")
     compileOnly("org.ow2.asm:asm-analysis:$asmVersion")
     compileOnly("org.ow2.asm:asm-commons:$asmVersion")
 
-    // Log4j
     bundle("org.apache.logging.log4j:log4j-api:$log4jVersion")
     bundle("org.apache.logging.log4j:log4j-core:$log4jVersion")
     bundle("org.apache.logging.log4j:log4j-slf4j2-impl:$log4jVersion")
 
-    // Jopt Simple
     bundle("net.sf.jopt-simple:jopt-simple:$joptSimpleVersion")
 
-    // Reflections
     bundle("org.reflections:reflections:$reflectionsVersion")
 
-    // NBT
     bundle("dev.dewy:nbt:$nbtVersion")
-
-    // HJson
-    bundle("org.hjson:hjson:$hjsonVersion")
 
 //     Jython
 //    implementation("org.python:jython-slim:2.7.3")
