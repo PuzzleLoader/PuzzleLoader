@@ -54,10 +54,11 @@ public class ModLocator {
     }
 
     public static void walkDir(File file) {
-        if (file.isDirectory())
-            if (file.listFiles() != null)
+        if (file.isDirectory()) {
+            if (file.listFiles() != null) {
                 Arrays.stream(Objects.requireNonNull(file.listFiles())).forEach(ModLocator::walkDir);
-        else if (file.getName().equals("puzzle.mod.json")) {
+            }
+        } else if (file.getName().equals("puzzle.mod.json")) {
             try {
                 String strInfo = new String(new FileInputStream(file).readAllBytes());
                 ModJsonInfo info = gsonInstance.fromJson(strInfo, ModJsonInfo.class);
@@ -100,20 +101,21 @@ public class ModLocator {
     public static void verifyDependencies() {
         LOGGER.warn("Warning! Only partial semantic versioning support");
         for(var mod : locatedMods.values()){
-            if(!mod.INFO.JsonInfo.dependencies().isEmpty()) {
-                LOGGER.info("Mod deps for {}", mod.ID);
-                for (Map.Entry<String, String> entry : mod.INFO.JsonInfo.dependencies().entrySet()) {
-                    LOGGER.info("\t{}: {}", entry.getKey(), entry.getValue());
-                    var modDep = locatedMods.get(entry.getKey());
-                    if (modDep == null) {
-                        throw new RuntimeException(String.format("can not find mod dependency: %s for mod id: %s", entry.getKey(), mod.ID));
-                    } else {
-                        if (!hasDependencyVersion(modDep.VERSION, entry.getValue())) {
-                            throw new RuntimeException(String.format("Mod id: %s, requires: %s version of %s, got: %s", mod.ID, entry.getValue(), modDep.ID, modDep.VERSION));
+            if (mod.INFO.JsonInfo.dependencies() != null)
+                if(!mod.INFO.JsonInfo.dependencies().isEmpty()) {
+                    LOGGER.info("Mod deps for {}", mod.ID);
+                    for (Map.Entry<String, String> entry : mod.INFO.JsonInfo.dependencies().entrySet()) {
+                        LOGGER.info("\t{}: {}", entry.getKey(), entry.getValue());
+                        var modDep = locatedMods.get(entry.getKey());
+                        if (modDep == null) {
+                            throw new RuntimeException(String.format("can not find mod dependency: %s for mod id: %s", entry.getKey(), mod.ID));
+                        } else {
+                            if (!hasDependencyVersion(modDep.VERSION, entry.getValue())) {
+                                throw new RuntimeException(String.format("Mod id: %s, requires: %s version of %s, got: %s", mod.ID, entry.getValue(), modDep.ID, modDep.VERSION));
+                            }
                         }
                     }
                 }
-            }
         }
     }
 

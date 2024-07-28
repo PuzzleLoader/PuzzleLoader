@@ -49,11 +49,13 @@ public class ModInfo {
 
         Authors = ImmutableList.copyOf(jsonInfo.authors());
 
-        var MetadataBuilder = ImmutableMap.<String, Object>builder();
-        for (String key : jsonInfo.meta().keySet()) {
-            MetadataBuilder.put(key, jsonInfo.meta().get(key));
-        }
-        Metadata = MetadataBuilder.build();
+        if (jsonInfo.meta() != null) {
+            var MetadataBuilder = ImmutableMap.<String, Object>builder();
+            for (String key : jsonInfo.meta().keySet()) {
+                MetadataBuilder.put(key, jsonInfo.meta().get(key));
+            }
+            Metadata = MetadataBuilder.build();
+        } else Metadata = ImmutableMap.<String, Object>builder().build();
 
         var EntrypointsBuilder = ImmutableMap.<String, ImmutableCollection<String>>builder();
         for (String key : jsonInfo.entrypoints().keySet()) {
@@ -61,23 +63,32 @@ public class ModInfo {
         }
         Entrypoints = EntrypointsBuilder.build();
 
-        MixinConfigs = ImmutableList.copyOf(jsonInfo.mixins());
+        if (jsonInfo.mixins() != null)
+            MixinConfigs = ImmutableList.copyOf(jsonInfo.mixins());
+        else MixinConfigs = ImmutableList.of();
 
-        var RequiredDependenciesBuilder = ImmutableMap.<String, Version>builder();
-        for (String key : jsonInfo.dependencies().keySet()) {
-            RequiredDependenciesBuilder.put(key, Version.parseVersion(jsonInfo.dependencies().get(key)));
-        }
-        RequiredDependencies = RequiredDependenciesBuilder.build();
+        if (jsonInfo.dependencies() != null) {
+            var RequiredDependenciesBuilder = ImmutableMap.<String, Version>builder();
+            for (String key : jsonInfo.dependencies().keySet()) {
+                RequiredDependenciesBuilder.put(key, Version.parseVersion(jsonInfo.dependencies().get(key).replaceAll("[^\\d.]", "")));
+            }
+            RequiredDependencies = RequiredDependenciesBuilder.build();
+        } else RequiredDependencies = ImmutableMap.of();
 
-        var OptionalDependenciesBuilder = ImmutableMap.<String, Version>builder();
-        for (String key : jsonInfo.optional().keySet()) {
-            OptionalDependenciesBuilder.put(key, Version.parseVersion(jsonInfo.optional().get(key)));
-        }
-        OptionalDependencies = OptionalDependenciesBuilder.build();
+        if (jsonInfo.optional() != null) {
+            var OptionalDependenciesBuilder = ImmutableMap.<String, Version>builder();
+            for (String key : jsonInfo.optional().keySet()) {
+                OptionalDependenciesBuilder.put(key, Version.parseVersion(jsonInfo.optional().get(key).replaceAll("[^\\d.]", "")));
+            }
+            OptionalDependencies = OptionalDependenciesBuilder.build();
+        } else OptionalDependencies = ImmutableMap.of();
 
-        AccessManipulator = jsonInfo.accessManipulator();
-        AccessTransformer = jsonInfo.accessTransformer();
-        AccessWidener = jsonInfo.accessWidener();
+        if (jsonInfo.accessManipulator() != null) AccessManipulator = jsonInfo.accessManipulator();
+        else AccessManipulator = null;
+        if (jsonInfo.accessTransformer() != null) AccessTransformer = jsonInfo.accessTransformer();
+        else AccessTransformer = null;
+        if (jsonInfo.accessWidener() != null) AccessWidener = jsonInfo.accessWidener();
+        else AccessWidener = null;
     }
 
     @Contract("_ -> new")

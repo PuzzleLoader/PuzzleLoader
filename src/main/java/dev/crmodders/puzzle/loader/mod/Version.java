@@ -11,7 +11,6 @@ public record Version(
 ) {
 
     public static @NotNull Version parseVersion(String ver) {
-
         try {
             return parseVersionWithThrow(ver);
         }
