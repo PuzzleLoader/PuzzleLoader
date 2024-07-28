@@ -1,7 +1,6 @@
 package dev.crmodders.puzzle.game.blockentities;
 
 import dev.crmodders.puzzle.annotations.Internal;
-import dev.crmodders.puzzle.core.Identifier;
 import finalforeach.cosmicreach.blockentities.BlockEntity;
 import finalforeach.cosmicreach.blocks.BlockPosition;
 import finalforeach.cosmicreach.gamestates.InGame;
