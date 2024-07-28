@@ -22,9 +22,6 @@
     "logging.GameStateMixin",
     "logging.LLwjgl3ApplicationLoggerMixin",
     "loot.LootTableMixin",
-    "saving.EntityRegionMixin",
-    "saving.PuzzleBinaryDeserializerReplacer",
-    "saving.PuzzleBinarySerializerReplacer",
     "ui.OptionsMixin",
     "window.IconMixin",
     "window.TitleMixin"

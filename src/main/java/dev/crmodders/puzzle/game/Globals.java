@@ -1,5 +1,9 @@
 package dev.crmodders.puzzle.game;
 
+import dev.crmodders.puzzle.game.serialization.api.IPuzzleBinaryDeserializer;
+import dev.crmodders.puzzle.game.serialization.api.IPuzzleBinarySerializer;
+import dev.crmodders.puzzle.game.serialization.impl.PuzzleCRBinDeserializer;
+import dev.crmodders.puzzle.game.serialization.impl.PuzzleCRBinSerializer;
 import finalforeach.cosmicreach.rendering.IZoneRenderer;
 import org.reflections.Reflections;
 import org.slf4j.Logger;
@@ -13,6 +17,9 @@ import java.util.Set;
 public class Globals {
     public static List<IZoneRenderer> renderers = new ArrayList<>();
     public static int rendererIndex = 0;
+
+    public static Class<? extends IPuzzleBinarySerializer> defaultSerializer;
+    public static Class<? extends IPuzzleBinaryDeserializer> defaultDeserializer;
 
     public static void initRenderers() {
         Logger LOGGER = LoggerFactory.getLogger("Puzzle | Renderers");
