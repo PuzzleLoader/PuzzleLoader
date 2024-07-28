@@ -7,10 +7,13 @@ import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.FileVisitOption;
+import java.nio.file.Files;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.zip.ZipEntry;
@@ -50,6 +53,22 @@ public class ModLocator {
         getMods(new ArrayList<>());
     }
 
+    public static void walkDir(File file) {
+        if (file.isDirectory())
+            if (file.listFiles() != null)
+                Arrays.stream(Objects.requireNonNull(file.listFiles())).forEach(ModLocator::walkDir);
+        else if (file.getName().equals("puzzle.mod.json")) {
+            try {
+                String strInfo = new String(new FileInputStream(file).readAllBytes());
+                ModJsonInfo info = gsonInstance.fromJson(strInfo, ModJsonInfo.class);
+                LOGGER.info("Discovered Dev Mod \"{}\" with ID \"{}\"", info.name(), info.id());
+                locatedMods.put(info.id(), new ModContainer(ModInfo.fromModJsonInfo(info), null));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
     public static void getMods(Collection<URL> classPath) {
         Collection<URL> urls = getUrlsOnClasspath(classPath);
 
@@ -71,6 +90,8 @@ public class ModLocator {
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
+            } else {
+                walkDir(file);
             }
         }
 
