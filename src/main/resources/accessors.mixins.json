@@ -4,6 +4,7 @@
   "package": "dev.crmodders.puzzle.game.mixins.accessors",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "ChunkShaderAccessor",
     "Point3DMapAccessor"
   ],
   "client": [],

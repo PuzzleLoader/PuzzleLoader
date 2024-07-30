@@ -43,6 +43,7 @@ public class CommandManager {
 //                    globals.set("chat", CoerceJavaToLua.coerce(Chat.MAIN_CHAT));
 //                    globals.set("world", CoerceJavaToLua.coerce(InGame.world));
 //                    globals.set("player", CoerceJavaToLua.coerce(InGame.getLocalPlayer()));
+
                     FileHandle handle = PuzzleGameAssetLoader.locateAsset(path);
                     if (handle != null) {
                         try {

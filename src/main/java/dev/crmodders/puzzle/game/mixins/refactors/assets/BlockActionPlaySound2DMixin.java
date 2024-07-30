@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(BlockActionPlaySound2D.class)
 public class BlockActionPlaySound2DMixin {
+
     @Redirect(method = "act(Lfinalforeach/cosmicreach/blocks/BlockState;Lfinalforeach/cosmicreach/blockevents/BlockEventTrigger;Lfinalforeach/cosmicreach/world/Zone;)V", at = @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/GameAssetLoader;getSound(Ljava/lang/String;)Lde/pottgames/tuningfork/SoundBuffer;"))
     private SoundBuffer redirect(String fileName) {
         String noFolder = fileName.replace("sounds/blocks/","");

@@ -29,7 +29,7 @@ repositories {
 tasks.buildBundleJar.configure {dependsOn(tasks.compileJava)}
 
 dependencies {
-    implementation 'org.jetbrains:annotations:24.0.0'
+    compileOnly 'org.jetbrains:annotations:24.0.0'
 
     compileOnly("org.spongepowered:mixin:$mixinVersion")
     bundle(annotationProcessor("io.github.llamalad7:mixinextras-common:$mixinExtrasVersion"))
@@ -57,11 +57,13 @@ dependencies {
 
     bundle("dev.dewy:nbt:$nbtVersion")
 
+    bundle("org.greenrobot:eventbus:$eventbusVersion")
+
 //     Jython
 //    implementation("org.python:jython-slim:2.7.3")
 
-    implementation("org.luaj:luaj-jse:$luaJVersion")
-    implementation("org.luaj:luaj-jme:$luaJVersion")
+    bundle("org.luaj:luaj-jse:$luaJVersion")
+    bundle("org.luaj:luaj-jme:$luaJVersion")
 }
 
 tasks.register("runLoader", JavaExec) {

@@ -27,6 +27,12 @@ public class LanguageFileVersion1 extends HashMap<TranslationKey, TranslationEnt
 		}
 	}
 
+	@Contract("_ -> new")
+	public static @NotNull LanguageFileVersion1 loadLanguageFromString(String str) throws IOException {
+		JsonValue value = new JsonReader().parse(str);
+		return new LanguageFileVersion1(value);
+	}
+
 	public static final int MAJOR_VERSION = 1;
 	public static final int MINOR_VERSION = 0;
 

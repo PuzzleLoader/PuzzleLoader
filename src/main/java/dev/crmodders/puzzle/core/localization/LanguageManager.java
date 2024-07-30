@@ -1,5 +1,14 @@
 package dev.crmodders.puzzle.core.localization;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
+import dev.crmodders.puzzle.core.Identifier;
+import dev.crmodders.puzzle.core.PuzzleRegistries;
+import dev.crmodders.puzzle.core.localization.files.MergedLanguageFile;
+import dev.crmodders.puzzle.game.engine.GameLoader;
+import dev.crmodders.puzzle.game.ui.TranslationParameters;
 import finalforeach.cosmicreach.lang.Lang;
 import finalforeach.cosmicreach.settings.Preferences;
 import org.jetbrains.annotations.NotNull;
@@ -19,7 +28,54 @@ public class LanguageManager {
 		return LANGUAGES.contains(locale.toIdentifier());
 	}
 
+	public static void updateLabels(Stage stage) {
+		for(Actor actor : stage.getActors()) {
+			if(actor instanceof Label label && label.getUserObject() instanceof TranslationParameters params) {
+				updateLabel(label, params);
+			}
+		}
+	}
+
+	public static void registerLanguageFile(ILanguageFile lang) {
+		TranslationLocale locale = lang.locale();
+		Identifier localeIdentifier = locale.toIdentifier();
+
+		if (PuzzleRegistries.LANGUAGES.contains(localeIdentifier))
+			if (PuzzleRegistries.LANGUAGES.get(localeIdentifier).file() instanceof MergedLanguageFile merged) {
+				merged.addLanguageFile(lang);
+			} else {
+				MergedLanguageFile merged = new MergedLanguageFile(locale);
+				merged.addLanguageFile(lang);
+				PuzzleRegistries.LANGUAGES.register(merged);
+			}
+
+		if (!PuzzleRegistries.LANGUAGES.contains(localeIdentifier)) {
+			PuzzleRegistries.LANGUAGES.register(lang);
+		}
+	}
+
+	public static void updateLabel(Label label, TranslationParameters parameters) {
+		if(parameters.attachedProgressBar != null) {
+			ProgressBar bar = parameters.attachedProgressBar;
+			String text;
+			if(bar.getStepSize() == 1.0F) {
+				text = format(parameters.key, (int) bar.getValue(), (int) bar.getMaxValue());
+			} else {
+				text = format(parameters.key, bar.getValue(), bar.getMaxValue());
+			}
+			label.setText(text);
+			label.invalidate();
+		} else {
+			label.setText(string(parameters.key));
+			label.invalidate();
+		}
+	}
+
 	public static void selectLanguage(@NotNull TranslationLocale locale) {
+		if (locale.toIdentifier().name.equals("und")) {
+			LOGGER.error("Language not found {}", locale);
+			return;
+		}
 		Language newLanguage = LANGUAGES.get(locale.toIdentifier());
 		if (newLanguage != null) {
 			selectedLanguage = newLanguage;
