@@ -1,5 +1,5 @@
 {
-  "required": true,
+  "required": false,
   "minVersion": "0.8",
   "package": "dev.crmodders.puzzle.game.mixins.refactors",
   "plugin": "dev.crmodders.puzzle.loader.launch.internal.mixinextras.MixinExtrasConfigPlugin",
