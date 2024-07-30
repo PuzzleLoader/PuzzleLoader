@@ -27,11 +27,10 @@ public abstract class OptionsMixin extends UIElement {
         Globals.rendererIndex++;
         if(Globals.rendererIndex == Globals.renderers.size())
             Globals.rendererIndex=0;
-
         var renderer = Globals.renderers.get(Globals.rendererIndex);
-        GameSingletons.zoneRenderer = Objects.requireNonNullElseGet(renderer, BatchedZoneRenderer::new);
+        GameSingletons.zoneRenderer = renderer;
 
-        GraphicsSettings.renderer.setValue("batched");
+        GraphicsSettings.renderer.setValue(GameSingletons.zoneRenderer.getName());
         GameSingletons.isAllFlaggedForRemeshing = true;
         this.updateText();
     }
