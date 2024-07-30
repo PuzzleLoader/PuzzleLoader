@@ -48,7 +48,6 @@ public abstract class ChatMixin {
                 CommandManager.dispatcher.execute(messageText.substring(1), new PuzzleCommandSource(account, (Chat) (Object) this, world, player));
             } catch (CommandSyntaxException e) {
                 this.sendMessage(world, player, null, e.getMessage());
-                System.out.println(messageText.substring(1));
                 e.printStackTrace();
             }
         } else {

@@ -32,7 +32,6 @@ public class Puzzle implements PreInitModInitializer {
 
 //        ILanguageFile lang = LOADER.loadResourceSync(Globals.LanguageEnUs, LanguageFileVersion1.class);
         try {
-            System.out.println(Globals.LanguageEnUs.toPath());
             ILanguageFile lang = LanguageFileVersion1.loadLanguageFromString(new String(getFile(Globals.LanguageEnUs.toPath()).readAllBytes()));
             LanguageManager.registerLanguageFile(lang);
         } catch (IOException e) {
