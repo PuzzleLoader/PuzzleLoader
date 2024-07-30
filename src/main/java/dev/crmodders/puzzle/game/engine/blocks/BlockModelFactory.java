@@ -20,7 +20,7 @@ public class BlockModelFactory implements IBlockModelInstantiator {
 
     public final Map<InstanceKey, BlockModel> models = new LinkedHashMap<>();
 
-    private static final Logger LOGGER = LoggerFactory.getLogger("FluxAPI / BlockModelFactory");
+    private static final Logger LOGGER = LoggerFactory.getLogger("Puzzle | BlockModelFactory");
 
     private static String getNotShitModelName(String modelName){
         if(modelName.startsWith("gen_model::")) {

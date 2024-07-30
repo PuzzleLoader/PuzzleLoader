@@ -42,7 +42,7 @@ import static dev.crmodders.puzzle.core.resources.PuzzleGameAssetLoader.LOADER;
 
 public class GameLoader extends GameState {
 
-    public static final Logger LOGGER = LoggerFactory.getLogger("FluxAPI / GameLoader");
+    public static final Logger LOGGER = LoggerFactory.getLogger("Puzzle | GameLoader");
 
     private static final TranslationKey TEXT_RAM_USAGE = new TranslationKey("puzzle-loader:loading_menu.ram_usage");
 
@@ -74,8 +74,8 @@ public class GameLoader extends GameState {
 
     @Subscribe
     public void onEvent(OnPreLoadAssetsEvent event) {
-        puzzleIcon = LOADER.loadSync("puzzle-loader:icons/PuzzleLoaderIconx128.png", Texture.class);
-//        puzzleIcon = LOADER.loadSync("puzzle-loader:icons/Puzzle Loader x16 - Copy.png", Texture.class);
+//        puzzleIcon = LOADER.loadSync("puzzle-loader:icons/PuzzleLoaderIconx128.png", Texture.class);
+        puzzleIcon = LOADER.loadSync("puzzle-loader:icons/Puzzle Loader x16 - Copy.png", Texture.class);
         textLogo = LOADER.loadSync("base:textures/text-logo-hd.png", Texture.class);
         hp9Patch = new NinePatch(LOADER.loadSync("base:textures/ui/healthbar.png", Texture.class), 4, 4, 6, 6);
     }

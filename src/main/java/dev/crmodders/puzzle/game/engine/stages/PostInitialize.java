@@ -20,11 +20,11 @@ public class PostInitialize extends LoadStage {
     public void doStage() {
         super.doStage();
 
-        Set<Identifier> modIds = PuzzleRegistries.ON_INIT.names();
+        Set<Identifier> modIds = PuzzleRegistries.ON_POST_INIT.names();
         loader.setupProgressBar(loader.progressBar2, modIds.size(), "Initializing Mods: PostInit");
         for(Identifier modId : modIds) {
             loader.incrementProgress(loader.progressBar2, modId.name);
-            Runnable runnable = PuzzleRegistries.ON_INIT.get(modId);
+            Runnable runnable = PuzzleRegistries.ON_POST_INIT.get(modId);
             runnable.run();
         }
 

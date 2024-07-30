@@ -3,7 +3,6 @@ package dev.crmodders.puzzle.loader.mod.info;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import dev.crmodders.puzzle.loader.mod.AccessTransformerType;
 import dev.crmodders.puzzle.loader.mod.ModContainer;
 import dev.crmodders.puzzle.loader.mod.ModJsonInfo;
 import dev.crmodders.puzzle.loader.mod.Version;
@@ -234,14 +233,18 @@ public class ModInfo {
             return this;
         }
 
-
-
-        public Builder setAccessTransformerType(@NotNull AccessTransformerType transformerType, String transformerPath) {
-            switch (transformerType) {
-                case ACCESS_MANIPULATOR -> this.accessManipulator = transformerPath;
-                case ACCESS_TRANSFORMER -> this.accessWidener = transformerPath;
-                case ACCESS_WIDENER -> this.accessTransformer = transformerPath;
-            }
+        public Builder setAccessTransformer(String transformerPath) {
+            this.accessWidener = transformerPath;
+            return this;
+        }
+        
+        public Builder setAccessWidener(String transformerPath) {
+            this.accessTransformer = transformerPath;
+            return this;
+        }
+        
+        public Builder setAccessManipulator(String transformerPath) {
+            this.accessManipulator = transformerPath;
             return this;
         }
 

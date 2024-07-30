@@ -36,7 +36,7 @@ public class PuzzleRegistries {
     public static final IRegistry<Runnable> BLOCK_FINALIZERS = new GenericRegistry<>(new Identifier(MOD_ID, "block_finalizers"));
 
     private static class SLF4JEventBusLogger implements Logger {
-        private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger("FluxAPI / EventBus");
+        private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger("Puzzle | EventBus");
 
         @Override
         public void log(Level level, String s) {

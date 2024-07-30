@@ -1,6 +1,7 @@
 package dev.crmodders.puzzle.game.block;
 
 import dev.crmodders.puzzle.core.Identifier;
+import dev.crmodders.puzzle.game.engine.blocks.BlockLoader;
 import dev.crmodders.puzzle.game.generators.BlockEventGenerator;
 import dev.crmodders.puzzle.game.generators.BlockGenerator;
 import dev.crmodders.puzzle.game.generators.BlockModelGenerator;
@@ -58,13 +59,13 @@ public interface IModBlock {
     }
 
     /**
-     * Used by FluxAPI for generating this block and registering it with Cosmic Reach
+     * Used by Puzzle Loader for generating this block and registering it with Cosmic Reach
      * @return The {@link BlockGenerator} that is used for generating this Block
      */
     BlockGenerator getBlockGenerator();
 
     /**
-     * Used by FluxAPI for generating any custom block models associated
+     * Used by Puzzle Loader for generating any custom block models associated
      * with this block
      * @param blockId the blockId that has been extracted from getBlockGenerator()
      * @return a List of BlockModelGenerator used by this block
@@ -72,7 +73,7 @@ public interface IModBlock {
     default List<BlockModelGenerator> getBlockModelGenerators(Identifier blockId) { return Collections.emptyList(); }
 
     /**
-     * Used by FluxAPI for generating any custom block events associated
+     * Used by Puzzle Loader for generating any custom block events associated
      * with this block, FluxAPI will register onInteract, onPlace and onBreak events by default see {@link IModBlock}
      * For registering Block Actions see {@link BlockLoader#registerEventAction}
      * @param blockId the blockId that has been extracted from getBlockGenerator()

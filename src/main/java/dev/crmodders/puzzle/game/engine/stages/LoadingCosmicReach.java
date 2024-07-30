@@ -119,7 +119,9 @@ public class LoadingCosmicReach extends LoadStage {
             } else {
                 counter++;
             }
-            loader.progressBar2.setValue(loader.progressBar2.getValue() + 1);
+            try {
+                loader.progressBar2.setValue(loader.progressBar2.getValue() + 1);
+            } catch (Exception ignore) {}
             if (handle.name().endsWith(".json")) {
                 getInstance(handle);
             }

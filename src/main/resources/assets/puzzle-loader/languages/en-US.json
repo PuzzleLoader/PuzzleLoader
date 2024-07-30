@@ -37,7 +37,7 @@
                 "creating_blocks": "Creating Blocks: {n}/{total}",
                 "creating_block_events": "Creating Block Events: {n}/{total}",
                 "registering_assets": "Registering Assets",
-                "initializing": "Initializing Flux Mods"
+                "initializing": "Initializing Puzzle Mods"
             }
         }
     }

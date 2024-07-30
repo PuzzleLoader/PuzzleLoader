@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 
 public class BlockEventActionFactory {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger("FluxAPI / BlockActionFactory");
+    private static final Logger LOGGER = LoggerFactory.getLogger("Puzzle | BlockActionFactory");
 
     public static BlockActionReplaceBlockState createReplaceBlockEvent(String blockStateId, int xOff, int yOff, int zOff) {
         BlockActionReplaceBlockState replace = new BlockActionReplaceBlockState();
