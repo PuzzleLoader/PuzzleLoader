@@ -135,7 +135,8 @@ public class CosmicReachProvider implements IGameProvider {
             puzzleLoaderInfo.addMixinConfigs(
                     "internal.mixins.json",
                     "accessors.mixins.json",
-                    "bugfixes.mixins.json"
+                    "bugfixes.mixins.json",
+                    "logging.mixins.json"
             );
             puzzleLoaderInfo.setVersion("1.3.1");
             puzzleLoaderInfo.setAccessTransformerType(

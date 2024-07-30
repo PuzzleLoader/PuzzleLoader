@@ -1,0 +1,18 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.crmodders.puzzle.game.mixins.refactors",
+  "plugin": "dev.crmodders.puzzle.loader.launch.internal.mixinextras.MixinExtrasConfigPlugin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "logging.BlockGameMixin",
+    "logging.GameShaderMixin",
+    "logging.GameStateMixin",
+    "logging.LLwjgl3ApplicationLoggerMixin"
+  ],
+  "client": [],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
