@@ -1,5 +1,7 @@
 public field finalforeach/cosmicreach/entities/Entity sightRange
 
+public field finalforeach/cosmicreach/ui/debug/DebugInfo items
+
 public method finalforeach/cosmicreach/rendering/BatchCoords blockX ()I
 public method finalforeach/cosmicreach/rendering/BatchCoords blockY ()I
 public method finalforeach/cosmicreach/rendering/BatchCoords blockZ ()I

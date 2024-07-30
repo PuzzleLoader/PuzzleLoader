@@ -26,6 +26,9 @@ import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.gamestates.GameState;
 import finalforeach.cosmicreach.gamestates.PrealphaPreamble;
 import finalforeach.cosmicreach.settings.Preferences;
+import finalforeach.cosmicreach.ui.debug.DebugInfo;
+import finalforeach.cosmicreach.ui.debug.DebugItem;
+import finalforeach.cosmicreach.ui.debug.DebugStringItem;
 import org.greenrobot.eventbus.Subscribe;
 import org.lwjgl.opengl.GL11;
 import org.slf4j.Logger;
@@ -49,6 +52,7 @@ public class GameLoader extends GameState {
     protected Color background = Color.BLACK;
 
     private Texture textLogo;
+    private Texture puzzleIcon;
     private NinePatch hp9Patch;
 
     private Label ramUsageText;
@@ -70,6 +74,8 @@ public class GameLoader extends GameState {
 
     @Subscribe
     public void onEvent(OnPreLoadAssetsEvent event) {
+//        puzzleIcon = LOADER.loadSync("puzzle-loader:icons/PuzzleLoaderIconx128.png", Texture.class);
+        puzzleIcon = LOADER.loadSync("puzzle-loader:icons/Puzzle Loader x16 - Copy.png", Texture.class);
         textLogo = LOADER.loadSync("base:textures/text-logo-hd.png", Texture.class);
         hp9Patch = new NinePatch(LOADER.loadSync("base:textures/ui/healthbar.png", Texture.class), 4, 4, 6, 6);
     }
@@ -78,6 +84,11 @@ public class GameLoader extends GameState {
     public void create() {
         super.create();
 
+        DebugInfo.items.insert(1,new DebugStringItem(
+                true,
+                () -> "1.0.0",
+                (v) -> "Puzzle Loader Version: "+v
+        ));
         gdxStageCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         gdxStageViewport = new ExtendViewport(800.0F, 600.0F, gdxStageCamera);
         gdxStage = new Stage(gdxStageViewport, batch);
@@ -116,6 +127,11 @@ public class GameLoader extends GameState {
         title.setSize(768, 256);
         title.setPosition(0, 96, Align.center);
         gdxStage.addActor(title);
+
+        Image icon = new Image(puzzleIcon);
+        icon.setSize(96, 96);
+        icon.setPosition(460, -240, Align.center);
+        gdxStage.addActor(icon);
 
         progressBarText1 = new Label("", labelStyle);
         progressBarText1.setSize(500, 40);
