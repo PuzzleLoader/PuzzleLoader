@@ -15,6 +15,8 @@
     "be.ChunkMixin",
     "be.InGameMixin",
     "be.ZoneMixin",
+    "chat.ChatMixin",
+    "chat.CommandMixin",
     "entrypoint.LoadInitModsMixin",
     "entrypoint.PreGameLaunchInit",
     "logging.BlockGameMixin",

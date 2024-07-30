@@ -22,6 +22,7 @@ repositories {
     maven { url "https://maven.crmodders.dev/releases" }
     maven { url "https://maven.crmodders.dev/snapshots" }
     maven { url "https://repo.spongepowered.org/repository/maven-public/" }
+    maven { url "https://libraries.minecraft.net" }
 }
 
 // do not remove fucks up building
@@ -37,6 +38,8 @@ dependencies {
     bundle("com.google.code.gson:gson:$gsonVersion")
 
     bundle("org.hjson:hjson:$hjsonVersion")
+
+    bundle("com.mojang:brigadier:1.0.18")
 
     compileOnly("org.ow2.asm:asm:$asmVersion")
     compileOnly("org.ow2.asm:asm-tree:$asmVersion")
@@ -57,9 +60,8 @@ dependencies {
 //     Jython
 //    implementation("org.python:jython-slim:2.7.3")
 
-//     Lua J
-//    implementation("party.iroiro.luajava:luajit:$luaJVersion")
-//    implementation("party.iroiro.luajava:luajit-platform:$luaJVersion:natives-desktop")
+    implementation("org.luaj:luaj-jse:$luaJVersion")
+    implementation("org.luaj:luaj-jme:$luaJVersion")
 }
 
 tasks.register("runLoader", JavaExec) {
