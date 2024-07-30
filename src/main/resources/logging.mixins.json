@@ -8,7 +8,8 @@
     "logging.BlockGameMixin",
     "logging.GameShaderMixin",
     "logging.GameStateMixin",
-    "logging.LLwjgl3ApplicationLoggerMixin"
+    "logging.LLwjgl3ApplicationLoggerMixin",
+    "logging.Lwjgl3LauncherMixin"
   ],
   "client": [],
   "server": [],
