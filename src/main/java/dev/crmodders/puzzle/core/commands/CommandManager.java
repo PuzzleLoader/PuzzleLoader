@@ -6,15 +6,12 @@ import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
+import dev.crmodders.puzzle.core.commands.lua.CosmicReachUtil;
 import dev.crmodders.puzzle.core.resources.PuzzleGameAssetLoader;
-import finalforeach.cosmicreach.chat.Chat;
-import finalforeach.cosmicreach.gamestates.InGame;
 import org.luaj.vm2.Globals;
-import org.luaj.vm2.LuaFunction;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 import org.luaj.vm2.lib.jse.JsePlatform;
-import org.luaj.vm2.luajc.JavaLoader;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -33,13 +30,13 @@ public class CommandManager {
 
     static {
         var function = literal("function");
-
         function
                 .then(argument("path", StringArgumentType.greedyString())
                 .executes(context -> {
                     String path = StringArgumentType.getString(context, "path");
 
                     Globals globals = JsePlatform.standardGlobals();
+                    globals.set("CosmicReach", CoerceJavaToLua.coerce(new CosmicReachUtil()));
 //                    globals.set("chat", CoerceJavaToLua.coerce(Chat.MAIN_CHAT));
 //                    globals.set("world", CoerceJavaToLua.coerce(InGame.world));
 //                    globals.set("player", CoerceJavaToLua.coerce(InGame.getLocalPlayer()));
@@ -56,6 +53,14 @@ public class CommandManager {
                                     null,
                                     "This file may not exist or be corrupt"
                             );
+                        } catch (Exception e) {
+                            context.getSource().chat.sendMessage(
+                                    context.getSource().getWorld(),
+                                    context.getSource().getPlayer(),
+                                    null,
+                                    "The command had an error"
+                            );
+                            e.printStackTrace();
                         }
                     } else {
                         context.getSource().chat.sendMessage(

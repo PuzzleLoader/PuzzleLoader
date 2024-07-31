@@ -10,9 +10,6 @@ import dev.crmodders.puzzle.loader.launch.PuzzleClassLoader;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.*;
-import java.net.URISyntaxException;
-
-import static dev.crmodders.puzzle.core.resources.PuzzleGameAssetLoader.LOADER;
 
 public class Puzzle implements PreInitModInitializer {
     public static final String MOD_ID = "puzzle-loader";
@@ -20,7 +17,6 @@ public class Puzzle implements PreInitModInitializer {
     public static InputStream getFile(String file) {
         InputStream input = Puzzle.class.getResourceAsStream(file);
         if (input == null) {
-            // this is how we load file within editor (eg eclipse)
             input = PuzzleClassLoader.class.getClassLoader().getResourceAsStream(file);
         }
         return input;
