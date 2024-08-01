@@ -2,8 +2,8 @@ package dev.crmodders.puzzle.game.mixins.refactors.chat;
 
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import dev.crmodders.puzzle.core.commands.CommandManager;
-import dev.crmodders.puzzle.core.commands.PuzzleCommandSource;
+import dev.crmodders.puzzle.game.commands.CommandManager;
+import dev.crmodders.puzzle.game.commands.PuzzleCommandSource;
 import finalforeach.cosmicreach.accounts.Account;
 import finalforeach.cosmicreach.chat.Chat;
 import finalforeach.cosmicreach.chat.commands.Command;

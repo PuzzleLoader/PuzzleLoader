@@ -1,11 +1,16 @@
 package dev.crmodders.puzzle.loader.mod.info;
 
+import com.badlogic.gdx.utils.Json;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.llamalad7.mixinextras.lib.apache.commons.tuple.ImmutablePair;
+import com.llamalad7.mixinextras.lib.apache.commons.tuple.Pair;
+import dev.crmodders.puzzle.loader.mod.AdapterPathPair;
 import dev.crmodders.puzzle.loader.mod.ModContainer;
 import dev.crmodders.puzzle.loader.mod.ModJsonInfo;
 import dev.crmodders.puzzle.loader.mod.Version;
+import org.hjson.JsonValue;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -22,7 +27,7 @@ public class ModInfo {
     public final ImmutableMap<String, Object> Metadata;
 
     // Entrypoints & Mixins
-    public final ImmutableMap<String, ImmutableCollection<String>> Entrypoints;
+    public final ImmutableMap<String, ImmutableCollection<AdapterPathPair>> Entrypoints;
     public final ImmutableCollection<String> MixinConfigs;
 
     // Dependencies
@@ -56,7 +61,7 @@ public class ModInfo {
             Metadata = MetadataBuilder.build();
         } else Metadata = ImmutableMap.<String, Object>builder().build();
 
-        var EntrypointsBuilder = ImmutableMap.<String, ImmutableCollection<String>>builder();
+        var EntrypointsBuilder = ImmutableMap.<String, ImmutableCollection<AdapterPathPair>>builder();
         for (String key : jsonInfo.entrypoints().keySet()) {
             EntrypointsBuilder.put(key, ImmutableList.copyOf(jsonInfo.entrypoints().get(key)));
         }
@@ -112,8 +117,8 @@ public class ModInfo {
         private String name = null;
         private String description = null;
         private List<String> authors = new ArrayList<>();
-        private Map<String, Collection<String>> entrypoints = new HashMap<>();
-        private Map<String, Object> meta = new HashMap<>();
+        private Map<String, Collection<AdapterPathPair>> entrypoints = new HashMap<>();
+        private Map<String, JsonValue> meta = new HashMap<>();
         private List<String> mixins = new ArrayList<>();
         private Map<String, Version> dependencies = new HashMap<>();
         private Map<String, Version> optional = new HashMap<>();
@@ -168,32 +173,42 @@ public class ModInfo {
             return this;
         }
 
-        public Builder setEntrypoint(String name, Collection<String> classes) {
+        public Builder setEntrypoint(String name, Collection<AdapterPathPair> classes) {
             this.entrypoints.put(name, classes);
             return this;
         }
 
-        public Builder addEntrypoint(String name, String clazz) {
-            if (this.entrypoints.get(name) != null) this.entrypoints.get(name).add(clazz);
+        public Builder addEntrypoint(String name, String adapter, String clazz) {
+            if (this.entrypoints.get(name) != null) this.entrypoints.get(name).add(new AdapterPathPair(adapter, clazz));
             else {
-                List<String> classes = new ArrayList<>();
-                classes.add(clazz);
+                List<AdapterPathPair> classes = new ArrayList<>();
+                classes.add(new AdapterPathPair(adapter, clazz));
                 this.entrypoints.put(name, classes);
             }
             return this;
         }
 
-        public Builder setEntrypoints(Map<String, Collection<String>> entrypoints) {
+        public Builder addEntrypoint(String name, String clazz) {
+            if (this.entrypoints.get(name) != null) this.entrypoints.get(name).add(new AdapterPathPair("java", clazz));
+            else {
+                List<AdapterPathPair> classes = new ArrayList<>();
+                classes.add(new AdapterPathPair("java", clazz));
+                this.entrypoints.put(name, classes);
+            }
+            return this;
+        }
+
+        public Builder setEntrypoints(Map<String, Collection<AdapterPathPair>> entrypoints) {
             this.entrypoints = entrypoints;
             return this;
         }
 
-        public Builder setMeta(Map<String, Object> meta) {
+        public Builder setMeta(Map<String, JsonValue> meta) {
             this.meta = meta;
             return this;
         }
 
-        public Builder addMeta(String key, String value) {
+        public Builder addMeta(String key, JsonValue value) {
             this.meta.put(key, value);
             return this;
         }

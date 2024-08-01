@@ -59,11 +59,10 @@ dependencies {
 
     bundle("org.greenrobot:eventbus:$eventbusVersion")
 
-//     Jython
-//    implementation("org.python:jython-slim:2.7.3")
+    bundle("org.python:jython-slim:2.7.3")
 
     bundle("org.luaj:luaj-jse:$luaJVersion")
-    bundle("org.luaj:luaj-jme:$luaJVersion")
+//    bundle("org.luaj:luaj-jme:$luaJVersion")
 }
 
 tasks.register("runLoader", JavaExec) {

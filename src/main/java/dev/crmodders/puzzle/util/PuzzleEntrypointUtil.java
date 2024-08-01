@@ -10,7 +10,11 @@ public class PuzzleEntrypointUtil {
         if (ModLocator.locatedMods == null) ModLocator.getMods();
         ModLocator.locatedMods.keySet().forEach(containerID -> {
             ModContainer container = ModLocator.locatedMods.get(containerID);
-            container.invokeEntrypoint(key, entrypointType, entrypointInvoker);
+            try {
+                container.invokeEntrypoint(key, entrypointType, entrypointInvoker);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         });
     }
 }

@@ -3,8 +3,8 @@ package dev.crmodders.puzzle.game.mixins.refactors.chat;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Queue;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import dev.crmodders.puzzle.core.commands.CommandManager;
-import dev.crmodders.puzzle.core.commands.PuzzleCommandSource;
+import dev.crmodders.puzzle.game.commands.CommandManager;
+import dev.crmodders.puzzle.game.commands.PuzzleCommandSource;
 import finalforeach.cosmicreach.accounts.Account;
 import finalforeach.cosmicreach.chat.Chat;
 import finalforeach.cosmicreach.chat.ChatMessage;
@@ -35,7 +35,7 @@ public abstract class ChatMixin {
         ChatMessage message = new ChatMessage(account, messageText, System.currentTimeMillis());
         String commandChar = "/";
 
-        // Force Command.java from Cosmic Reach to init the <clinit> block
+        // Force Command.java load the <clinit> block
         Command.registerCommand("asodfjoasdiofasdf", () -> new Command() {
             @Override
             public String getDescription() {
@@ -47,6 +47,9 @@ public abstract class ChatMixin {
             try {
                 CommandManager.dispatcher.execute(messageText.substring(1), new PuzzleCommandSource(account, (Chat) (Object) this, world, player));
             } catch (CommandSyntaxException e) {
+                this.sendMessage(world, player, null, e.getMessage());
+                e.printStackTrace();
+            } catch (IllegalArgumentException e) {
                 this.sendMessage(world, player, null, e.getMessage());
                 e.printStackTrace();
             }

@@ -1,9 +1,12 @@
+local CosmicReach = require "assets.puzzle-loader.bindings.CosmicReach"
+local BlockUtil = require "assets.puzzle-loader.bindings.BlockUtil"
+
 function setBlock(x, y, z, id)
     local world = CosmicReach:getWorld()
 
-    CosmicReach:setBlockState(
+    BlockUtil:setBlockState(
         world:getDefaultZone(),
-        CosmicReach:getBlockState(id),
+        BlockUtil:getBlockState(id),
         x,
         y,
         z

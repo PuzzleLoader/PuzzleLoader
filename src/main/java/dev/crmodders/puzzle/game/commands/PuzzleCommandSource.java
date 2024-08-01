@@ -1,4 +1,4 @@
-package dev.crmodders.puzzle.core.commands;
+package dev.crmodders.puzzle.game.commands;
 
 import finalforeach.cosmicreach.accounts.Account;
 import finalforeach.cosmicreach.chat.Chat;

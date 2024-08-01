@@ -22,7 +22,7 @@ public class ModContainer {
 
     public ModContainer(@NotNull ModInfo info, ZipFile jar) {
         this.INFO = info;
-        this.entrypointContainer = new EntrypointContainer(info.Entrypoints);
+        this.entrypointContainer = new EntrypointContainer(this, info.Entrypoints);
 
         NAME = info.DisplayName;
         ID = info.ModID;
@@ -30,7 +30,7 @@ public class ModContainer {
         JAR = jar;
     }
 
-    public <T> void invokeEntrypoint(String key, Class<T> type, Consumer<? super T> invoker) {
+    public <T> void invokeEntrypoint(String key, Class<T> type, Consumer<? super T> invoker) throws Exception {
         entrypointContainer.invokeClasses(key, type, invoker);
     }
 }

@@ -61,7 +61,7 @@ public class ModLocator {
         } else if (file.getName().equals("puzzle.mod.json")) {
             try {
                 String strInfo = new String(new FileInputStream(file).readAllBytes());
-                ModJsonInfo info = gsonInstance.fromJson(strInfo, ModJsonInfo.class);
+                ModJsonInfo info = ModJsonInfo.fromString(strInfo);
                 LOGGER.info("Discovered Dev Mod \"{}\" with ID \"{}\"", info.name(), info.id());
                 locatedMods.put(info.id(), new ModContainer(ModInfo.fromModJsonInfo(info), null));
             } catch (IOException e) {
@@ -128,7 +128,7 @@ public class ModLocator {
 
         for (File modFile : Objects.requireNonNull(modsFolder.listFiles())) {
             try {
-                LOGGER.info("Found Jar {}", modFile);
+                LOGGER.info("Found Jar/Zip {}", modFile);
                 urls.add(modFile.toURI().toURL());
             } catch (Exception ignore) {}
         }
@@ -136,7 +136,11 @@ public class ModLocator {
 
     public static <T> void invokeEntrypoint(String key, Class<T> type, Consumer<? super T> invoker) {
         ModLocator.locatedMods.values().forEach(container -> {
-            container.invokeEntrypoint(key, type, invoker);
+            try {
+                container.invokeEntrypoint(key, type, invoker);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         });
     }
 }
