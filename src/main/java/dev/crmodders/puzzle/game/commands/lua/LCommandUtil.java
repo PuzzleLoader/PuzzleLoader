@@ -8,11 +8,11 @@ import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.tree.CommandNode;
 import dev.crmodders.puzzle.game.commands.CommandManager;
-import dev.crmodders.puzzle.game.commands.LuaCommand;
+//import dev.crmodders.puzzle.game.commands.LuaCommand;
 import dev.crmodders.puzzle.game.commands.PuzzleCommandSource;
-import org.luaj.vm2.LuaClosure;
-import org.luaj.vm2.LuaValue;
-import org.luaj.vm2.lib.jse.CoerceJavaToLua;
+//import org.luaj.vm2.LuaClosure;
+//import org.luaj.vm2.LuaValue;
+//import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 
 public class LCommandUtil {
 
@@ -24,9 +24,9 @@ public class LCommandUtil {
         return CommandManager.literal(literal);
     }
 
-    public static LuaValue closureToCommand(LuaClosure closure) {
-        return CoerceJavaToLua.coerce(new LuaCommand(closure));
-    }
+//    public static LuaValue closureToCommand(LuaClosure closure) {
+//        return CoerceJavaToLua.coerce(new LuaCommand(closure));
+//    }
 
     // Lua Limitations
     public static ArgumentBuilder<PuzzleCommandSource, ?> _thenL(ArgumentBuilder<PuzzleCommandSource, ?> literal, ArgumentBuilder<PuzzleCommandSource, ?> argument) {

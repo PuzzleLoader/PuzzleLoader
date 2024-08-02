@@ -83,17 +83,17 @@ public class ModJsonInfo {
                         pairList.add(new AdapterPathPair("java", value.asString()));
                     }
                 }
-                info.entrypoints.put(entrypoints.get(name).asString(), pairList);
+                info.entrypoints.put(name, pairList);
             }
         } else info.entrypoints = new HashMap<>();
-        if (obj.get("authors") == null) {
+        if (obj.get("authors") != null) {
             JsonArray values = obj.get("authors").asArray();
             info.authors = new String[values.size()];
             for (int i = 0; i < info.authors.length; i++) {
                 info.authors[i] = values.get(i).asString();
             }
         } else info.authors = new String[0];
-        if (obj.get("meta") == null) {
+        if (obj.get("meta") != null) {
             JsonObject objc = obj.get("meta").asObject();
             info.meta = new HashMap<>();
             for (String name : objc.names()) {
@@ -112,21 +112,21 @@ public class ModJsonInfo {
                 }
             }
         } else info.meta = new HashMap<>();
-        if (obj.get("mixins") == null) {
+        if (obj.get("mixins") != null) {
             JsonArray values = obj.get("mixins").asArray();
             info.mixins = new String[values.size()];
             for (int i = 0; i < info.mixins.length; i++) {
                 info.mixins[i] = values.get(i).asString();
             }
         } else info.mixins = new String[0];
-        if (obj.get("dependencies") == null) {
+        if (obj.get("dependencies") != null) {
             JsonObject objc = obj.get("dependencies").asObject();
             info.dependencies = new HashMap<>();
             for (String name : objc.names()) {
                 info.dependencies.put(name, objc.get(name).asString());
             }
         } else info.dependencies = new HashMap<>();
-        if (obj.get("optional") == null) {
+        if (obj.get("optional") != null) {
             JsonObject objc = obj.get("optional").asObject();
             info.optional = new HashMap<>();
             for (String name : objc.names()) {

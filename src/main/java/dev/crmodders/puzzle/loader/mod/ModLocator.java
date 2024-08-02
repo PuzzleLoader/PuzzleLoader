@@ -83,7 +83,7 @@ public class ModLocator {
                         ZipEntry modJson = jar.getEntry("puzzle.mod.json");
                         if (modJson != null) {
                             String strInfo = new String(jar.getInputStream(modJson).readAllBytes());
-                            ModJsonInfo info = gsonInstance.fromJson(strInfo, ModJsonInfo.class);
+                            ModJsonInfo info = ModJsonInfo.fromString(strInfo);
                             LOGGER.info("Discovered Mod \"{}\" with ID \"{}\"", info.name(), info.id());
                             locatedMods.put(info.id(), new ModContainer(ModInfo.fromModJsonInfo(info), jar));
                         }

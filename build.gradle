@@ -59,9 +59,9 @@ dependencies {
 
     bundle("org.greenrobot:eventbus:$eventbusVersion")
 
-    bundle("org.python:jython-slim:2.7.3")
+//    bundle("org.python:jython-slim:2.7.3")
 
-    bundle("org.luaj:luaj-jse:$luaJVersion")
+//    bundle("org.luaj:luaj-jse:$luaJVersion")
 //    bundle("org.luaj:luaj-jme:$luaJVersion")
 }
 

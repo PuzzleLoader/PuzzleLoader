@@ -7,13 +7,13 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
-import dev.crmodders.puzzle.core.resources.PuzzleGameAssetLoader;
-import dev.crmodders.puzzle.game.commands.lua.LuaGlobals;
-import org.luaj.vm2.Globals;
-import org.luaj.vm2.LuaValue;
-import org.python.core.PyCode;
-import org.python.core.PyObject;
-import org.python.util.PythonInterpreter;
+//import dev.crmodders.puzzle.core.resources.PuzzleGameAssetLoader;
+//import dev.crmodders.puzzle.game.commands.lua.LuaGlobals;
+//import org.luaj.vm2.Globals;
+//import org.luaj.vm2.LuaValue;
+//import org.python.core.PyCode;
+//import org.python.core.PyObject;
+//import org.python.util.PythonInterpreter;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -78,35 +78,35 @@ public class CommandManager {
 //    }
 
     public static void runLua(CommandContext<PuzzleCommandSource> context, String path) {
-        FileHandle handle = PuzzleGameAssetLoader.locateAsset(path);
-        if (handle != null) {
-            try {
-                LuaValue chunk = LuaGlobals.globals.load(new StringReader(new String(handle.read().readAllBytes())), handle.name());
-                chunk.call();
-            } catch (IOException e) {
-                context.getSource().chat.sendMessage(
-                        context.getSource().getWorld(),
-                        context.getSource().getPlayer(),
-                        null,
-                        "This file may not exist or be corrupt"
-                );
-            } catch (Exception e) {
-                context.getSource().chat.sendMessage(
-                        context.getSource().getWorld(),
-                        context.getSource().getPlayer(),
-                        null,
-                        "The command had an error"
-                );
-                e.printStackTrace();
-            }
-        } else {
-            context.getSource().chat.sendMessage(
-                    context.getSource().getWorld(),
-                    context.getSource().getPlayer(),
-                    null,
-                    "This file may not exist or the path may not be correct"
-            );
-        }
+//        FileHandle handle = PuzzleGameAssetLoader.locateAsset(path);
+//        if (handle != null) {
+//            try {
+//                LuaValue chunk = LuaGlobals.globals.load(new StringReader(new String(handle.read().readAllBytes())), handle.name());
+//                chunk.call();
+//            } catch (IOException e) {
+//                context.getSource().chat.sendMessage(
+//                        context.getSource().getWorld(),
+//                        context.getSource().getPlayer(),
+//                        null,
+//                        "This file may not exist or be corrupt"
+//                );
+//            } catch (Exception e) {
+//                context.getSource().chat.sendMessage(
+//                        context.getSource().getWorld(),
+//                        context.getSource().getPlayer(),
+//                        null,
+//                        "The command had an error"
+//                );
+//                e.printStackTrace();
+//            }
+//        } else {
+//            context.getSource().chat.sendMessage(
+//                    context.getSource().getWorld(),
+//                    context.getSource().getPlayer(),
+//                    null,
+//                    "This file may not exist or the path may not be correct"
+//            );
+//        }
     }
 
 }
