@@ -185,7 +185,6 @@ public class GameLoader extends GameState {
 
         // setup loading stages
         addStage(new LoadingAssets());
-        addStage(new PreInitialize());
         addStage(new Initialize());
         addStage(new LoadingCosmicReach());
         addStage(new PostInitialize());
@@ -230,11 +229,7 @@ public class GameLoader extends GameState {
         Gdx.gl.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
         gdxStageViewport.apply(false);
         gdxStage.act();
-        try {
-            gdxStage.draw();
-        } catch (Exception e) {
-            LOGGER.info("Fuck this bug");
-        }
+        gdxStage.draw();
     }
 
     @Override

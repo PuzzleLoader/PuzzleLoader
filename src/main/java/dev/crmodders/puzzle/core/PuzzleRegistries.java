@@ -24,10 +24,6 @@ public class PuzzleRegistries {
     public static final LanguageRegistry LANGUAGES = new LanguageRegistry(Identifier.of(MOD_ID, "languages"));
     public static final IRegistry<ILanguageFile> LANGUAGES_FILES = new GenericRegistry<>(Identifier.of(MOD_ID, "language_files"));
 
-    public static final IRegistry<Runnable> ON_PRE_INIT = new GenericRegistry<>(new Identifier(MOD_ID, "pre_init_stage"));
-    public static final IRegistry<Runnable> ON_INIT = new GenericRegistry<>(new Identifier(MOD_ID, "init_stage"));
-    public static final IRegistry<Runnable> ON_POST_INIT = new GenericRegistry<>(new Identifier(MOD_ID, "post_init_stage"));
-
     public static final IRegistry<IFactory<PuzzleBlockAction>> BLOCK_EVENT_ACTION_FACTORIES = new GenericRegistry<>(new Identifier(MOD_ID, "block_event_actions_factories"));
 
     public static final IRegistry<IModBlock> BLOCKS = new GenericRegistry<>(new Identifier(MOD_ID, "blocks"));

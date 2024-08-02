@@ -23,6 +23,7 @@ import dev.crmodders.puzzle.game.engine.blocks.actions.OnPlaceTrigger;
 import dev.crmodders.puzzle.game.events.OnRegisterBlockEvent;
 import dev.crmodders.puzzle.game.factories.IFactory;
 import dev.crmodders.puzzle.game.util.Reflection;
+import dev.crmodders.puzzle.loader.mod.ModLocator;
 import finalforeach.cosmicreach.blockentities.BlockEntityCreator;
 import finalforeach.cosmicreach.blockevents.BlockEvents;
 import finalforeach.cosmicreach.io.SaveLocation;
@@ -108,7 +109,6 @@ public class LoadingCosmicReach extends LoadStage {
         TranslationKey translationKey = new TranslationKey("puzzle-loader:loading_menu.creating_block_events");
         loader.setupProgressBar(loader.progressBar2, BlockEventLocations.size(), translationKey);
         int progress = 0;
-        loader.progressBar2.setValue(100);
         for(FileHandle handle : BlockEventLocations) {
             if (counter >= 10) {
                 String str = LanguageManager.format(translationKey, progress, BlockEventLocations.size());
@@ -118,9 +118,6 @@ public class LoadingCosmicReach extends LoadStage {
             } else {
                 counter++;
             }
-//            try {
-//                loader.progressBar2.setValue(loader.progressBar2.getValue() + 1);
-//            } catch (Exception ignore) {}
             if (handle.name().endsWith(".json")) {
                 getInstance(handle);
             }
@@ -141,14 +138,13 @@ public class LoadingCosmicReach extends LoadStage {
         counter = 0;
         progress = 0;
         for(IFactory<IModBlock> blockFactory : blockFactories) {
-            if (counter >= 10) {
+            int counterLimiter = ModLocator.locatedMods.size() >= 100 ? 10 : 1;
+            if (counter >= counterLimiter) {
                 String str = LanguageManager.format(translationKey, progress, blockFactories.size());
                 loader.progressBarText2.setText(str);
                 loader.progressBar2.setValue(progress);
                 counter = 0;
-            } else {
-                counter++;
-            }
+            } else counter++;
             try {
                 IModBlock block = blockFactory.generate();
                 Identifier blockId = loader.blockLoader.loadBlock(block);

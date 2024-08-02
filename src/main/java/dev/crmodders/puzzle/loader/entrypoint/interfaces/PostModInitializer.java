@@ -4,12 +4,13 @@ import dev.crmodders.puzzle.annotations.Stable;
 import dev.crmodders.puzzle.util.PuzzleEntrypointUtil;
 
 @Stable
-public interface ModInitializer {
-    String ENTRYPOINT_KEY = "init";
+public interface PostModInitializer {
+    String ENTRYPOINT_KEY = "postInit";
 
-    void onInit();
+    void onPostInit();
 
     static void invokeEntrypoint() {
-        PuzzleEntrypointUtil.invoke(ENTRYPOINT_KEY, ModInitializer.class, ModInitializer::onInit);
+        PuzzleEntrypointUtil.invoke(ENTRYPOINT_KEY, PostModInitializer.class, PostModInitializer::onPostInit);
     }
+
 }
