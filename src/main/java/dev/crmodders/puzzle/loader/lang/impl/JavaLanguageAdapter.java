@@ -20,7 +20,7 @@ public class JavaLanguageAdapter implements LanguageAdapter {
     public <T> T create(ModInfo info, String value, Class<T> type) throws LanguageAdapterException {
         String[] split = value.split("::");
 
-        if (split.length >= 3) throw new LanguageAdapterException("Invalid format for handel: " + value);
+        if (split.length >= 3) throw new LanguageAdapterException("Invalid format for handle: " + value);
 
         Class<?> clazz;
         try {

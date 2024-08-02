@@ -3,7 +3,6 @@ package dev.crmodders.puzzle.core;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
 import dev.crmodders.puzzle.annotations.Stable;
-import finalforeach.cosmicreach.chat.Chat;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 

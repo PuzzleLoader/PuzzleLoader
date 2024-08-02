@@ -8,7 +8,6 @@ import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.tree.CommandNode;
 import dev.crmodders.puzzle.game.commands.CommandManager;
-//import dev.crmodders.puzzle.game.commands.LuaCommand;
 import dev.crmodders.puzzle.game.commands.PuzzleCommandSource;
 //import org.luaj.vm2.LuaClosure;
 //import org.luaj.vm2.LuaValue;

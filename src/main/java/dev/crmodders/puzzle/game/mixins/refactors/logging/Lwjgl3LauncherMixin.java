@@ -3,7 +3,6 @@ package dev.crmodders.puzzle.game.mixins.refactors.logging;
 import dev.crmodders.puzzle.util.AnsiColours;
 import finalforeach.cosmicreach.accounts.Account;
 import finalforeach.cosmicreach.lwjgl3.Lwjgl3Launcher;
-import org.checkerframework.checker.units.qual.A;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spongepowered.asm.mixin.Mixin;

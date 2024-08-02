@@ -1,8 +1,5 @@
 package dev.crmodders.puzzle.game.commands;
 
-import com.mojang.brigadier.Command;
-import com.mojang.brigadier.context.CommandContext;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 //import org.luaj.vm2.LuaClosure;
 //import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 //

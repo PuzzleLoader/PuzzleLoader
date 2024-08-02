@@ -1,11 +1,8 @@
 package dev.crmodders.puzzle.loader.mod;
 
-import com.google.gson.Gson;
-import com.llamalad7.mixinextras.lib.apache.commons.tuple.Pair;
-import dev.crmodders.puzzle.loader.entrypoint.EntrypointContainer;
 import dev.crmodders.puzzle.loader.lang.LanguageAdapter;
+import dev.crmodders.puzzle.loader.lang.impl.LanguageAdapterWrapper;
 import dev.crmodders.puzzle.loader.launch.Piece;
-import dev.crmodders.puzzle.loader.mod.info.ModInfo;
 import dev.crmodders.puzzle.util.ClassUtil;
 import org.hjson.JsonArray;
 import org.hjson.JsonObject;
@@ -98,16 +95,18 @@ public class ModJsonInfo {
             info.meta = new HashMap<>();
             for (String name : objc.names()) {
                 info.meta.put(name, objc.get(name));
-                if (objc.get("languageAdapters").isObject()) {
+                if (objc.get("languageAdapters") != null) {
                     JsonObject adapters = objc.get("languageAdapters").asObject();
                     for (String id : adapters.names()) {
-                        Class<? extends LanguageAdapter> clazz = null;
+                        Class<?> clazz = null;
                         try {
-                            clazz = (Class<? extends LanguageAdapter>) Class.forName(adapters.get(id).asString(), false, Piece.classLoader);
+                            clazz = Class.forName(adapters.get(id).asString(), false, Piece.classLoader);
                         } catch (ClassNotFoundException e) {
                             throw new RuntimeException(e);
                         }
-                        EntrypointContainer.LANGUAGE_ADAPTER_MAP.put(id, ClassUtil.newInstance(clazz));
+                        Class<LanguageAdapter> adClass = (Class<LanguageAdapter>) clazz;
+                        LanguageAdapter adapter = new LanguageAdapterWrapper(ClassUtil.newInstance(adClass));
+                        LanguageAdapter.ADAPTERS.put(id, adapter);
                     }
                 }
             }

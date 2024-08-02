@@ -2,38 +2,34 @@ package dev.crmodders.puzzle.loader.entrypoint;
 
 
 import com.google.common.collect.ImmutableCollection;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import dev.crmodders.puzzle.annotations.Internal;
 import dev.crmodders.puzzle.loader.lang.LanguageAdapter;
 import dev.crmodders.puzzle.loader.lang.LanguageAdapterException;
-import dev.crmodders.puzzle.loader.lang.impl.JavaLanguageAdapter;
-import dev.crmodders.puzzle.loader.launch.Piece;
 import dev.crmodders.puzzle.loader.mod.AdapterPathPair;
 import dev.crmodders.puzzle.loader.mod.ModContainer;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 @Internal
 public class EntrypointContainer {
     private final ImmutableMap<String, ImmutableCollection<AdapterPathPair>> entrypointClasses;
-    public static final Map<String, LanguageAdapter> LANGUAGE_ADAPTER_MAP = new HashMap<>();
     private final ModContainer container;
 
     public <T> void invokeClasses(String key, Class<T> type, Consumer<? super T> invoker) throws Exception {
+        if (!LanguageAdapter.ADAPTERS.containsKey("java")) LanguageAdapter.ADAPTERS.put("java", LanguageAdapter.JAVA_INSTANCE);
         if (entrypointClasses.get(key) != null) {
             for (AdapterPathPair pair : Objects.requireNonNull(entrypointClasses.get(key))){
-                if (LANGUAGE_ADAPTER_MAP.get(pair.getAdapter()) == null) throw new LanguageAdapterException("Langauge Adapter \"" + pair.getAdapter() + "\" does not exist.");
-                T inst = LANGUAGE_ADAPTER_MAP.get(pair.getAdapter()).create(container.INFO, pair.getValue(), type);
+                if (LanguageAdapter.ADAPTERS.get(pair.getAdapter()) == null) throw new LanguageAdapterException("Langauge Adapter \"" + pair.getAdapter() + "\" does not exist.");
+                T inst = LanguageAdapter.ADAPTERS.get(pair.getAdapter()).create(container.INFO, pair.getValue(), type);
                 invoker.accept(inst);
             }
         }
     }
 
     public EntrypointContainer(ModContainer container, @NotNull ImmutableMap<String, ImmutableCollection<AdapterPathPair>> entrypoints) {
-        LANGUAGE_ADAPTER_MAP.put("java", new JavaLanguageAdapter());
         this.container = container;
 //        ImmutableMap.Builder<String, ImmutableCollection<Class<?>>> entrypointClasses0 = ImmutableMap.builder();
 //        entrypoints.keySet().forEach(key -> {

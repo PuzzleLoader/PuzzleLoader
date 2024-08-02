@@ -2,7 +2,6 @@ package dev.crmodders.puzzle.core.resources;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import dev.crmodders.puzzle.core.Identifier;
 import finalforeach.cosmicreach.io.SaveLocation;
 import org.jetbrains.annotations.NotNull;
 

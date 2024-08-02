@@ -65,6 +65,24 @@ dependencies {
 //    bundle("org.luaj:luaj-jme:$luaJVersion")
 }
 
+processResources {
+    def resourceTargets = [ // Locations of where to inject the properties
+                            "assets/puzzle-loader/version.txt"
+    ]
+
+    // Left item is the name in the target, right is the varuable name
+    def replaceProperties = [
+            "version"     : (version + "").replaceAll((version + "").replaceAll("[\\d\\.]", ""), ""),
+    ]
+
+
+    inputs.properties replaceProperties
+    replaceProperties.put "project", project
+    filesMatching(resourceTargets) {
+        expand replaceProperties
+    }
+}
+
 tasks.register("runLoader", JavaExec) {
     group = "loader"
 

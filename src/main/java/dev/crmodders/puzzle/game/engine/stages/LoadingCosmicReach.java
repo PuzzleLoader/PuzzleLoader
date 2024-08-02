@@ -22,9 +22,7 @@ import dev.crmodders.puzzle.game.engine.blocks.actions.OnInteractTrigger;
 import dev.crmodders.puzzle.game.engine.blocks.actions.OnPlaceTrigger;
 import dev.crmodders.puzzle.game.events.OnRegisterBlockEvent;
 import dev.crmodders.puzzle.game.factories.IFactory;
-import dev.crmodders.puzzle.game.ui.TranslationParameters;
 import dev.crmodders.puzzle.game.util.Reflection;
-import finalforeach.cosmicreach.GameAssetLoader;
 import finalforeach.cosmicreach.blockentities.BlockEntityCreator;
 import finalforeach.cosmicreach.blockevents.BlockEvents;
 import finalforeach.cosmicreach.io.SaveLocation;
@@ -115,13 +113,14 @@ public class LoadingCosmicReach extends LoadStage {
             if (counter >= 10) {
                 String str = LanguageManager.format(translationKey, progress, BlockEventLocations.size());
                 loader.progressBarText2.setText(str);
+                loader.progressBar2.setValue(progress);
                 counter = 0;
             } else {
                 counter++;
             }
-            try {
-                loader.progressBar2.setValue(loader.progressBar2.getValue() + 1);
-            } catch (Exception ignore) {}
+//            try {
+//                loader.progressBar2.setValue(loader.progressBar2.getValue() + 1);
+//            } catch (Exception ignore) {}
             if (handle.name().endsWith(".json")) {
                 getInstance(handle);
             }
@@ -145,6 +144,7 @@ public class LoadingCosmicReach extends LoadStage {
             if (counter >= 10) {
                 String str = LanguageManager.format(translationKey, progress, blockFactories.size());
                 loader.progressBarText2.setText(str);
+                loader.progressBar2.setValue(progress);
                 counter = 0;
             } else {
                 counter++;

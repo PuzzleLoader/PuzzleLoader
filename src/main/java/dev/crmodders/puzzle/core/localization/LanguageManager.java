@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import dev.crmodders.puzzle.core.Identifier;
 import dev.crmodders.puzzle.core.PuzzleRegistries;
 import dev.crmodders.puzzle.core.localization.files.MergedLanguageFile;
-import dev.crmodders.puzzle.game.engine.GameLoader;
 import dev.crmodders.puzzle.game.ui.TranslationParameters;
 import finalforeach.cosmicreach.lang.Lang;
 import finalforeach.cosmicreach.settings.Preferences;

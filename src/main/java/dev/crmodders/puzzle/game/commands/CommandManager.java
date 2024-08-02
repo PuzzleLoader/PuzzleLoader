@@ -1,24 +1,11 @@
 package dev.crmodders.puzzle.game.commands;
 
-import com.badlogic.gdx.files.FileHandle;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
-//import dev.crmodders.puzzle.core.resources.PuzzleGameAssetLoader;
-//import dev.crmodders.puzzle.game.commands.lua.LuaGlobals;
-//import org.luaj.vm2.Globals;
-//import org.luaj.vm2.LuaValue;
-//import org.python.core.PyCode;
-//import org.python.core.PyObject;
-//import org.python.util.PythonInterpreter;
-
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import java.io.IOException;
-import java.io.StringReader;
 
 public class CommandManager {
 

@@ -1,11 +1,8 @@
 package dev.crmodders.puzzle.loader.mod.info;
 
-import com.badlogic.gdx.utils.Json;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.llamalad7.mixinextras.lib.apache.commons.tuple.ImmutablePair;
-import com.llamalad7.mixinextras.lib.apache.commons.tuple.Pair;
 import dev.crmodders.puzzle.loader.mod.AdapterPathPair;
 import dev.crmodders.puzzle.loader.mod.ModContainer;
 import dev.crmodders.puzzle.loader.mod.ModJsonInfo;

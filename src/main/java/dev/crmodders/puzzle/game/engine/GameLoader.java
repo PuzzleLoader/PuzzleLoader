@@ -13,11 +13,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import dev.crmodders.puzzle.core.Puzzle;
 import dev.crmodders.puzzle.core.localization.LanguageManager;
+import dev.crmodders.puzzle.core.localization.TranslationKey;
 import dev.crmodders.puzzle.core.localization.TranslationLocale;
 import dev.crmodders.puzzle.game.Globals;
 import dev.crmodders.puzzle.game.engine.blocks.BlockLoader;
-import dev.crmodders.puzzle.core.localization.TranslationKey;
 import dev.crmodders.puzzle.game.engine.stages.*;
 import dev.crmodders.puzzle.game.events.OnPreLoadAssetsEvent;
 import dev.crmodders.puzzle.game.ui.CosmicReachFont;
@@ -27,14 +28,15 @@ import finalforeach.cosmicreach.gamestates.GameState;
 import finalforeach.cosmicreach.gamestates.PrealphaPreamble;
 import finalforeach.cosmicreach.settings.Preferences;
 import finalforeach.cosmicreach.ui.debug.DebugInfo;
-import finalforeach.cosmicreach.ui.debug.DebugItem;
 import finalforeach.cosmicreach.ui.debug.DebugStringItem;
 import org.greenrobot.eventbus.Subscribe;
 import org.lwjgl.opengl.GL11;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 import java.util.concurrent.CountDownLatch;
 
 import static dev.crmodders.puzzle.core.PuzzleRegistries.EVENT_BUS;
@@ -86,8 +88,8 @@ public class GameLoader extends GameState {
 
         DebugInfo.items.insert(1,new DebugStringItem(
                 true,
-                () -> "1.0.0",
-                (v) -> "Puzzle Loader Version: "+v
+                () -> Puzzle.VERSION,
+                (v) -> "Puzzle Loader Version: " + v
         ));
         gdxStageCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         gdxStageViewport = new ExtendViewport(800.0F, 600.0F, gdxStageCamera);

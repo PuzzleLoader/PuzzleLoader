@@ -138,7 +138,7 @@ public class CosmicReachProvider implements IGameProvider {
                     "bugfixes.mixins.json",
                     "logging.mixins.json"
             );
-            puzzleLoaderInfo.setVersion("1.3.1");
+            puzzleLoaderInfo.setVersion(Puzzle.VERSION);
             puzzleLoaderInfo.setAccessManipulator("puzzle_loader.manipulator");
             puzzleLoaderInfo.addEntrypoint("preInit", Puzzle.class.getName());
 

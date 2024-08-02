@@ -2,13 +2,10 @@ package dev.crmodders.puzzle.game.mixins.refactors.ui;
 
 import dev.crmodders.puzzle.game.Globals;
 import finalforeach.cosmicreach.GameSingletons;
-import finalforeach.cosmicreach.rendering.BatchedZoneRenderer;
 import finalforeach.cosmicreach.settings.GraphicsSettings;
 import finalforeach.cosmicreach.ui.UIElement;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
-
-import java.util.Objects;
 
 @Mixin(targets = "finalforeach/cosmicreach/gamestates/OptionsMenu$6") //The lambda for 'rendererButton'
 public abstract class OptionsMixin extends UIElement {

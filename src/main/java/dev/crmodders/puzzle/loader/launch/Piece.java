@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("deprecation")
 public class Piece {
     public String DEFAULT_PROVIDER = CosmicReachProvider.class.getName();
     public static IGameProvider provider;
@@ -66,7 +67,6 @@ public class Piece {
             classLoader.addClassLoaderExclusion("dev.crmodders.puzzle.loader.mod");
             classLoader.addClassLoaderExclusion("dev.crmodders.puzzle.loader.providers");
             classLoader.addClassLoaderExclusion("dev.crmodders.puzzle.utils");
-            classLoader.addClassLoaderExclusion("dev.crmodders.puzzle.game.mixins.refactors.chat");
 
             if (options.has(provider_option))
                 provider = (IGameProvider) Class.forName(provider_option.value(options), true, classLoader).newInstance();
