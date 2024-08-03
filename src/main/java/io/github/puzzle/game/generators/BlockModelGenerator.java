@@ -3,14 +3,14 @@ package io.github.puzzle.game.generators;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.OrderedMap;
+import finalforeach.cosmicreach.constants.Direction;
+import finalforeach.cosmicreach.rendering.blockmodels.BlockModelJsonTexture;
 import io.github.puzzle.core.Identifier;
 import io.github.puzzle.core.resources.ResourceLocation;
 import io.github.puzzle.game.engine.blocks.BlockLoader;
 import io.github.puzzle.game.engine.blocks.models.PuzzleBlockModel;
 import io.github.puzzle.game.engine.blocks.models.PuzzleBlockModelCuboid;
 import io.github.puzzle.game.factories.IGenerator;
-import finalforeach.cosmicreach.constants.Direction;
-import finalforeach.cosmicreach.rendering.blockmodels.BlockModelJsonTexture;
 
 import java.util.ArrayList;
 import java.util.HashMap;

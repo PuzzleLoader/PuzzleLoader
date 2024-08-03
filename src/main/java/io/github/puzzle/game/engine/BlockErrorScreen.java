@@ -10,14 +10,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import io.github.puzzle.game.block.DataModBlock;
-import io.github.puzzle.game.engine.blocks.BlockLoadException;
-import io.github.puzzle.game.engine.blocks.BlockLoader;
-import io.github.puzzle.game.ui.CosmicReachFont;
 import finalforeach.cosmicreach.gamestates.GameState;
 import finalforeach.cosmicreach.io.SaveLocation;
 import finalforeach.cosmicreach.ui.UIElement;
 import finalforeach.cosmicreach.ui.VerticalAnchor;
+import io.github.puzzle.game.block.DataModBlock;
+import io.github.puzzle.game.engine.blocks.BlockLoadException;
+import io.github.puzzle.game.engine.blocks.BlockLoader;
+import io.github.puzzle.game.ui.CosmicReachFont;
 import org.lwjgl.opengl.GL11;
 
 import java.io.PrintWriter;

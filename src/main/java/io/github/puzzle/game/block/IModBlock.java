@@ -1,17 +1,17 @@
 package io.github.puzzle.game.block;
 
-import io.github.puzzle.core.Identifier;
-import io.github.puzzle.game.engine.blocks.BlockLoader;
-import io.github.puzzle.game.generators.BlockEventGenerator;
-import io.github.puzzle.game.generators.BlockGenerator;
-import io.github.puzzle.game.generators.BlockModelGenerator;
-import io.github.puzzle.game.util.BlockEventActionFactory;
 import finalforeach.cosmicreach.blockevents.actions.BlockActionPlaySound2D;
 import finalforeach.cosmicreach.blockevents.actions.BlockActionReplaceBlockState;
 import finalforeach.cosmicreach.blocks.BlockPosition;
 import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.entities.Player;
 import finalforeach.cosmicreach.world.Zone;
+import io.github.puzzle.core.Identifier;
+import io.github.puzzle.game.engine.blocks.BlockLoader;
+import io.github.puzzle.game.generators.BlockEventGenerator;
+import io.github.puzzle.game.generators.BlockGenerator;
+import io.github.puzzle.game.generators.BlockModelGenerator;
+import io.github.puzzle.game.util.BlockEventActionFactory;
 
 import java.util.Collections;
 import java.util.List;

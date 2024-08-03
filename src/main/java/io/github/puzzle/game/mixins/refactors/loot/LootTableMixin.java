@@ -2,13 +2,13 @@ package io.github.puzzle.game.mixins.refactors.loot;
 
 import com.badlogic.gdx.utils.ObjectMap;
 import com.llamalad7.mixinextras.lib.apache.commons.tuple.Pair;
+import finalforeach.cosmicreach.items.loot.Loot;
 import io.github.puzzle.core.Identifier;
 import io.github.puzzle.core.PuzzleRegistries;
 import io.github.puzzle.core.registries.RegistryObject;
 import io.github.puzzle.core.registries.exception.NotReadableException;
 import io.github.puzzle.game.loot.PuppetLootClass;
 import io.github.puzzle.game.loot.PuzzleLootTable;
-import finalforeach.cosmicreach.items.loot.Loot;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;

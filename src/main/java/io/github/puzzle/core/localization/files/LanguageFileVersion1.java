@@ -3,8 +3,6 @@ package io.github.puzzle.core.localization.files;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
-import dev.crmodders.puzzle.core.localization.*;
-import dev.github.puzzle.core.localization.*;
 import io.github.puzzle.core.localization.*;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;

@@ -1,10 +1,10 @@
 package io.github.puzzle.game.mixins.refactors.logging;
 
 import com.badlogic.gdx.assets.AssetManager;
+import finalforeach.cosmicreach.BlockGame;
+import io.github.puzzle.core.resources.PuzzleGameAssetLoader;
 import io.github.puzzle.loader.launch.Piece;
 import io.github.puzzle.util.AnsiColours;
-import io.github.puzzle.core.resources.PuzzleGameAssetLoader;
-import finalforeach.cosmicreach.BlockGame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spongepowered.asm.mixin.Mixin;

@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.llamalad7.mixinextras.lib.apache.commons.tuple.ImmutablePair;
 import com.llamalad7.mixinextras.lib.apache.commons.tuple.Pair;
-import io.github.puzzle.core.Identifier;
 import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.entities.ItemEntity;
 import finalforeach.cosmicreach.items.Item;
@@ -12,6 +11,7 @@ import finalforeach.cosmicreach.items.ItemStack;
 import finalforeach.cosmicreach.items.loot.Loot;
 import finalforeach.cosmicreach.items.loot.LootOption;
 import finalforeach.cosmicreach.world.Zone;
+import io.github.puzzle.core.Identifier;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 

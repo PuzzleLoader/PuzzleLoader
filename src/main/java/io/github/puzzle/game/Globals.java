@@ -1,11 +1,11 @@
 package io.github.puzzle.game;
 
-import io.github.puzzle.core.localization.Language;
-import io.github.puzzle.core.resources.ResourceLocation;
-import io.github.puzzle.core.Puzzle;
 import finalforeach.cosmicreach.rendering.IZoneRenderer;
 import finalforeach.cosmicreach.settings.BooleanSetting;
 import finalforeach.cosmicreach.settings.IntSetting;
+import io.github.puzzle.core.Puzzle;
+import io.github.puzzle.core.localization.Language;
+import io.github.puzzle.core.resources.ResourceLocation;
 import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

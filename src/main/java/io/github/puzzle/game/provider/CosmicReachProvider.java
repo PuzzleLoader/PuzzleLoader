@@ -2,6 +2,8 @@ package io.github.puzzle.game.provider;
 
 //import dev.crmodders.puzzle.game.internal.mods.FluxPuzzle;
 
+import finalforeach.cosmicreach.GameAssetLoader;
+import finalforeach.cosmicreach.lwjgl3.Lwjgl3Launcher;
 import io.github.puzzle.core.Puzzle;
 import io.github.puzzle.loader.entrypoint.interfaces.TransformerInitializer;
 import io.github.puzzle.loader.launch.PuzzleClassLoader;
@@ -12,8 +14,6 @@ import io.github.puzzle.loader.mod.Version;
 import io.github.puzzle.loader.mod.info.ModInfo;
 import io.github.puzzle.loader.providers.api.IGameProvider;
 import io.github.puzzle.util.MethodUtil;
-import finalforeach.cosmicreach.GameAssetLoader;
-import finalforeach.cosmicreach.lwjgl3.Lwjgl3Launcher;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.launch.MixinBootstrap;
@@ -29,9 +29,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
-
-import static io.github.puzzle.util.MethodUtil.getDeclaredMethod;
-import static io.github.puzzle.util.MethodUtil.runStaticMethod;
 
 public class CosmicReachProvider implements IGameProvider {
     String MIXIN_START = "start";

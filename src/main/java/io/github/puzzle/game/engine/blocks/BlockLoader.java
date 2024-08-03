@@ -2,8 +2,13 @@ package io.github.puzzle.game.engine.blocks;
 
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.utils.Json;
+import finalforeach.cosmicreach.blockevents.BlockEvents;
+import finalforeach.cosmicreach.blocks.Block;
+import finalforeach.cosmicreach.blocks.BlockState;
+import finalforeach.cosmicreach.rendering.blockmodels.BlockModel;
 import io.github.puzzle.core.Identifier;
 import io.github.puzzle.core.PuzzleRegistries;
+import io.github.puzzle.core.resources.PuzzleGameAssetLoader;
 import io.github.puzzle.core.resources.ResourceLocation;
 import io.github.puzzle.game.block.IModBlock;
 import io.github.puzzle.game.block.PuzzleBlockAction;
@@ -12,11 +17,6 @@ import io.github.puzzle.game.factories.IFactory;
 import io.github.puzzle.game.generators.BlockEventGenerator;
 import io.github.puzzle.game.generators.BlockGenerator;
 import io.github.puzzle.game.generators.BlockModelGenerator;
-import io.github.puzzle.core.resources.PuzzleGameAssetLoader;
-import finalforeach.cosmicreach.blockevents.BlockEvents;
-import finalforeach.cosmicreach.blocks.Block;
-import finalforeach.cosmicreach.blocks.BlockState;
-import finalforeach.cosmicreach.rendering.blockmodels.BlockModel;
 import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;

@@ -1,6 +1,5 @@
 package io.github.puzzle.game.blockentities;
 
-import io.github.puzzle.annotations.Internal;
 import finalforeach.cosmicreach.blockentities.BlockEntity;
 import finalforeach.cosmicreach.blocks.BlockPosition;
 import finalforeach.cosmicreach.gamestates.InGame;
@@ -8,6 +7,7 @@ import finalforeach.cosmicreach.io.CRBinDeserializer;
 import finalforeach.cosmicreach.io.CRBinSerializer;
 import finalforeach.cosmicreach.world.Chunk;
 import finalforeach.cosmicreach.world.Zone;
+import io.github.puzzle.annotations.Internal;
 
 /**
  * @see BlockEntity

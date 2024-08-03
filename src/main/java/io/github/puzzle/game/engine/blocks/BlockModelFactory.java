@@ -1,11 +1,11 @@
 package io.github.puzzle.game.engine.blocks;
 
 import com.badlogic.gdx.utils.Json;
-import io.github.puzzle.core.resources.VanillaAssetLocations;
-import io.github.puzzle.game.engine.blocks.models.PuzzleBlockModel;
 import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.rendering.blockmodels.BlockModel;
 import finalforeach.cosmicreach.rendering.blockmodels.IBlockModelInstantiator;
+import io.github.puzzle.core.resources.VanillaAssetLocations;
+import io.github.puzzle.game.engine.blocks.models.PuzzleBlockModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

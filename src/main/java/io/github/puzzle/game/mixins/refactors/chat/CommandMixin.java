@@ -2,14 +2,14 @@ package io.github.puzzle.game.mixins.refactors.chat;
 
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import io.github.puzzle.game.commands.CommandManager;
-import io.github.puzzle.game.commands.PuzzleCommandSource;
 import finalforeach.cosmicreach.accounts.Account;
 import finalforeach.cosmicreach.chat.Chat;
 import finalforeach.cosmicreach.chat.commands.Command;
 import finalforeach.cosmicreach.entities.Player;
 import finalforeach.cosmicreach.util.exceptions.ChatCommandException;
 import finalforeach.cosmicreach.world.World;
+import io.github.puzzle.game.commands.CommandManager;
+import io.github.puzzle.game.commands.PuzzleCommandSource;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;

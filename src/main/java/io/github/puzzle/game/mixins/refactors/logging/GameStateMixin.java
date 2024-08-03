@@ -1,7 +1,7 @@
 package io.github.puzzle.game.mixins.refactors.logging;
 
-import io.github.puzzle.util.AnsiColours;
 import finalforeach.cosmicreach.gamestates.GameState;
+import io.github.puzzle.util.AnsiColours;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spongepowered.asm.mixin.Mixin;

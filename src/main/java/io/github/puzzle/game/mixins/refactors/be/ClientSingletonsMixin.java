@@ -1,10 +1,10 @@
 package io.github.puzzle.game.mixins.refactors.be;
 
-import io.github.puzzle.game.Globals;
 import finalforeach.cosmicreach.ClientSingletons;
 import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.rendering.BatchedZoneRenderer;
 import finalforeach.cosmicreach.settings.GraphicsSettings;
+import io.github.puzzle.game.Globals;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

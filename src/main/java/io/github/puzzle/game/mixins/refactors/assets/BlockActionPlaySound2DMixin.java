@@ -1,9 +1,9 @@
 package io.github.puzzle.game.mixins.refactors.assets;
 
 import de.pottgames.tuningfork.SoundBuffer;
-import io.github.puzzle.core.Identifier;
 import finalforeach.cosmicreach.GameAssetLoader;
 import finalforeach.cosmicreach.blockevents.actions.BlockActionPlaySound2D;
+import io.github.puzzle.core.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;

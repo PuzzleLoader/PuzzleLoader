@@ -1,10 +1,10 @@
 package io.github.puzzle.game.mixins.refactors.entrypoint;
 
+import finalforeach.cosmicreach.lwjgl3.Lwjgl3Launcher;
 import io.github.puzzle.game.Globals;
 import io.github.puzzle.loader.entrypoint.interfaces.PreModInitializer;
 import io.github.puzzle.loader.launch.Piece;
 import io.github.puzzle.loader.mod.ModLocator;
-import finalforeach.cosmicreach.lwjgl3.Lwjgl3Launcher;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

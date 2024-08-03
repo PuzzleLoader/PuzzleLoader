@@ -1,9 +1,9 @@
 package io.github.puzzle.game.mixins.refactors.ui;
 
-import io.github.puzzle.game.Globals;
 import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.settings.GraphicsSettings;
 import finalforeach.cosmicreach.ui.UIElement;
+import io.github.puzzle.game.Globals;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 

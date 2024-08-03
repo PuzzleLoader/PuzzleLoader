@@ -1,10 +1,10 @@
 package io.github.puzzle.game.util;
 
 import com.badlogic.gdx.utils.Array;
-import io.github.puzzle.core.Identifier;
 import finalforeach.cosmicreach.entities.Entity;
 import finalforeach.cosmicreach.entities.Player;
 import finalforeach.cosmicreach.world.Zone;
+import io.github.puzzle.core.Identifier;
 import org.jetbrains.annotations.NotNull;
 
 public class PuzzleEntityUtil {

@@ -3,15 +3,15 @@ package io.github.puzzle.game.engine.stages;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import de.pottgames.tuningfork.SoundBuffer;
+import io.github.puzzle.core.PuzzleRegistries;
 import io.github.puzzle.core.localization.TranslationKey;
+import io.github.puzzle.core.resources.PuzzleGameAssetLoader;
 import io.github.puzzle.core.resources.ResourceLocation;
 import io.github.puzzle.core.resources.VanillaAssetLocations;
 import io.github.puzzle.game.engine.GameLoader;
 import io.github.puzzle.game.engine.LoadStage;
 import io.github.puzzle.game.events.OnLoadAssetsEvent;
 import io.github.puzzle.game.events.OnLoadAssetsFinishedEvent;
-import io.github.puzzle.core.PuzzleRegistries;
-import io.github.puzzle.core.resources.PuzzleGameAssetLoader;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
