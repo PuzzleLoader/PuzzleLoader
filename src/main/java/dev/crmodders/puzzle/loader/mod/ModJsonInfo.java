@@ -74,7 +74,7 @@ public class ModJsonInfo {
                     if (value.isObject()) {
                         pairList.add(new AdapterPathPair(
                                 value.asObject().getString("adapter", "java"),
-                                value.asObject().asString()
+                                value.asObject().get("value").asString()
                         ));
                     } else if (value.isString()) {
                         pairList.add(new AdapterPathPair("java", value.asString()));
