@@ -4,6 +4,8 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.LoggerFactory;
 
+
+//TODO: support more than just the numbers
 public record Version(
     int Major,
     int Minor,

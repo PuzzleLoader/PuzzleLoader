@@ -9,6 +9,10 @@ import finalforeach.cosmicreach.io.CRBinSerializer;
 import finalforeach.cosmicreach.world.Chunk;
 import finalforeach.cosmicreach.world.Zone;
 
+/**
+ * @see BlockEntity
+ * 
+ */
 public class ExtendedBlockEntity extends BlockEntity {
     public Zone zone;
     public BlockPosition position;
@@ -23,9 +27,9 @@ public class ExtendedBlockEntity extends BlockEntity {
     }
 
     public void read(CRBinDeserializer deserial) {
-        int x =deserial.readInt("x", this.position.getGlobalX());
-        int y =deserial.readInt("y", this.position.getGlobalY());
-        int z =deserial.readInt("z", this.position.getGlobalZ());
+        int x = deserial.readInt("x", this.position.getGlobalX());
+        int y = deserial.readInt("y", this.position.getGlobalY());
+        int z = deserial.readInt("z", this.position.getGlobalZ());
         position = new BlockPosition(
                 InGame.getLocalPlayer().getZone(InGame.world).getChunkAtBlock(x, y, z),
                 x, y, z

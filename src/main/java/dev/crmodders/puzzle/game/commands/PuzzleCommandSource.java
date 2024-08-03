@@ -5,6 +5,9 @@ import finalforeach.cosmicreach.chat.Chat;
 import finalforeach.cosmicreach.entities.Player;
 import finalforeach.cosmicreach.world.World;
 
+/**
+ * @see CommandSource
+ */
 public class PuzzleCommandSource implements CommandSource {
 
     final Account account;

@@ -9,6 +9,7 @@ import dev.crmodders.puzzle.game.generators.BlockGenerator;
 import java.util.LinkedHashMap;
 
 /**
+ * @see IModBlock
  * This class allows loading regular Json files
  * as IModBlocks
  */

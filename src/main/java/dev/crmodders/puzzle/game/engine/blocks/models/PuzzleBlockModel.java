@@ -14,7 +14,10 @@ import finalforeach.cosmicreach.rendering.shaders.ChunkShader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
+/**
+ * @see finalforeach.cosmicreach.blockentities.BlockEntity
+ *
+ */
 public class PuzzleBlockModel extends BlockModel {
 
     public static PuzzleBlockModel fromJson(String modelJson, String modelName, int rotXZ) {

@@ -20,9 +20,9 @@ public class GameStateMixin {
     @Redirect(method = "lambda$switchToGameState$0", at = @At(value = "INVOKE", target = "Ljava/io/PrintStream;println(Ljava/lang/String;)V"), require = 0)
     private static void printCapture(PrintStream instance, String x, GameState gameState) {
         if(currentGameState == null) {
-            LOGGER.info("Switched to GameState: " + AnsiColours.RED +"{}" + AnsiColours.WHITE, gameState.getClass().getSimpleName());
+            LOGGER.info("Switched to GameState: " + AnsiColours.BLUE +"{}" + AnsiColours.WHITE, gameState.getClass().getSimpleName());
         } else {
-            LOGGER.info("Switched from "+ AnsiColours.RED + "{}"+ AnsiColours.WHITE + " to " + AnsiColours.RED + "{}"+ AnsiColours.WHITE, currentGameState.getClass().getSimpleName(), gameState.getClass().getSimpleName());
+            LOGGER.info("Switched from "+ AnsiColours.BLUE + "{}"+ AnsiColours.WHITE + " to " + AnsiColours.BLUE + "{}"+ AnsiColours.WHITE, currentGameState.getClass().getSimpleName(), gameState.getClass().getSimpleName());
         }
     }
 }

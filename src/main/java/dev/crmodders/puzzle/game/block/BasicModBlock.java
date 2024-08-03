@@ -9,6 +9,7 @@ import dev.crmodders.puzzle.game.generators.BlockModelGenerator;
 import java.util.List;
 
 /**
+ * @see IModBlock
  * This class creates a basic Block with top, bottom and side
  * textures, a simple default block state and a single custom
  * model
