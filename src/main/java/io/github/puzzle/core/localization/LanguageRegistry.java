@@ -1,0 +1,35 @@
+package io.github.puzzle.core.localization;
+
+import io.github.puzzle.core.Identifier;
+import io.github.puzzle.core.localization.files.MergedLanguageFile;
+import io.github.puzzle.core.registries.MapRegistry;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class LanguageRegistry extends MapRegistry<Language> {
+    private final Map<Identifier, ILanguageFile> files = new HashMap<>();
+
+    public LanguageRegistry(Identifier identifier) {
+        super(identifier, new HashMap<>(), true, false);
+    }
+
+    public void register(@NotNull ILanguageFile lang) {
+        TranslationLocale locale = lang.locale();
+        Identifier localeIdentifier = locale.toIdentifier();
+
+        if (files.get(localeIdentifier) instanceof MergedLanguageFile merged) {
+            merged.addLanguageFile(lang);
+        } else {
+            MergedLanguageFile merged = new MergedLanguageFile(locale);
+            merged.addLanguageFile(lang);
+            files.put(localeIdentifier, merged);
+        }
+
+        if (!values.containsKey(localeIdentifier)) {
+            Language language = new Language(files.get(localeIdentifier));
+            values.put(localeIdentifier, language);
+        }
+    }
+}
