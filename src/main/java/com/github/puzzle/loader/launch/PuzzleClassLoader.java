@@ -106,8 +106,8 @@ public class PuzzleClassLoader extends URLClassLoader {
         }
     }
 
-    public void defineClass(String clazzName, byte[] bytes) {
-        super.defineClass(clazzName, bytes, 0, bytes.length);
+    public Class<?> defineClass(String clazzName, byte[] bytes) {
+        return super.defineClass(clazzName, bytes, 0, bytes.length);
     }
 
     @Override
