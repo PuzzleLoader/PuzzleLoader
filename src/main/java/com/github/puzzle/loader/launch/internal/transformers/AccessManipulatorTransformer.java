@@ -10,7 +10,6 @@ import java.util.List;
 
 public class AccessManipulatorTransformer implements IClassTransformer {
     public AccessManipulatorTransformer() {
-        ModLocator.getMods(List.of(Piece.classLoader.getURLs()));
         Piece.provider.addBuiltinMods();
 
         readAccessManipulators();

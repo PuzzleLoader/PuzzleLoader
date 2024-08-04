@@ -61,7 +61,10 @@ public class ModLocator {
                 String strInfo = new String(new FileInputStream(file).readAllBytes());
                 ModJsonInfo info = ModJsonInfo.fromString(strInfo);
                 LOGGER.info("Discovered Dev Mod \"{}\" with ID \"{}\"", info.name(), info.id());
-                locatedMods.put(info.id(), new ModContainer(ModInfo.fromModJsonInfo(info), null));
+                if(locatedMods.containsKey(info.id()))
+                    throw new RuntimeException("mod id \""+info.id()+"\" already used");
+                else
+                    locatedMods.put(info.id(), new ModContainer(ModInfo.fromModJsonInfo(info), null));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
