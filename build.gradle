@@ -60,8 +60,13 @@ dependencies {
 processResources {
     def resourceTargets = ["assets/puzzle-loader/version.txt"]
 
+    String ver = version
+    if (!ver.contains(".")) {
+        ver = ""
+    } else ver = (version + "").replaceAll((version + "").replaceAll("[\\d\\.]", ""), "")
+
     def replaceProperties = [
-            "version"     : (version + "").replaceAll((version + "").replaceAll("[\\d\\.]", ""), ""),
+            "version"     : ver,
     ]
 
 
