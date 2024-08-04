@@ -1,8 +1,10 @@
 package com.github.puzzle.game.engine.stages;
 
+import com.github.puzzle.core.PuzzleRegistries;
 import com.github.puzzle.core.localization.TranslationKey;
 import com.github.puzzle.game.engine.GameLoader;
 import com.github.puzzle.game.engine.LoadStage;
+import com.github.puzzle.game.events.OnRegisterLanguageEvent;
 import com.github.puzzle.loader.entrypoint.interfaces.ModInitializer;
 import com.github.puzzle.loader.mod.ModContainer;
 import com.github.puzzle.loader.mod.ModLocator;
@@ -42,6 +44,8 @@ public class Initialize extends LoadStage {
             }
             progress.getAndIncrement();
         });
+
+        PuzzleRegistries.EVENT_BUS.post(new OnRegisterLanguageEvent());
 
     }
 }
