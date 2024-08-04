@@ -62,7 +62,7 @@ processResources {
 
     String ver = version
     if (!ver.contains(".")) {
-        ver = ""
+        ver = "69.69.69"
     } else ver = (version + "").replaceAll((version + "").replaceAll("[\\d\\.]", ""), "")
 
     def replaceProperties = [
