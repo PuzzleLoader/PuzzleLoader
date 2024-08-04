@@ -1,15 +1,15 @@
 {
   "required": false,
   "minVersion": "0.8",
-  "package": "dev.crmodders.puzzle.game.mixins.refactors",
-  "plugin": "io.github.puzzle.loader.launch.internal.mixinextras.MixinExtrasConfigPlugin",
+  "package": "com.github.puzzle.game.mixins.refactors",
+  "plugin": "com.github.puzzle.loader.launch.internal.mixinextras.MixinExtrasConfigPlugin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "dev.github.puzzle.game.mixins.refactors.logging.BlockGameMixin",
-    "dev.github.puzzle.game.mixins.refactors.logging.GameShaderMixin",
-    "dev.github.puzzle.game.mixins.refactors.logging.GameStateMixin",
-    "dev.github.puzzle.game.mixins.refactors.logging.LLwjgl3ApplicationLoggerMixin",
-    "dev.github.puzzle.game.mixins.refactors.logging.Lwjgl3LauncherMixin"
+    "logging.BlockGameMixin",
+    "logging.GameShaderMixin",
+    "logging.GameStateMixin",
+    "logging.LLwjgl3ApplicationLoggerMixin",
+    "logging.Lwjgl3LauncherMixin"
   ],
   "client": [],
   "server": [],

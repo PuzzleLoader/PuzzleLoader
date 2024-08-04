@@ -1,13 +1,15 @@
-pluginManagement {
+buildscript {
     repositories {
-        maven { url "https://maven.crmodders.dev/plugins" }
-        maven { url "https://maven.crmodders.dev/releases" }
         maven {
             name "JitPack"
             url "https://jitpack.io"
         }
         mavenCentral()
         gradlePluginPortal()
+    }
+    dependencies {
+        classpath "com.github.johnrengelman:shadow:8.1.1"
+        classpath "com.github.PuzzleLoader:CRPuzzleGradle:$puzzle_gradle_version"
     }
 }
 

@@ -1,12 +1,11 @@
 plugins {
-    id "maven-publish"
     id "java"
-    id "java-library"
-    id "com.github.johnrengelman.shadow"  version "8.1.1"
-    id "cr_puzzle_gradle" version "1.0.62-dev"
+    id "maven-publish"
+    id "cr_puzzle_gradle"
+    id "com.github.johnrengelman.shadow"
 }
 
-group = "io.github"
+group = "com.github"
 
 puzzle_loader {
     accessManipulatorPath = file("src/main/resources/puzzle_loader.manipulator")
@@ -19,17 +18,15 @@ repositories {
 
     maven { url "https://jitpack.io" }
     maven { url "https://maven.google.com/" }
-    maven { url "https://maven.crmodders.dev/releases" }
-    maven { url "https://maven.crmodders.dev/snapshots" }
-    maven { url "https://repo.spongepowered.org/repository/maven-public/" }
     maven { url "https://libraries.minecraft.net" }
+    maven { url "https://repo.spongepowered.org/repository/maven-public/" }
 }
 
 // do not remove fucks up building
 tasks.buildBundleJar.configure {dependsOn(tasks.compileJava)}
 
 dependencies {
-    compileOnly 'org.jetbrains:annotations:24.0.0'
+    compileOnly('org.jetbrains:annotations:24.0.0')
 
     compileOnly("org.spongepowered:mixin:$mixinVersion")
     bundle(annotationProcessor("io.github.llamalad7:mixinextras-common:$mixinExtrasVersion"))
@@ -58,19 +55,11 @@ dependencies {
     bundle("dev.dewy:nbt:$nbtVersion")
 
     bundle("org.greenrobot:eventbus:$eventbusVersion")
-
-//    bundle("org.python:jython-slim:2.7.3")
-
-//    bundle("org.luaj:luaj-jse:$luaJVersion")
-//    bundle("org.luaj:luaj-jme:$luaJVersion")
 }
 
 processResources {
-    def resourceTargets = [ // Locations of where to inject the properties
-                            "assets/puzzle-loader/version.txt"
-    ]
+    def resourceTargets = ["assets/puzzle-loader/version.txt"]
 
-    // Left item is the name in the target, right is the varuable name
     def replaceProperties = [
             "version"     : (version + "").replaceAll((version + "").replaceAll("[\\d\\.]", ""), ""),
     ]
@@ -87,24 +76,10 @@ tasks.register("runLoader", JavaExec) {
     group = "loader"
 
     classpath = sourceSets.main.runtimeClasspath
-    mainClass = "dev.crmodders.puzzle.loader.launch.Piece"
+    mainClass = "com.github.puzzle.loader.launch.Piece"
 }
 
 publishing {
-    repositories {
-        maven {
-            name = "crmReleases"
-            url = "https://maven.crmodders.dev/releases"
-            credentials{
-                username = System.getenv("CRMReleasesUsername")
-                password = System.getenv("CRMReleasesPassword")
-            }
-            authentication {
-                basic(BasicAuthentication)
-            }
-        }
-    }
-    assemble.dependsOn buildSourcesJar, buildBundleJar
     publications {
         maven(MavenPublication) {
             groupId = group
@@ -114,4 +89,9 @@ publishing {
             artifact source: buildSourcesJar, classifier: 'source', extension: 'jar'
         }
     }
+}
+
+wrapper {
+    gradleVersion = "8.5"
+    distributionType = Wrapper.DistributionType.ALL
 }

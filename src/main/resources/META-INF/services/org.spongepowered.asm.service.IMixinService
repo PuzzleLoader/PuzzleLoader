@@ -1,1 +1,1 @@
-io.github.puzzle.loader.launch.internal.minimixin.PuzzleLoaderMixinService
+com.github.puzzle.loader.launch.internal.minimixin.PuzzleLoaderMixinService
