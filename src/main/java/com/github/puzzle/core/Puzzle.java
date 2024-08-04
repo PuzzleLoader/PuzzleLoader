@@ -20,8 +20,11 @@ public class Puzzle implements PreModInitializer {
     static {
         try {
             InputStream stream = getFile("assets/puzzle-loader/version.txt");
-            VERSION = new String(stream.readAllBytes()).strip();
+            String bytez = new String(stream.readAllBytes()).strip();
             stream.close();
+            if (bytez.isEmpty()) {
+                VERSION = "69.69.69";
+            } else VERSION = bytez;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
