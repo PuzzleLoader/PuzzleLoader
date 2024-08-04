@@ -106,6 +106,10 @@ public class PuzzleClassLoader extends URLClassLoader {
         }
     }
 
+    public void defineClass(String clazzName, byte[] bytes) {
+        super.defineClass(clazzName, bytes, 0, bytes.length);
+    }
+
     @Override
     public Class<?> findClass(final String name) throws ClassNotFoundException {
         if (invalidClasses.contains(name)) {
