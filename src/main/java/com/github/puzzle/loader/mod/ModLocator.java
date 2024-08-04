@@ -83,7 +83,10 @@ public class ModLocator {
                             String strInfo = new String(jar.getInputStream(modJson).readAllBytes());
                             ModJsonInfo info = ModJsonInfo.fromString(strInfo);
                             LOGGER.info("Discovered Mod \"{}\" with ID \"{}\"", info.name(), info.id());
-                            locatedMods.put(info.id(), new ModContainer(ModInfo.fromModJsonInfo(info), jar));
+                            if(locatedMods.containsKey(info.id()))
+                                throw new RuntimeException("mod id \""+info.id()+"\" already used");
+                            else
+                                locatedMods.put(info.id(), new ModContainer(ModInfo.fromModJsonInfo(info), jar));
                         }
                     }
                 } catch (IOException e) {

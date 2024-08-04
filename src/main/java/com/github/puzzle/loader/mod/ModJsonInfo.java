@@ -12,9 +12,9 @@ import java.util.*;
 
 public class ModJsonInfo {
 
-    String id = null;
+    private String id = null;
     String version = null;
-    String name = null;
+    private String name = null;
     String description = null;
     String[] authors = null;
     Map<String, Collection<AdapterPathPair>> entrypoints = null;
