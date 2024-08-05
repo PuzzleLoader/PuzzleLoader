@@ -55,6 +55,8 @@ dependencies {
     bundle("dev.dewy:nbt:$nbtVersion")
 
     bundle("org.greenrobot:eventbus:$eventbusVersion")
+
+    mod "com.github.PuzzleLoader:puzzle-language-lua:1.0.0"
 }
 
 processResources {
@@ -75,13 +77,6 @@ processResources {
     filesMatching(resourceTargets) {
         expand replaceProperties
     }
-}
-
-tasks.register("runLoader", JavaExec) {
-    group = "loader"
-
-    classpath = sourceSets.main.runtimeClasspath
-    mainClass = "com.github.puzzle.loader.launch.Piece"
 }
 
 publishing {

@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.net.URLDecoder;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.zip.ZipEntry;
@@ -75,8 +76,7 @@ public class ModLocator {
         Collection<URL> urls = getUrlsOnClasspath(classPath);
 
         for (URL url : urls) {
-            File file = new File(url.getFile());
-
+            File file = new File(URLDecoder.decode(url.getFile()));
             if (!file.isDirectory()) {
                 try {
                     if (file.exists()) {
