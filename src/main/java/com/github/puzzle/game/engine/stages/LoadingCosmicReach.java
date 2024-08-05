@@ -81,11 +81,7 @@ public class LoadingCosmicReach extends LoadStage {
                 }
             });
             BlockEvents blockEvents = json.fromJson(BlockEvents.class, jsonStr);
-            try {
-                INSTANCES.put(Reflection.getField(blockEvents, "stringId"), blockEvents);
-            } catch (NoSuchFieldException | IllegalAccessException e) {
-                throw new RuntimeException(e);
-            }
+            INSTANCES.put(Reflection.getFieldContents(blockEvents, "stringId"), blockEvents);
             return blockEvents;
         }
     }

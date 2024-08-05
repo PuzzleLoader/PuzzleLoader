@@ -1,33 +1,115 @@
 package com.github.puzzle.game.util;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 public class Reflection {
 
+    public static <T> T newInstance(Class<T> type) {
+        try {
+            Constructor<T> c = type.getConstructor();
+            c.setAccessible(true);
+            return c.newInstance();
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            try {
+                Constructor<T> c = type.getDeclaredConstructor();
+                c.setAccessible(true);
+                return c.newInstance();
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e2) {
+                throw new RuntimeException(e2);
+            }
+        }
+    }
+
     @SuppressWarnings("unchecked")
-    public static <T> T getField(Class<?> clazz, String fieldName) throws NoSuchFieldException, IllegalAccessException {
-        Field f = clazz.getDeclaredField(fieldName);
-        f.setAccessible(true);
-        return (T) f.get(null);
+    public static @NotNull Field getField(@NotNull Class<?> clazz, String fieldName){
+        try {
+            Field f = clazz.getField(fieldName);
+            f.setAccessible(true);
+            return f;
+        } catch (NoSuchFieldException ignore) {
+            try {
+                Field f = clazz.getDeclaredField(fieldName);
+                f.setAccessible(true);
+                return f;
+            } catch (NoSuchFieldException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
-    public static void setField(Class<?> clazz, String fieldName, Object data) throws NoSuchFieldException, IllegalAccessException {
-        Field f = clazz.getDeclaredField(fieldName);
-        f.setAccessible(true);
-        f.set(null, data);
+    public static void setFieldContents(Class<?> clazz, String fieldName, Object data) {
+        Field f = getField(clazz, fieldName);
+        try {
+            f.set(null, data);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    @SuppressWarnings("unchecked")
-    public static <T> T getField(Object instance, String fieldName) throws NoSuchFieldException, IllegalAccessException {
-        Field f = instance.getClass().getDeclaredField(fieldName);
-        f.setAccessible(true);
-        return (T) f.get(instance);
+    public static <T> T getFieldContents(Class<?> clazz, String fieldName) {
+        try {
+            return (T) getField(clazz, fieldName).get(null);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public static void setField(Object instance, String fieldName, Object data) throws NoSuchFieldException, IllegalAccessException {
-        Field f = instance.getClass().getDeclaredField(fieldName);
-        f.setAccessible(true);
-        f.set(instance, data);
+    public static Field getField(Object instance, String fieldName) {
+        return getField(instance.getClass(), fieldName);
+    }
+
+    public static void setFieldContents(Object instance, String fieldName, Object data) {
+        Field f = getField(instance, fieldName);
+        try {
+            f.set(instance, data);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static <T> T getFieldContents(Object instance, String fieldName) {
+        try {
+            return (T) getField(instance, fieldName).get(instance);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static @NotNull Method getMethod(@NotNull Class<?> clazz, String name, Class<?>... args) {
+        try {
+            Method m = clazz.getMethod(name, args);
+            m.setAccessible(true);
+            return m;
+        } catch (NoSuchMethodException ignore) {
+            try {
+                Method m = clazz.getDeclaredMethod(name, args);
+                m.setAccessible(true);
+                return m;
+            } catch (NoSuchMethodException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    public static @NotNull Method getMethod(@NotNull Class<?> clazz, String name) {
+        try {
+            Method m = clazz.getMethod(name);
+            m.setAccessible(true);
+            return m;
+        } catch (NoSuchMethodException ignore) {
+            try {
+                Method m = clazz.getDeclaredMethod(name);
+                m.setAccessible(true);
+                return m;
+            } catch (NoSuchMethodException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
 }

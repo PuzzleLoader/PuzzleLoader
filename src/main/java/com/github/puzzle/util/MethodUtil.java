@@ -1,5 +1,6 @@
 package com.github.puzzle.util;
 
+import com.github.puzzle.game.util.Reflection;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.InvocationTargetException;
@@ -7,44 +8,20 @@ import java.lang.reflect.Method;
 
 public class MethodUtil {
     public static @NotNull Method getMethod(@NotNull Class<?> clazz, String name, Class<?>... args) {
-        try {
-            Method m = clazz.getMethod(name, args);
-            m.setAccessible(true);
-            return m;
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
-    };
+        return Reflection.getMethod(clazz, name, args);
+    }
 
     public static @NotNull Method getMethod(@NotNull Class<?> clazz, String name) {
-        try {
-            Method m = clazz.getMethod(name);
-            m.setAccessible(true);
-            return m;
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
-    };
+        return Reflection.getMethod(clazz, name);
+    }
 
     public static @NotNull Method getDeclaredMethod(@NotNull Class<?> clazz, String name, Class<?>... args) {
-        try {
-            Method m = clazz.getDeclaredMethod(name, args);
-            m.setAccessible(true);
-            return m;
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
-    };
+        return Reflection.getMethod(clazz, name, args);
+    }
 
     public static @NotNull Method getDeclaredMethod(@NotNull Class<?> clazz, String name) {
-        try {
-            Method m = clazz.getDeclaredMethod(name);
-            m.setAccessible(true);
-            return m;
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
-    };
+        return Reflection.getMethod(clazz, name);
+    }
 
 
     public static Object runStaticMethod(@NotNull Method method) {

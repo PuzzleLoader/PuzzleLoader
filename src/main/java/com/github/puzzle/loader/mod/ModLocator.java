@@ -22,9 +22,12 @@ import static com.github.puzzle.loader.mod.VersionParser.hasDependencyVersion;
 
 public class ModLocator {
     public static Logger LOGGER = LogManager.getLogger("Puzzle | ModLocator");
-    public static Gson gsonInstance = new Gson();
 
     public static Map<String, ModContainer> locatedMods = new HashMap<>();
+
+    public static boolean isModLoaded(String modId) {
+        return locatedMods.get(modId) != null;
+    }
 
     public static @NotNull Collection<URL> getUrlsOnClasspath() {
         return getUrlsOnClasspath(new ArrayList<>());
