@@ -1,7 +1,5 @@
 package com.github.puzzle.game.provider;
 
-//import dev.crmodders.puzzle.game.internal.mods.FluxPuzzle;
-
 import com.github.puzzle.core.Puzzle;
 import com.github.puzzle.loader.entrypoint.interfaces.TransformerInitializer;
 import com.github.puzzle.loader.launch.PuzzleClassLoader;
@@ -139,6 +137,7 @@ public class CosmicReachProvider implements IGameProvider {
             puzzleLoaderInfo.setVersion(Puzzle.VERSION);
             puzzleLoaderInfo.setAccessManipulator("puzzle_loader.manipulator");
             puzzleLoaderInfo.addEntrypoint("preInit", Puzzle.class.getName());
+            puzzleLoaderInfo.addEntrypoint("init", Puzzle.class.getName());
 
             ModLocator.locatedMods.put("puzzle-loader", puzzleLoaderInfo.build().getOrCreateModContainer());
         }

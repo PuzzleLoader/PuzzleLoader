@@ -11,7 +11,9 @@ import com.github.puzzle.game.engine.GameLoader;
 import com.github.puzzle.game.engine.LoadStage;
 import com.github.puzzle.game.events.OnLoadAssetsEvent;
 import com.github.puzzle.game.events.OnLoadAssetsFinishedEvent;
+import com.github.puzzle.game.items.IModItem;
 import de.pottgames.tuningfork.SoundBuffer;
+import finalforeach.cosmicreach.items.Item;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
@@ -35,6 +37,11 @@ public class LoadingAssets extends LoadStage {
         textures.addAll(VanillaAssetLocations.getInternalFiles("textures/items", ".png"));
         textures.addAll(VanillaAssetLocations.getInternalFiles("textures/entities", ".png"));
         textures.addAll(VanillaAssetLocations.getInternalFiles("lang/textures/", ".png"));
+
+        for (Item item : Item.allItems.values()) {
+            if (item instanceof IModItem modItem) textures.add(modItem.getTexturePath());
+        }
+
         textures.forEach( location -> PuzzleGameAssetLoader.LOADER.loadResource(location, Texture.class) );
 
         List<ResourceLocation> sounds = new ArrayList<>();

@@ -4,7 +4,11 @@ import com.github.puzzle.core.localization.ILanguageFile;
 import com.github.puzzle.core.localization.LanguageManager;
 import com.github.puzzle.core.localization.files.LanguageFileVersion1;
 import com.github.puzzle.game.Globals;
+import com.github.puzzle.game.events.OnLoadAssetsEvent;
 import com.github.puzzle.game.events.OnPreLoadAssetsEvent;
+import com.github.puzzle.game.items.IModItem;
+import com.github.puzzle.game.items.NullStick;
+import com.github.puzzle.loader.entrypoint.interfaces.ModInitializer;
 import com.github.puzzle.loader.entrypoint.interfaces.PreModInitializer;
 import com.github.puzzle.loader.launch.PuzzleClassLoader;
 import org.greenrobot.eventbus.Subscribe;
@@ -12,7 +16,7 @@ import org.greenrobot.eventbus.Subscribe;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class Puzzle implements PreModInitializer {
+public class Puzzle implements PreModInitializer, ModInitializer {
     public static final String MOD_ID = "puzzle-loader";
 
     public static final String VERSION;
@@ -40,9 +44,6 @@ public class Puzzle implements PreModInitializer {
 
     @Override
     public void onPreInit() {
-        PuzzleRegistries.EVENT_BUS.register(this);
-
-//        ILanguageFile lang = LOADER.loadResourceSync(Globals.LanguageEnUs, LanguageFileVersion1.class);
         try {
             ILanguageFile lang = LanguageFileVersion1.loadLanguageFromString(new String(getFile(Globals.LanguageEnUs.toPath()).readAllBytes()));
             LanguageManager.registerLanguageFile(lang);
@@ -51,7 +52,8 @@ public class Puzzle implements PreModInitializer {
         }
     }
 
-    @Subscribe
-    public void onEvent(OnPreLoadAssetsEvent event) {
+    @Override
+    public void onInit() {
+        IModItem.registerItem(new NullStick());
     }
 }
