@@ -14,4 +14,3 @@ buildscript {
 }
 
 rootProject.name = "PuzzleLoader"
-

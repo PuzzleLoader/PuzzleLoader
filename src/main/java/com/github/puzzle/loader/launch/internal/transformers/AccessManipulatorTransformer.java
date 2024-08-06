@@ -6,8 +6,6 @@ import com.github.puzzle.loader.mod.ModContainer;
 import com.github.puzzle.loader.mod.ModLocator;
 import net.minecraft.launchwrapper.IClassTransformer;
 
-import java.util.List;
-
 public class AccessManipulatorTransformer implements IClassTransformer {
     public AccessManipulatorTransformer() {
         Piece.provider.addBuiltinMods();

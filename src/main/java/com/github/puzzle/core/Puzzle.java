@@ -53,6 +53,5 @@ public class Puzzle implements PreModInitializer {
 
     @Subscribe
     public void onEvent(OnPreLoadAssetsEvent event) {
-
     }
 }

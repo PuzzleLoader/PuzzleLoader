@@ -5,7 +5,6 @@ import com.github.puzzle.core.Identifier;
 import com.github.puzzle.core.resources.ResourceLocation;
 import com.github.puzzle.core.resources.VanillaAssetLocations;
 import com.github.puzzle.game.generators.BlockGenerator;
-import com.github.puzzle.game.generators.BlockModelGenerator;
 
 import java.util.LinkedHashMap;
 

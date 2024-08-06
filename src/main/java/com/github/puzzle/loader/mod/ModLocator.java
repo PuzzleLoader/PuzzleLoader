@@ -1,7 +1,6 @@
 package com.github.puzzle.loader.mod;
 
 import com.github.puzzle.loader.mod.info.ModInfo;
-import com.google.gson.Gson;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;

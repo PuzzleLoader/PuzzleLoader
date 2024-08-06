@@ -4,8 +4,10 @@ import com.badlogic.gdx.utils.Json;
 import com.github.puzzle.core.Identifier;
 import com.github.puzzle.game.engine.blocks.BlockLoader;
 import com.github.puzzle.game.factories.IGenerator;
+import com.github.puzzle.game.oredict.tags.Tag;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class BlockGenerator implements IGenerator {
@@ -57,6 +59,7 @@ public class BlockGenerator implements IGenerator {
 
     public Map<String, String> defaultParams;
     public Map<String, State> blockStates;
+    public List<Tag> itemTags;
 
     public BlockGenerator(Identifier blockId, String blockName) {
         this.blockId = blockId;
@@ -88,6 +91,10 @@ public class BlockGenerator implements IGenerator {
 
     @Override
     public void register(BlockLoader loader) {}
+
+    public void addTags(Tag ...itemTag) {
+        itemTags.addAll(List.of(itemTag));
+    }
 
     @Override
     public String generateJson() {
