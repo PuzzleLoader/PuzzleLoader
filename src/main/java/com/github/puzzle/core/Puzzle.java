@@ -1,10 +1,12 @@
 package com.github.puzzle.core;
 
+import com.badlogic.gdx.Gdx;
 import com.github.puzzle.core.localization.ILanguageFile;
 import com.github.puzzle.core.localization.LanguageManager;
 import com.github.puzzle.core.localization.files.LanguageFileVersion1;
 import com.github.puzzle.game.Globals;
 import com.github.puzzle.game.engine.items.PuzzleItemModel;
+import com.github.puzzle.game.engine.shaders.ItemShader;
 import com.github.puzzle.game.events.OnLoadAssetsEvent;
 import com.github.puzzle.game.events.OnPreLoadAssetsEvent;
 import com.github.puzzle.game.items.IModItem;
@@ -13,6 +15,7 @@ import com.github.puzzle.game.mixins.accessors.ItemRenderAccessor;
 import com.github.puzzle.loader.entrypoint.interfaces.ModInitializer;
 import com.github.puzzle.loader.entrypoint.interfaces.PreModInitializer;
 import com.github.puzzle.loader.launch.PuzzleClassLoader;
+import finalforeach.cosmicreach.Threads;
 import finalforeach.cosmicreach.items.ItemBlock;
 import finalforeach.cosmicreach.items.ItemModelBlock;
 import finalforeach.cosmicreach.lwjgl3.Lwjgl3Launcher;
@@ -69,5 +72,6 @@ public class Puzzle implements PreModInitializer, ModInitializer {
                 ItemRenderAccessor.getRefMap().put(v,new WeakReference<>(v));
             }
         });
+        Threads.runOnMainThread(ItemShader::initChunkShader);
     }
 }

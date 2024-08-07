@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.Array;
 import com.github.puzzle.core.resources.PuzzleGameAssetLoader;
+import com.github.puzzle.game.engine.shaders.ItemShader;
 import com.github.puzzle.game.items.IModItem;
 import finalforeach.cosmicreach.items.Item;
 import finalforeach.cosmicreach.items.ItemModel;
@@ -30,7 +31,7 @@ public class PuzzleItemModel extends ItemModel {
     public ModelBatch modelBatch = new ModelBatch();
 
     public PuzzleItemModel(IModItem item){
-        MeshData meshData = new MeshData(ChunkShader.DEFAULT_BLOCK_SHADER, RenderOrder.FULLY_TRANSPARENT);
+        MeshData meshData = new MeshData(ItemShader.DEFAULT_ITEM_SHADER, RenderOrder.FULLY_TRANSPARENT);
         shader = meshData.shader;
         if (BlockModelJson.useIndices) {
             this.mesh = meshData.toIntIndexedMesh(true);
