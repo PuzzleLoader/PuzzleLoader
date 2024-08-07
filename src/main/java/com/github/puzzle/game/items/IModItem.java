@@ -3,8 +3,11 @@ package com.github.puzzle.game.items;
 import com.github.puzzle.core.Identifier;
 import com.github.puzzle.core.Puzzle;
 import com.github.puzzle.core.resources.ResourceLocation;
+import com.github.puzzle.game.engine.items.PuzzleItemModel;
 import finalforeach.cosmicreach.items.Item;
 import finalforeach.cosmicreach.items.ItemStack;
+
+import static finalforeach.cosmicreach.rendering.items.ItemRenderer.registerItemModelCreator;
 
 public interface IModItem extends Item {
 
@@ -20,6 +23,11 @@ public interface IModItem extends Item {
 
     static <T extends IModItem> T registerItem(T item) {
         allItems.put(item.getID(), item);
+
+        registerItemModelCreator(item.getClass(), (modItem) -> {
+            return new PuzzleItemModel(modItem.get());
+        });
+
         return item;
     }
 

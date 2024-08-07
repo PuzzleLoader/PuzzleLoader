@@ -66,10 +66,6 @@ public class Puzzle implements PreModInitializer, ModInitializer {
         ItemBlock.allItems.values().forEach((v)-> {
             if(v instanceof IModItem item)
                 ItemRenderAccessor.getRefMap().put(v,new WeakReference<>(v));
-
-        });
-        registerItemModelCreator(IModItem.class, (modItem) -> {
-            return new PuzzleItemModel(modItem.get());
         });
     }
 }
