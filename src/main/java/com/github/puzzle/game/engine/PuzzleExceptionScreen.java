@@ -23,21 +23,18 @@ import org.lwjgl.opengl.GL11;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-public class BlockErrorScreen extends GameState {
+public class PuzzleExceptionScreen extends GameState {
 
     public Stage gdxStage;
     public OrthographicCamera gdxStageCamera;
     public Viewport gdxStageViewport;
     protected Color background = Color.BLACK;
 
-    private final BlockLoader blockLoader;
-    private final GameState next;
-
     private ScrollPane scrollPane;
+    private Exception e;
 
-    public BlockErrorScreen(BlockLoader blockLoader, GameState next) {
-        this.blockLoader = blockLoader;
-        this.next = next;
+    public PuzzleExceptionScreen(Exception e) {
+        this.e = e;
     }
 
     @Override
@@ -50,7 +47,7 @@ public class BlockErrorScreen extends GameState {
         gdxStageCamera.position.set(0, 0, 0);
         gdxStageViewport.apply(false);
 
-        Label title = new Label("Error while loading Blocks", new Label.LabelStyle(CosmicReachFont.FONT_BIG, Color.WHITE));
+        Label title = new Label("Error while loading Puzzle Loader", new Label.LabelStyle(CosmicReachFont.FONT_BIG, Color.WHITE));
         title.layout();
         title.setSize(title.getGlyphLayout().width, title.getGlyphLayout().height);
         title.setPosition(0.0F, 250.0F, Align.center);
@@ -58,38 +55,23 @@ public class BlockErrorScreen extends GameState {
 
         StringBuilder errorText = new StringBuilder();
 
-        for(BlockLoadException error : blockLoader.errors) {
+        StringWriter writer = new StringWriter();
+        e.getCause().printStackTrace(new PrintWriter(writer));
+        String exception = writer.toString();
 
-            StringWriter writer = new StringWriter();
-            error.getCause().printStackTrace(new PrintWriter(writer));
-            String exception = writer.toString();
-
-            String className = error.iModBlock != null ? error.iModBlock.getClass().getSimpleName() : "Unknown";
-            String fileName = error.iModBlock instanceof DataModBlock dataModBlock && dataModBlock.debugResourceLocation != null ? dataModBlock.debugResourceLocation.locate().name() : "Unknown";
-            String blockName = error.blockName != null ? error.blockName : "Unknown";
-            String blockId = error.blockId != null ? error.blockId.toString() : "Unknown";
-
-            errorText
-                    .append("Error while loading Block (Class: ").append(className)
-                    .append(", File: \"").append(fileName)
-                    .append("\", Name: \"").append(blockName)
-                    .append("\", Id: \"").append(blockId)
-                    .append("\")\n")
-                    .append("\nError Stacktrace:\n");
-            for(String line : exception.lines().toList()) {
-                errorText.append("  ").append(line).append("\n");
-            }
-            errorText.append("\n\n");
-
+        errorText
+                .append("Error while loading PuzzleLoader")
+                .append("\nError Stacktrace:\n");
+        for (String line : exception.lines().toList()) {
+            errorText.append("  ").append(line).append("\n");
         }
-
-        // don't waste memory
-        blockLoader.errors.clear();
+        errorText.append("\n\n");
 
         try {
             FileHandle errorFile = Gdx.files.absolute(SaveLocation.getSaveFolderLocation() + "/puzzle-error-latest.txt");
-            errorFile.writeString(errorText.toString(), false);
-        } catch (Exception ignored) {}
+            errorFile.writeString(e.toString(), false);
+        } catch (Exception ignored) {
+        }
 
         Label error = new Label("\n" + errorText, new Label.LabelStyle(CosmicReachFont.FONT, Color.WHITE));
         error.setWrap(true);
@@ -107,11 +89,11 @@ public class BlockErrorScreen extends GameState {
         UIElement returnButton = new UIElement(0.0F, -16.0F, 250.0F, 50.0F) {
             public void onClick() {
                 super.onClick();
-                GameState.switchToGameState(next);
+                Gdx.app.exit();
             }
         };
         returnButton.vAnchor = VerticalAnchor.BOTTOM_ALIGNED;
-        returnButton.setText("Continue");
+        returnButton.setText("Exit");
         returnButton.show();
         uiObjects.add(returnButton);
     }

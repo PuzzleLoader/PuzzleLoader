@@ -27,8 +27,10 @@ import com.github.puzzle.game.events.OnPreLoadAssetsEvent;
 import com.github.puzzle.game.ui.CosmicReachFont;
 import com.github.puzzle.game.ui.TranslationParameters;
 import finalforeach.cosmicreach.GameSingletons;
+import finalforeach.cosmicreach.Threads;
 import finalforeach.cosmicreach.gamestates.GameState;
 import finalforeach.cosmicreach.gamestates.PrealphaPreamble;
+import finalforeach.cosmicreach.lwjgl3.CrashScreen;
 import finalforeach.cosmicreach.settings.Preferences;
 import finalforeach.cosmicreach.ui.debug.DebugInfo;
 import finalforeach.cosmicreach.ui.debug.DebugStringItem;
@@ -46,6 +48,8 @@ import static com.github.puzzle.core.PuzzleRegistries.EVENT_BUS;
 import static com.github.puzzle.core.resources.PuzzleGameAssetLoader.LOADER;
 
 public class GameLoader extends GameState {
+
+    static long startTime = System.currentTimeMillis();
 
     public static final Logger LOGGER = LoggerFactory.getLogger("Puzzle | GameLoader");
 
@@ -261,11 +265,20 @@ public class GameLoader extends GameState {
                 throw new RuntimeException(e);
             }
         }
+        gdxStage.clear();
+
         Globals.GameLoaderHasLoaded = true;
+//        throw new RuntimeException("penis");
     }
 
     private void uncaughtException(Thread t, Throwable e) {
         LOGGER.error("Thread '{}' threw an Exception", t.getName(), e);
+        Threads.stopAllThreads();
+        Threads.runOnMainThread(() -> {
+            Threads.stopAllThreads();
+            GameState.switchToGameState(new PuzzleExceptionScreen(new Exception(e)));
+//                CrashScreen.showCrash(startTime, new StringBuilder(), new Exception(e));
+        });
     }
 
     public void addStage(LoadStage stage) {

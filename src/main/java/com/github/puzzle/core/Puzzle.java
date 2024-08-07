@@ -15,6 +15,7 @@ import com.github.puzzle.loader.entrypoint.interfaces.PreModInitializer;
 import com.github.puzzle.loader.launch.PuzzleClassLoader;
 import finalforeach.cosmicreach.items.ItemBlock;
 import finalforeach.cosmicreach.items.ItemModelBlock;
+import finalforeach.cosmicreach.lwjgl3.Lwjgl3Launcher;
 import finalforeach.cosmicreach.rendering.items.ItemRenderer;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -64,8 +65,9 @@ public class Puzzle implements PreModInitializer, ModInitializer {
     public void onInit() {
         IModItem.registerItem(new NullStick());
         ItemBlock.allItems.values().forEach((v)-> {
-            if(v instanceof IModItem item)
+            if(v instanceof IModItem) {
                 ItemRenderAccessor.getRefMap().put(v,new WeakReference<>(v));
+            }
         });
     }
 }

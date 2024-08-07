@@ -3,6 +3,7 @@ package com.github.puzzle.game.mixins.refactors.items;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.github.puzzle.game.items.IModItem;
+import com.github.puzzle.game.items.NullStick;
 import finalforeach.cosmicreach.blocks.Block;
 import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.items.Item;
@@ -40,7 +41,7 @@ public class ItemCatalogMixin extends SlotContainer {
 
         for (Item vanillaItem : Item.allItems.values()) {
             if (vanillaItem instanceof IModItem item) {
-                this.addItemStack(item.getDefaultItemStack());
+                if (!(item instanceof NullStick)) this.addItemStack(item.getDefaultItemStack());
             }
         }
     }
