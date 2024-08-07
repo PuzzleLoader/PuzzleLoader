@@ -1,11 +1,12 @@
 package com.github.puzzle.game.engine.items;
 
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Mesh;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.g3d.*;
+import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
+import com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.utils.Array;
 import com.github.puzzle.core.resources.PuzzleGameAssetLoader;
 import com.github.puzzle.game.items.IModItem;
 import finalforeach.cosmicreach.items.Item;
@@ -13,6 +14,7 @@ import finalforeach.cosmicreach.items.ItemModel;
 import finalforeach.cosmicreach.rendering.MeshData;
 import finalforeach.cosmicreach.rendering.RenderOrder;
 import finalforeach.cosmicreach.rendering.SharedQuadIndexData;
+import finalforeach.cosmicreach.rendering.blockmodels.BlockModel;
 import finalforeach.cosmicreach.rendering.blockmodels.BlockModelJson;
 import finalforeach.cosmicreach.rendering.meshes.IGameMesh;
 import finalforeach.cosmicreach.rendering.shaders.ChunkShader;
@@ -22,13 +24,15 @@ import java.lang.ref.WeakReference;
 
 public class PuzzleItemModel extends ItemModel {
     IGameMesh mesh;
-    GameShader shader;
     Texture texture;
     Pixmap pm;
+    GameShader shader;
+
+    public ModelBatch modelBatch = new ModelBatch();
 
     public PuzzleItemModel(IModItem item){
         MeshData meshData = new MeshData(ChunkShader.DEFAULT_BLOCK_SHADER, RenderOrder.FULLY_TRANSPARENT);
-
+        shader = meshData.shader;
         if (BlockModelJson.useIndices) {
             this.mesh = meshData.toIntIndexedMesh(true);
         } else {
@@ -41,31 +45,55 @@ public class PuzzleItemModel extends ItemModel {
         texture = PuzzleGameAssetLoader.LOADER.getResource(item.getTexturePath(), Texture.class);
         texture.getTextureData().prepare();
         pm = texture.getTextureData().consumePixmap();
+        buildModel();
     }
 
+    public Material makeMaterial() {
+//        Attribute attribute = ColorAttribute.createDiffuse(Color.ORANGE);
+        Attribute attribute1 = TextureAttribute.createDiffuse(texture);
+        return new Material(attribute1);
+    }
+
+    Array<Mesh> itemMeshes;
+
+    public void buildModel() {
+        ModelBuilder modelBuilder = new ModelBuilder();
+        modelBuilder.begin();
+//        Model model = modelBuilder.createBox(
+//                1,
+//                1,
+//                1,
+//                makeMaterial(),
+//                VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal | VertexAttributes.Usage.TextureCoordinates
+//        );
+
+        MeshPartBuilder meshBuilder = modelBuilder.part(
+                "MOD_ITEM",
+                GL20.GL_TRIANGLES,
+                VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal | VertexAttributes.Usage.TextureCoordinates,
+                makeMaterial()
+        );
+        meshBuilder.box(1, 1, 1);
+        meshBuilder.setUVRange(0, 0, 16, 16);
+        itemMeshes = modelBuilder.end().meshes;
+    }
 
     @Override
     public void render(Camera camera, Matrix4 modelMat) {
-        if (this.mesh != null) {
-            if (!BlockModelJson.useIndices) {
-                SharedQuadIndexData.bind();
-            }
-            this.shader.bindOptionalMatrix4("u_projViewTrans", camera.combined);
-            this.shader.bindOptionalMatrix4("u_modelMat", modelMat);
-            this.mesh.bind(this.shader.shader);
-            this.mesh.render(this.shader.shader, 4);
-            texture.draw(pm,0,0);
-            this.mesh.unbind(this.shader.shader);
-            this.shader.unbind();
-            if (!BlockModelJson.useIndices) {
-                SharedQuadIndexData.unbind();
-            }
+        this.shader.bind(camera);
+        this.shader.bindOptionalMatrix4("u_projViewTrans", camera.combined);
+        this.shader.bindOptionalMatrix4("u_modelMat", modelMat);
+        for (Mesh itemMesh : itemMeshes) {
+            itemMesh.render(shader.shader, GL20.GL_TRIANGLES);
         }
+        this.shader.unbind();
     }
 
     @Override
     public void dispose(WeakReference<Item> weakReference) {
-       mesh.dispose();
+        for (Mesh itemMesh : itemMeshes) {
+            itemMesh.dispose();
+        }
     }
 
 
