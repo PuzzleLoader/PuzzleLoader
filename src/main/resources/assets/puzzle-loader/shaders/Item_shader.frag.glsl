@@ -1,6 +1,6 @@
 #version 330
 
-//in vec2 v_texCoord0;
+in vec2 v_texCoord0;
 in vec3 worldPos;
 
 out vec4 outColor;
@@ -15,8 +15,15 @@ void main()
     vec3 t = 30.0/(1.0 + exp(-15.0 * it)) - 15;
     vec3 lightTint = max(t/15, blocklight.a * skyAmbientColor);
 
-    //vec4 texColor = texture(texDiffuse, v_texCoord0);
-    vec4 colour = vec4(1,1,0,1);
-    outColor = vec4(colour.rgb * lightTint, colour.a);
+    vec4 texColor = texture(texDiffuse, v_texCoord0);
+    if(texColor.a == 0)
+    {
+        discard;
+    }
+
+    //    vec4 colour = vec4(1,1,0,1);
+//    outColor = vec4(colour.rgb * lightTint, colour.a);
+//    outColor = vec4(texColor.rgb * lightTint, texColor.a);
+    outColor = texColor;
 
 }
