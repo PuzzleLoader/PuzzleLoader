@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.github.puzzle.core.Identifier;
 import com.github.puzzle.core.Puzzle;
+import com.github.puzzle.game.engine.items.PuzzleItemModel;
 import finalforeach.cosmicreach.GameAssetLoader;
 import finalforeach.cosmicreach.rendering.TextureBuffer;
 import finalforeach.cosmicreach.rendering.shaders.ChunkShader;
@@ -59,8 +60,8 @@ public class ItemShader extends GameShader {
 
         super.bind(worldCamera);
         this.shader.setUniformMatrix("u_projViewTrans", worldCamera.combined);
-       // int texNum = 0;
-        //exNum = this.bindOptionalTexture("texDiffuse", chunkTerrainTex, texNum);
+//        int texNum = 0;
+//        this.bindOptionalTexture("texDiffuse", PuzzleItemModel.texture, texNum);
         Sky sky = Sky.currentSky;
         this.bindOptionalUniform3f("skyAmbientColor", sky.currentAmbientColor);
         this.bindOptionalUniform3f("skyColor", sky.currentSkyColor);

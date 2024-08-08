@@ -1,5 +1,7 @@
 package com.github.puzzle.game.items;
 
+import com.badlogic.gdx.graphics.Mesh;
+import com.badlogic.gdx.utils.Array;
 import com.github.puzzle.core.Identifier;
 import com.github.puzzle.core.Puzzle;
 import com.github.puzzle.core.resources.ResourceLocation;
@@ -19,6 +21,10 @@ public interface IModItem extends Item {
 
     default ItemStack getDefaultItemStack() {
         return new ItemStack(this, 100);
+    }
+
+    default Array<Mesh> getMesh() {
+        return null;
     }
 
     static <T extends IModItem> T registerItem(T item) {
