@@ -1,11 +1,15 @@
 package com.github.puzzle.game.engine.items;
 
 import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g3d.*;
 import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder;
+import com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder.VertexInfo;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.github.puzzle.core.resources.PuzzleGameAssetLoader;
 import com.github.puzzle.game.engine.shaders.ItemShader;
@@ -31,14 +35,29 @@ public class PuzzleItemModel extends ItemModel {
     public PuzzleItemModel(IModItem item){
         MeshData meshData = new MeshData(ItemShader.DEFAULT_ITEM_SHADER, RenderOrder.FULLY_TRANSPARENT);
         shader = meshData.shader;
-        texture = PuzzleGameAssetLoader.LOADER.getResource(item.getTexturePath(), Texture.class);
-        texture.getTextureData().prepare();
-        pm = texture.getTextureData().consumePixmap();
+        Texture localTex = PuzzleGameAssetLoader.LOADER.getResource(item.getTexturePath(), Texture.class);
+        TextureData data = localTex.getTextureData();
+        data.prepare();
+
+        Pixmap donorPixmap = data.consumePixmap();
+        Pixmap newPixmap = new Pixmap(donorPixmap.getWidth(), donorPixmap.getHeight(), donorPixmap.getFormat());
+
+        for (int x = 0; x < donorPixmap.getWidth(); x++) {
+            for (int y = 0; y < donorPixmap.getHeight(); y++) {
+                newPixmap.drawPixel(x, y, donorPixmap.getPixel((donorPixmap.getWidth() - 1) - x, (donorPixmap.getHeight() - 1) - y));
+            }
+        }
+
+        texture = new Texture(newPixmap);
+        pm = newPixmap;
+
+
         itemMeshes = item.getMesh();
         if (itemMeshes == null)
-            if (item.getID().equals("puzzle-loader:checker_board")) {
-                buildMesh();
-            } else buildOldMesh();
+            buildMesh();
+//            if (item.getID().equals("puzzle-loader:checker_board")) {
+//                buildMesh();
+//            } else buildOldMesh();
     }
 
     public Material makeMaterial() {
@@ -74,6 +93,44 @@ public class PuzzleItemModel extends ItemModel {
                 new Material(TextureAttribute.createDiffuse(texture))
         );
 
+        VertexInfo topLeft0 = new VertexInfo();
+        topLeft0.setPos(new Vector3(-1, 1, 0));
+        topLeft0.setUV(new Vector2(1, 1));
+
+        VertexInfo topRight0 = new VertexInfo();
+        topRight0.setPos(new Vector3(1, 1, 0));
+        topRight0.setUV(new Vector2(0, 1));
+
+        VertexInfo bottomLeft0 = new VertexInfo();
+        bottomLeft0.setPos(new Vector3(-1, -1, 0));
+        bottomLeft0.setUV(new Vector2(1, 0));
+
+        VertexInfo bottomRight0 = new VertexInfo();
+        bottomRight0.setPos(new Vector3(1, -1, 0));
+        bottomRight0.setUV(new Vector2(0, 0));
+
+        builder.rect(topLeft0, bottomLeft0, bottomRight0, topRight0);
+//        builder.rect(topLeft0, topRight0, bottomRight0, bottomLeft0);
+
+        VertexInfo topLeft1 = new VertexInfo();
+        topLeft1.setPos(new Vector3(-1, 1, -.5f));
+        topLeft1.setUV(new Vector2(1, 1));
+
+        VertexInfo topRight1 = new VertexInfo();
+        topRight1.setPos(new Vector3(1, 1, -.5f));
+        topRight1.setUV(new Vector2(0, 1));
+
+        VertexInfo bottomLeft1 = new VertexInfo();
+        bottomLeft1.setPos(new Vector3(-1, -1, -.5f));
+        bottomLeft1.setUV(new Vector2(1, 0));
+
+        VertexInfo bottomRight1 = new VertexInfo();
+        bottomRight1.setPos(new Vector3(1, -1, -.5f));
+        bottomRight1.setUV(new Vector2(0, 0));
+
+//        builder.rect(topRight1, bottomRight1, bottomLeft1, topLeft1);
+        builder.rect(topLeft1, topRight1, bottomRight1, bottomLeft1);
+//        builder.rect(bottomLeft1, bottomRight1, topRight1, topLeft1);
         buildExpandingMesh(builder);
 
         itemMeshes = modelBuilder.end().meshes;
@@ -131,16 +188,6 @@ public class PuzzleItemModel extends ItemModel {
             rectMap.put(x, rects);
         }
 
-        for (Integer x : rectMap.keySet()) {
-            List<Rect> rects = rectMap.get(x);
-            for (Rect rect : rects) {
-                // -(rect.length - (rect.end + (rect.length / 2f) - 1)) / 2
-                builder.box(
-                        rect.x, -(rect.length - (rect.end + (rect.length / 2f) - 1)) / 2, 0, // pos
-                        1, rect.length / 2f, 0 // size
-                );
-            }
-        }
     }
 
     @Override
@@ -148,7 +195,8 @@ public class PuzzleItemModel extends ItemModel {
         this.shader.bind(camera);
         this.shader.bindOptionalMatrix4("u_projViewTrans", camera.combined);
         this.shader.bindOptionalMatrix4("u_modelMat", modelMat);
-        this.shader.bindOptionalTexture("texDiffuse", TextureFaker.fakerColor(16, 16, Color.CORAL), 0);
+        this.shader.bindOptionalTexture("texDiffuse", texture, 0);
+//        this.shader.bindOptionalTexture("texDiffuse", TextureFaker.fakerColor(16, 16, Color.CORAL), 0);
         for (Mesh itemMesh : itemMeshes) {
             itemMesh.render(shader.shader, GL20.GL_TRIANGLES);
         }
