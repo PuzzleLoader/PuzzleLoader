@@ -17,14 +17,13 @@ import finalforeach.cosmicreach.rendering.RenderOrder;
 import finalforeach.cosmicreach.rendering.SharedQuadIndexData;
 import finalforeach.cosmicreach.rendering.blockmodels.BlockModelJson;
 import finalforeach.cosmicreach.rendering.meshes.IGameMesh;
-import finalforeach.cosmicreach.rendering.shaders.ChunkShader;
 import finalforeach.cosmicreach.rendering.shaders.GameShader;
 
 import java.lang.ref.WeakReference;
 
 public class PuzzleItemModel extends ItemModel {
     IGameMesh mesh;
-    Texture texture;
+    public static Texture texture = null;
     Pixmap pm;
     GameShader shader;
 
@@ -59,13 +58,6 @@ public class PuzzleItemModel extends ItemModel {
     public void buildModel() {
         ModelBuilder modelBuilder = new ModelBuilder();
         modelBuilder.begin();
-//        Model model = modelBuilder.createBox(
-//                1,
-//                1,
-//                1,
-//                makeMaterial(),
-//                VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal | VertexAttributes.Usage.TextureCoordinates
-//        );
 
         MeshPartBuilder meshBuilder = modelBuilder.part(
                 "MOD_ITEM",
@@ -73,7 +65,7 @@ public class PuzzleItemModel extends ItemModel {
                 VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal | VertexAttributes.Usage.TextureCoordinates,
                 makeMaterial()
         );
-        meshBuilder.box(1, 1, 1);
+        meshBuilder.box(0.5f,0.5f,0.5f,1,1,.2f);
         meshBuilder.setUVRange(0, 0, 16, 16);
         itemMeshes = modelBuilder.end().meshes;
     }
