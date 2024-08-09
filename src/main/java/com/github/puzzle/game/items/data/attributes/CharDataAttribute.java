@@ -24,4 +24,9 @@ public class CharDataAttribute implements DataTag.DataTagAttribute<Character> {
         return data;
     }
 
+    @Override
+    public DataTag.DataTagAttribute<Character> copyAndSetValue(Character value) {
+        return new CharDataAttribute(value);
+    }
+
 }

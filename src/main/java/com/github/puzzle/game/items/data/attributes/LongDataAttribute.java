@@ -24,4 +24,9 @@ public class LongDataAttribute implements DataTag.DataTagAttribute<Long> {
         return data;
     }
 
+    @Override
+    public DataTag.DataTagAttribute<Long> copyAndSetValue(Long value) {
+        return new LongDataAttribute(value);
+    }
+
 }

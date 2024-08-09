@@ -4,6 +4,7 @@ import com.github.puzzle.core.Identifier;
 import com.github.puzzle.core.Puzzle;
 import com.github.puzzle.game.items.data.DataTag;
 import com.github.puzzle.game.items.data.DataTagManifest;
+import com.github.puzzle.game.items.data.DataTagPreset;
 import com.github.puzzle.game.items.data.attributes.BooleanDataAttribute;
 
 public class NullStick implements IModItem {
@@ -11,10 +12,10 @@ public class NullStick implements IModItem {
     Identifier id = new Identifier(Puzzle.MOD_ID, "null_stick");
     DataTagManifest tagManifest = new DataTagManifest();
 
-    public static final String IS_DEBUG_ATTRIBUTE = "is_item_debug";
+    public static final DataTagPreset<Boolean> IS_DEBUG_ATTRIBUTE = new DataTagPreset<>("is_item_debug", new BooleanDataAttribute(false));
 
     public NullStick() {
-        tagManifest.addTag(new DataTag<>(IS_DEBUG_ATTRIBUTE, new BooleanDataAttribute(true)));
+        tagManifest.addTag(IS_DEBUG_ATTRIBUTE.createTag(true));
     }
 
     @Override

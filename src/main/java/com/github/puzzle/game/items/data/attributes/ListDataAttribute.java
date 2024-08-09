@@ -22,4 +22,9 @@ public class ListDataAttribute<T> implements DataTag.DataTagAttribute<List<T>> {
         return data;
     }
 
+    @Override
+    public DataTag.DataTagAttribute<List<T>> copyAndSetValue(List<T> value) {
+        return new ListDataAttribute<>(value);
+    }
+
 }

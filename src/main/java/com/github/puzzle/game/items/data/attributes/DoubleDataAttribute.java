@@ -24,4 +24,9 @@ public class DoubleDataAttribute implements DataTag.DataTagAttribute<Double> {
         return data;
     }
 
+    @Override
+    public DataTag.DataTagAttribute<Double> copyAndSetValue(Double value) {
+        return new DoubleDataAttribute(value);
+    }
+
 }

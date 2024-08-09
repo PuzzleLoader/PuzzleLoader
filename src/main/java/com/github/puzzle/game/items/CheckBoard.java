@@ -10,6 +10,10 @@ public class CheckBoard implements IModItem {
     Identifier id = new Identifier(Puzzle.MOD_ID, "checker_board");
     DataTagManifest tagManifest = new DataTagManifest();
 
+    public CheckBoard() {
+        tagManifest.addTag(NullStick.IS_DEBUG_ATTRIBUTE.createTag(true));
+    }
+
     @Override
     public String toString() {
         return "Item: " + getID();

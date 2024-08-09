@@ -24,4 +24,9 @@ public class IntDataAttribute implements DataTag.DataTagAttribute<Integer> {
         return data;
     }
 
+    @Override
+    public DataTag.DataTagAttribute<Integer> copyAndSetValue(Integer value) {
+        return new IntDataAttribute(value);
+    }
+
 }

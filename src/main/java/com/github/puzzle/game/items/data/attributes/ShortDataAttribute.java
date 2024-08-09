@@ -24,4 +24,9 @@ public class ShortDataAttribute implements DataTag.DataTagAttribute<Short> {
         return data;
     }
 
+    @Override
+    public DataTag.DataTagAttribute<Short> copyAndSetValue(Short value) {
+        return new ShortDataAttribute(value);
+    }
+
 }

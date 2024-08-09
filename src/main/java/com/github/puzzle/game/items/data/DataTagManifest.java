@@ -12,8 +12,16 @@ public class DataTagManifest {
         return this;
     }
 
+    public boolean hasTag(DataTagPreset<?> tagPreset) {
+        return tagMap.containsKey(tagPreset.name);
+    }
+
     public boolean hasTag(String name) {
         return tagMap.containsKey(name);
+    }
+
+    public <T> DataTag<T> getTag(DataTagPreset<T> tagPreset) {
+        return (DataTag<T>) tagMap.get(tagPreset.name);
     }
 
     public <T> DataTag<T> getTag(String name) {

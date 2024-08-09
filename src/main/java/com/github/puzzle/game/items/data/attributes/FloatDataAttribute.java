@@ -24,4 +24,9 @@ public class FloatDataAttribute implements DataTag.DataTagAttribute<Float> {
         return data;
     }
 
+    @Override
+    public DataTag.DataTagAttribute<Float> copyAndSetValue(Float value) {
+        return new FloatDataAttribute(value);
+    }
+
 }

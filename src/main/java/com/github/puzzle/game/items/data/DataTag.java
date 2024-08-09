@@ -2,6 +2,9 @@ package com.github.puzzle.game.items.data;
 
 import com.github.puzzle.game.oredict.tags.TagFormatException;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.TypeVariable;
+
 public class DataTag<T> {
 
     public final String name;
@@ -26,7 +29,7 @@ public class DataTag<T> {
 
         void setValue(T value);
         T getValue();
-
+        DataTagAttribute<T> copyAndSetValue(T value);
     }
 
 }

@@ -23,4 +23,9 @@ public class ByteDataAttribute implements DataTag.DataTagAttribute<Byte> {
     public Byte getValue() {
         return data;
     }
+
+    @Override
+    public DataTag.DataTagAttribute<Byte> copyAndSetValue(Byte value) {
+        return new ByteDataAttribute(value);
+    }
 }

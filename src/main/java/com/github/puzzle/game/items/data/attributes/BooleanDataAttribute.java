@@ -24,4 +24,9 @@ public class BooleanDataAttribute implements DataTag.DataTagAttribute<Boolean> {
         return data;
     }
 
+    @Override
+    public DataTag.DataTagAttribute<Boolean> copyAndSetValue(Boolean value) {
+        return new BooleanDataAttribute(value);
+    }
+
 }

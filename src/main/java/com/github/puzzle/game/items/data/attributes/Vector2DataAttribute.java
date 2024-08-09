@@ -21,4 +21,9 @@ public class Vector2DataAttribute implements DataTag.DataTagAttribute<Vector2> {
         return data;
     }
 
+    @Override
+    public DataTag.DataTagAttribute<Vector2> copyAndSetValue(Vector2 value) {
+        return new Vector2DataAttribute(value);
+    }
+
 }
