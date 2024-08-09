@@ -6,8 +6,14 @@ import com.github.puzzle.core.Identifier;
 import com.github.puzzle.core.Puzzle;
 import com.github.puzzle.core.resources.ResourceLocation;
 import com.github.puzzle.game.engine.items.PuzzleItemModel;
+import com.github.puzzle.game.items.data.DataTag;
+import com.github.puzzle.game.items.data.DataTagManifest;
+import com.github.puzzle.game.mixins.accessors.ItemRenderAccessor;
 import finalforeach.cosmicreach.items.Item;
 import finalforeach.cosmicreach.items.ItemStack;
+import finalforeach.cosmicreach.items.ItemStorageScreen;
+
+import java.lang.ref.WeakReference;
 
 import static finalforeach.cosmicreach.rendering.items.ItemRenderer.registerItemModelCreator;
 
@@ -31,7 +37,15 @@ public interface IModItem extends Item {
      * A method to create the default itemStack the comes with your item.
      */
     default ItemStack getDefaultItemStack() {
-        return new ItemStack(this, 100);
+        return new ItemStack(this, Math.min(getMaxStackSize(), 100));
+    }
+
+    /**
+     * A method that returns the max stackable size for this item type.
+     * @see ItemStack
+     */
+    default int getMaxStackSize() {
+        return 1000;
     }
 
     /**
@@ -51,6 +65,7 @@ public interface IModItem extends Item {
     static <T extends IModItem> T registerItem(T item) {
         allItems.put(item.getID(), item);
 
+        ItemRenderAccessor.getRefMap().put(item, new WeakReference<>(item));
         registerItemModelCreator(item.getClass(), (modItem) -> {
             return new PuzzleItemModel(modItem.get());
         });
@@ -93,5 +108,23 @@ public interface IModItem extends Item {
     default ResourceLocation getTexturePath() {
         return new ResourceLocation(Puzzle.MOD_ID, "textures/items/null_stick.png");
     }
+
+    /**
+     * This bool changes how the item is held in the "hand".
+     * @see PuzzleItemModel
+     */
+    default boolean isTool() {
+        return false;
+    }
+
+    /**
+     * This related to custom data that you can attach to your item.
+     * @see DataTag
+     * @see com.github.puzzle.game.items.data.DataTag.DataTagAttribute
+     */
+    default DataTagManifest getTagManifest() {
+        return new DataTagManifest();
+    }
+
 
 }

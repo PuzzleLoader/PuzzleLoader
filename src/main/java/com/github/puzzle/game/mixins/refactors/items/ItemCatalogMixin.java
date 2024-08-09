@@ -4,6 +4,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.github.puzzle.game.items.IModItem;
 import com.github.puzzle.game.items.NullStick;
+import com.github.puzzle.game.items.data.DataTag;
 import finalforeach.cosmicreach.blocks.Block;
 import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.items.Item;
@@ -30,7 +31,6 @@ public class ItemCatalogMixin extends SlotContainer {
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void init(int numSlots, CallbackInfo ci) {
-
         for (Block block : Block.allBlocks) {
             for (BlockState state : block.blockStates.values()) {
                 if (!state.hasEmptyModel() && !state.catalogHidden) {
@@ -41,7 +41,12 @@ public class ItemCatalogMixin extends SlotContainer {
 
         for (Item vanillaItem : Item.allItems.values()) {
             if (vanillaItem instanceof IModItem item) {
-                if (!(item instanceof NullStick)) this.addItemStack(item.getDefaultItemStack());
+                if (item.getTagManifest().hasTag(NullStick.IS_DEBUG_ATTRIBUTE)) {
+                    DataTag<Boolean> tag = item.getTagManifest().getTag(NullStick.IS_DEBUG_ATTRIBUTE).getTagAsType(Boolean.class);
+                    if (!tag.attribute.getValue()) {
+                        this.addItemStack(item.getDefaultItemStack());
+                    }
+                } else this.addItemStack(item.getDefaultItemStack());
             }
         }
     }

@@ -5,10 +5,13 @@ import com.github.puzzle.core.Puzzle;
 import com.github.puzzle.core.resources.ResourceLocation;
 import com.github.puzzle.game.items.data.DataTagManifest;
 
-public class CheckBoard implements IModItem {
+public class BlockWrench implements IModItem {
 
-    Identifier id = new Identifier(Puzzle.MOD_ID, "checker_board");
+    Identifier id = new Identifier(Puzzle.MOD_ID, "block_wrench");
     DataTagManifest tagManifest = new DataTagManifest();
+
+    public BlockWrench() {
+    }
 
     @Override
     public String toString() {
@@ -21,12 +24,23 @@ public class CheckBoard implements IModItem {
     }
 
     @Override
-    public ResourceLocation getTexturePath() {
-        return new ResourceLocation(Puzzle.MOD_ID, "textures/items/checker_board.png");
+    public boolean isTool() {
+        return true;
+    }
+
+    @Override
+    public int getMaxStackSize() {
+        return 1;
     }
 
     @Override
     public DataTagManifest getTagManifest() {
         return tagManifest;
     }
+
+    @Override
+    public ResourceLocation getTexturePath() {
+        return new ResourceLocation(Puzzle.MOD_ID, "textures/items/block_wrench.png");
+    }
+
 }

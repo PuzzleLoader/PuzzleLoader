@@ -7,6 +7,7 @@
   "mixins": [
     "items.ItemCatalogMixin",
     "items.ItemRendererMixin",
+    "items.ItemSlotMixin",
     "items.ItemStackMixin",
     "logging.BlockGameMixin",
     "logging.GameShaderMixin",

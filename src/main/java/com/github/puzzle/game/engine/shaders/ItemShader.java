@@ -1,15 +1,10 @@
 package com.github.puzzle.game.engine.shaders;
 
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.github.puzzle.core.Identifier;
 import com.github.puzzle.core.Puzzle;
-import com.github.puzzle.game.engine.items.PuzzleItemModel;
-import finalforeach.cosmicreach.GameAssetLoader;
-import finalforeach.cosmicreach.rendering.TextureBuffer;
-import finalforeach.cosmicreach.rendering.shaders.ChunkShader;
 import finalforeach.cosmicreach.rendering.shaders.GameShader;
 import finalforeach.cosmicreach.world.Sky;
 
@@ -52,12 +47,11 @@ public class ItemShader extends GameShader {
 
     }
 
-    public static void initChunkShader() {
+    public static void initItemShader() {
         DEFAULT_ITEM_SHADER = new ItemShader(new Identifier(Puzzle.MOD_ID,"item_shader.vert.glsl").toString(), new Identifier(Puzzle.MOD_ID,"item_shader.frag.glsl").toString());
 
     }
     public void bind(Camera worldCamera) {
-
         super.bind(worldCamera);
         this.shader.setUniformMatrix("u_projViewTrans", worldCamera.combined);
 //        int texNum = 0;
