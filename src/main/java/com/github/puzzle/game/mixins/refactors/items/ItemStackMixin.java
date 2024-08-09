@@ -1,6 +1,5 @@
 package com.github.puzzle.game.mixins.refactors.items;
 
-import finalforeach.cosmicreach.Threads;
 import finalforeach.cosmicreach.io.CRBinDeserializer;
 import finalforeach.cosmicreach.io.CRBinSerializer;
 import finalforeach.cosmicreach.items.ItemStack;

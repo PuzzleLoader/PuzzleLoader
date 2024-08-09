@@ -1,7 +1,5 @@
 package com.github.puzzle.game.mixins.refactors.items;
 
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.ObjectMap;
 import com.github.puzzle.game.items.IModItem;
 import com.github.puzzle.game.items.NullStick;
 import com.github.puzzle.game.items.data.DataTag;

@@ -1,7 +1,5 @@
 package com.github.puzzle.game.items.data;
 
-import java.lang.reflect.InvocationTargetException;
-
 public class DataTagPreset<T> {
 
     String name;

@@ -20,7 +20,7 @@ void main()
     vec3 t = 30.0/(1.0 + exp(-15.0 * it)) - 15;
     vec3 lightTint = max(t/15, blocklight.a * skyAmbientColor);
 
-    lightTint = max(lightTint, vec3(0.1));
+//    lightTint = max(lightTint, vec3(0.1));
 
     outColor = vec4(texColor.rgb * lightTint.rgb, texColor.a);
 //    outColor = vec4(blocklight.rgb, texColor.a);

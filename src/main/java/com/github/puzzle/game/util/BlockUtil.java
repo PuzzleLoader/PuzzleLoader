@@ -12,6 +12,10 @@ import finalforeach.cosmicreach.world.Zone;
 
 public class BlockUtil {
 
+    public static void setBlockAt(Zone zone, BlockState state, BlockPosition vector3) {
+        BlockSetter.replaceBlock(zone, state, vector3, new Queue<>());
+    }
+
     public static void setBlockAt(Zone zone, BlockState state, Vector3 vector3) {
         BlockSetter.replaceBlock(zone, state, getBlockPosAtVec(zone, vector3), new Queue<>());
     }

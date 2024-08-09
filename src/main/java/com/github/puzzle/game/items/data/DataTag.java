@@ -2,9 +2,6 @@ package com.github.puzzle.game.items.data;
 
 import com.github.puzzle.game.oredict.tags.TagFormatException;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.TypeVariable;
-
 public class DataTag<T> {
 
     public final String name;

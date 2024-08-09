@@ -30,7 +30,6 @@ import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.Threads;
 import finalforeach.cosmicreach.gamestates.GameState;
 import finalforeach.cosmicreach.gamestates.PrealphaPreamble;
-import finalforeach.cosmicreach.lwjgl3.CrashScreen;
 import finalforeach.cosmicreach.settings.Preferences;
 import finalforeach.cosmicreach.ui.debug.DebugInfo;
 import finalforeach.cosmicreach.ui.debug.DebugStringItem;

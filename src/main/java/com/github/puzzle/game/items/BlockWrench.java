@@ -4,6 +4,15 @@ import com.github.puzzle.core.Identifier;
 import com.github.puzzle.core.Puzzle;
 import com.github.puzzle.core.resources.ResourceLocation;
 import com.github.puzzle.game.items.data.DataTagManifest;
+import com.github.puzzle.game.util.BlockUtil;
+import finalforeach.cosmicreach.BlockSelection;
+import finalforeach.cosmicreach.blocks.BlockPosition;
+import finalforeach.cosmicreach.blocks.BlockState;
+import finalforeach.cosmicreach.chat.Chat;
+import finalforeach.cosmicreach.gamestates.InGame;
+import finalforeach.cosmicreach.items.ItemBlock;
+import finalforeach.cosmicreach.items.ItemStack;
+import finalforeach.cosmicreach.rendering.items.ItemRenderer;
 
 public class BlockWrench implements IModItem {
 
@@ -11,6 +20,17 @@ public class BlockWrench implements IModItem {
     DataTagManifest tagManifest = new DataTagManifest();
 
     public BlockWrench() {
+    }
+
+    @Override
+    public void onInteract(ItemStack stack) {
+        BlockState state = BlockSelection.getBlockLookingAt();
+        BlockPosition position = BlockSelection.getBlockPositionLookingAt();
+        ItemRenderer.swingHeldItem();
+        System.out.println(state);
+        if (state == null) return;
+        Chat.MAIN_CHAT.sendMessage(InGame.world, InGame.getLocalPlayer(), null, "Interacting with block \"" + state + "\"");
+        BlockUtil.setBlockAt(position.getZone(), ((ItemBlock) state.getItem().getNextSwapGroupItem()).getBlockState(), position);
     }
 
     @Override

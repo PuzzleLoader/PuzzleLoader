@@ -2,7 +2,6 @@ package com.github.puzzle.game.items;
 
 import com.github.puzzle.core.Identifier;
 import com.github.puzzle.core.Puzzle;
-import com.github.puzzle.game.items.data.DataTag;
 import com.github.puzzle.game.items.data.DataTagManifest;
 import com.github.puzzle.game.items.data.DataTagPreset;
 import com.github.puzzle.game.items.data.attributes.BooleanDataAttribute;

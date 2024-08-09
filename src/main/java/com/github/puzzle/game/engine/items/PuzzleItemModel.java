@@ -1,7 +1,8 @@
 package com.github.puzzle.game.engine.items;
 
 import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g3d.*;
+import com.badlogic.gdx.graphics.g3d.Material;
+import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder;
 import com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder.VertexInfo;
@@ -14,28 +15,24 @@ import com.github.puzzle.core.resources.PuzzleGameAssetLoader;
 import com.github.puzzle.game.engine.shaders.ItemShader;
 import com.github.puzzle.game.items.IModItem;
 import com.github.puzzle.game.util.BlockUtil;
-import com.llamalad7.mixinextras.lib.apache.commons.tuple.ImmutablePair;
-import com.llamalad7.mixinextras.lib.apache.commons.tuple.Pair;
 import finalforeach.cosmicreach.blocks.BlockPosition;
-import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.entities.Player;
 import finalforeach.cosmicreach.gamestates.InGame;
 import finalforeach.cosmicreach.items.Item;
 import finalforeach.cosmicreach.items.ItemModel;
-import finalforeach.cosmicreach.lighting.LightPropagator;
-import finalforeach.cosmicreach.rendering.BatchedZoneRenderer;
 import finalforeach.cosmicreach.rendering.MeshData;
 import finalforeach.cosmicreach.rendering.RenderOrder;
-import finalforeach.cosmicreach.rendering.shaders.ChunkShader;
 import finalforeach.cosmicreach.rendering.shaders.GameShader;
 import finalforeach.cosmicreach.savelib.lightdata.blocklight.IBlockLightData;
-import finalforeach.cosmicreach.savelib.lightdata.skylight.ISkylightData;
 import finalforeach.cosmicreach.world.Chunk;
-import finalforeach.cosmicreach.world.Zone;
+import finalforeach.cosmicreach.world.Sky;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.ref.WeakReference;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class PuzzleItemModel extends ItemModel {
     Texture texture;
@@ -43,8 +40,10 @@ public class PuzzleItemModel extends ItemModel {
     GameShader shader;
 
     public ModelBatch modelBatch = new ModelBatch();
+    IModItem item;
 
     public PuzzleItemModel(IModItem item){
+        this.item = item;
         MeshData meshData = new MeshData(ItemShader.DEFAULT_ITEM_SHADER, RenderOrder.FULLY_TRANSPARENT);
         shader = meshData.shader;
         Texture localTex = PuzzleGameAssetLoader.LOADER.getResource(item.getTexturePath(), Texture.class);
@@ -52,7 +51,6 @@ public class PuzzleItemModel extends ItemModel {
 
         texture = new Texture(newPixmap);
         pm = newPixmap;
-
 
         itemMeshes = item.getMesh();
         if (itemMeshes == null)
@@ -203,12 +201,20 @@ public class PuzzleItemModel extends ItemModel {
             int red = blockLight >> 8;
             int green = (blockLight - (red << 8)) >> 4;
             int blue = ((blockLight - (red << 8)) - (green << 4));
-            this.shader.bindOptionalUniform4f("b_lighting", new Color(
-                    red, green, blue, 255
-            ));
+            if (camera != PuzzleItemRendererConstants.itemCam2) {
+                this.shader.bindOptionalUniform4f("b_lighting", new Color(
+                        red, green, blue, 255
+                ));
+                Sky sky = Sky.currentSky;
+                this.shader.bindOptionalUniform3f("skyAmbientColor", sky.currentAmbientColor);
+            } else {
+                this.shader.bindOptionalUniform4f("b_lighting", new Color(
+                        0, 0, 0, 255
+                ));
+            }
         } else {
             this.shader.bindOptionalUniform4f("b_lighting", new Color(
-                    0, 0, 0, 255
+                    1, 1, 1, 255
             ));
         }
         this.shader.bindOptionalTexture("texDiffuse", texture, 0);

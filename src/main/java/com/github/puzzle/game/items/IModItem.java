@@ -11,7 +11,6 @@ import com.github.puzzle.game.items.data.DataTagManifest;
 import com.github.puzzle.game.mixins.accessors.ItemRenderAccessor;
 import finalforeach.cosmicreach.items.Item;
 import finalforeach.cosmicreach.items.ItemStack;
-import finalforeach.cosmicreach.items.ItemStorageScreen;
 
 import java.lang.ref.WeakReference;
 
@@ -32,6 +31,11 @@ public interface IModItem extends Item {
     default String getID() {
         return getIdentifier().toString();
     }
+
+    /**
+     * This allows your item to interact with the player.
+     */
+    default void onInteract(ItemStack stack) {}
 
     /**
      * A method to create the default itemStack the comes with your item.
