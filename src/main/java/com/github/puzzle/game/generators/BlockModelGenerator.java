@@ -10,7 +10,6 @@ import com.github.puzzle.game.engine.blocks.models.PuzzleBlockModel;
 import com.github.puzzle.game.engine.blocks.models.PuzzleBlockModelCuboid;
 import com.github.puzzle.game.factories.IGenerator;
 import finalforeach.cosmicreach.constants.Direction;
-import finalforeach.cosmicreach.rendering.blockmodels.BlockModelJson;
 import finalforeach.cosmicreach.rendering.blockmodels.BlockModelJsonTexture;
 
 import java.util.ArrayList;

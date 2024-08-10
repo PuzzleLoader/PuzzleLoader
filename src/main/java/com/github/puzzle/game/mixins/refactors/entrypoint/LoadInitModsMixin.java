@@ -1,9 +1,6 @@
 package com.github.puzzle.game.mixins.refactors.entrypoint;
 
-import com.github.puzzle.game.engine.GameLoader;
 import finalforeach.cosmicreach.BlockGame;
-import finalforeach.cosmicreach.gamestates.GameState;
-import finalforeach.cosmicreach.rendering.shaders.ChunkShader;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;

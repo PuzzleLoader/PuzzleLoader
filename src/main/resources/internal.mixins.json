@@ -11,25 +11,20 @@
     "assets.BlockModelJsonMixin",
     "assets.ChunkShaderMixin",
     "assets.GameShaderMixin",
-
     "be.ChunkLoaderMixin",
     "be.ChunkMixin",
     "be.ClientSingletonsMixin",
     "be.InGameMixin",
     "be.ZoneMixin",
-
     "chat.ChatMixin",
     "chat.CommandMixin",
-
+    "entrypoint.GameSingletonsMixin",
     "entrypoint.LoadInitModsMixin",
     "entrypoint.PreGameLaunchInit",
-    "entrypoint.GameSingletonsMixin",
-
     "items.InGameMixin",
     "items.ItemCatalogMixin",
     "items.ItemSlotMixin",
     "items.ItemStackMixin",
-
     "loot.LootTableMixin",
     "ui.OptionsMixin",
     "window.IconMixin",

@@ -11,7 +11,10 @@ import com.github.puzzle.game.items.data.DataTag;
 import com.github.puzzle.game.items.data.DataTagManifest;
 import com.github.puzzle.game.mixins.accessors.ItemRenderAccessor;
 import com.github.puzzle.game.util.Reflection;
+import finalforeach.cosmicreach.blocks.BlockState;
+import finalforeach.cosmicreach.entities.player.Player;
 import finalforeach.cosmicreach.items.Item;
+import finalforeach.cosmicreach.items.ItemSlot;
 import finalforeach.cosmicreach.items.ItemStack;
 import finalforeach.cosmicreach.rendering.items.ItemModel;
 import finalforeach.cosmicreach.rendering.items.ItemRenderer;
@@ -38,9 +41,53 @@ public interface IModItem extends Item {
     }
 
     /**
-     * This allows your item to interact with the player.
+     * This allows your item to be used by the player.
+     * This method is a remap/rename of useItem
+     * @see IModItem#useItem(ItemSlot, Player)
+     * @see Item#useItem(ItemSlot, Player)
      */
-    default void onInteract(ItemStack stack) {}
+    default void use(ItemSlot slot, Player player) {
+    }
+
+    /**
+     * This is a method that makes your item usable by the player.
+     *
+     * @deprecated impl the "use" method instead for a cleaner look
+     * in your code.
+     * @see IModItem#use(ItemSlot, Player)
+     */
+    @Deprecated
+    default boolean useItem(ItemSlot slot, Player player) {
+        return false;
+    }
+
+    /**
+     * This gets the breaking speed for blocks that it was made for.
+     * @see Item#getEffectiveBreakingSpeed(ItemStack)
+     */
+    default float getEffectiveBreakingSpeed(ItemStack stack) {
+        return 1f;
+    }
+
+    /**
+     * This is a method that is used for checking what blocks this tool is ment to break.
+     * @see Item#isEffectiveBreaking(ItemStack, BlockState)
+     */
+    default boolean isEffectiveBreaking(ItemStack itemStack, BlockState blockState) {
+        return false;
+    }
+
+    /**
+     * This was ment to give the default stack size and make it only stack to X amount.
+     *
+     * @deprecated use getDefaultItemStack and getMaxStackSize instead.
+     * @see IModItem#getDefaultItemStack()
+     * @see IModItem#getMaxStackSize()
+     */
+    @Deprecated
+    default int getDefaultStackLimit() {
+        return 1000;
+    }
 
     /**
      * A method to create the default itemStack the comes with your item.

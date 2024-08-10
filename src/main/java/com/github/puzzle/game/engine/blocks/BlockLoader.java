@@ -13,13 +13,10 @@ import com.github.puzzle.game.factories.IFactory;
 import com.github.puzzle.game.generators.BlockEventGenerator;
 import com.github.puzzle.game.generators.BlockGenerator;
 import com.github.puzzle.game.generators.BlockModelGenerator;
-import finalforeach.cosmicreach.Threads;
 import finalforeach.cosmicreach.blockevents.BlockEvents;
 import finalforeach.cosmicreach.blocks.Block;
 import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.rendering.blockmodels.BlockModel;
-import finalforeach.cosmicreach.rendering.blockmodels.BlockModelJson;
-import finalforeach.cosmicreach.rendering.blockmodels.BlockModelJsonTexture;
 import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
