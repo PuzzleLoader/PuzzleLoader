@@ -1,11 +1,13 @@
 package com.github.puzzle.game.oredict;
 
 import com.github.puzzle.game.oredict.tags.Tag;
-import finalforeach.cosmicreach.blocks.Block;
 import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.items.Item;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * A similar concept to OreDictionary but has more of a purpose

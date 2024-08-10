@@ -15,7 +15,6 @@ import org.hjson.JsonValue;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
 
 public class PuzzleShapedCraftingRecipe implements IPuzzleCraftingRecipe {
 

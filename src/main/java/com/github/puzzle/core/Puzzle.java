@@ -9,16 +9,13 @@ import com.github.puzzle.game.items.BlockWrench;
 import com.github.puzzle.game.items.CheckBoard;
 import com.github.puzzle.game.items.IModItem;
 import com.github.puzzle.game.items.NullStick;
-import com.github.puzzle.game.oredict.ResourceDictionary;
 import com.github.puzzle.game.oredict.tags.BuiltInTags;
-import com.github.puzzle.game.oredict.tags.Tag;
 import com.github.puzzle.loader.entrypoint.interfaces.ModInitializer;
 import com.github.puzzle.loader.entrypoint.interfaces.PostModInitializer;
 import com.github.puzzle.loader.entrypoint.interfaces.PreModInitializer;
 import com.github.puzzle.loader.launch.PuzzleClassLoader;
 import finalforeach.cosmicreach.Threads;
 import finalforeach.cosmicreach.blocks.Block;
-import finalforeach.cosmicreach.blocks.BlockState;
 
 import java.io.IOException;
 import java.io.InputStream;
