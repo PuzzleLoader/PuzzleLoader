@@ -107,7 +107,7 @@ public class LoadingCosmicReach extends LoadStage {
         loader.setupProgressBar(loader.progressBar2, BlockEventLocations.size(), translationKey);
         int progress = 0;
         for(FileHandle handle : BlockEventLocations) {
-            if (counter >= 10) {
+            if (counter >= 20) {
                 String str = LanguageManager.format(translationKey, progress, BlockEventLocations.size());
                 loader.progressBarText2.setText(str);
                 loader.progressBar2.setValue(progress);
@@ -135,7 +135,7 @@ public class LoadingCosmicReach extends LoadStage {
         counter = 0;
         progress = 0;
         for(IFactory<IModBlock> blockFactory : blockFactories) {
-            int counterLimiter = ModLocator.locatedMods.size() >= 100 ? 10 : 1;
+            int counterLimiter = ModLocator.locatedMods.size() >= 100 ? 10 : 3;
             if (counter >= counterLimiter) {
                 String str = LanguageManager.format(translationKey, progress, blockFactories.size());
                 loader.progressBarText2.setText(str);

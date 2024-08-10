@@ -1,5 +1,10 @@
 package com.github.puzzle.game.oredict.tags;
 
+import com.github.puzzle.game.oredict.ResourceDictionary;
+import finalforeach.cosmicreach.blocks.Block;
+import finalforeach.cosmicreach.blocks.BlockState;
+import finalforeach.cosmicreach.items.Item;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,6 +48,28 @@ public class Tag {
             throw new TagFormatException("Tag \""+tag+"\" is formatted incorrectly and can only contain lowercase letters and underscores.");
 
         return tagRegistry.containsKey(tag) ? tagRegistry.get(tag) : new Tag(tag);
+    }
+
+    /**
+     * @param item the item you want to add to the tag
+     */
+    public void add(Item item) {
+        ResourceDictionary.addItemToTag(this, item);
+    }
+
+    /**
+     * @param blockState the blockState you want to add to the tag
+     */
+    public void add(BlockState blockState) {
+        ResourceDictionary.addBlockStateToTag(this, blockState);
+    }
+
+    /**
+     * @param block the block you want to add to the tag
+     */
+    public void add(Block block) {
+        for (BlockState state : block.blockStates.values())
+            ResourceDictionary.addBlockStateToTag(this, state);
     }
 
 }

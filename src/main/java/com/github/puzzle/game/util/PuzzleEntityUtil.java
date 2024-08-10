@@ -8,6 +8,7 @@ import finalforeach.cosmicreach.world.Zone;
 import org.jetbrains.annotations.NotNull;
 
 public class PuzzleEntityUtil {
+
     public static Entity getClosestEntity(@NotNull Zone zone, @NotNull Entity sourceEntity) {
         Entity closest = null;
         float closestDst = Float.MAX_VALUE;
@@ -40,7 +41,7 @@ public class PuzzleEntityUtil {
         for (Entity entity : zone.allEntities) {
             if (entity != null) {
                 if (entity != sourceEntity) {
-                    if (Identifier.fromString(entity.entityTypeId).equals(entityId)) {
+                    if (entity.entityTypeId.equals(entityId.toString())) {
                         float dst = sourceEntity.position.dst(entity.position);
                         if (!(dst > range)) {
                             if (closest == null) {

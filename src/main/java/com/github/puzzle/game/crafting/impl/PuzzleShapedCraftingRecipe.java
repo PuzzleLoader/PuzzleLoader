@@ -17,14 +17,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
-import static jdk.vm.ci.meta.JavaKind.Char;
-
 public class PuzzleShapedCraftingRecipe implements IPuzzleCraftingRecipe {
 
     Identifier recipeType = new Identifier(Puzzle.MOD_ID, "shaped_crafting");
 
     RecipeInput[] inputs;
     ItemStack result;
+
+    @Override
+    public void setInputs(RecipeInput[] inputs) {
+        this.inputs = inputs;
+    }
+
+    @Override
+    public void setOutput(ItemStack result) {
+        this.result = result;
+    }
 
     @Override
     public RecipeInput[] getInputs() {

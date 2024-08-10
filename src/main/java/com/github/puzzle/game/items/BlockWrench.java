@@ -31,7 +31,8 @@ public class BlockWrench implements IModItem {
         ItemRenderer.swingHeldItem();
         System.out.println(state);
         if (state == null) return;
-        Chat.MAIN_CHAT.sendMessage(InGame.world, InGame.getLocalPlayer(), null, "Interacting with block \"" + state + "\"");
+        if (position == null) return;
+//        Chat.MAIN_CHAT.sendMessage(InGame.world, InGame.getLocalPlayer(), null, "Interacting with block \"" + state + "\"");
         BlockUtil.setBlockAt(position.getZone(), ((ItemBlock) state.getItem().getNextSwapGroupItem()).getBlockState(), position);
     }
 

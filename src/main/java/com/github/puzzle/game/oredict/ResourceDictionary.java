@@ -2,6 +2,7 @@ package com.github.puzzle.game.oredict;
 
 import com.github.puzzle.game.oredict.tags.Tag;
 import finalforeach.cosmicreach.blocks.Block;
+import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.items.Item;
 
 import java.util.*;
@@ -14,14 +15,14 @@ import java.util.*;
 public class ResourceDictionary {
 
     static Map<Tag, Set<Item>> taggedItems = new HashMap<>();
-    static Map<Tag, Set<Block>> taggedBlocks = new HashMap<>();
+    static Map<Tag, Set<BlockState>> taggedBlockStates = new HashMap<>();
 
     /**
      * @param tag A name that relates to a list of various blocks
      * @return A list of blocks related to the tag param
      */
-    public static Set<Block> getBlocksFromTag(Tag tag) {
-        return taggedBlocks.get(tag);
+    public static Set<BlockState> getBlockStatesFromTag(Tag tag) {
+        return taggedBlockStates.get(tag);
     }
 
     /**
@@ -46,10 +47,11 @@ public class ResourceDictionary {
      * @param tag A name that will be a reference to the block
      * @param block A block that will be added to a list of other related blocks
      */
-    public static void addBlockToTag(Tag tag, Block block) {
-        Set<Block> blocks = taggedBlocks.containsKey(tag) ? taggedBlocks.get(tag) : new HashSet<>();
+    public static void addBlockStateToTag(Tag tag, BlockState block) {
+        Set<BlockState> blocks = taggedBlockStates.containsKey(tag) ? taggedBlockStates.get(tag) : new HashSet<>();
         blocks.add(block);
-        taggedBlocks.put(tag, blocks);
+        addItemToTag(tag, block.getItem());
+        taggedBlockStates.put(tag, blocks);
     }
 
 }

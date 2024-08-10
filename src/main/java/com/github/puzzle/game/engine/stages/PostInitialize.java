@@ -1,9 +1,13 @@
 package com.github.puzzle.game.engine.stages;
 
+import com.github.puzzle.core.Puzzle;
 import com.github.puzzle.core.localization.TranslationKey;
 import com.github.puzzle.game.engine.GameLoader;
 import com.github.puzzle.game.engine.LoadStage;
+import com.github.puzzle.loader.entrypoint.interfaces.ModInitializer;
 import com.github.puzzle.loader.entrypoint.interfaces.PostModInitializer;
+import com.github.puzzle.loader.mod.ModContainer;
+import com.github.puzzle.loader.mod.ModLocator;
 
 public class PostInitialize extends LoadStage {
 
@@ -16,6 +20,20 @@ public class PostInitialize extends LoadStage {
     @Override
     public void doStage() {
         super.doStage();
-        PostModInitializer.invokeEntrypoint();
+        try {
+            ModLocator.locatedMods.get(Puzzle.MOD_ID).invokeEntrypoint(PostModInitializer.ENTRYPOINT_KEY, PostModInitializer.class, PostModInitializer::onPostInit);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        ModLocator.locatedMods.keySet().forEach(containerID -> {
+            ModContainer container = ModLocator.locatedMods.get(containerID);
+            try {
+                if (!container.ID.equals(Puzzle.MOD_ID)) {
+                    container.invokeEntrypoint(PostModInitializer.ENTRYPOINT_KEY, PostModInitializer.class, PostModInitializer::onPostInit);
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 }

@@ -1,5 +1,6 @@
 package com.github.puzzle.game.engine.stages;
 
+import com.github.puzzle.core.Puzzle;
 import com.github.puzzle.core.PuzzleRegistries;
 import com.github.puzzle.core.localization.TranslationKey;
 import com.github.puzzle.game.engine.GameLoader;
@@ -28,17 +29,24 @@ public class Initialize extends LoadStage {
 
         AtomicInteger progress = new AtomicInteger();
         loader.setupProgressBar(loader.progressBar2, ModLocator.locatedMods.size(), "Initializing Mods: Init");
+        try {
+            ModLocator.locatedMods.get(Puzzle.MOD_ID).invokeEntrypoint(ModInitializer.ENTRYPOINT_KEY, ModInitializer.class, ModInitializer::onInit);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         ModLocator.locatedMods.keySet().forEach(containerID -> {
             ModContainer container = ModLocator.locatedMods.get(containerID);
             int counterLimiter = ModLocator.locatedMods.size() >= 100 ? 10 : 1;
             try {
-                if (counter >= counterLimiter) {
-                    String str = "Loading Mod: " + container.NAME + " | " + progress.get() + "/" + ModLocator.locatedMods.size();
-                    loader.progressBarText2.setText(str);
-                    loader.progressBar2.setValue(progress.get());
-                    counter = 0;
+                if (!container.ID.equals(Puzzle.MOD_ID)) {
+                    if (counter >= counterLimiter) {
+                        String str = "Loading Mod: " + container.NAME + " | " + progress.get() + "/" + ModLocator.locatedMods.size();
+                        loader.progressBarText2.setText(str);
+                        loader.progressBar2.setValue(progress.get());
+                        counter = 0;
+                    } else counter++;
+                    container.invokeEntrypoint(ModInitializer.ENTRYPOINT_KEY, ModInitializer.class, ModInitializer::onInit);
                 } else counter++;
-                container.invokeEntrypoint(ModInitializer.ENTRYPOINT_KEY, ModInitializer.class, ModInitializer::onInit);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

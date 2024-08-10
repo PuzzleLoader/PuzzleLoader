@@ -40,6 +40,9 @@ public interface IPuzzleCraftingRecipe {
         recipes.put(id.toString(), recipes1);
     }
 
+    void setInputs(RecipeInput[] inputs);
+    void setOutput(ItemStack result);
+
     RecipeInput[] getInputs();
     ItemStack getOutput();
 
