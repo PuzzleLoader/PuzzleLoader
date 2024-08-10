@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.github.puzzle.game.engine.items.PuzzleItemRendererConstants;
 import com.github.puzzle.game.items.IModItem;
 import finalforeach.cosmicreach.items.Item;
-import finalforeach.cosmicreach.items.ItemModel;
+import finalforeach.cosmicreach.rendering.items.ItemModel;
 import finalforeach.cosmicreach.rendering.items.ItemRenderer;
 import finalforeach.cosmicreach.ui.UI;
 import org.spongepowered.asm.mixin.Final;
@@ -28,7 +28,7 @@ public abstract class ItemRendererMixin {
         return null;
     }
 
-    @Shadow @Final private static Matrix4 tmpHeldMat4;
+//    @Shadow @Final private static Matrix4 tmpHeldMat4;
     private static Matrix4 noRot;
 
     static {
@@ -38,33 +38,20 @@ public abstract class ItemRendererMixin {
         PuzzleItemRendererConstants.initCamera();
     }
 
-    @Inject(method = "renderHeldItem(Lfinalforeach/cosmicreach/items/Item;Lcom/badlogic/gdx/graphics/PerspectiveCamera;)V", at = @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/items/ItemModel;render(Lcom/badlogic/gdx/graphics/Camera;Lcom/badlogic/gdx/math/Matrix4;)V", shift = At.Shift.BEFORE))
-    private static void itemChecker(Item heldItem, PerspectiveCamera worldCamera, CallbackInfo ci) {
-        if (heldItem instanceof IModItem item) {
-            if (item.isTool()) {
-//                tmpHeldMat4.rotate(new Vector3(0, 1, 0), 180);
-                tmpHeldMat4.translate(.6f,0, 0);
-                tmpHeldMat4.translate(0,-.2f, 0);
-                tmpHeldMat4.rotate(new Vector3(0, 0, 1), 20);
-                tmpHeldMat4.rotate(new Vector3(1, 0, 0), 15);
-            }
-        }
-    }
-
-    /**
-     * @author Mr_Zombii
-     * @reason Make IModItems not rotate
-     */
-    @Overwrite
-    public static void drawItem(Camera itemCam, Item item) {
-        ItemModel model = getModel(item, true);
-        assert model != null;
-        if (item instanceof IModItem) {
-            UI.itemCursor.itemViewport.setCamera(PuzzleItemRendererConstants.itemCam2);
-            model.render(PuzzleItemRendererConstants.itemCam2, noRot);
-        } else {
-            model.render(itemCam, identMat4);
-        }
-    }
+//    /**
+//     * @author Mr_Zombii
+//     * @reason Make IModItems not rotate
+//     */
+//    @Overwrite
+//    public static void drawItem(Camera itemCam, Item item) {
+//        ItemModel model = getModel(item, true);
+//        assert model != null;
+//        if (item instanceof IModItem) {
+//            UI.itemCursor.itemViewport.setCamera(PuzzleItemRendererConstants.itemCam2);
+//            model.render(PuzzleItemRendererConstants.itemCam2, noRot);
+//        } else {
+//            model.render(itemCam, identMat4);
+//        }
+//    }
 
 }

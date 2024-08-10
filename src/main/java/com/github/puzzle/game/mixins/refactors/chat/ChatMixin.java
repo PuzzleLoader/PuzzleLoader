@@ -9,7 +9,7 @@ import finalforeach.cosmicreach.accounts.Account;
 import finalforeach.cosmicreach.chat.Chat;
 import finalforeach.cosmicreach.chat.ChatMessage;
 import finalforeach.cosmicreach.chat.commands.Command;
-import finalforeach.cosmicreach.entities.Player;
+import finalforeach.cosmicreach.entities.player.Player;
 import finalforeach.cosmicreach.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -38,7 +38,7 @@ public abstract class ChatMixin {
         // Force Command.java load the <clinit> block
         Command.registerCommand("asodfjoasdiofasdf", () -> new Command() {
             @Override
-            public String getDescription() {
+            public String getShortDescription() {
                 return "";
             }
         });

@@ -27,6 +27,8 @@ import com.github.puzzle.loader.mod.ModLocator;
 import finalforeach.cosmicreach.blockentities.BlockEntityCreator;
 import finalforeach.cosmicreach.blockevents.BlockEvents;
 import finalforeach.cosmicreach.io.SaveLocation;
+import finalforeach.cosmicreach.items.CraftingRecipes;
+import finalforeach.cosmicreach.items.ItemThing;
 import finalforeach.cosmicreach.items.loot.Loot;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -92,7 +94,7 @@ public class LoadingCosmicReach extends LoadStage {
         super.doStage();
 
         // Load Block Event Actions
-        BlockEvents.initBlockEvents();
+//        BlockEvents.initBlockEvents();
 
         List<FileHandle> BlockEventLocations = new ArrayList<>();
         for (ResourceLocation location : VanillaAssetLocations.getInternalFiles("block_events", ".json")) {
@@ -169,14 +171,15 @@ public class LoadingCosmicReach extends LoadStage {
             tasks.add( PuzzleRegistries.BLOCK_MODEL_FINALIZERS.get(modelId) );
         }
 
-
         tasks.add( () -> loader.setupProgressBar(loader.progressBar2, blockStateIds.size(), "Finalizing Blocks") );
         for(Identifier blockStateId : blockStateIds) {
             tasks.add( () -> loader.incrementProgress(loader.progressBar2, blockStateId.toString()) );
             tasks.add( PuzzleRegistries.BLOCK_FINALIZERS.get(blockStateId) );
         }
 
+        tasks.add(ItemThing::loadAll);
         tasks.add(Loot::loadLoot);
+        tasks.add(CraftingRecipes::loadCraftingRecipes);
 
         return tasks;
     }

@@ -33,4 +33,9 @@ public class CheckBoard implements IModItem {
     public DataTagManifest getTagManifest() {
         return tagManifest;
     }
+
+    @Override
+    public boolean isCatalogHidden() {
+        return false;
+    }
 }

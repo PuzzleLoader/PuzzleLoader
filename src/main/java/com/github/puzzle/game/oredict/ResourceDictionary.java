@@ -26,6 +26,7 @@ public class ResourceDictionary {
     public static Block[] getBlocksFromTag(Tag tag) {
         return taggedBlocks.get(tag).toArray(new Block[0]);
     }
+
     /**
      * @param tag A name that relates to a list of various Items
      * @return A list of items related to the tag param

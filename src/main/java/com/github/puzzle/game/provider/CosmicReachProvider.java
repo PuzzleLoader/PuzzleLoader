@@ -1,6 +1,7 @@
 package com.github.puzzle.game.provider;
 
 import com.github.puzzle.core.Puzzle;
+import com.github.puzzle.game.util.Reflection;
 import com.github.puzzle.loader.entrypoint.interfaces.TransformerInitializer;
 import com.github.puzzle.loader.launch.PuzzleClassLoader;
 import com.github.puzzle.loader.launch.internal.mods.PuzzleTransformers;
@@ -35,7 +36,7 @@ public class CosmicReachProvider implements IGameProvider {
     String MIXIN_GOTO_PHASE = "gotoPhase";
 
     public CosmicReachProvider() {
-        MethodUtil.runStaticMethod(MethodUtil.getDeclaredMethod(MixinBootstrap.class, MIXIN_START));
+        MethodUtil.runStaticMethod(Reflection.getMethod(MixinBootstrap.class, MIXIN_START));
     }
 
     @Override
@@ -73,7 +74,7 @@ public class CosmicReachProvider implements IGameProvider {
 
     @Override
     public Collection<String> getArgs() {
-        MethodUtil.runStaticMethod(MethodUtil.getDeclaredMethod(MixinEnvironment.class, MIXIN_GOTO_PHASE, MixinEnvironment.Phase.class), MixinEnvironment.Phase.DEFAULT);
+        MethodUtil.runStaticMethod(Reflection.getMethod(MixinEnvironment.class, MIXIN_GOTO_PHASE, MixinEnvironment.Phase.class), MixinEnvironment.Phase.DEFAULT);
         return List.of();
     }
 
@@ -87,7 +88,7 @@ public class CosmicReachProvider implements IGameProvider {
 
     @Override
     public void initArgs(String[] args) {
-        MethodUtil.runStaticMethod(MethodUtil.getDeclaredMethod(MixinBootstrap.class, MIXIN_DO_INIT, CommandLineOptions.class), CommandLineOptions.of(List.of(args)));
+        MethodUtil.runStaticMethod(Reflection.getMethod(MixinBootstrap.class, MIXIN_DO_INIT, CommandLineOptions.class), CommandLineOptions.of(List.of(args)));
     }
 
     @Override
@@ -116,7 +117,7 @@ public class CosmicReachProvider implements IGameProvider {
         }
 
         mixinConfigs.forEach(Mixins::addConfiguration);
-        MethodUtil.runStaticMethod(MethodUtil.getDeclaredMethod(MixinBootstrap.class, MIXIN_INJECT));
+        MethodUtil.runStaticMethod(Reflection.getMethod(MixinBootstrap.class, MIXIN_INJECT));
     }
 
     @Override

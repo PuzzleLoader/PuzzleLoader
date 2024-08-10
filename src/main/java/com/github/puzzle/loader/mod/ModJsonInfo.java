@@ -1,9 +1,9 @@
 package com.github.puzzle.loader.mod;
 
+import com.github.puzzle.game.util.Reflection;
 import com.github.puzzle.loader.lang.LanguageAdapter;
 import com.github.puzzle.loader.lang.impl.LanguageAdapterWrapper;
 import com.github.puzzle.loader.launch.Piece;
-import com.github.puzzle.util.ClassUtil;
 import org.hjson.JsonArray;
 import org.hjson.JsonObject;
 import org.hjson.JsonValue;
@@ -105,7 +105,7 @@ public class ModJsonInfo {
                             throw new RuntimeException(e);
                         }
                         Class<LanguageAdapter> adClass = (Class<LanguageAdapter>) clazz;
-                        LanguageAdapter adapter = new LanguageAdapterWrapper(ClassUtil.newInstance(adClass));
+                        LanguageAdapter adapter = new LanguageAdapterWrapper(Reflection.newInstance(adClass));
                         LanguageAdapter.ADAPTERS.put(id, adapter);
                     }
                 }

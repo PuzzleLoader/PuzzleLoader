@@ -58,10 +58,10 @@ public class Puzzle implements PreModInitializer, ModInitializer {
 
     @Override
     public void onInit() {
+        Threads.runOnMainThread(ItemShader::initItemShader);
+
         DebugStick = IModItem.registerItem(new NullStick());
         CheckerBoard = IModItem.registerItem(new CheckBoard());
         BlockWrench = IModItem.registerItem(new BlockWrench());
-
-        Threads.runOnMainThread(ItemShader::initItemShader);
     }
 }

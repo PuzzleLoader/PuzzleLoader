@@ -7,7 +7,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import finalforeach.cosmicreach.accounts.Account;
 import finalforeach.cosmicreach.chat.Chat;
 import finalforeach.cosmicreach.chat.commands.Command;
-import finalforeach.cosmicreach.entities.Player;
+import finalforeach.cosmicreach.entities.player.Player;
 import finalforeach.cosmicreach.util.exceptions.ChatCommandException;
 import finalforeach.cosmicreach.world.World;
 import org.spongepowered.asm.mixin.Mixin;

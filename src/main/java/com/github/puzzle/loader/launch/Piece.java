@@ -1,6 +1,7 @@
 package com.github.puzzle.loader.launch;
 
 import com.github.puzzle.game.provider.CosmicReachProvider;
+import com.github.puzzle.game.util.Reflection;
 import com.github.puzzle.loader.mod.ModLocator;
 import com.github.puzzle.loader.providers.api.IGameProvider;
 import com.github.puzzle.util.MethodUtil;
@@ -72,7 +73,7 @@ public class Piece {
             String[] providerArgs = provider.getArgs().toArray(new String[0]);
 
             Class<?> clazz = Class.forName(provider.getEntrypoint(), false, classLoader);
-            Method main = MethodUtil.getMethod(clazz,"main", String[].class);
+            Method main = Reflection.getMethod(clazz,"main", String[].class);
             LOGGER.info("Launching {} version {}", provider.getName(), provider.getRawVersion());
             MethodUtil.runStaticMethod(main, (Object) providerArgs);
         } catch (Exception e) {

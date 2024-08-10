@@ -10,7 +10,7 @@ import finalforeach.cosmicreach.blockevents.actions.BlockActionPlaySound2D;
 import finalforeach.cosmicreach.blockevents.actions.BlockActionReplaceBlockState;
 import finalforeach.cosmicreach.blocks.BlockPosition;
 import finalforeach.cosmicreach.blocks.BlockState;
-import finalforeach.cosmicreach.entities.Player;
+import finalforeach.cosmicreach.entities.player.Player;
 import finalforeach.cosmicreach.world.Zone;
 
 import java.util.Collections;

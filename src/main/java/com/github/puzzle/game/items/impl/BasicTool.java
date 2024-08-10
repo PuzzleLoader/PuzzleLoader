@@ -33,4 +33,9 @@ public class BasicTool implements IModItem {
     public boolean isTool() {
         return true;
     }
+
+    @Override
+    public boolean isCatalogHidden() {
+        return false;
+    }
 }

@@ -13,10 +13,13 @@ import com.github.puzzle.game.factories.IFactory;
 import com.github.puzzle.game.generators.BlockEventGenerator;
 import com.github.puzzle.game.generators.BlockGenerator;
 import com.github.puzzle.game.generators.BlockModelGenerator;
+import finalforeach.cosmicreach.Threads;
 import finalforeach.cosmicreach.blockevents.BlockEvents;
 import finalforeach.cosmicreach.blocks.Block;
 import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.rendering.blockmodels.BlockModel;
+import finalforeach.cosmicreach.rendering.blockmodels.BlockModelJson;
+import finalforeach.cosmicreach.rendering.blockmodels.BlockModelJsonTexture;
 import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
@@ -165,6 +168,7 @@ public class BlockLoader {
         // it's very critical that registries are run in order here
         for (BlockModel model : factory.sort()) {
             if(model instanceof PuzzleBlockModel flux) {
+//                System.out.println();
                 PuzzleRegistries.BLOCK_MODEL_FINALIZERS.store(Identifier.fromString(flux.modelName + "_" + flux.rotXZ), flux::initialize);
             }
         }
@@ -210,9 +214,12 @@ public class BlockLoader {
         setBlockStaticFinalField.accept("STONE_BASALT", Block.getInstance("block_stone_basalt"));
         setBlockStaticFinalField.accept("DIRT", Block.getInstance("block_dirt"));
         setBlockStaticFinalField.accept("WOODPLANKS", Block.getInstance("block_wood_planks"));
+        setBlockStaticFinalField.accept("CRATE_WOOD", Block.getInstance("block_crate_wooden"));
         setBlockStaticFinalField.accept("HAZARD", Block.getInstance("block_hazard"));
         setBlockStaticFinalField.accept("SAND", Block.getInstance("block_sand"));
         setBlockStaticFinalField.accept("TREELOG", Block.getInstance("block_tree_log"));
+        setBlockStaticFinalField.accept("LEAVES", Block.getInstance("block_leaves"));
+        setBlockStaticFinalField.accept("COCONUT", Block.getInstance("block_coconut"));
         setBlockStaticFinalField.accept("SNOW", Block.getInstance("block_snow"));
         setBlockStaticFinalField.accept("WATER", Block.getInstance("block_water"));
         setBlockStaticFinalField.accept("LUNAR_SOIL", Block.getInstance("block_lunar_soil"));

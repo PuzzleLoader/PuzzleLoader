@@ -63,4 +63,8 @@ public class BlockWrench implements IModItem {
         return new ResourceLocation(Puzzle.MOD_ID, "textures/items/block_wrench.png");
     }
 
+    @Override
+    public boolean isCatalogHidden() {
+        return false;
+    }
 }

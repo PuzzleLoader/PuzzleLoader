@@ -8,6 +8,7 @@ import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.RuntimeInfo;
 import finalforeach.cosmicreach.rendering.IMeshData;
 import finalforeach.cosmicreach.rendering.blockmodels.BlockModel;
+import finalforeach.cosmicreach.rendering.blockmodels.BlockModelJson;
 import finalforeach.cosmicreach.rendering.blockmodels.BlockModelJsonTexture;
 import finalforeach.cosmicreach.rendering.shaders.ChunkShader;
 

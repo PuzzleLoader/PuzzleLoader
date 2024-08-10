@@ -42,4 +42,8 @@ public class NullStick implements IModItem {
         return tagManifest;
     }
 
+    @Override
+    public boolean isCatalogHidden() {
+        return false;
+    }
 }

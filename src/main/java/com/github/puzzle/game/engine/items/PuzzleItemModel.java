@@ -16,12 +16,14 @@ import com.github.puzzle.game.engine.shaders.ItemShader;
 import com.github.puzzle.game.items.IModItem;
 import com.github.puzzle.game.util.BlockUtil;
 import finalforeach.cosmicreach.blocks.BlockPosition;
-import finalforeach.cosmicreach.entities.Player;
+import finalforeach.cosmicreach.entities.player.Player;
 import finalforeach.cosmicreach.gamestates.InGame;
 import finalforeach.cosmicreach.items.Item;
-import finalforeach.cosmicreach.items.ItemModel;
+import finalforeach.cosmicreach.items.ItemSlot;
+import finalforeach.cosmicreach.items.ItemSlotWidget;
 import finalforeach.cosmicreach.rendering.MeshData;
 import finalforeach.cosmicreach.rendering.RenderOrder;
+import finalforeach.cosmicreach.rendering.items.ItemModel;
 import finalforeach.cosmicreach.rendering.shaders.GameShader;
 import finalforeach.cosmicreach.savelib.lightdata.blocklight.IBlockLightData;
 import finalforeach.cosmicreach.world.Chunk;
@@ -39,10 +41,11 @@ public class PuzzleItemModel extends ItemModel {
     Pixmap pm;
     GameShader shader;
 
-    public ModelBatch modelBatch = new ModelBatch();
     IModItem item;
+    static Matrix4 noRot = new Matrix4();
 
     public PuzzleItemModel(IModItem item){
+        noRot.setTranslation(0, -1f, 0);
         this.item = item;
         MeshData meshData = new MeshData(ItemShader.DEFAULT_ITEM_SHADER, RenderOrder.FULLY_TRANSPARENT);
         shader = meshData.shader;
@@ -51,6 +54,8 @@ public class PuzzleItemModel extends ItemModel {
 
         texture = new Texture(newPixmap);
         pm = newPixmap;
+
+        PuzzleItemRendererConstants.initCamera();
 
         itemMeshes = item.getMesh();
         if (itemMeshes == null)
@@ -180,11 +185,10 @@ public class PuzzleItemModel extends ItemModel {
 
     }
 
-    @Override
-    public void render(Camera camera, Matrix4 modelMat) {
+    public void render(Camera camera, Matrix4 matrix4) {
         this.shader.bind(camera);
         this.shader.bindOptionalMatrix4("u_projViewTrans", camera.combined);
-        this.shader.bindOptionalMatrix4("u_modelMat", modelMat);
+        this.shader.bindOptionalMatrix4("u_modelMat", matrix4);
         Player player = InGame.getLocalPlayer();
         Vector3 playerPos = player.getPosition();
 
@@ -225,12 +229,37 @@ public class PuzzleItemModel extends ItemModel {
     }
 
     @Override
+    public void render(Vector3 vector3, Camera camera, Matrix4 matrix4, boolean b) {
+        render(camera, noRot);
+    }
+
+    @Override
     public void dispose(WeakReference<Item> weakReference) {
         for (Mesh itemMesh : itemMeshes) {
             itemMesh.dispose();
         }
     }
 
+    @Override
+    public Camera getItemSlotCamera() {
+        return PuzzleItemRendererConstants.itemCam2;
+    }
+
+    @Override
+    public void renderAsHeldItem(Vector3 vector3, Camera camera, float v, float v1, float v2, float v3) {
+        Matrix4 matrix4 = new Matrix4();
+
+//        matrix4.translate(.6f,0, 0);
+//        matrix4.translate(0,-.2f, 0);
+//        matrix4.rotate(new Vector3(0, 0, 1), 20);
+//        matrix4.rotate(new Vector3(1, 0, 0), 15);
+        render(camera, matrix4);
+    }
+
+    @Override
+    public void renderAsItemEntity(Vector3 vector3, Camera camera, Matrix4 matrix4) {
+        render(camera, matrix4);
+    }
 
 
 }

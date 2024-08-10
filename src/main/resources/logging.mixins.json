@@ -5,6 +5,7 @@
   "plugin": "com.github.puzzle.loader.launch.internal.mixinextras.MixinExtrasConfigPlugin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "entrypoint.GameSingletonsMixin",
     "logging.BlockGameMixin",
     "logging.GameShaderMixin",
     "logging.GameStateMixin",

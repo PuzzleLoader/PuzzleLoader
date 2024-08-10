@@ -18,10 +18,24 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This is a replacement class for the vanilla loot-table that
+ * is not so messy and inefficient.
+ * @see Loot
+ */
 public class PuzzleLootTable {
+
     public PuzzleLootTable() {
     }
 
+    /**
+     * This is a method that converts an old vanilla loot-table to a new
+     * fast simple PuzzleLootTable converting all the options and elements.
+     * @see Loot
+     * @see LootOption
+     * @see finalforeach.cosmicreach.items.loot.LootStack
+     * @see LootDrop
+     */
     @Contract("_ -> new")
     public static @NotNull Pair<Identifier, PuzzleLootTable> fromVanillaTable(@NotNull Loot loot) {
         Identifier lootId = Identifier.fromString(loot.lootId);
@@ -42,16 +56,30 @@ public class PuzzleLootTable {
         return new ImmutablePair<>(lootId, table);
     }
 
+    /**
+     * Add a drop option to the loot table with a simple weight attached.
+     * @see LootDrop
+     */
     public void addDrop(float weight, LootDrop... drops) {
         totalWeight += weight;
         lootDrops.add(new ImmutablePair<>(weight, drops));
     }
 
+    /**
+     * Add a drop option to the loot table with a min/max factor and weight but this allows you to input an item.
+     * @see LootDrop
+     * @see Item
+     */
     public void addDrop(float weight, Item item, int min, int max) {
         totalWeight += weight;
         lootDrops.add(new ImmutablePair<>(weight, new LootDrop[]{new LootDrop(item, min, max)}));
     }
 
+    /**
+     * Adds a drop option to the loot table with a min/max factor and weight using a block state.
+     * @see LootDrop
+     * @see BlockState
+     */
     public void addDrop(float weight, @NotNull BlockState state, int min, int max) {
         totalWeight += weight;
         lootDrops.add(new ImmutablePair<>(weight, new LootDrop[]{new LootDrop(state.getItem(), min, max)}));
@@ -59,6 +87,12 @@ public class PuzzleLootTable {
 
     float totalWeight;
 
+    /**
+     * Drops a random item in the loot table in a certain pos in the world, depending on the weight values.
+     * @see LootDrop
+     * @see Zone
+     * @see Vector3
+     */
     public void drop(Zone zone, Vector3 pos) {
         if (!this.lootDrops.isEmpty()) {
             float weightChoice = MathUtils.random(0.0F, this.totalWeight);
@@ -78,6 +112,9 @@ public class PuzzleLootTable {
 
     List<Pair<Float, LootDrop[]>> lootDrops = new ArrayList<>();
 
+    /**
+     *
+     */
     public static class LootDrop {
 
         int min;

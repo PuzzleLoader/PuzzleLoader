@@ -29,4 +29,8 @@ public class BasicItem implements IModItem {
         return toolResource;
     }
 
+    @Override
+    public boolean isCatalogHidden() {
+        return false;
+    }
 }
