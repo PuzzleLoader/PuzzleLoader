@@ -25,6 +25,11 @@ public class BasicTool implements IModItem {
     }
 
     @Override
+    public String toString() {
+        return getID();
+    }
+
+    @Override
     public ResourceLocation getTexturePath() {
         return toolResource;
     }
@@ -32,6 +37,11 @@ public class BasicTool implements IModItem {
     @Override
     public boolean isTool() {
         return true;
+    }
+
+    @Override
+    public int getMaxStackSize() {
+        return 1;
     }
 
     @Override

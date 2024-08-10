@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.VertexAttributes;
 import com.github.puzzle.core.Identifier;
 import com.github.puzzle.core.Puzzle;
 import com.github.puzzle.core.resources.ResourceLocation;
+import finalforeach.cosmicreach.rendering.shaders.EntityShader;
 import finalforeach.cosmicreach.rendering.shaders.GameShader;
 import finalforeach.cosmicreach.world.Sky;
 
@@ -14,38 +15,13 @@ import java.lang.reflect.Field;
 public class ItemShader extends GameShader {
 
     public static ItemShader DEFAULT_ITEM_SHADER;
-    private static VertexAttribute posAttrib = VertexAttribute.Position();
-    private static VertexAttribute lightingAttrib = new VertexAttribute(4, 4, "a_lighting");
+    private static final VertexAttribute posAttrib = VertexAttribute.Position();
+    private static final VertexAttribute texCoordsAttrib = VertexAttribute.TexCoords(0);
 
 
     public ItemShader(String vertexShader, String fragmentShader) {
         super(vertexShader, fragmentShader);
-        VertexAttribute[] allVertexAttributes = new VertexAttribute[]{posAttrib, lightingAttrib};
-        this.allVertexAttributesObj = new VertexAttributes(allVertexAttributes);
-
-        try {
-            int count = 0;
-
-            for(int i = 0; i < allVertexAttributes.length; ++i) {
-                VertexAttribute attribute = allVertexAttributes[i];
-                attribute.offset = count;
-                switch (attribute.type) {
-                    case 5124:
-                    case 5125:
-                        count += 4 * attribute.numComponents;
-                        break;
-                    default:
-                        count += attribute.getSizeInBytes();
-                }
-            }
-
-            Field vertexSizeField = VertexAttributes.class.getField("vertexSize");
-            vertexSizeField.setAccessible(true);
-            vertexSizeField.set(this.allVertexAttributesObj, count);
-        } catch (SecurityException | IllegalArgumentException | IllegalAccessException | NoSuchFieldException var7) {
-            var7.printStackTrace();
-        }
-
+        this.allVertexAttributesObj = new VertexAttributes(posAttrib, texCoordsAttrib);
     }
 
     public static void initItemShader() {
@@ -57,10 +33,5 @@ public class ItemShader extends GameShader {
     public void bind(Camera worldCamera) {
         super.bind(worldCamera);
         this.shader.setUniformMatrix("u_projViewTrans", worldCamera.combined);
-//        int texNum = 0;
-//        this.bindOptionalTexture("texDiffuse", PuzzleItemModel.texture, texNum);
-        Sky sky = Sky.currentSky;
-        this.bindOptionalUniform3f("skyAmbientColor", sky.currentAmbientColor);
-        this.bindOptionalUniform3f("skyColor", sky.currentSkyColor);
     }
 }

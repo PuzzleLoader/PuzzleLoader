@@ -2,6 +2,7 @@ package com.github.puzzle.game.engine.blocks;
 
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector3;
 import com.github.puzzle.game.mixins.accessors.ChunkShaderAccessor;
 import finalforeach.cosmicreach.rendering.blockmodels.BlockModelJsonTexture;
 import finalforeach.cosmicreach.rendering.shaders.ChunkShader;
@@ -53,15 +54,24 @@ public class CustomTextureLoader {
         }
     }
 
-    public static int createUBOFloatsIdx(final float u, final float v) {
-        for (int i = 0; i < ChunkShader.faceTexBufFloats.size; i += 2) {
+    public static void setNormal(Vector3 normal, float vertX, float vertY, float vertZ) {
+        normal.x = Math.signum(vertX - 0.5F);
+        normal.y = Math.signum(vertY - 0.5F);
+        normal.z = Math.signum(vertZ - 0.5F);
+    }
+
+    public static int createUBOFloatsIdx(final float u, final float v, Vector3 normal) {
+        for (int i = 0; i < ChunkShader.faceTexBufFloats.size; i += 5) {
             if (ChunkShader.faceTexBufFloats.get(i) == u && ChunkShader.faceTexBufFloats.get(i + 1) == v) {
-                return i / 2;
+                return i / 5;
             }
         }
-        final int fIdx = ChunkShader.faceTexBufFloats.size / 2;
+        final int fIdx = ChunkShader.faceTexBufFloats.size / 5;
         ChunkShader.faceTexBufFloats.add(u);
         ChunkShader.faceTexBufFloats.add(v);
+        ChunkShader.faceTexBufFloats.add(normal.x);
+        ChunkShader.faceTexBufFloats.add(normal.y);
+        ChunkShader.faceTexBufFloats.add(normal.z);
         return fIdx;
     }
 

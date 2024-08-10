@@ -2,6 +2,7 @@ package com.github.puzzle.game.items;
 
 import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.github.puzzle.core.Identifier;
 import com.github.puzzle.core.Puzzle;
 import com.github.puzzle.core.resources.ResourceLocation;
@@ -9,10 +10,14 @@ import com.github.puzzle.game.engine.items.PuzzleItemModel;
 import com.github.puzzle.game.items.data.DataTag;
 import com.github.puzzle.game.items.data.DataTagManifest;
 import com.github.puzzle.game.mixins.accessors.ItemRenderAccessor;
+import com.github.puzzle.game.util.Reflection;
 import finalforeach.cosmicreach.items.Item;
 import finalforeach.cosmicreach.items.ItemStack;
+import finalforeach.cosmicreach.rendering.items.ItemModel;
+import finalforeach.cosmicreach.rendering.items.ItemRenderer;
 
 import java.lang.ref.WeakReference;
+import java.util.function.Function;
 
 import static finalforeach.cosmicreach.rendering.items.ItemRenderer.registerItemModelCreator;
 
@@ -70,9 +75,13 @@ public interface IModItem extends Item {
         allItems.put(item.getID(), item);
 
         ItemRenderAccessor.getRefMap().put(item, new WeakReference<>(item));
-        registerItemModelCreator(item.getClass(), (modItem) -> {
-            return new PuzzleItemModel(modItem.get());
-        });
+        ObjectMap<Class<? extends Item>, Function<?, ItemModel>> modelCreators = Reflection.getFieldContents(ItemRenderer.class, "modelCreators");
+
+        if (!modelCreators.containsKey(item.getClass())) {
+            registerItemModelCreator(item.getClass(), (modItem) -> {
+                return new PuzzleItemModel(modItem.get());
+            });
+        }
 
         return item;
     }

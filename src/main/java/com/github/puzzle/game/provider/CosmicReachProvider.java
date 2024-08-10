@@ -93,11 +93,6 @@ public class CosmicReachProvider implements IGameProvider {
 
     @Override
     public void inject(PuzzleClassLoader classLoader) {
-//        ModLocator.getMods(List.of(classLoader.getURLs()));
-
-//        ModLocator.AddBuiltinMods(this);
-
-        // TODO: VERIFY MOD DEPENDENCIES
         ModLocator.verifyDependencies();
 
         File cosmicReach = searchForCosmicReach();

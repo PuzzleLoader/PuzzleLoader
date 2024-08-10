@@ -2,12 +2,8 @@ package com.github.puzzle.game.engine.items;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g3d.Material;
-import com.badlogic.gdx.graphics.g3d.ModelBatch;
-import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
-import com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder;
+import com.badlogic.gdx.graphics.g3d.utils.MeshBuilder;
 import com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder.VertexInfo;
-import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -15,21 +11,18 @@ import com.badlogic.gdx.utils.Array;
 import com.github.puzzle.core.resources.PuzzleGameAssetLoader;
 import com.github.puzzle.game.engine.shaders.ItemShader;
 import com.github.puzzle.game.items.IModItem;
-import com.github.puzzle.game.util.BlockUtil;
 import finalforeach.cosmicreach.blocks.BlockPosition;
-import finalforeach.cosmicreach.entities.player.Player;
+import finalforeach.cosmicreach.constants.Direction;
+import finalforeach.cosmicreach.entities.Entity;
 import finalforeach.cosmicreach.gamestates.InGame;
 import finalforeach.cosmicreach.items.Item;
-import finalforeach.cosmicreach.items.ItemSlot;
-import finalforeach.cosmicreach.items.ItemSlotWidget;
 import finalforeach.cosmicreach.rendering.MeshData;
 import finalforeach.cosmicreach.rendering.RenderOrder;
 import finalforeach.cosmicreach.rendering.items.ItemModel;
-import finalforeach.cosmicreach.rendering.items.ItemModel2D;
 import finalforeach.cosmicreach.rendering.shaders.GameShader;
-import finalforeach.cosmicreach.savelib.lightdata.blocklight.IBlockLightData;
 import finalforeach.cosmicreach.world.Chunk;
 import finalforeach.cosmicreach.world.Sky;
+import finalforeach.cosmicreach.world.Zone;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.ref.WeakReference;
@@ -82,14 +75,8 @@ public class PuzzleItemModel extends ItemModel {
     Array<Mesh> itemMeshes;
 
     public void buildMesh() {
-        ModelBuilder modelBuilder = new ModelBuilder();
-        modelBuilder.begin();
-
-        MeshPartBuilder builder = modelBuilder.part(
-                "GENERATED_ITEM", GL20.GL_TRIANGLES,
-                VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal | VertexAttributes.Usage.TextureCoordinates,
-                new Material(TextureAttribute.createDiffuse(texture))
-        );
+        MeshBuilder builder = new MeshBuilder();
+        builder.begin(ItemShader.DEFAULT_ITEM_SHADER.allVertexAttributesObj, GL20.GL_TRIANGLES);
 
         float sideOffs = 2f * (1f / 16f);
 
@@ -130,7 +117,8 @@ public class PuzzleItemModel extends ItemModel {
         builder.rect(topLeft1, topRight1, bottomRight1, bottomLeft1);
         buildExpandingMesh(builder);
 
-        itemMeshes = modelBuilder.end().meshes;
+        itemMeshes = new Array<>();
+        itemMeshes.add(builder.end());
     }
 
     static class Rect {
@@ -150,7 +138,7 @@ public class PuzzleItemModel extends ItemModel {
         }
     }
 
-    public void buildExpandingMesh(MeshPartBuilder builder) {
+    public void buildExpandingMesh(MeshBuilder builder) {
         if (!pm.getFormat().equals(Pixmap.Format.RGBA8888)) return;
         Map<Integer, List<Rect>> rectMap = new HashMap<>();
         for (int x = 0; x < texture.getWidth(); x++) {
@@ -187,42 +175,21 @@ public class PuzzleItemModel extends ItemModel {
 
     }
 
-    public void render(Camera camera, Matrix4 matrix4) {
+    static final Color tintColor = new Color();
+    static final BlockPosition tmpBlockPos = new BlockPosition(null, 0, 0, 0);
+
+    public void render(Camera camera, Matrix4 matrix4, Vector3 entityPos, boolean isInSlot) {
+        if (isInSlot) {
+            tintColor.set(Color.WHITE);
+        } else {
+            Zone zone = InGame.getLocalPlayer().getZone(InGame.world);
+            Entity.setLightingColor(zone, entityPos, Sky.currentSky.currentAmbientColor, tintColor, tmpBlockPos, tmpBlockPos);
+        }
+
         this.shader.bind(camera);
         this.shader.bindOptionalMatrix4("u_projViewTrans", camera.combined);
         this.shader.bindOptionalMatrix4("u_modelMat", matrix4);
-        Player player = InGame.getLocalPlayer();
-        Vector3 playerPos = player.getPosition();
-
-        Chunk chunk = BlockUtil.getChunkAtVec(player.getZone(InGame.world), playerPos);
-        BlockPosition pos = BlockUtil.getBlockPosAtVec(player.getZone(InGame.world), playerPos);
-
-        IBlockLightData data = chunk.blockLightData;
-        if (data != null) {
-            short blockLight = data.getBlockLight(
-                    pos.localX(),
-                    pos.localY(),
-                    pos.localZ()
-            );
-            int red = blockLight >> 8;
-            int green = (blockLight - (red << 8)) >> 4;
-            int blue = ((blockLight - (red << 8)) - (green << 4));
-            if (camera != PuzzleItemRendererConstants.itemCam2) {
-                this.shader.bindOptionalUniform4f("b_lighting", new Color(
-                        red, green, blue, 255
-                ));
-                Sky sky = Sky.currentSky;
-                this.shader.bindOptionalUniform3f("skyAmbientColor", sky.currentAmbientColor);
-            } else {
-                this.shader.bindOptionalUniform4f("b_lighting", new Color(
-                        0, 0, 0, 255
-                ));
-            }
-        } else {
-            this.shader.bindOptionalUniform4f("b_lighting", new Color(
-                    1, 1, 1, 255
-            ));
-        }
+        this.shader.bindOptionalUniform4f("tintColor", tintColor);
         this.shader.bindOptionalTexture("texDiffuse", texture, 0);
         for (Mesh itemMesh : itemMeshes) {
             itemMesh.render(shader.shader, GL20.GL_TRIANGLES);
@@ -232,7 +199,7 @@ public class PuzzleItemModel extends ItemModel {
 
     @Override
     public void render(Vector3 vector3, Camera camera, Matrix4 matrix4, boolean b) {
-        render(camera, noRot);
+        render(camera, noRot, new Vector3(0, 0, 0), true);
     }
 
     @Override
@@ -284,13 +251,13 @@ public class PuzzleItemModel extends ItemModel {
         }
 
         Gdx.gl.glDisable(2929);
-        this.render(heldItemCamera, tmpHeldMat4);
+        this.render(heldItemCamera, tmpHeldMat4, vector3, false);
         Gdx.gl.glEnable(2929);
     }
 
     @Override
     public void renderAsItemEntity(Vector3 vector3, Camera camera, Matrix4 matrix4) {
-        render(camera, matrix4);
+        render(camera, matrix4, vector3, false);
     }
 
 

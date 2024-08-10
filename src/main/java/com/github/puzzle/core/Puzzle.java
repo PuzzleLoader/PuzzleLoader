@@ -1,15 +1,24 @@
 package com.github.puzzle.core;
 
+import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.g3d.Material;
+import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
+import com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder;
+import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
+import com.badlogic.gdx.utils.Array;
 import com.github.puzzle.core.localization.ILanguageFile;
 import com.github.puzzle.core.localization.LanguageManager;
 import com.github.puzzle.core.localization.files.LanguageFileVersion1;
+import com.github.puzzle.core.resources.PuzzleGameAssetLoader;
 import com.github.puzzle.core.resources.ResourceLocation;
 import com.github.puzzle.game.Globals;
+import com.github.puzzle.game.engine.items.TextureFaker;
 import com.github.puzzle.game.engine.shaders.ItemShader;
 import com.github.puzzle.game.items.BlockWrench;
 import com.github.puzzle.game.items.CheckBoard;
 import com.github.puzzle.game.items.IModItem;
 import com.github.puzzle.game.items.NullStick;
+import com.github.puzzle.game.items.impl.BasicItem;
 import com.github.puzzle.game.items.impl.BasicTool;
 import com.github.puzzle.loader.entrypoint.interfaces.ModInitializer;
 import com.github.puzzle.loader.entrypoint.interfaces.PreModInitializer;
@@ -62,12 +71,6 @@ public class Puzzle implements PreModInitializer, ModInitializer {
     public void onInit() {
         Threads.runOnMainThread(ItemShader::initItemShader);
 
-        IModItem.registerItem(new BasicTool(Identifier.fromString("puzzle-loader:axe_stone"), new ResourceLocation("base", "textures/items/axe_stone.png")) {
-            @Override
-            public int getMaxStackSize() {
-                return 1;
-            }
-        });
         DebugStick = IModItem.registerItem(new NullStick());
         CheckerBoard = IModItem.registerItem(new CheckBoard());
         BlockWrench = IModItem.registerItem(new BlockWrench());

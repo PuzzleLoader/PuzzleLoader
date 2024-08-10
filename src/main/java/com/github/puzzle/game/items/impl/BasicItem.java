@@ -25,6 +25,11 @@ public class BasicItem implements IModItem {
     }
 
     @Override
+    public String toString() {
+        return getID();
+    }
+
+    @Override
     public ResourceLocation getTexturePath() {
         return toolResource;
     }

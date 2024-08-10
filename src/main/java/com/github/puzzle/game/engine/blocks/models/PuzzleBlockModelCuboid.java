@@ -1,5 +1,6 @@
 package com.github.puzzle.game.engine.blocks.models;
 
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.BoundingBox;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.OrderedMap;
@@ -393,10 +394,32 @@ public class PuzzleBlockModelCuboid
                 tmpRotation--;
             }
 
-            f.modelUvIdxA = CustomTextureLoader.createUBOFloatsIdx(f.uA, f.vA);
-            f.modelUvIdxB = CustomTextureLoader.createUBOFloatsIdx(f.uB, f.vB);
-            f.modelUvIdxC = CustomTextureLoader.createUBOFloatsIdx(f.uC, f.vC);
-            f.modelUvIdxD = CustomTextureLoader.createUBOFloatsIdx(f.uD, f.vD);
+            float minU = Math.min(Math.min(f.uA, f.uB), Math.min(f.uC, f.uD));
+            float maxU = Math.max(Math.max(f.uA, f.uB), Math.max(f.uC, f.uD));
+            float minV = Math.min(Math.min(f.vA, f.vB), Math.min(f.vC, f.vD));
+            float maxV = Math.max(Math.max(f.vA, f.vB), Math.max(f.vC, f.vD));
+            float centU = (minU + maxU) / 2.0F;
+            float centV = (minV + maxV) / 2.0F;
+            float n = 0.001953125F;
+            f.uA += (centU - f.uA) * n;
+            f.uB += (centU - f.uB) * n;
+            f.uC += (centU - f.uC) * n;
+            f.uD += (centU - f.uD) * n;
+            f.vA += (centV - f.vA) * n;
+            f.vB += (centV - f.vB) * n;
+            f.vC += (centV - f.vC) * n;
+            f.vD += (centV - f.vD) * n;
+
+            Vector3 tmpNormal = new Vector3();
+
+            CustomTextureLoader.setNormal(tmpNormal, f.x1, f.y1, f.z1);
+            f.modelUvIdxA = CustomTextureLoader.createUBOFloatsIdx(f.uA, f.vA, tmpNormal);
+            CustomTextureLoader.setNormal(tmpNormal, f.midX1, f.midY1, f.midZ1);
+            f.modelUvIdxB = CustomTextureLoader.createUBOFloatsIdx(f.uB, f.vB, tmpNormal);
+            CustomTextureLoader.setNormal(tmpNormal, f.x2, f.y2, f.z2);
+            f.modelUvIdxC = CustomTextureLoader.createUBOFloatsIdx(f.uC, f.vC, tmpNormal);
+            CustomTextureLoader.setNormal(tmpNormal, f.midX2, f.midY2, f.midZ2);
+            f.modelUvIdxD = CustomTextureLoader.createUBOFloatsIdx(f.uD, f.vD, tmpNormal);
 
             if (isValidFace) allFaces.add(f);
 
