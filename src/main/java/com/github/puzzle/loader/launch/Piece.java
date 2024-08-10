@@ -53,7 +53,6 @@ public class Piece {
             OptionSpec<String> modFolder_option = parser.accepts("modFolder").withOptionalArg().ofType(String.class);
 
             classLoader.addClassLoaderExclusion(DEFAULT_PROVIDER.substring(0, DEFAULT_PROVIDER.lastIndexOf('.')));
-//            classLoader.addClassLoaderExclusion("com.github.puzzle.loader.entrypoint");
             classLoader.addClassLoaderExclusion("com.github.puzzle.loader.launch");
             classLoader.addClassLoaderExclusion("com.github.puzzle.loader.mod");
             classLoader.addClassLoaderExclusion("com.github.puzzle.loader.providers");

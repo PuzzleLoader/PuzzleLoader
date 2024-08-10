@@ -9,8 +9,10 @@ import finalforeach.cosmicreach.BlockSelection;
 import finalforeach.cosmicreach.blocks.BlockPosition;
 import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.chat.Chat;
+import finalforeach.cosmicreach.entities.player.Player;
 import finalforeach.cosmicreach.gamestates.InGame;
 import finalforeach.cosmicreach.items.ItemBlock;
+import finalforeach.cosmicreach.items.ItemSlot;
 import finalforeach.cosmicreach.items.ItemStack;
 import finalforeach.cosmicreach.rendering.items.ItemRenderer;
 
@@ -23,7 +25,7 @@ public class BlockWrench implements IModItem {
     }
 
     @Override
-    public void onInteract(ItemStack stack) {
+    public void use(ItemSlot slot, Player player) {
         BlockState state = BlockSelection.getBlockLookingAt();
         BlockPosition position = BlockSelection.getBlockPositionLookingAt();
         ItemRenderer.swingHeldItem();
