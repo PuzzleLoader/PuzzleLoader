@@ -134,6 +134,7 @@ public class CosmicReachProvider implements IGameProvider {
             puzzleLoaderInfo.setAccessManipulator("puzzle_loader.manipulator");
             puzzleLoaderInfo.addEntrypoint("preInit", Puzzle.class.getName());
             puzzleLoaderInfo.addEntrypoint("init", Puzzle.class.getName());
+            puzzleLoaderInfo.addEntrypoint("postInit", Puzzle.class.getName());
 
             ModLocator.locatedMods.put("puzzle-loader", puzzleLoaderInfo.build().getOrCreateModContainer());
         }
