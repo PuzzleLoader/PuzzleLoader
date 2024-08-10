@@ -12,7 +12,6 @@ import finalforeach.cosmicreach.items.containers.SlotContainer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ItemCatalog.class)
@@ -21,7 +20,7 @@ public class ItemCatalogMixin extends SlotContainer {
     public ItemCatalogMixin(int numSlots) {
         super(numSlots);
     }
-//
+
 //    @Redirect(method = "<init>", at = @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/items/ItemCatalog;addItemStack(Lfinalforeach/cosmicreach/items/ItemStack;)Z"))
 //    private boolean nuhUh(ItemCatalog instance, ItemStack itemStack) {
 //        return false;

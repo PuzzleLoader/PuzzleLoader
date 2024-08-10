@@ -1,5 +1,6 @@
 package com.github.puzzle.game.engine.items;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
@@ -24,6 +25,7 @@ import finalforeach.cosmicreach.items.ItemSlotWidget;
 import finalforeach.cosmicreach.rendering.MeshData;
 import finalforeach.cosmicreach.rendering.RenderOrder;
 import finalforeach.cosmicreach.rendering.items.ItemModel;
+import finalforeach.cosmicreach.rendering.items.ItemModel2D;
 import finalforeach.cosmicreach.rendering.shaders.GameShader;
 import finalforeach.cosmicreach.savelib.lightdata.blocklight.IBlockLightData;
 import finalforeach.cosmicreach.world.Chunk;
@@ -244,16 +246,46 @@ public class PuzzleItemModel extends ItemModel {
     public Camera getItemSlotCamera() {
         return PuzzleItemRendererConstants.itemCam2;
     }
+    static final PerspectiveCamera heldItemCamera = new PerspectiveCamera();
 
     @Override
-    public void renderAsHeldItem(Vector3 vector3, Camera camera, float v, float v1, float v2, float v3) {
-        Matrix4 matrix4 = new Matrix4();
+    public void renderAsHeldItem(Vector3 vector3, Camera camera, float popUpTimer, float maxPopUpTimer, float swingTimer, float maxSwingTimer) {
+        Matrix4 tmpHeldMat4 = new Matrix4();
 
-//        matrix4.translate(.6f,0, 0);
-//        matrix4.translate(0,-.2f, 0);
-//        matrix4.rotate(new Vector3(0, 0, 1), 20);
-//        matrix4.rotate(new Vector3(1, 0, 0), 15);
-        render(camera, matrix4);
+        heldItemCamera.fieldOfView = 50.0F;
+        heldItemCamera.viewportHeight = camera.viewportHeight;
+        heldItemCamera.viewportWidth = camera.viewportWidth;
+        heldItemCamera.near = camera.near;
+        heldItemCamera.far = camera.far;
+        heldItemCamera.update();
+        tmpHeldMat4.idt();
+        float swing;
+        if (popUpTimer > 0.0F) {
+            swing = (float)Math.pow(popUpTimer / maxPopUpTimer, 2.0);
+            tmpHeldMat4.translate(0.0F, -1.0F * swing, 0.0F);
+        }
+
+        tmpHeldMat4.translate(1.65F, -1.25F, -2.5F);
+        tmpHeldMat4.rotate(Vector3.Y, -75.0F);
+        tmpHeldMat4.translate(-0.25F, -0.25F, -0.25F);
+        if (swingTimer > 0.0F) {
+            swing = swingTimer / maxSwingTimer;
+            swing = 1.0F - (float)Math.pow((double)(swing - 0.5F), 2.0) / 0.25F;
+            tmpHeldMat4.rotate(Vector3.Z, 90.0F * swing);
+            float st = -swing;
+            tmpHeldMat4.translate(st * 2.0F, st, 0.0F);
+        }
+
+        if (item.isTool()) {
+            tmpHeldMat4.translate(.6f,0, 0);
+            tmpHeldMat4.translate(0,-.2f, 0);
+            tmpHeldMat4.rotate(new Vector3(0, 0, 1), 20);
+            tmpHeldMat4.rotate(new Vector3(1, 0, 0), 15);
+        }
+
+        Gdx.gl.glDisable(2929);
+        this.render(heldItemCamera, tmpHeldMat4);
+        Gdx.gl.glEnable(2929);
     }
 
     @Override
