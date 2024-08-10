@@ -4,10 +4,7 @@ import com.github.puzzle.game.oredict.tags.Tag;
 import finalforeach.cosmicreach.blocks.Block;
 import finalforeach.cosmicreach.items.Item;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * A similar concept to OreDictionary but has more of a purpose
@@ -23,16 +20,16 @@ public class ResourceDictionary {
      * @param tag A name that relates to a list of various blocks
      * @return A list of blocks related to the tag param
      */
-    public static Block[] getBlocksFromTag(Tag tag) {
-        return taggedBlocks.get(tag).toArray(new Block[0]);
+    public static Set<Block> getBlocksFromTag(Tag tag) {
+        return taggedBlocks.get(tag);
     }
 
     /**
      * @param tag A name that relates to a list of various Items
      * @return A list of items related to the tag param
      */
-    public static Item[] getItemFromTag(Tag tag) {
-        return taggedItems.get(tag).toArray(new Item[0]);
+    public static Set<Item> getItemsFromTag(Tag tag) {
+        return taggedItems.get(tag);
     }
 
     /**

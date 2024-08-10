@@ -27,6 +27,14 @@ public class Tag {
     }
 
     /**
+     * @param name the tag name you are checking.
+     * @return the output that says if it exists or not.
+     */
+    public static boolean tagExist(String name) {
+        return tagRegistry.containsKey(name);
+    }
+
+    /**
      * @param tag a name of a tag that may or may not exist already
      * @return a Tag that was either gotten by reference or created depending on its existence by its name
      */
