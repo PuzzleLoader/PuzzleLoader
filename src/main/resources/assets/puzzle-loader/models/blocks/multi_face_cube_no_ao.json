@@ -1,0 +1,19 @@
+{
+    "cuboids":
+    [
+        {
+            "localBounds": [0,0,0, 16,16,16],
+            "faces":
+            {
+                "localNegX": {"uv": [ 0, 0, 16, 16 ], "ambientocclusion": false, "cullFace": true, "texture": "back"},
+                "localPosX": {"uv": [ 0, 0, 16, 16 ], "ambientocclusion": false, "cullFace": true, "texture": "front"},
+
+                "localNegY": {"uv": [ 0, 0, 16, 16 ], "ambientocclusion": false, "cullFace": true, "texture": "bottom"},
+                "localPosY": {"uv": [ 0, 0, 16, 16 ], "ambientocclusion": false, "cullFace": true, "texture": "top"},
+
+                "localNegZ": {"uv": [ 0, 0, 16, 16 ], "ambientocclusion": false, "cullFace": true, "texture": "left"},
+                "localPosZ": {"uv": [ 0, 0, 16, 16 ], "ambientocclusion": false, "cullFace": true, "texture": "right"}
+            }
+        }
+    ]
+}

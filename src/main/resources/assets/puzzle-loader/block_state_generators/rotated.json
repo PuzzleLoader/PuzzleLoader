@@ -1,0 +1,72 @@
+{
+    "generators":
+    [
+        {
+            "stringId": "puzzle-loader:rotated",
+            "include":
+            [
+                "puzzle-loader:rotated0", "puzzle-loader:rotated90",
+                "puzzle-loader:rotated180", "puzzle-loader:rotated270"
+            ]
+        },
+        {
+            "stringId": "puzzle-loader:rotated0",
+            "params":
+            {
+                "stair_type":"bottom_NegX"
+            },
+            "overrides":
+            {
+                "rotXZ": 0,
+                "dropParams": {
+                    "stair_type":"bottom_NegX"
+                }
+            }
+        },
+        {
+            "stringId": "puzzle-loader:rotated90",
+            "params":
+            {
+                "stair_type":"bottom_NegZ"
+            },
+            "overrides":
+            {
+                "rotXZ": 90,
+                "catalogHidden": true,
+                "dropParams": {
+                    "stair_type":"bottom_NegX"
+                }
+            }
+        },
+        {
+            "stringId": "puzzle-loader:rotated180",
+            "params":
+            {
+                "stair_type":"bottom_PosX"
+            },
+            "overrides":
+            {
+                "rotXZ": 180,
+                "catalogHidden": true,
+                "dropParams": {
+                    "stair_type":"bottom_NegX"
+                }
+            }
+        },
+        {
+            "stringId": "puzzle-loader:rotated270",
+            "params":
+            {
+                "stair_type":"bottom_PosZ"
+            },
+            "overrides":
+            {
+                "rotXZ": 270,
+                "catalogHidden": true,
+                "dropParams": {
+                    "stair_type":"bottom_NegX"
+                }
+            }
+        }
+    ]
+}
