@@ -77,7 +77,7 @@ public class BlockGenerator implements IGenerator {
     public State createBlockState(String id, String modelName, boolean usingBlockModelGenerator) {
         State state = new State();
         state.modelName = usingBlockModelGenerator ? BlockModelGenerator.getModelName(blockId, modelName) : modelName;
-        state.blockEventsId = BlockEventGenerator.getEventName(blockId, "flux_default");
+        state.blockEventsId = BlockEventGenerator.getEventName(blockId, "puzzle_default");
         blockStates.put(id, state);
         return state;
     }
