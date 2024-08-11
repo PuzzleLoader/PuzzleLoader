@@ -7,6 +7,7 @@ import com.github.puzzle.game.engine.LoadStage;
 import com.github.puzzle.loader.entrypoint.interfaces.PostModInitializer;
 import com.github.puzzle.loader.mod.ModContainer;
 import com.github.puzzle.loader.mod.ModLocator;
+import finalforeach.cosmicreach.Threads;
 
 public class PostInitialize extends LoadStage {
 

@@ -70,22 +70,22 @@ public class Puzzle implements PreModInitializer, ModInitializer, PostModInitial
 
     @Override
     public void onPostInit() {
-        BuiltInTags.stone.add(Block.getInstance("stone_basalt"));
-        BuiltInTags.stone.add(Block.getInstance("stone_gabbro"));
-        BuiltInTags.stone.add(Block.getInstance("stone_limestone"));
+        BuiltInTags.stone.add(Block.getInstance("block_stone_basalt"));
+        BuiltInTags.stone.add(Block.getInstance("block_stone_gabbro"));
+        BuiltInTags.stone.add(Block.getInstance("block_stone_limestone"));
 
-        BuiltInTags.glass.add(Block.getInstance("glass"));
+        BuiltInTags.glass.add(Block.getInstance("block_glass"));
 
-        BuiltInTags.grass.add(Block.getInstance("grass"));
-        BuiltInTags.dirt.add(Block.getInstance("dirt"));
-        BuiltInTags.dirt.add(Block.getInstance("lunar_soil"));
-        BuiltInTags.dirt.add(Block.getInstance("lunar_soil_packed"));
+        BuiltInTags.grass.add(Block.getInstance("block_grass"));
+        BuiltInTags.dirt.add(Block.getInstance("block_dirt"));
+        BuiltInTags.dirt.add(Block.getInstance("block_lunar_soil"));
+        BuiltInTags.dirt.add(Block.getInstance("block_lunar_soil_packed"));
 
-        BuiltInTags.aluminum_block.add(Block.getInstance("aluminium_panel"));
-        BuiltInTags.steel_block.add(Block.getInstance("metal_panel"));
+        BuiltInTags.aluminum_block.add(Block.getInstance("block_aluminium_panel"));
+        BuiltInTags.steel_block.add(Block.getInstance("block_metal_panel"));
 
-        BuiltInTags.logs.add(Block.getInstance("tree_log"));
-        BuiltInTags.planks.add(Block.getInstance("wood_planks"));
-        BuiltInTags.light.add(Block.getInstance("light"));
+        BuiltInTags.logs.add(Block.getInstance("block_tree_log"));
+        BuiltInTags.planks.add(Block.getInstance("block_wood_planks"));
+        BuiltInTags.light.add(Block.getInstance("block_light"));
     }
 }
