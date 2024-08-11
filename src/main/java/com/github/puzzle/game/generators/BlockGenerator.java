@@ -45,6 +45,7 @@ public class BlockGenerator implements IGenerator {
         public boolean canRaycastForPlaceOn = true;
         public boolean canRaycastForReplace = false;
         public boolean isFluid = false;
+        public boolean allowSwapping = false;
 
         public String swapGroupId;
         public String dropId;

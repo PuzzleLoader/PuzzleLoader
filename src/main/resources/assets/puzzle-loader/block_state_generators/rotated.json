@@ -18,6 +18,7 @@
             "overrides":
             {
                 "rotXZ": 0,
+                "catalogHidden": false,
                 "dropParams": {
                     "stair_type":"bottom_NegX"
                 }
