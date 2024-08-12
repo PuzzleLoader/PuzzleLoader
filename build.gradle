@@ -26,6 +26,7 @@ repositories {
 //        url "https://raw.githubusercontent.com/PuzzleLoader/CosmicStorage/main/"
 //        patternLayout {
 //            artifact "/preAlpha/[revision]/[classifier]/Cosmic Reach-[revision].jar"
+//            artifact "/alpha/[revision]/[classifier]/Cosmic Reach-[revision].jar"
 //        }
 //        // This is required in Gradle 6.0+ as metadata file (ivy.xml) is mandatory
 //        metadataSources {

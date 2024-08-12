@@ -15,10 +15,15 @@ import finalforeach.cosmicreach.world.Zone;
  */
 public class ExtendedBlockEntity extends BlockEntity {
     public Zone zone;
-    public BlockPosition position;
+    public int x;
+    public int y;
+    public int z;
 
     public ExtendedBlockEntity(Zone zone, int globalX, int globalY, int globalZ) {
         super(zone, globalX, globalY, globalZ);
+        this.x = globalX;
+        this.y = globalY;
+        this.z = globalZ;
     }
 
     @Override
@@ -27,37 +32,35 @@ public class ExtendedBlockEntity extends BlockEntity {
     }
 
     public void read(CRBinDeserializer deserial) {
-        int x = deserial.readInt("x", this.position.getGlobalX());
-        int y = deserial.readInt("y", this.position.getGlobalY());
-        int z = deserial.readInt("z", this.position.getGlobalZ());
-        position = new BlockPosition(
-                InGame.getLocalPlayer().getZone(InGame.world).getChunkAtBlock(x, y, z),
-                x, y, z
-        );
+        x = deserial.readInt("x", x);
+        y = deserial.readInt("y", y);
+        z = deserial.readInt("z", z);
     }
 
     public void write(CRBinSerializer serial) {
         serial.writeString("stringId", this.getBlockEntityId());
-        serial.writeInt("x", this.position.getGlobalX());
-        serial.writeInt("y", this.position.getGlobalY());
-        serial.writeInt("z", this.position.getGlobalZ());
+        serial.writeInt("x", x);
+        serial.writeInt("y", y);
+        serial.writeInt("z", z);
     }
 
     public int getGlobalX() {
-        return this.position.getGlobalX();
+        return x;
     }
 
     public int getGlobalY() {
-        return this.position.getGlobalY();
+        return y;
     }
 
     public int getGlobalZ() {
-        return this.position.getGlobalZ();
+        return z;
     }
 
     @Internal
     public void initialize(Chunk chunk, int localX, int localY, int localZ) {
         zone = chunk.getZone();
-        position = new BlockPosition(chunk, localX, localY, localZ);
+        x = chunk.blockX + localX;
+        y = chunk.blockY + localY;
+        z = chunk.blockZ + localZ;
     }
 }
