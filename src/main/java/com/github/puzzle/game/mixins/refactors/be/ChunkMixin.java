@@ -73,7 +73,9 @@ public abstract class ChunkMixin implements ITickable, IRenderable {
     @Inject(method = "setBlockEntity", at= @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/blockentities/BlockEntity;onRemove()V", shift = At.Shift.AFTER), locals = LocalCapture.CAPTURE_FAILHARD)
     private void destroyBlockEntity(BlockState blockState, int localX, int localY, int localZ, CallbackInfoReturnable<BlockEntity> cir, @Local BlockEntity blockEntity) {
         if(blockEntity instanceof ExtendedBlockEntity extendedBlockEntity) {
-            extendedBlockEntity.position = null;
+            extendedBlockEntity.x = 0;
+            extendedBlockEntity.y = 0;
+            extendedBlockEntity.z = 0;
         }
     }
 
@@ -87,7 +89,9 @@ public abstract class ChunkMixin implements ITickable, IRenderable {
     @Inject(method = "setBlockEntityDirect", at= @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/blockentities/BlockEntity;onRemove()V", shift = At.Shift.AFTER), locals = LocalCapture.CAPTURE_FAILHARD)
     private void destroyBlockEntity2(BlockState blockState, BlockEntity blockEntity, int localX, int localY, int localZ, CallbackInfo ci) {
         if(blockEntity instanceof ExtendedBlockEntity extendedBlockEntity) {
-            extendedBlockEntity.position = null;
+            extendedBlockEntity.x = 0;
+            extendedBlockEntity.y = 0;
+            extendedBlockEntity.z = 0;
         }
     }
 
