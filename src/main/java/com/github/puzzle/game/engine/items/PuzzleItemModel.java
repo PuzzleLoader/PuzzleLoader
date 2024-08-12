@@ -49,6 +49,8 @@ public class PuzzleItemModel extends ItemModel {
         Texture localTex = PuzzleGameAssetLoader.LOADER.getResource(manifest.getTag(IModItem.TEXTURE_LOCATION_PRESET).getValue(), Texture.class);
         itemModelId = manifest.getTag(IModItem.MODEL_ID_PRESET).getValue().toString();
 
+        if (localTex.getWidth() != localTex.getHeight()) throw new RuntimeException("TEXTURE MUST HAVE WIDTH AND HEIGHT Culprit Item: " + item.getID());
+
         Pixmap newPixmap = getPixmap(localTex);
 
         texture = new Texture(newPixmap);
@@ -120,7 +122,6 @@ public class PuzzleItemModel extends ItemModel {
         bottomRight1.setUV(bottomRight0.uv.cpy());
 
         builder.rect(topLeft1, topRight1, bottomRight1, bottomLeft1);
-        buildExpandingMesh(builder);
 
         itemMeshes = new Array<>();
         itemMeshes.add(builder.end());
