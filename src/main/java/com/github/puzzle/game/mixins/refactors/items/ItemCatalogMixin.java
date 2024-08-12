@@ -1,7 +1,7 @@
 package com.github.puzzle.game.mixins.refactors.items;
 
 import com.github.puzzle.game.items.IModItem;
-import com.github.puzzle.game.items.NullStick;
+import com.github.puzzle.game.items.puzzle.NullStick;
 import finalforeach.cosmicreach.items.ItemCatalog;
 import finalforeach.cosmicreach.items.ItemStack;
 import finalforeach.cosmicreach.items.containers.SlotContainer;

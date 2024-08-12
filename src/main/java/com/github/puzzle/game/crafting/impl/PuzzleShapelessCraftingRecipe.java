@@ -25,6 +25,11 @@ public class PuzzleShapelessCraftingRecipe implements IPuzzleCraftingRecipe {
     ItemStack result;
 
     @Override
+    public Identifier getType() {
+        return recipeType;
+    }
+
+    @Override
     public void setInputs(RecipeInput[] inputs) {
         this.inputs = inputs;
     }

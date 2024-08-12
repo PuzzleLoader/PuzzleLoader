@@ -22,23 +22,25 @@ public interface IPuzzleCraftingRecipe {
         recipeDeserializers.put(id.toString(), deserializer);
     }
 
-    static void addRecipe(Identifier id, String recipeJson) {
+    static void addRecipe(String recipeJson) {
         JsonObject object = JsonObject.readHjson(recipeJson).asObject();
         IRecipeSerializer<?> recipeSerializer = recipeDeserializers.get(object.get("type").asString());
 
-        if (recipeSerializer == null) throw new RuntimeException("Serializer for recipe of type \""+id.toString()+"\" does not exist");
-        addRecipe(id, recipeSerializer.readRecipe(object));
+        if (recipeSerializer == null) throw new RuntimeException("Serializer for recipe of type \""+object.get("type").asString()+"\" does not exist");
+        addRecipe(recipeSerializer.readRecipe(object));
     }
 
-    static void addRecipe(Identifier id, IPuzzleCraftingRecipe recipe) {
+    static void addRecipe(IPuzzleCraftingRecipe recipe) {
         Set<IPuzzleCraftingRecipe> recipes1;
-        if (recipes.get(id.toString()) == null)
+        if (recipes.get(recipe.getType().toString()) == null)
             recipes1 = new HashSet<>();
         else
-            recipes1 = recipes.get(id.toString());
+            recipes1 = recipes.get(recipe.getType().toString());
         recipes1.add(recipe);
-        recipes.put(id.toString(), recipes1);
+        recipes.put(recipe.getType().toString(), recipes1);
     }
+
+    Identifier getType();
 
     void setInputs(RecipeInput[] inputs);
     void setOutput(ItemStack result);
