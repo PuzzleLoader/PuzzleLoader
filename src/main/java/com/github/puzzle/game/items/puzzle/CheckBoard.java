@@ -13,6 +13,8 @@ public class CheckBoard implements IModItem {
 
     public CheckBoard() {
         tagManifest.addTag(NullStick.IS_DEBUG_ATTRIBUTE.createTag(true));
+        tagManifest.addTag(IModItem.MODEL_ID_PRESET.createTag(IModItem.MODEL_2D_ITEM));
+        tagManifest.addTag(IModItem.TEXTURE_LOCATION_PRESET.createTag(new ResourceLocation(Puzzle.MOD_ID, "textures/items/checker_board.png")));
     }
 
     @Override
@@ -23,11 +25,6 @@ public class CheckBoard implements IModItem {
     @Override
     public Identifier getIdentifier() {
         return id;
-    }
-
-    @Override
-    public ResourceLocation getTexturePath() {
-        return new ResourceLocation(Puzzle.MOD_ID, "textures/items/checker_board.png");
     }
 
     @Override

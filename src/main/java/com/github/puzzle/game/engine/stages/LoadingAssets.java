@@ -38,10 +38,6 @@ public class LoadingAssets extends LoadStage {
         textures.addAll(VanillaAssetLocations.getInternalFiles("textures/entities", ".png"));
         textures.addAll(VanillaAssetLocations.getInternalFiles("lang/textures/", ".png"));
 
-        for (Item item : Item.allItems.values()) {
-            if (item instanceof IModItem modItem) textures.add(modItem.getTexturePath());
-        }
-
         textures.forEach( location -> PuzzleGameAssetLoader.LOADER.loadResource(location, Texture.class) );
 
         List<ResourceLocation> sounds = new ArrayList<>();

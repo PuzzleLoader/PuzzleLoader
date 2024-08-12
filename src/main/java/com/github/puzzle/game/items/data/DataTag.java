@@ -15,6 +15,10 @@ public class DataTag<T> {
         this.attribute = attribute;
     }
 
+    public T getValue() {
+        return attribute.getValue();
+    }
+
     public <A extends T> DataTag<A> getTagAsType(Class<A> type) {
         if (attribute.getValue().getClass().equals(type)) {
             return (DataTag<A>) this;

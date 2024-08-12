@@ -9,6 +9,9 @@ import com.github.puzzle.core.resources.ResourceLocation;
 import com.github.puzzle.game.engine.items.PuzzleItemModel;
 import com.github.puzzle.game.items.data.DataTag;
 import com.github.puzzle.game.items.data.DataTagManifest;
+import com.github.puzzle.game.items.data.DataTagPreset;
+import com.github.puzzle.game.items.data.attributes.IdentifierDataAttribute;
+import com.github.puzzle.game.items.data.attributes.ResourceLocationDataAttribute;
 import com.github.puzzle.game.mixins.accessors.ItemRenderAccessor;
 import com.github.puzzle.game.util.Reflection;
 import finalforeach.cosmicreach.blocks.BlockState;
@@ -16,6 +19,7 @@ import finalforeach.cosmicreach.entities.player.Player;
 import finalforeach.cosmicreach.items.Item;
 import finalforeach.cosmicreach.items.ItemSlot;
 import finalforeach.cosmicreach.items.ItemStack;
+import finalforeach.cosmicreach.items.ItemThing;
 import finalforeach.cosmicreach.rendering.items.ItemModel;
 import finalforeach.cosmicreach.rendering.items.ItemRenderer;
 
@@ -31,6 +35,13 @@ public interface IModItem extends Item {
      * @see Identifier
      */
     Identifier getIdentifier();
+
+    DataTagPreset<Identifier> MODEL_ID_PRESET = new DataTagPreset<>("model_id", new IdentifierDataAttribute(Identifier.of(Puzzle.MOD_ID, "2d_item_model")));
+    Identifier MODEL_2D_ITEM = new Identifier(Puzzle.MOD_ID, "2d_item_model");
+    Identifier MODEL_2_5D_ITEM = new Identifier(Puzzle.MOD_ID, "2.5d_item_model");
+    Identifier MODEL_USE_CUSTOM_MODEL = new Identifier(Puzzle.MOD_ID, "CUSTOM_3D_MODEL");
+
+    DataTagPreset<ResourceLocation> TEXTURE_LOCATION_PRESET = new DataTagPreset<>("texture_resource_location", new ResourceLocationDataAttribute(new ResourceLocation(Puzzle.MOD_ID, "textures/items/null_stick.png")));
 
     /**
      * The string version of the ID.
@@ -158,15 +169,6 @@ public interface IModItem extends Item {
             return item.getClass().getName().equals(this.getClass().getName());
         }
         return false;
-    }
-
-    /**
-     * The path to the texture your item uses
-     * @see com.badlogic.gdx.graphics.Texture
-     * @see ResourceLocation
-     */
-    default ResourceLocation getTexturePath() {
-        return new ResourceLocation(Puzzle.MOD_ID, "textures/items/null_stick.png");
     }
 
     /**

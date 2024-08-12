@@ -1,17 +1,21 @@
 package com.github.puzzle.game.items.impl;
 
 import com.github.puzzle.core.Identifier;
+import com.github.puzzle.core.Puzzle;
 import com.github.puzzle.core.resources.ResourceLocation;
 import com.github.puzzle.game.items.IModItem;
+import com.github.puzzle.game.items.data.DataTagManifest;
 
 public class BasicItem implements IModItem {
 
     Identifier toolId;
     ResourceLocation toolResource;
+    DataTagManifest tagManifest = new DataTagManifest();
 
     public BasicItem(Identifier id) {
         toolId = id;
-        toolResource = new ResourceLocation(id.namespace, "textures/items/" + id.name + ".png");
+        tagManifest.addTag(IModItem.MODEL_ID_PRESET.createTag(IModItem.MODEL_2D_ITEM));
+        tagManifest.addTag(IModItem.TEXTURE_LOCATION_PRESET.createTag(new ResourceLocation(id.namespace, "textures/items/" + id.name + ".png")));
     }
 
     public BasicItem(Identifier id, ResourceLocation location) {
@@ -27,11 +31,6 @@ public class BasicItem implements IModItem {
     @Override
     public String toString() {
         return getID();
-    }
-
-    @Override
-    public ResourceLocation getTexturePath() {
-        return toolResource;
     }
 
     @Override

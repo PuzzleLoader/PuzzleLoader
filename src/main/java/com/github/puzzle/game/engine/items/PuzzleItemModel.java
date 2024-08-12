@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.Array;
 import com.github.puzzle.core.resources.PuzzleGameAssetLoader;
 import com.github.puzzle.game.engine.shaders.ItemShader;
 import com.github.puzzle.game.items.IModItem;
+import com.github.puzzle.game.items.data.DataTagManifest;
 import finalforeach.cosmicreach.blocks.BlockPosition;
 import finalforeach.cosmicreach.entities.Entity;
 import finalforeach.cosmicreach.gamestates.InGame;
@@ -37,12 +38,17 @@ public class PuzzleItemModel extends ItemModel {
     IModItem item;
     static Matrix4 noRot = new Matrix4();
 
+    String itemModelId;
+
     public PuzzleItemModel(IModItem item){
         noRot.setTranslation(0, -1f, 0);
         this.item = item;
         MeshData meshData = new MeshData(ItemShader.DEFAULT_ITEM_SHADER, RenderOrder.FULLY_TRANSPARENT);
         shader = meshData.shader;
-        Texture localTex = PuzzleGameAssetLoader.LOADER.getResource(item.getTexturePath(), Texture.class);
+        DataTagManifest manifest = item.getTagManifest();
+        Texture localTex = PuzzleGameAssetLoader.LOADER.getResource(manifest.getTag(IModItem.TEXTURE_LOCATION_PRESET).getValue(), Texture.class);
+        itemModelId = manifest.getTag(IModItem.MODEL_ID_PRESET).getValue().toString();
+
         Pixmap newPixmap = getPixmap(localTex);
 
         texture = new Texture(newPixmap);
@@ -50,9 +56,12 @@ public class PuzzleItemModel extends ItemModel {
 
         PuzzleItemRendererConstants.initCamera();
 
-        itemMeshes = item.getMesh();
-        if (itemMeshes == null)
-            buildMesh();
+        if (itemModelId.equals(IModItem.MODEL_2D_ITEM.toString()))
+            buildMesh2D();
+        else if (itemModelId.equals(IModItem.MODEL_2D_ITEM.toString()))
+            buildMesh2_5D();
+        else if (itemModelId.equals(IModItem.MODEL_USE_CUSTOM_MODEL.toString()))
+            itemMeshes = item.getMesh();
     }
 
     private static @NotNull Pixmap getPixmap(Texture localTex) {
@@ -72,7 +81,52 @@ public class PuzzleItemModel extends ItemModel {
 
     Array<Mesh> itemMeshes;
 
-    public void buildMesh() {
+    public void buildMesh2D() {
+        MeshBuilder builder = new MeshBuilder();
+        builder.begin(ItemShader.DEFAULT_ITEM_SHADER.allVertexAttributesObj, GL20.GL_TRIANGLES);
+
+        VertexInfo topLeft0 = new VertexInfo();
+        topLeft0.setPos(new Vector3(-1, 2, 0));
+        topLeft0.setUV(new Vector2(1, 1));
+
+        VertexInfo topRight0 = new VertexInfo();
+        topRight0.setPos(new Vector3(1, 2, 0));
+        topRight0.setUV(new Vector2(0, 1));
+
+        VertexInfo bottomLeft0 = new VertexInfo();
+        bottomLeft0.setPos(new Vector3(-1, 0, 0));
+        bottomLeft0.setUV(new Vector2(1, 0));
+
+        VertexInfo bottomRight0 = new VertexInfo();
+        bottomRight0.setPos(new Vector3(1, 0, 0));
+        bottomRight0.setUV(new Vector2(0, 0));
+
+        builder.rect(topLeft0, bottomLeft0, bottomRight0, topRight0);
+
+        VertexInfo topLeft1 = new VertexInfo();
+        topLeft1.setPos(new Vector3(-1, 2, 0));
+        topLeft1.setUV(topLeft0.uv.cpy());
+
+        VertexInfo topRight1 = new VertexInfo();
+        topRight1.setPos(new Vector3(1, 2, 0));
+        topRight1.setUV(topRight0.uv.cpy());
+
+        VertexInfo bottomLeft1 = new VertexInfo();
+        bottomLeft1.setPos(new Vector3(-1, 0, 0));
+        bottomLeft1.setUV(bottomLeft0.uv.cpy());
+
+        VertexInfo bottomRight1 = new VertexInfo();
+        bottomRight1.setPos(new Vector3(1, 0, 0));
+        bottomRight1.setUV(bottomRight0.uv.cpy());
+
+        builder.rect(topLeft1, topRight1, bottomRight1, bottomLeft1);
+        buildExpandingMesh(builder);
+
+        itemMeshes = new Array<>();
+        itemMeshes.add(builder.end());
+    }
+
+    public void buildMesh2_5D() {
         MeshBuilder builder = new MeshBuilder();
         builder.begin(ItemShader.DEFAULT_ITEM_SHADER.allVertexAttributesObj, GL20.GL_TRIANGLES);
 
@@ -255,6 +309,7 @@ public class PuzzleItemModel extends ItemModel {
 
     @Override
     public void renderAsItemEntity(Vector3 vector3, Camera camera, Matrix4 matrix4) {
+        matrix4.translate(0.5F, 0.5F, 0.5F);
         render(camera, matrix4, vector3, false);
     }
 

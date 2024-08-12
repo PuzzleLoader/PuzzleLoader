@@ -20,6 +20,8 @@ public class BlockWrench implements IModItem {
     DataTagManifest tagManifest = new DataTagManifest();
 
     public BlockWrench() {
+        tagManifest.addTag(IModItem.MODEL_ID_PRESET.createTag(IModItem.MODEL_2D_ITEM));
+        tagManifest.addTag(IModItem.TEXTURE_LOCATION_PRESET.createTag(new ResourceLocation(Puzzle.MOD_ID, "textures/items/block_wrench.png")));
     }
 
     @Override
@@ -57,11 +59,6 @@ public class BlockWrench implements IModItem {
     @Override
     public DataTagManifest getTagManifest() {
         return tagManifest;
-    }
-
-    @Override
-    public ResourceLocation getTexturePath() {
-        return new ResourceLocation(Puzzle.MOD_ID, "textures/items/block_wrench.png");
     }
 
     @Override
