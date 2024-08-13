@@ -66,11 +66,6 @@ public class Puzzle implements PreModInitializer, ModInitializer, PostModInitial
     public void onInit() {
         Threads.runOnMainThread(ItemShader::initItemShader);
 
-        IModItem.registerItem(new BasicTool(new Identifier(Puzzle.MOD_ID, "pickaxe_stone"), new ResourceLocation("base", "textures/items/pickaxe_stone.png")));
-        IModItem.registerItem(new BasicTool(new Identifier(Puzzle.MOD_ID, "axe_stone"), new ResourceLocation("base", "textures/items/axe_stone.png")));
-        IModItem.registerItem(new BasicTool(new Identifier(Puzzle.MOD_ID, "shovel_stone"), new ResourceLocation("base", "textures/items/shovel_stone.png")));
-        IModItem.registerItem(new BasicItem(new Identifier(Puzzle.MOD_ID, "medkit"), new ResourceLocation("base", "textures/items/medkit.png")));
-
         DebugStick = IModItem.registerItem(new NullStick());
         CheckerBoard = IModItem.registerItem(new CheckBoard());
         BlockWrench = IModItem.registerItem(new BlockWrench());
