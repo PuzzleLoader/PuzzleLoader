@@ -10,6 +10,7 @@ import com.github.puzzle.game.engine.items.PuzzleItemModel;
 import com.github.puzzle.game.items.data.DataTag;
 import com.github.puzzle.game.items.data.DataTagManifest;
 import com.github.puzzle.game.items.data.DataTagPreset;
+import com.github.puzzle.game.items.data.attributes.BooleanDataAttribute;
 import com.github.puzzle.game.items.data.attributes.IdentifierDataAttribute;
 import com.github.puzzle.game.items.data.attributes.ResourceLocationDataAttribute;
 import com.github.puzzle.game.mixins.accessors.ItemRenderAccessor;
@@ -41,6 +42,8 @@ public interface IModItem extends Item {
     Identifier MODEL_USE_CUSTOM_MODEL = new Identifier(Puzzle.MOD_ID, "CUSTOM_3D_MODEL");
 
     DataTagPreset<ResourceLocation> TEXTURE_LOCATION_PRESET = new DataTagPreset<>("texture_resource_location", new ResourceLocationDataAttribute(new ResourceLocation(Puzzle.MOD_ID, "textures/items/null_stick.png")));
+
+    DataTagPreset<Boolean> IS_DEBUG_ATTRIBUTE = new DataTagPreset<>("is_item_debug", new BooleanDataAttribute(false));
 
     /**
      * The string version of the ID.

@@ -6,6 +6,7 @@ import com.github.puzzle.game.generators.BlockEventGenerator;
 import com.github.puzzle.game.generators.BlockGenerator;
 import com.github.puzzle.game.generators.BlockModelGenerator;
 import com.github.puzzle.game.util.BlockEventActionFactory;
+import finalforeach.cosmicreach.blockevents.actions.BlockActionItemDrop;
 import finalforeach.cosmicreach.blockevents.actions.BlockActionPlaySound2D;
 import finalforeach.cosmicreach.blockevents.actions.BlockActionReplaceBlockState;
 import finalforeach.cosmicreach.blocks.BlockPosition;
@@ -56,6 +57,8 @@ public interface IModBlock {
         replace.act(blockState, null, zone, position);
         BlockActionPlaySound2D sound2D = BlockEventActionFactory.createPlaySound2D("block-break.ogg", 1, 1, 0);
         sound2D.act(blockState, null, zone);
+        BlockActionItemDrop drop = new BlockActionItemDrop();
+        drop.act(blockState, null, zone, position);
     }
 
     /**
