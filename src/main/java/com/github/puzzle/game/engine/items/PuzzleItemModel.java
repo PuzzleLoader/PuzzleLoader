@@ -250,7 +250,11 @@ public class PuzzleItemModel extends ItemModel {
             tintColor.set(Color.WHITE);
         } else {
             Zone zone = InGame.getLocalPlayer().getZone(InGame.world);
-            Entity.setLightingColor(zone, entityPos, Sky.currentSky.currentAmbientColor, tintColor, tmpBlockPos, tmpBlockPos);
+            try {
+                Entity.setLightingColor(zone, entityPos, Sky.currentSky.currentAmbientColor, tintColor, tmpBlockPos, tmpBlockPos);
+            } catch (Exception e) {
+                tintColor.set(Color.WHITE);
+            }
         }
 
         this.shader.bind(camera);
