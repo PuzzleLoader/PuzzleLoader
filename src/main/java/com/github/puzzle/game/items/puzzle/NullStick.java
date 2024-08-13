@@ -17,7 +17,7 @@ public class NullStick implements IModItem {
 
     public NullStick() {
         tagManifest.addTag(IS_DEBUG_ATTRIBUTE.createTag(true));
-        tagManifest.addTag(IModItem.MODEL_ID_PRESET.createTag(IModItem.MODEL_2D_ITEM));
+        tagManifest.addTag(IModItem.MODEL_ID_PRESET.createTag(IModItem.MODEL_2_5D_ITEM));
         tagManifest.addTag(IModItem.TEXTURE_LOCATION_PRESET.createTag(new ResourceLocation(Puzzle.MOD_ID, "textures/items/null_stick.png")));
     }
 

@@ -13,13 +13,20 @@ public class BasicTool implements IModItem {
 
     public BasicTool(Identifier id) {
         toolId = id;
-        tagManifest.addTag(IModItem.MODEL_ID_PRESET.createTag(IModItem.MODEL_2D_ITEM));
+        tagManifest.addTag(IModItem.MODEL_ID_PRESET.createTag(IModItem.MODEL_2_5D_ITEM));
         tagManifest.addTag(IModItem.TEXTURE_LOCATION_PRESET.createTag(new ResourceLocation(id.namespace, "textures/items/" + id.name + ".png")));
     }
 
     public BasicTool(Identifier id, ResourceLocation location) {
         toolId = id;
         toolResource = location;
+        tagManifest.addTag(IModItem.MODEL_ID_PRESET.createTag(IModItem.MODEL_2_5D_ITEM));
+        tagManifest.addTag(IModItem.TEXTURE_LOCATION_PRESET.createTag(location));
+    }
+
+    @Override
+    public DataTagManifest getTagManifest() {
+        return tagManifest;
     }
 
     @Override

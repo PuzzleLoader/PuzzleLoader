@@ -3,10 +3,15 @@ package com.github.puzzle.core;
 import com.github.puzzle.core.localization.ILanguageFile;
 import com.github.puzzle.core.localization.LanguageManager;
 import com.github.puzzle.core.localization.files.LanguageFileVersion1;
+import com.github.puzzle.core.resources.ResourceLocation;
 import com.github.puzzle.game.Globals;
 import com.github.puzzle.game.engine.shaders.ItemShader;
-import com.github.puzzle.game.items.puzzle.*;
 import com.github.puzzle.game.items.IModItem;
+import com.github.puzzle.game.items.impl.BasicItem;
+import com.github.puzzle.game.items.impl.BasicTool;
+import com.github.puzzle.game.items.puzzle.BlockWrench;
+import com.github.puzzle.game.items.puzzle.CheckBoard;
+import com.github.puzzle.game.items.puzzle.NullStick;
 import com.github.puzzle.game.oredict.tags.BuiltInTags;
 import com.github.puzzle.loader.entrypoint.interfaces.ModInitializer;
 import com.github.puzzle.loader.entrypoint.interfaces.PostModInitializer;
@@ -60,6 +65,11 @@ public class Puzzle implements PreModInitializer, ModInitializer, PostModInitial
     @Override
     public void onInit() {
         Threads.runOnMainThread(ItemShader::initItemShader);
+
+        IModItem.registerItem(new BasicTool(new Identifier(Puzzle.MOD_ID, "pickaxe_stone"), new ResourceLocation("base", "textures/items/pickaxe_stone.png")));
+        IModItem.registerItem(new BasicTool(new Identifier(Puzzle.MOD_ID, "axe_stone"), new ResourceLocation("base", "textures/items/axe_stone.png")));
+        IModItem.registerItem(new BasicTool(new Identifier(Puzzle.MOD_ID, "shovel_stone"), new ResourceLocation("base", "textures/items/shovel_stone.png")));
+        IModItem.registerItem(new BasicItem(new Identifier(Puzzle.MOD_ID, "medkit"), new ResourceLocation("base", "textures/items/medkit.png")));
 
         DebugStick = IModItem.registerItem(new NullStick());
         CheckerBoard = IModItem.registerItem(new CheckBoard());

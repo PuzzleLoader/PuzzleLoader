@@ -1,7 +1,6 @@
 package com.github.puzzle.game.items.impl;
 
 import com.github.puzzle.core.Identifier;
-import com.github.puzzle.core.Puzzle;
 import com.github.puzzle.core.resources.ResourceLocation;
 import com.github.puzzle.game.items.IModItem;
 import com.github.puzzle.game.items.data.DataTagManifest;
@@ -14,13 +13,33 @@ public class BasicItem implements IModItem {
 
     public BasicItem(Identifier id) {
         toolId = id;
-        tagManifest.addTag(IModItem.MODEL_ID_PRESET.createTag(IModItem.MODEL_2D_ITEM));
+        tagManifest.addTag(IModItem.MODEL_ID_PRESET.createTag(IModItem.MODEL_2_5D_ITEM));
+        tagManifest.addTag(IModItem.TEXTURE_LOCATION_PRESET.createTag(new ResourceLocation(id.namespace, "textures/items/" + id.name + ".png")));
+    }
+
+    public BasicItem(Identifier model_Id, Identifier id) {
+        toolId = id;
+        tagManifest.addTag(IModItem.MODEL_ID_PRESET.createTag(model_Id));
         tagManifest.addTag(IModItem.TEXTURE_LOCATION_PRESET.createTag(new ResourceLocation(id.namespace, "textures/items/" + id.name + ".png")));
     }
 
     public BasicItem(Identifier id, ResourceLocation location) {
         toolId = id;
         toolResource = location;
+        tagManifest.addTag(IModItem.MODEL_ID_PRESET.createTag(IModItem.MODEL_2_5D_ITEM));
+        tagManifest.addTag(IModItem.TEXTURE_LOCATION_PRESET.createTag(location));
+    }
+
+    public BasicItem(Identifier model_Id, Identifier id, ResourceLocation location) {
+        toolId = id;
+        toolResource = location;
+        tagManifest.addTag(IModItem.MODEL_ID_PRESET.createTag(model_Id));
+        tagManifest.addTag(IModItem.TEXTURE_LOCATION_PRESET.createTag(location));
+    }
+
+    @Override
+    public DataTagManifest getTagManifest() {
+        return tagManifest;
     }
 
     @Override

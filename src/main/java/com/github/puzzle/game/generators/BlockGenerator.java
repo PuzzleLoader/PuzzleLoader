@@ -5,7 +5,6 @@ import com.github.puzzle.core.Identifier;
 import com.github.puzzle.game.engine.blocks.BlockLoader;
 import com.github.puzzle.game.factories.IGenerator;
 import com.github.puzzle.game.oredict.tags.Tag;
-import finalforeach.cosmicreach.blocks.BlockState;
 
 import java.util.LinkedHashMap;
 import java.util.List;

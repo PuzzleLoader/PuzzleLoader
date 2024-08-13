@@ -21,7 +21,8 @@ public class DataTagManifest {
     }
 
     public <T> DataTag<T> getTag(DataTagPreset<T> tagPreset) {
-        return (DataTag<T>) tagMap.get(tagPreset.name);
+        Object value = tagMap.get(tagPreset.name);
+        return value != null ? (DataTag<T>) value : tagPreset.createTag(tagPreset.defaultAttribute.getValue());
     }
 
     public <T> DataTag<T> getTag(String name) {

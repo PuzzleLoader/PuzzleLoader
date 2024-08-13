@@ -25,10 +25,6 @@ import finalforeach.cosmicreach.world.Zone;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class PuzzleItemModel extends ItemModel {
     Texture texture;
@@ -60,7 +56,7 @@ public class PuzzleItemModel extends ItemModel {
 
         if (itemModelId.equals(IModItem.MODEL_2D_ITEM.toString()))
             buildMesh2D();
-        else if (itemModelId.equals(IModItem.MODEL_2D_ITEM.toString()))
+        else if (itemModelId.equals(IModItem.MODEL_2_5D_ITEM.toString()))
             buildMesh2_5D();
         else if (itemModelId.equals(IModItem.MODEL_USE_CUSTOM_MODEL.toString()))
             itemMeshes = item.getMesh();
@@ -79,6 +75,13 @@ public class PuzzleItemModel extends ItemModel {
             }
         }
         return newPixmap;
+    }
+
+    public VertexInfo vertex(float x, float y, float z, float u, float v) {
+        VertexInfo vertexInfo = new VertexInfo();
+        vertexInfo.setPos(new Vector3(x, y, z));
+        vertexInfo.setUV(new Vector2(u, v));
+        return vertexInfo;
     }
 
     Array<Mesh> itemMeshes;
@@ -174,58 +177,69 @@ public class PuzzleItemModel extends ItemModel {
         itemMeshes.add(builder.end());
     }
 
-    static class Rect {
-
-        int length, start, x, end;
-
-        public Rect(int length, int col, int start, int end) {
-            this.length = length;
-            this.start = start;
-            this.x = col;
-            this.end = end;
-        }
-
-        @Override
-        public String toString() {
-            return "Rect{ length:" + length + ", x:" + x + ", start:" + start + ", end:" + end + "}";
-        }
-    }
-
     public void buildExpandingMesh(MeshBuilder builder) {
         if (!pm.getFormat().equals(Pixmap.Format.RGBA8888)) return;
-        Map<Integer, List<Rect>> rectMap = new HashMap<>();
-        for (int x = 0; x < texture.getWidth(); x++) {
-            List<Rect> rects = new ArrayList<>();
+        float pixelSize = (1f / texture.getWidth()) * 2f;
 
-            int length = 0;
-            boolean lastPixelWasClear = true;
-            for (int y = 0; y < texture.getHeight(); y++) {
-                int alpha = (pm.getPixel(x, y) & 0x000000FF);
-                if (alpha != 0) {
-                    lastPixelWasClear = false;
-                    length++;
+        for (int y = texture.getHeight() - 1; y >= 0; y--) {
+            for (int x = 0; x < texture.getWidth(); x++) {
+                float u0 = (1f / texture.getWidth()) * x;
+                float v0 = (1f / texture.getHeight()) * y;
+                float u1 = ((1f / texture.getWidth()) * x) + (1f / texture.getWidth());
+                float v1 = ((1f / texture.getHeight()) * y) + (1f / texture.getHeight());
+                float startingPos = 1 + (x * -pixelSize);
+
+                boolean isAboveClear = y + 1 == texture.getHeight() || (pm.getPixel(x, y + 1) & 0x000000FF) == 0;
+                boolean isBelowClear = y == 0 || (pm.getPixel(x, y - 1) & 0x000000FF) == 0;
+
+                boolean isRightClear = x + 1 == texture.getWidth() || (pm.getPixel(x + 1, y) & 0x000000FF) == 0;
+                boolean isLeftClear = x == 0 || (pm.getPixel(x - 1, y) & 0x000000FF) == 0;
+
+                boolean isSolid = (pm.getPixel(x, y) & 0x000000FF) != 0;
+
+                // Left Faces
+                if (isLeftClear && isSolid) {
+                    VertexInfo topLeft0 = vertex(startingPos, (pixelSize * y) + pixelSize, (pixelSize / 2f), u1, v1);
+                    VertexInfo topRight0 = vertex(startingPos, (pixelSize * y) + pixelSize, ((pixelSize / 2f) - pixelSize), u1, v1);
+                    VertexInfo bottomLeft0 = vertex(startingPos, pixelSize * y, (pixelSize / 2f), u1, v0);
+                    VertexInfo bottomRight0 = vertex(startingPos, pixelSize * y, ((pixelSize / 2f) - pixelSize), u0, v0);
+
+                    builder.rect(topLeft0, bottomLeft0, bottomRight0, topRight0);
                 }
 
-                if (alpha == 0) {
-                    if (!lastPixelWasClear) {
-                        Rect rect = new Rect(length, x, y - length, y);
-                        System.out.println(rect);
-                        rects.add(rect);
-                        length = 0;
-                    }
-                    lastPixelWasClear = true;
+                // Right Faces
+                if (isRightClear && isSolid) {
+                    VertexInfo topLeft0 = vertex(startingPos - pixelSize, (pixelSize * y) + pixelSize, (pixelSize / 2f), u1, v1);
+                    VertexInfo topRight0 = vertex(startingPos - pixelSize, (pixelSize * y) + pixelSize, ((pixelSize / 2f) - pixelSize), u1, v1);
+                    VertexInfo bottomLeft0 = vertex(startingPos - pixelSize, pixelSize * y, (pixelSize / 2f), u1, v0);
+                    VertexInfo bottomRight0 = vertex(startingPos - pixelSize, pixelSize * y, ((pixelSize / 2f) - pixelSize), u0, v0);
+
+                    builder.rect(topLeft0, topRight0, bottomRight0, bottomLeft0);
                 }
 
-                if (y == texture.getHeight()-1) {
-                    Rect rect = new Rect(length, x, y - length, y);
-                    System.out.println(rect);
-                    rects.add(rect);
-                    length = 0;
+                float startingPos2 = (y * pixelSize);
+
+                // Top Faces
+                if (isAboveClear && isSolid) {
+                    VertexInfo topLeft0 = vertex((pixelSize * ((texture.getWidth() / 2f) - x)), startingPos2 + pixelSize, (pixelSize / 2f), u1, v1);
+                    VertexInfo topRight0 = vertex((pixelSize * ((texture.getWidth() / 2f) - x)), startingPos2 + pixelSize, ((pixelSize / 2f) - pixelSize), u1, v1);
+                    VertexInfo bottomLeft0 = vertex(pixelSize * ((texture.getWidth() / 2f) - x) - pixelSize, startingPos2 + pixelSize, (pixelSize / 2f), u1, v0);
+                    VertexInfo bottomRight0 = vertex(pixelSize * ((texture.getWidth() / 2f) - x) - pixelSize, startingPos2 + pixelSize, ((pixelSize / 2f) - pixelSize), u0, v0);
+
+                    builder.rect(topLeft0, topRight0, bottomRight0, bottomLeft0);
+                }
+
+                // Bottom Faces
+                if (isBelowClear && isSolid) {
+                    VertexInfo topLeft0 = vertex((pixelSize * ((texture.getWidth() / 2f) - x)), startingPos2, (pixelSize / 2f), u1, v1);
+                    VertexInfo topRight0 = vertex((pixelSize * ((texture.getWidth() / 2f) - x)), startingPos2, ((pixelSize / 2f) - pixelSize), u1, v1);
+                    VertexInfo bottomLeft0 = vertex(pixelSize * ((texture.getWidth() / 2f) - x) - pixelSize, startingPos2, (pixelSize / 2f), u1, v0);
+                    VertexInfo bottomRight0 = vertex(pixelSize * ((texture.getWidth() / 2f) - x) - pixelSize, startingPos2, ((pixelSize / 2f) - pixelSize), u0, v0);
+
+                    builder.rect(topLeft0, bottomLeft0, bottomRight0, topRight0);
                 }
             }
-            rectMap.put(x, rects);
         }
-
     }
 
     static final Color tintColor = new Color();
@@ -243,6 +257,7 @@ public class PuzzleItemModel extends ItemModel {
         this.shader.bindOptionalMatrix4("u_projViewTrans", camera.combined);
         this.shader.bindOptionalMatrix4("u_modelMat", matrix4);
         this.shader.bindOptionalUniform4f("tintColor", tintColor);
+//        this.shader.bindOptionalTexture("texDiffuse", TextureFaker.generateBorderedTexture(Color.OLIVE, Color.RED, 2, 16, 16), 0);
         this.shader.bindOptionalTexture("texDiffuse", texture, 0);
         for (Mesh itemMesh : itemMeshes) {
             itemMesh.render(shader.shader, GL20.GL_TRIANGLES);
@@ -290,7 +305,7 @@ public class PuzzleItemModel extends ItemModel {
         tmpHeldMat4.translate(-0.25F, -0.25F, -0.25F);
         if (swingTimer > 0.0F) {
             swing = swingTimer / maxSwingTimer;
-            swing = 1.0F - (float)Math.pow((double)(swing - 0.5F), 2.0) / 0.25F;
+            swing = 1.0F - (float)Math.pow(swing - 0.5F, 2.0) / 0.25F;
             tmpHeldMat4.rotate(Vector3.Z, 90.0F * swing);
             float st = -swing;
             tmpHeldMat4.translate(st * 2.0F, st, 0.0F);
@@ -310,7 +325,8 @@ public class PuzzleItemModel extends ItemModel {
 
     @Override
     public void renderAsItemEntity(Vector3 vector3, Camera camera, Matrix4 matrix4) {
-        matrix4.translate(0.5F, 0.5F, 0.5F);
+        matrix4.translate(0.5F, 0.2F, 0.5F);
+        matrix4.scale(0.7f, 0.7f, 0.7f);
         render(camera, matrix4, vector3, false);
     }
 

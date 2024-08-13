@@ -12,8 +12,8 @@ public class CheckBoard implements IModItem {
     DataTagManifest tagManifest = new DataTagManifest();
 
     public CheckBoard() {
-        tagManifest.addTag(NullStick.IS_DEBUG_ATTRIBUTE.createTag(true));
-        tagManifest.addTag(IModItem.MODEL_ID_PRESET.createTag(IModItem.MODEL_2D_ITEM));
+//        tagManifest.addTag(NullStick.IS_DEBUG_ATTRIBUTE.createTag(true));
+        tagManifest.addTag(IModItem.MODEL_ID_PRESET.createTag(IModItem.MODEL_2_5D_ITEM));
         tagManifest.addTag(IModItem.TEXTURE_LOCATION_PRESET.createTag(new ResourceLocation(Puzzle.MOD_ID, "textures/items/checker_board.png")));
     }
 

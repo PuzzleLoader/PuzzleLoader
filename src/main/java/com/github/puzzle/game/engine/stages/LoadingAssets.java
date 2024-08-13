@@ -11,9 +11,7 @@ import com.github.puzzle.game.engine.GameLoader;
 import com.github.puzzle.game.engine.LoadStage;
 import com.github.puzzle.game.events.OnLoadAssetsEvent;
 import com.github.puzzle.game.events.OnLoadAssetsFinishedEvent;
-import com.github.puzzle.game.items.IModItem;
 import de.pottgames.tuningfork.SoundBuffer;
-import finalforeach.cosmicreach.items.Item;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;

@@ -19,7 +19,6 @@ import finalforeach.cosmicreach.entities.player.Player;
 import finalforeach.cosmicreach.items.Item;
 import finalforeach.cosmicreach.items.ItemSlot;
 import finalforeach.cosmicreach.items.ItemStack;
-import finalforeach.cosmicreach.items.ItemThing;
 import finalforeach.cosmicreach.rendering.items.ItemModel;
 import finalforeach.cosmicreach.rendering.items.ItemRenderer;
 
