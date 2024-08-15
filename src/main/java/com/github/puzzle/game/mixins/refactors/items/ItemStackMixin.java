@@ -27,11 +27,6 @@ public class ItemStackMixin implements ITaggedStack {
         } catch (Exception ignore) {
             manifest = new DataTagManifest();
         }
-        manifest.addTag(new DataTag<>("p", new IntDataAttribute(69)));
-        manifest.addTag(new DataTag<>("q", new IntDataAttribute(69)));
-        manifest.addTag(new DataTag<>("a", new StringDataAttribute("Butt Sex")));
-        manifest.addTag(new DataTag<>("f", new IntDataAttribute(69)));
-        manifest.addTag(new DataTag<>("m", new IntDataAttribute(69)));
     }
 
     @Inject(method = "write", at = @At("TAIL"))
