@@ -4,45 +4,42 @@ import com.github.puzzle.game.items.data.DataTag;
 import finalforeach.cosmicreach.io.CRBinDeserializer;
 import finalforeach.cosmicreach.io.CRBinSerializer;
 
-public class LongDataAttribute implements DataTag.DataTagAttribute<Long> {
+public class StringDataAttribute implements DataTag.DataTagAttribute<String> {
 
-    long data;
+    String data;
 
-    public LongDataAttribute(long data) {
-        this.data = data;
-    }
-
-    public LongDataAttribute(Long data) {
+    public StringDataAttribute(String data) {
         this.data = data;
     }
 
     @Override
-    public void setValue(Long value) {
+    public void setValue(String value) {
         this.data = value;
     }
 
     @Override
-    public Long getValue() {
+    public String getValue() {
         return data;
     }
 
     @Override
-    public DataTag.DataTagAttribute<Long> copyAndSetValue(Long value) {
-        return new LongDataAttribute(value);
+    public DataTag.DataTagAttribute<String> copyAndSetValue(String value) {
+        return new StringDataAttribute(value);
     }
 
     @Override
     public String getFormattedString() {
-        return Long.toString(data);
+        return data;
     }
 
     @Override
     public void read(CRBinDeserializer crBinDeserializer) {
-        this.data = crBinDeserializer.readLong("data_value", 0);
+        this.data = crBinDeserializer.readString("data_value");
     }
 
     @Override
     public void write(CRBinSerializer crBinSerializer) {
-        crBinSerializer.writeLong("data_value", data);
+        crBinSerializer.writeString("data_value", data);
     }
+
 }

@@ -1,6 +1,7 @@
 package com.github.puzzle.game.mixins.refactors.items;
 
 import com.github.puzzle.game.items.IModItem;
+import com.github.puzzle.game.loot.PuzzleLootTable;
 import finalforeach.cosmicreach.items.ItemSlot;
 import finalforeach.cosmicreach.items.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;

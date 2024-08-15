@@ -1,6 +1,8 @@
 package com.github.puzzle.game.items.data.attributes;
 
 import com.github.puzzle.game.items.data.DataTag;
+import finalforeach.cosmicreach.io.CRBinDeserializer;
+import finalforeach.cosmicreach.io.CRBinSerializer;
 
 public class DoubleDataAttribute implements DataTag.DataTagAttribute<Double> {
 
@@ -27,6 +29,21 @@ public class DoubleDataAttribute implements DataTag.DataTagAttribute<Double> {
     @Override
     public DataTag.DataTagAttribute<Double> copyAndSetValue(Double value) {
         return new DoubleDataAttribute(value);
+    }
+
+    @Override
+    public String getFormattedString() {
+        return Double.toString(data);
+    }
+
+    @Override
+    public void read(CRBinDeserializer crBinDeserializer) {
+        this.data = crBinDeserializer.readDoubleArray("data_value")[0];
+    }
+
+    @Override
+    public void write(CRBinSerializer crBinSerializer) {
+        crBinSerializer.writeDoubleArray("data_value", new double[]{data});
     }
 
 }

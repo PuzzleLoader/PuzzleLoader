@@ -3,6 +3,7 @@ package com.github.puzzle.game.loot;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.github.puzzle.core.Identifier;
+import com.github.puzzle.core.PuzzleRegistries;
 import com.llamalad7.mixinextras.lib.apache.commons.tuple.ImmutablePair;
 import com.llamalad7.mixinextras.lib.apache.commons.tuple.Pair;
 import finalforeach.cosmicreach.blocks.BlockState;
@@ -12,6 +13,8 @@ import finalforeach.cosmicreach.items.ItemStack;
 import finalforeach.cosmicreach.items.loot.Loot;
 import finalforeach.cosmicreach.items.loot.LootOption;
 import finalforeach.cosmicreach.world.Zone;
+import org.hjson.JsonObject;
+import org.hjson.JsonValue;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,7 +28,68 @@ import java.util.List;
  */
 public class PuzzleLootTable {
 
-    public PuzzleLootTable() {
+    public static final PuzzleLootTable EMPTY = new PuzzleLootTable(new Identifier("base", "empty_loot_table"));
+
+    public static PuzzleLootTable registerLootTable(Identifier id, PuzzleLootTable lootTable) {
+        PuzzleRegistries.LOOT_TABLES.store(id, lootTable);
+        return lootTable;
+    }
+
+    public static PuzzleLootTable getLootTable(Identifier id) {
+        PuzzleLootTable lootTable = PuzzleRegistries.LOOT_TABLES.get(id);
+        if (lootTable == null) return EMPTY;
+        return lootTable;
+    }
+
+    public static PuzzleLootTable readLootTable(String jsonStr) {
+        JsonObject object = JsonObject.readHjson(jsonStr).asObject();
+        PuzzleLootTable lootTable = new PuzzleLootTable(Identifier.fromString(object.getString("id", "base:empty_loot_table")));
+        for (JsonValue value : object.get("options").asArray()) {
+            JsonObject option = value.asObject();
+            float weight = option.getFloat("weight", 100);
+            List<LootDrop> drops = new ArrayList<>();
+            if (option.get("drop") != null) {
+                JsonObject drop = object.get("drop").asObject();
+
+                String type = drop.getString("type", "blockstate");
+                String dropId = drop.getString("id", "base:debug[default]").strip();
+                dropId = dropId.isEmpty() ? "base:debug[default]" : dropId;
+                dropId = type.equals("item") ? "base:medkit" : dropId;
+
+                Identifier id = Identifier.fromString(dropId);
+                int min = Math.min(drop.getInt("min", 1), 1);
+                int max = drop.getInt("max", 10);
+                switch (type) {
+                    case "blockstate": drops.add(new LootDrop(BlockState.getInstance(id.toString()).getItem(), min, max));
+                    case "item": drops.add(new LootDrop(Item.getItem(id.toString()), min, max));
+                }
+            } else if (option.get("drops") != null) {
+                for (JsonValue value1 : option.get("drops").asArray()) {
+                    JsonObject drop = value1.asObject();
+
+                    String type = drop.getString("type", "blockstate");
+                    String dropId = drop.getString("id", "base:debug[default]").strip();
+                    dropId = dropId.isEmpty() ? "base:debug[default]" : dropId;
+                    dropId = type.equals("item") ? "base:medkit" : dropId;
+
+                    Identifier id = Identifier.fromString(dropId);
+                    int min = Math.min(drop.getInt("min", 1), 1);
+                    int max = drop.getInt("max", 10);
+                    switch (type) {
+                        case "blockstate": drops.add(new LootDrop(BlockState.getInstance(id.toString()).getItem(), min, max));
+                        case "item": drops.add(new LootDrop(Item.getItem(id.toString()), min, max));
+                    }
+                }
+            }
+            lootTable.addDrop(weight, drops.toArray(new LootDrop[0]));
+        }
+        return lootTable;
+    }
+
+    public final Identifier id;
+
+    public PuzzleLootTable(Identifier id) {
+        this.id = id;
     }
 
     /**
@@ -40,7 +104,7 @@ public class PuzzleLootTable {
     public static @NotNull Pair<Identifier, PuzzleLootTable> fromVanillaTable(@NotNull Loot loot) {
         Identifier lootId = Identifier.fromString(loot.lootId);
 
-        PuzzleLootTable table = new PuzzleLootTable();
+        PuzzleLootTable table = new PuzzleLootTable(lootId);
         for (LootOption option : loot.options) {
             LootDrop[] drops = new LootDrop[option.lootStacks.length];
             for (int i = 0; i < option.lootStacks.length; i++) {

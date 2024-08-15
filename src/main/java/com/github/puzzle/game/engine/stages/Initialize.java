@@ -54,6 +54,5 @@ public class Initialize extends LoadStage {
         });
 
         PuzzleRegistries.EVENT_BUS.post(new OnRegisterLanguageEvent());
-
     }
 }

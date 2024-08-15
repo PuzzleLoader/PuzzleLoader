@@ -261,7 +261,6 @@ public class PuzzleItemModel extends ItemModel {
         this.shader.bindOptionalMatrix4("u_projViewTrans", camera.combined);
         this.shader.bindOptionalMatrix4("u_modelMat", matrix4);
         this.shader.bindOptionalUniform4f("tintColor", tintColor);
-//        this.shader.bindOptionalTexture("texDiffuse", TextureFaker.generateBorderedTexture(Color.OLIVE, Color.RED, 2, 16, 16), 0);
         this.shader.bindOptionalTexture("texDiffuse", texture, 0);
         for (Mesh itemMesh : itemMeshes) {
             itemMesh.render(shader.shader, GL20.GL_TRIANGLES);

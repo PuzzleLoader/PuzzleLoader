@@ -1,6 +1,8 @@
 package com.github.puzzle.game.items.data.attributes;
 
 import com.github.puzzle.game.items.data.DataTag;
+import finalforeach.cosmicreach.io.CRBinDeserializer;
+import finalforeach.cosmicreach.io.CRBinSerializer;
 
 public class IntDataAttribute implements DataTag.DataTagAttribute<Integer> {
 
@@ -29,4 +31,18 @@ public class IntDataAttribute implements DataTag.DataTagAttribute<Integer> {
         return new IntDataAttribute(value);
     }
 
+    @Override
+    public String getFormattedString() {
+        return Integer.toString(data);
+    }
+
+    @Override
+    public void read(CRBinDeserializer crBinDeserializer) {
+        this.data = crBinDeserializer.readInt("data_value", 0);
+    }
+
+    @Override
+    public void write(CRBinSerializer crBinSerializer) {
+        crBinSerializer.writeInt("data_value", data);
+    }
 }

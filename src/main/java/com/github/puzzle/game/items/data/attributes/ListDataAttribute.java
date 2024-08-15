@@ -1,7 +1,10 @@
 package com.github.puzzle.game.items.data.attributes;
 
 import com.github.puzzle.game.items.data.DataTag;
+import finalforeach.cosmicreach.io.CRBinDeserializer;
+import finalforeach.cosmicreach.io.CRBinSerializer;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class ListDataAttribute<T> implements DataTag.DataTagAttribute<List<T>> {
@@ -27,4 +30,18 @@ public class ListDataAttribute<T> implements DataTag.DataTagAttribute<List<T>> {
         return new ListDataAttribute<>(value);
     }
 
+    @Override
+    public String getFormattedString() {
+        return Arrays.toString(data.toArray());
+    }
+
+    @Override
+    public void read(CRBinDeserializer crBinDeserializer) {
+        throw new RuntimeException("List data attribute not supported for DataTag serialization!");
+    }
+
+    @Override
+    public void write(CRBinSerializer crBinSerializer) {
+        throw new RuntimeException("List data attribute not supported for DataTag serialization!");
+    }
 }

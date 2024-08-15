@@ -35,4 +35,5 @@ public class PuppetLootClass extends Loot {
     public void addOption(float weight, BlockState blockState, int min, int max) {
         throw new RuntimeException("The method \"addOption(float weight, BlockState blockState, int min, int max)\" is not implemented");
     }
+
 }

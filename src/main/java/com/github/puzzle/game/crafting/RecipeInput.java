@@ -72,4 +72,10 @@ public class RecipeInput {
         return new ItemStack(item, count);
     }
 
+    @Override
+    public String toString() {
+        if (isTag()) return "{ \"count\": \""+count+"\", \"item\":\""+tag.toString()+"\" }";
+        return "{ \"count\": \""+count+"\", \"item\":\""+item.getID()+"\" }";
+    }
+
 }

@@ -5,20 +5,29 @@ import com.github.puzzle.core.localization.LanguageManager;
 import com.github.puzzle.core.localization.files.LanguageFileVersion1;
 import com.github.puzzle.core.resources.ResourceLocation;
 import com.github.puzzle.game.Globals;
+import com.github.puzzle.game.commands.CommandManager;
+import com.github.puzzle.game.commands.PuzzleCommandSource;
 import com.github.puzzle.game.engine.shaders.ItemShader;
 import com.github.puzzle.game.items.IModItem;
+import com.github.puzzle.game.items.data.DataTagManifest;
 import com.github.puzzle.game.items.impl.BasicItem;
 import com.github.puzzle.game.items.impl.BasicTool;
 import com.github.puzzle.game.items.puzzle.BlockWrench;
 import com.github.puzzle.game.items.puzzle.CheckBoard;
 import com.github.puzzle.game.items.puzzle.NullStick;
 import com.github.puzzle.game.oredict.tags.BuiltInTags;
+import com.github.puzzle.game.util.DataTagUtil;
 import com.github.puzzle.loader.entrypoint.interfaces.ModInitializer;
 import com.github.puzzle.loader.entrypoint.interfaces.PostModInitializer;
 import com.github.puzzle.loader.entrypoint.interfaces.PreModInitializer;
 import com.github.puzzle.loader.launch.PuzzleClassLoader;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import finalforeach.cosmicreach.Threads;
 import finalforeach.cosmicreach.blocks.Block;
+import finalforeach.cosmicreach.chat.Chat;
+import finalforeach.cosmicreach.gamestates.InGame;
+import finalforeach.cosmicreach.items.ItemSlot;
+import finalforeach.cosmicreach.ui.UI;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -65,6 +74,33 @@ public class Puzzle implements PreModInitializer, ModInitializer, PostModInitial
     @Override
     public void onInit() {
         Threads.runOnMainThread(ItemShader::initItemShader);
+
+        LiteralArgumentBuilder<PuzzleCommandSource> getAttributes = CommandManager.literal("getattributes");
+        getAttributes.executes(context -> {
+            if (UI.hotbar != null && UI.hotbar.getSelectedSlot() != null) {
+                ItemSlot slot = UI.hotbar.getSelectedSlot();
+                if (slot.itemStack == null) return 0;
+                DataTagManifest manifest = DataTagUtil.getManifestFromStack(slot.itemStack);
+                Chat.MAIN_CHAT.sendMessage(InGame.world, InGame.getLocalPlayer(), null, manifest.toString());
+            }
+            return 0;
+        });
+        CommandManager.dispatcher.register(getAttributes);
+
+        LiteralArgumentBuilder<PuzzleCommandSource> getItemAttribs = CommandManager.literal("getitemattributes");
+        getItemAttribs.executes(context -> {
+            if (UI.hotbar != null && UI.hotbar.getSelectedSlot() != null) {
+                ItemSlot slot = UI.hotbar.getSelectedSlot();
+                if (slot.itemStack == null) return 0;
+                if (slot.itemStack.getItem() instanceof IModItem item) {
+                    Chat.MAIN_CHAT.sendMessage(InGame.world, InGame.getLocalPlayer(), null, item.getTagManifest().toString());
+                    return 0;
+                }
+                Chat.MAIN_CHAT.sendMessage(InGame.world, InGame.getLocalPlayer(), null, "Not a ModItem");
+            }
+            return 0;
+        });
+        CommandManager.dispatcher.register(getItemAttribs);
 
         DebugStick = IModItem.registerItem(new NullStick());
         CheckerBoard = IModItem.registerItem(new CheckBoard());

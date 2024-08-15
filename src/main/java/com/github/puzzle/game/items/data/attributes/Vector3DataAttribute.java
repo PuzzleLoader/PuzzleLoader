@@ -1,7 +1,10 @@
 package com.github.puzzle.game.items.data.attributes;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.github.puzzle.game.items.data.DataTag;
+import finalforeach.cosmicreach.io.CRBinDeserializer;
+import finalforeach.cosmicreach.io.CRBinSerializer;
 
 public class Vector3DataAttribute implements DataTag.DataTagAttribute<Vector3> {
 
@@ -24,6 +27,27 @@ public class Vector3DataAttribute implements DataTag.DataTagAttribute<Vector3> {
     @Override
     public DataTag.DataTagAttribute<Vector3> copyAndSetValue(Vector3 value) {
         return new Vector3DataAttribute(value);
+    }
+
+    @Override
+    public String getFormattedString() {
+        return data.toString();
+    }
+
+    @Override
+    public void read(CRBinDeserializer crBinDeserializer) {
+        Vector3 vector = new Vector3();
+        vector.x = crBinDeserializer.readFloat("data_value_x", 0);
+        vector.y = crBinDeserializer.readFloat("data_value_y", 0);
+        vector.z = crBinDeserializer.readFloat("data_value_z", 0);
+        this.data = vector;
+    }
+
+    @Override
+    public void write(CRBinSerializer crBinSerializer) {
+        crBinSerializer.writeFloat("data_value_x", data.x);
+        crBinSerializer.writeFloat("data_value_y", data.y);
+        crBinSerializer.writeFloat("data_value_z", data.z);
     }
 
 }

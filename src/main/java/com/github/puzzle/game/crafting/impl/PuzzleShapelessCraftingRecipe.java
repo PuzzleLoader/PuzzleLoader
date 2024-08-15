@@ -10,8 +10,8 @@ import finalforeach.cosmicreach.items.Item;
 import finalforeach.cosmicreach.items.ItemStack;
 import org.hjson.JsonObject;
 import org.hjson.JsonValue;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,7 +19,7 @@ import java.util.Map;
 
 public class PuzzleShapelessCraftingRecipe implements IPuzzleCraftingRecipe {
 
-    Identifier recipeType = new Identifier(Puzzle.MOD_ID, "shaped_crafting");
+    Identifier recipeType = new Identifier("base", "shaped_crafting");
 
     RecipeInput[] inputs;
     ItemStack result;
@@ -61,7 +61,7 @@ public class PuzzleShapelessCraftingRecipe implements IPuzzleCraftingRecipe {
     }
 
     private boolean match(List<ItemStack> stacks) {
-        Map<Integer, Boolean> matchedSlotNumbers = new HashMap();
+        Map<Integer, Boolean> matchedSlotNumbers = new HashMap<>();
 
         for (int inputNum = 0; inputNum < inputs.length; inputNum++) {
             RecipeInput input = inputs[0];
@@ -97,7 +97,7 @@ public class PuzzleShapelessCraftingRecipe implements IPuzzleCraftingRecipe {
         @Override
         public PuzzleShapelessCraftingRecipe readRecipe(JsonObject object) {
             PuzzleShapelessCraftingRecipe recipe = new PuzzleShapelessCraftingRecipe();
-            recipe.recipeType = Identifier.fromString(object.getString("type", Puzzle.MOD_ID + ":"));
+            recipe.recipeType = Identifier.fromString(object.getString("type", "base:invalid_recipe"));
 
             List<RecipeInput> recipeInputs = new ArrayList<>();
             for (JsonValue ingredient : object.get("ingredients").asArray()) {
@@ -118,7 +118,20 @@ public class PuzzleShapelessCraftingRecipe implements IPuzzleCraftingRecipe {
 
         @Override
         public String writeRecipeToJson(PuzzleShapelessCraftingRecipe recipe) {
-            return "";
+            StringBuilder builder = new StringBuilder();
+            builder.append("{ \"type\": \"" + recipe.recipeType + "\", ");
+            builder.append("\"ingredients\": [");
+            for (int i = 0; i < recipe.inputs.length; i++) {
+                RecipeInput input = recipe.inputs[i];
+                builder.append(input.toString());
+                if (i < recipe.inputs.length - 1) {
+                    builder.append(", ");
+                }
+            }
+            builder.append("]");
+            builder.append("\"result\": { \"count\": \""+recipe.result.amount+"\", \"id\":\""+recipe.result.getItem().getID()+"\" }}");
+            return builder.toString();
         }
     }
 }
+

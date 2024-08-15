@@ -6,19 +6,24 @@ import com.github.puzzle.game.crafting.IPuzzleCraftingRecipe;
 import com.github.puzzle.game.crafting.IRecipeSerializer;
 import com.github.puzzle.game.crafting.RecipeInput;
 import com.github.puzzle.game.oredict.tags.Tag;
+import com.llamalad7.mixinextras.lib.apache.commons.tuple.ImmutablePair;
+import com.llamalad7.mixinextras.lib.apache.commons.tuple.Pair;
 import finalforeach.cosmicreach.items.Item;
 import finalforeach.cosmicreach.items.ItemStack;
 import org.hjson.JsonArray;
 import org.hjson.JsonObject;
 import org.hjson.JsonValue;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PuzzleShapedCraftingRecipe implements IPuzzleCraftingRecipe {
 
-    Identifier recipeType = new Identifier(Puzzle.MOD_ID, "shaped_crafting");
+    Identifier recipeType = new Identifier("base", "shaped_crafting");
+    Map<String, RecipeInput> symbolTable = new HashMap<>();
 
     RecipeInput[] inputs;
     ItemStack result;
@@ -72,14 +77,17 @@ public class PuzzleShapedCraftingRecipe implements IPuzzleCraftingRecipe {
         @Override
         public PuzzleShapedCraftingRecipe readRecipe(JsonObject object) {
             PuzzleShapedCraftingRecipe recipe = new PuzzleShapedCraftingRecipe();
-            recipe.recipeType = Identifier.fromString(object.getString("type", Puzzle.MOD_ID + ":"));
-            recipe.inputs = patternToRecipe(object.get("pattern").asArray(), object.get("key").asObject());
+            recipe.recipeType = Identifier.fromString(object.getString("type", "base:invalid_recipe"));
+            Pair<Map<String, RecipeInput>, RecipeInput[]> inputs = patternToRecipe(object.get("pattern").asArray(), object.get("key").asObject());
+            recipe.inputs = inputs.getRight();
+            recipe.symbolTable = inputs.getLeft();
             recipe.result = new ItemStack(Item.getItem(object.getString("id", "base:air")), object.getInt("count", 1));
             return recipe;
         }
 
-        public RecipeInput[] patternToRecipe(JsonArray patterns, JsonObject keys) {
+        public Pair<Map<String, RecipeInput>, RecipeInput[]> patternToRecipe(JsonArray patterns, JsonObject keys) {
             List<RecipeInput> recipeInputs = new ArrayList<>();
+            Map<String, RecipeInput> symbolTable = new HashMap<>();
 
             for (JsonValue pattern : patterns) {
                 for (char chr : pattern.asString().toCharArray()) {
@@ -91,17 +99,37 @@ public class PuzzleShapedCraftingRecipe implements IPuzzleCraftingRecipe {
                         if (Tag.tagExist(item)) {
                             input = new RecipeInput(Tag.of(item), count);
                         } else input = new RecipeInput(Item.getItem(item), count);
+                        symbolTable.put(String.valueOf(chr), input);
                         recipeInputs.add(input);
                     }
                 }
             }
 
-            return recipeInputs.toArray(new RecipeInput[0]);
+            return new ImmutablePair<>(symbolTable, recipeInputs.toArray(new RecipeInput[0]));
         }
 
         @Override
         public String writeRecipeToJson(PuzzleShapedCraftingRecipe recipe) {
-            return "";
+            StringBuilder builder = new StringBuilder();
+            builder.append("{ \"type\": \"" + recipe.recipeType + "\", ");
+            builder.append("\"pattern\": [");
+            String[] keyset = recipe.symbolTable.keySet().toArray(new String[0]);
+            builder.append("\"" + keyset[0] + keyset[1] + keyset[2] + "\", ");
+            builder.append("\"" + keyset[3] + keyset[4] + keyset[5] + "\", ");
+            builder.append("\"" + keyset[6] + keyset[7] + keyset[8] + "\" ], ");
+
+            builder.append("\"key\": {");
+            for (int i = 0; i < recipe.symbolTable.keySet().size(); i++) {
+                String key = recipe.symbolTable.keySet().toArray(new String[0])[i];
+                RecipeInput input = recipe.symbolTable.values().toArray(new RecipeInput[0])[i];
+                builder.append("\"" + key + "\": " + input.toString());
+                if (i < recipe.symbolTable.keySet().size() - 1) {
+                    builder.append(", ");
+                }
+            }
+            builder.append("},");
+            builder.append("\"result\": { \"count\": \""+recipe.result.amount+"\", \"id\":\""+recipe.result.getItem().getID()+"\" }}");
+            return builder.toString();
         }
     }
 }
