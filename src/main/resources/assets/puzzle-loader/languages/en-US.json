@@ -28,7 +28,8 @@
                 "ok": "Ok",
                 "done": "Done",
                 "return_to_main_menu": "Return to Main Menu",
-                "return_to_game": "Return to Game"
+                "return_to_game": "Return to Game",
+                "mods": "Mods"
             },
             "loading_menu": {
                 "ram_usage": "Memory Used/Total: {usage}MB/{total}MB",
