@@ -62,6 +62,7 @@ public interface IModItem extends Item {
     default void use(ItemSlot slot, Player player) {
     }
 
+
     /**
      * This is a method that makes your item usable by the player.
      *
@@ -99,7 +100,7 @@ public interface IModItem extends Item {
      */
     @Deprecated
     default int getDefaultStackLimit() {
-        return 1000;
+        return getMaxStackSize();
     }
 
     /**

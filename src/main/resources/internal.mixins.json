@@ -23,7 +23,6 @@
     "entrypoint.PreGameLaunchInit",
     "items.InGameMixin",
     "items.ItemCatalogMixin",
-    "items.ItemSlotMixin",
     "items.ItemStackMixin",
     "loot.LootTableMixin",
     "ui.OptionsMixin",

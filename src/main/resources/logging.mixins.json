@@ -1,15 +1,15 @@
 {
   "required": false,
   "minVersion": "0.8",
-  "package": "com.github.puzzle.game.mixins.refactors",
+  "package": "com.github.puzzle.game.mixins.refactors.logging",
   "plugin": "com.github.puzzle.loader.launch.internal.mixinextras.MixinExtrasConfigPlugin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "logging.BlockGameMixin",
-    "logging.GameShaderMixin",
-    "logging.GameStateMixin",
-    "logging.LLwjgl3ApplicationLoggerMixin",
-    "logging.Lwjgl3LauncherMixin"
+    "BlockGameMixin",
+    "GameShaderMixin",
+    "GameStateMixin",
+    "LLwjgl3ApplicationLoggerMixin",
+    "Lwjgl3LauncherMixin"
   ],
   "client": [],
   "server": [],
