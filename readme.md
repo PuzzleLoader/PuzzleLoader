@@ -4,7 +4,7 @@ The new and improved modloader for Cosmic Reach.
 
 ### Credits
 - [Nanobass](https://github.com/Nanobass), for the Flux-Entites & Flux v6/7 internals that puzzle uses as its api (with a few changes ofc)
-- [Mojang](https://github.com/Mojang), for the base functionalities of [LegacyLauncher aka LaunchWrapper](https://github.com/Mojang/LegacyLauncher) used before it was refactored into oblivion.
+- [CPW](https://github.com/cpw), for the base functionalities of [LegacyLauncher aka LaunchWrapper](https://github.com/Mojang/LegacyLauncher) used before it was refactored into oblivion.
 
 ## Adding to your projects
 look at [jitpack](https://jitpack.io/#PuzzleLoader/PuzzleLoader) for adding this to your project or look at the example mods </br>
