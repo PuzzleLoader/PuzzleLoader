@@ -15,7 +15,6 @@ public class ClientSingletonsMixin {
 
     @Inject(method = "create",at = @At(value = "FIELD", target = "Lfinalforeach/cosmicreach/GameSingletons;soundManager:Lfinalforeach/cosmicreach/ISoundManager;",shift = At.Shift.BEFORE))
     private static void rendererFromSettings(CallbackInfo ci){
-
         GameSingletons.zoneRenderer.unload();
 
         for(var renderer : Globals.renderers){

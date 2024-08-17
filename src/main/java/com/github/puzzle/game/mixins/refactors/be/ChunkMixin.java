@@ -1,12 +1,9 @@
 package com.github.puzzle.game.mixins.refactors.be;
 
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.utils.IntMap;
 import com.github.puzzle.game.blockentities.ExtendedBlockEntity;
 import com.github.puzzle.game.blockentities.INeighborUpdateListener;
 import com.github.puzzle.game.blockentities.IRenderable;
-import com.github.puzzle.game.blockentities.ITickable;
-import com.github.puzzle.game.mixins.accessors.Point3DMapAccessor;
 import com.github.puzzle.game.util.DirectionUtil;
 import com.llamalad7.mixinextras.sugar.Local;
 import finalforeach.cosmicreach.blockentities.BlockEntity;
@@ -24,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(Chunk.class)
-public abstract class ChunkMixin implements ITickable, IRenderable {
+public abstract class ChunkMixin implements IRenderable {
     @Shadow
     IPoint3DMap<BlockEntity> blockEntities;
 
@@ -41,25 +38,6 @@ public abstract class ChunkMixin implements ITickable, IRenderable {
     @Shadow public int chunkY;
 
     @Shadow public int chunkZ;
-
-    @Override
-    public void onTick(float tps) {
-        if(blockEntities != null)
-            for (int x = 0; x < Chunk.CHUNK_WIDTH; x++) {
-                for (int y = 0; y < Chunk.CHUNK_WIDTH; y++) {
-                    for (int z = 0; z < Chunk.CHUNK_WIDTH; z++) {
-                        if (blockEntities.get(x, y, z) instanceof ITickable tickable) {
-                            tickable.onTick(tps);
-                        }
-                    }
-                }
-            }
-//            blockEntities.forEach(entity -> {
-//                if(entity instanceof ITickable tickable) {
-//                    tickable.onTick(tps);
-//                }
-//            });
-    }
 
     @Override
     public void onRender(Camera camera) {
