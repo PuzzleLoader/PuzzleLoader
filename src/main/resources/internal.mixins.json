@@ -25,6 +25,8 @@
     "items.ItemCatalogMixin",
     "items.ItemStackMixin",
     "loot.LootTableMixin",
+    "ui.MainMenuMixin",
+    "ui.OptionsMixin",
     "ui.OptionsMixin2",
     "window.IconMixin",
     "window.TitleMixin"
