@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.github.puzzle.game.ui.CosmicReachFont;
+import com.github.puzzle.game.ui.font.CosmicReachFont;
 import finalforeach.cosmicreach.gamestates.GameState;
 import finalforeach.cosmicreach.io.SaveLocation;
 import finalforeach.cosmicreach.ui.UIElement;

@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.github.puzzle.core.Identifier;
 import com.github.puzzle.core.PuzzleRegistries;
 import com.github.puzzle.core.localization.files.MergedLanguageFile;
-import com.github.puzzle.game.ui.TranslationParameters;
+import com.github.puzzle.game.ui.font.TranslationParameters;
 import finalforeach.cosmicreach.lang.Lang;
 import finalforeach.cosmicreach.settings.Preferences;
 import org.jetbrains.annotations.NotNull;

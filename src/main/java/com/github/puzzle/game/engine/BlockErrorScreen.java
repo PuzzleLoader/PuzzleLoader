@@ -13,7 +13,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.puzzle.game.block.DataModBlock;
 import com.github.puzzle.game.engine.blocks.BlockLoadException;
 import com.github.puzzle.game.engine.blocks.BlockLoader;
-import com.github.puzzle.game.ui.CosmicReachFont;
+import com.github.puzzle.game.ui.font.CosmicReachFont;
 import finalforeach.cosmicreach.gamestates.GameState;
 import finalforeach.cosmicreach.io.SaveLocation;
 import finalforeach.cosmicreach.ui.UIElement;

@@ -1,4 +1,4 @@
-package com.github.puzzle.game.ui;
+package com.github.puzzle.game.ui.font;
 
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;

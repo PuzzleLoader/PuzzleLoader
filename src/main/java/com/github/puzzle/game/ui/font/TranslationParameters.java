@@ -1,4 +1,4 @@
-package com.github.puzzle.game.ui;
+package com.github.puzzle.game.ui.font;
 
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.github.puzzle.core.localization.TranslationKey;
