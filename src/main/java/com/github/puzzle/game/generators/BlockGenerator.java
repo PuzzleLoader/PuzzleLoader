@@ -1,6 +1,7 @@
 package com.github.puzzle.game.generators;
 
 import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.ObjectIntMap;
 import com.github.puzzle.core.Identifier;
 import com.github.puzzle.game.engine.blocks.BlockLoader;
 import com.github.puzzle.game.factories.IGenerator;
@@ -50,6 +51,8 @@ public class BlockGenerator implements IGenerator {
 
         public String swapGroupId;
         public String dropId;
+
+        ObjectIntMap<String> intProperties = new ObjectIntMap();
 
     }
 

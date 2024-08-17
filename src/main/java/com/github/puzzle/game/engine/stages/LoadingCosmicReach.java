@@ -27,7 +27,7 @@ import com.github.puzzle.loader.mod.ModLocator;
 import finalforeach.cosmicreach.blockentities.BlockEntityCreator;
 import finalforeach.cosmicreach.blockevents.BlockEvents;
 import finalforeach.cosmicreach.io.SaveLocation;
-import finalforeach.cosmicreach.items.CraftingRecipes;
+import finalforeach.cosmicreach.items.recipes.CraftingRecipes;
 import finalforeach.cosmicreach.items.ItemThing;
 import finalforeach.cosmicreach.items.loot.Loot;
 import org.greenrobot.eventbus.Subscribe;
@@ -121,8 +121,6 @@ public class LoadingCosmicReach extends LoadStage {
             progress += 1;
         }
 
-        BlockEntityCreator.registerBlockEntityCreators();
-
         BlockEvents.registerBlockEventAction(OnPlaceTrigger.class);
         BlockEvents.registerBlockEventAction(OnBreakTrigger.class);
         BlockEvents.registerBlockEventAction(OnInteractTrigger.class);
@@ -180,6 +178,7 @@ public class LoadingCosmicReach extends LoadStage {
         tasks.add(ItemThing::loadAll);
         tasks.add(Loot::loadLoot);
         tasks.add(CraftingRecipes::loadCraftingRecipes);
+        tasks.add(BlockEntityCreator::registerBlockEntityCreators);
 
         return tasks;
     }

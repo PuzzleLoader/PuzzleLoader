@@ -56,4 +56,15 @@ public class BasicItem implements IModItem {
     public boolean isCatalogHidden() {
         return false;
     }
+
+    @Override
+    public boolean hasIntProperty(String s) {
+        return tagManifest.hasTag(s);
+    }
+
+    @Override
+    public int getIntProperty(String s, int i) {
+        if (tagManifest.hasTag(s)) return (int) tagManifest.getTag(s).getValue();
+        return i;
+    }
 }

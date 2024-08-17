@@ -41,7 +41,6 @@ public class DataTagManifest implements ICRBinSerializable {
         return (DataTag<T>) tagMap.get(name);
     }
 
-
     @Override
     public void read(CRBinDeserializer crBinDeserializer) {
         String[] keys = crBinDeserializer.readStringArray("data_manifest_keys");

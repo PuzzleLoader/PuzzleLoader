@@ -1,13 +1,10 @@
 package com.github.puzzle.game.mixins.refactors.ui;
 
-import com.github.puzzle.core.localization.Language;
 import com.github.puzzle.core.localization.LanguageManager;
 import com.github.puzzle.core.localization.TranslationKey;
 import com.github.puzzle.game.ui.ModMenu;
 import finalforeach.cosmicreach.gamestates.GameState;
-import finalforeach.cosmicreach.gamestates.LanguagesMenu;
 import finalforeach.cosmicreach.gamestates.MainMenu;
-import finalforeach.cosmicreach.lang.Lang;
 import finalforeach.cosmicreach.ui.HorizontalAnchor;
 import finalforeach.cosmicreach.ui.UIElement;
 import org.spongepowered.asm.mixin.Mixin;
@@ -15,8 +12,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
-
-import static com.github.puzzle.game.Globals.SelectedLanguage;
 
 @Mixin(MainMenu.class)
 public class MainMenuMixin extends GameState{

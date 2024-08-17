@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(GameSingletons.class)
 public class GameSingletonsMixin {
 
-    @Inject(method = "postCreate", at = @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/Threads;runOnMainThread(Ljava/lang/Runnable;)V", shift = At.Shift.BEFORE), cancellable = true)
+    @Inject(method = "postCreate", at = @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/blockentities/BlockEntityCreator;registerBlockEntityCreators()V", shift = At.Shift.BEFORE), cancellable = true)
     private static void postCreate(CallbackInfo ci) {
         GameState.switchToGameState(new GameLoader());
         ci.cancel();

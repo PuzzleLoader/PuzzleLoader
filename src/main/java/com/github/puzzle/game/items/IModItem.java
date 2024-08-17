@@ -191,5 +191,15 @@ public interface IModItem extends Item {
         return new DataTagManifest();
     }
 
+    default boolean hasIntProperty(String s) {
+        if (getTagManifest() == null) return false;
+        return getTagManifest().hasTag(s);
+    }
+
+    default int getIntProperty(String s, int i) {
+        if (getTagManifest() == null) return i;
+        if (getTagManifest().hasTag(s)) return (int) getTagManifest().getTag(s).getValue();
+        return i;
+    }
 
 }

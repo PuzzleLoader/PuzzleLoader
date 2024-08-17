@@ -21,25 +21,19 @@ public class ZoneMixin implements IRenderable {
 
     @Inject(method = "runScheduledTriggers", at = @At("HEAD"))
     private void zoneUpdate(CallbackInfo ci) {
-        for (IntMap<Chunk> chunkIntMap : ((Point3DMapAccessor<Chunk>) chunks).getMap().values()) {
-            if (chunkIntMap != null)
-                for (Chunk chunk : chunkIntMap.values()) {
-                    if (chunk instanceof ITickable tickable) {
-                        tickable.onTick(1f / 20f); // TODO get tps here
-                    }
-                }
-        }
+        chunks.forEach(chunk -> {
+            if (chunk instanceof ITickable tickable) {
+                tickable.onTick(1f / 20f); // TODO get tps here
+            }
+        });
     }
 
     @Override
     public void onRender(Camera camera) {
-        for (IntMap<Chunk> chunkIntMap : ((Point3DMapAccessor<Chunk>) chunks).getMap().values()) {
-            if (chunkIntMap != null)
-                for (Chunk chunk : chunkIntMap.values()) {
-                    if (chunk instanceof IRenderable renderable) {
-                        renderable.onRender(camera);
-                    }
-                }
-        }
+        chunks.forEach(chunk -> {
+            if (chunk instanceof IRenderable renderable) {
+                renderable.onRender(camera);
+            }
+        });
     }
 }

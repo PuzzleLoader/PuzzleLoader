@@ -36,12 +36,13 @@ public abstract class ChatMixin {
         String commandChar = "/";
 
         // Force Command.java load the <clinit> block
-        Command.registerCommand("asodfjoasdiofasdf", () -> new Command() {
+        Command.registerCommand(() -> new Command() {
             @Override
             public String getShortDescription() {
                 return "";
             }
-        });
+        }, "asodfjoasdiofasdf");
+
         this.messageQueue.addFirst(message);
         if (messageText.startsWith(commandChar) && account != null) {
             try {
