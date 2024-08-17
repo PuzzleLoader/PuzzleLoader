@@ -39,7 +39,6 @@ public abstract class ChunkMixin implements IRenderable {
 
     @Shadow public int chunkZ;
 
-
     @Override
     public void onRender(Camera camera) {
         if(blockEntities != null)
