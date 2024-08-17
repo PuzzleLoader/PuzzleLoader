@@ -45,34 +45,40 @@ public abstract class ChunkMixin implements ITickable, IRenderable {
     @Override
     public void onTick(float tps) {
         if(blockEntities != null)
-            for (int x = 0; x < Chunk.CHUNK_WIDTH; x++) {
-                for (int y = 0; y < Chunk.CHUNK_WIDTH; y++) {
-                    for (int z = 0; z < Chunk.CHUNK_WIDTH; z++) {
-                        if (blockEntities.get(x, y, z) instanceof ITickable tickable) {
-                            tickable.onTick(tps);
-                        }
-                    }
-                }
-            }
-//            blockEntities.forEach(entity -> {
-//                if(entity instanceof ITickable tickable) {
-//                    tickable.onTick(tps);
+//            for (int x = 0; x < Chunk.CHUNK_WIDTH; x++) {
+//                for (int y = 0; y < Chunk.CHUNK_WIDTH; y++) {
+//                    for (int z = 0; z < Chunk.CHUNK_WIDTH; z++) {
+//                        if (blockEntities.get(x, y, z) instanceof ITickable tickable) {
+//                            tickable.onTick(tps);
+//                        }
+//                    }
 //                }
-//            });
+//            }
+        blockEntities.forEach(entity -> {
+            if(entity instanceof ITickable tickable) {
+                tickable.onTick(tps);
+            }
+        });
     }
 
     @Override
     public void onRender(Camera camera) {
         if(blockEntities != null)
-            for (int x = 0; x < Chunk.CHUNK_WIDTH; x++) {
-                for (int y = 0; y < Chunk.CHUNK_WIDTH; y++) {
-                    for (int z = 0; z < Chunk.CHUNK_WIDTH; z++) {
-                        if (blockEntities.get(x, y, z) instanceof IRenderable renderable) {
-                            renderable.onRender(camera);
-                        }
-                    }
-                }
+//            for (int x = 0; x < Chunk.CHUNK_WIDTH; x++) {
+//                for (int y = 0; y < Chunk.CHUNK_WIDTH; y++) {
+//                    for (int z = 0; z < Chunk.CHUNK_WIDTH; z++) {
+//                        if (blockEntities.get(x, y, z) instanceof IRenderable renderable) {
+//                            renderable.onRender(camera);
+//                        }
+//                    }
+//                }
+//            }
+
+        blockEntities.forEach(entity -> {
+            if(entity instanceof IRenderable renderable) {
+                renderable.onRender(camera);
             }
+        });
     }
 
     @Inject(method = "setBlockEntity", at= @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/blockentities/BlockEntity;onRemove()V", shift = At.Shift.AFTER), locals = LocalCapture.CAPTURE_FAILHARD)
