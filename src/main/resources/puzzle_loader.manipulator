@@ -32,3 +32,5 @@ public field finalforeach/cosmicreach/io/CRBinDeserializer strings
 public method finalforeach/cosmicreach/io/CRBinDeserializer readDataFromSchema (Lfinalforeach/cosmicreach/savelib/crbin/CRBinSchema;Ljava/nio/ByteBuffer;)V
 public field finalforeach/cosmicreach/io/CRBinDeserializer classDeserializers
 public field finalforeach/cosmicreach/io/CRBinDeserializer defaultClassDeserializers
+public field finalforeach/cosmicreach/gamestates/GameState previousState
+public field finalforeach/cosmicreach/gamestates/PauseMenu cursorCaught
