@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.github.puzzle.game.keybinds.KeybindingProvider;
 import com.github.puzzle.game.util.Reflection;
+import finalforeach.cosmicreach.Threads;
 import finalforeach.cosmicreach.gamestates.GameState;
 import finalforeach.cosmicreach.gamestates.KeybindsMenu;
 import finalforeach.cosmicreach.lang.Lang;
@@ -21,12 +22,14 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class PuzzleKeybinds extends GameState {
 
     private static KeybindButton activeKeybindButton;
     private static Set<KeybindingProvider> providers = new HashSet<>();
     private static List<UIObject> staticUIObjects = new ArrayList<>();
+    public static PuzzleKeybinds inst = new PuzzleKeybinds(null);
     private static boolean keybindJustSet;
     public static int ix = 0;
     public static int iy = 0;
@@ -36,34 +39,42 @@ public class PuzzleKeybinds extends GameState {
         providers.add(provider);
         for (String key : provider.getKeybindings().keySet()) {
             Keybind value = provider.getKeybindings().get(key);
-            Constructor<KeybindButton> button;
-            try {
-                button = KeybindButton.class.getDeclaredConstructor(String.class, KeybindButton.class, Float.class, Float.class, Float.class, Float.class);
-            } catch (NoSuchMethodException e) {
-                throw new RuntimeException(e);
-            }
-            try {
-                staticUIObjects.add(button.newInstance(key, value, ix, ix, 25, 60));
-            } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-                throw new RuntimeException(e);
-            }
+//            Constructor<KeybindButton> button;
+            Threads.runOnMainThread(new Runnable() {
+                @Override
+                public void run() {
+                    staticUIObjects.add(KeybindButton.create(inst, key, value, ix, ix, 25, 60));
+                }
+            });
+//            try {
+//                button = KeybindButton.class.getConstructor(String.class, Keybind.class, float.class, float.class, float.class, float.class);
+//            } catch (NoSuchMethodException e) {
+//                throw new RuntimeException(e);
+//            }
+//            try {
+//                staticUIObjects.add(button.newInstance(key, value, ix, ix, 25, 60));
+//            } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+//                throw new RuntimeException(e);
+//            }
             iy += 27;
         }
     }
 
     public PuzzleKeybinds(final GameState previousState) {
-        this.previousState = previousState;
-        UIElement doneButton = new UIElement(0.0F, -50.0F, 250.0F, 50.0F) {
-            public void onClick() {
-                super.onClick();
-                GameState.switchToGameState(previousState);
-            }
-        };
-        this.uiObjects.addAll(staticUIObjects.toArray(new UIObject[0]));
-        doneButton.vAnchor = VerticalAnchor.BOTTOM_ALIGNED;
-        doneButton.setText(Lang.get("doneButton"));
-        doneButton.show();
-        this.uiObjects.add(doneButton);
+        if (previousState != null) {
+            this.previousState = previousState;
+            UIElement doneButton = new UIElement(0.0F, -50.0F, 250.0F, 50.0F) {
+                public void onClick() {
+                    super.onClick();
+                    GameState.switchToGameState(previousState);
+                }
+            };
+            this.uiObjects.addAll(staticUIObjects.toArray(new UIObject[0]));
+            doneButton.vAnchor = VerticalAnchor.BOTTOM_ALIGNED;
+            doneButton.setText(Lang.get("doneButton"));
+            doneButton.show();
+            this.uiObjects.add(doneButton);
+        }
     }
 
     public void render() {
@@ -89,6 +100,29 @@ public class PuzzleKeybinds extends GameState {
         InputProcessor inputProcessor;
         final Keybind keybind;
         String label;
+
+        public static KeybindButton create(PuzzleKeybinds keybinds, String label, Keybind keybind, float x, float y, float w, float h) {
+            AtomicReference<KeybindButton> buttonAtomicReference = new AtomicReference<>();
+            Threads.runOnMainThread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        for (Constructor c : KeybindButton.class.getConstructors()) {
+                            System.out.println(c);
+                        }
+                        buttonAtomicReference.set(KeybindButton.class
+                                .getConstructor(PuzzleKeybinds.class, String.class, Keybind.class, float.class, float.class, float.class, float.class)
+                                .newInstance(keybinds, label, keybind, x, y, w, h));
+                    } catch (NoSuchMethodException | InvocationTargetException | InstantiationException |
+                             IllegalAccessException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            });
+
+            return buttonAtomicReference.get();
+//            return new KeybindButton(label, keybind, x, y, w, h);
+        }
 
         public KeybindButton(String label, Keybind keybind, float x, float y, float w, float h) {
             super(x, y, w, h);
