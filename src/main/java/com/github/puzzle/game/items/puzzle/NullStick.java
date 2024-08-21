@@ -33,16 +33,18 @@ public class NullStick implements IModItem, ITickingItem {
         addTexture(IModItem.MODEL_2D_ITEM, new ResourceLocation("base", "textures/items/pickaxe_stone.png"));
         addTexture(IModItem.MODEL_2_5D_ITEM, new ResourceLocation("base", "textures/items/shovel_stone.png"));
         addTexture(IModItem.MODEL_2D_ITEM, new ResourceLocation("base", "textures/items/shovel_stone.png"));
-        addTexture(IModItem.MODEL_2_5D_ITEM, new ResourceLocation("base", "textures/items/check_board.png"));
-        addTexture(IModItem.MODEL_2D_ITEM, new ResourceLocation("base", "textures/items/check_board.png"));
-        addTexture(IModItem.MODEL_2_5D_ITEM, new ResourceLocation("base", "textures/items/check_board1.png"));
-        addTexture(IModItem.MODEL_2D_ITEM, new ResourceLocation("base", "textures/items/check_board1.png"));
-        addTexture(IModItem.MODEL_2_5D_ITEM, new ResourceLocation("base", "textures/items/check_board2.png"));
-        addTexture(IModItem.MODEL_2D_ITEM, new ResourceLocation("base", "textures/items/check_board2.png"));
-        addTexture(IModItem.MODEL_2_5D_ITEM, new ResourceLocation("base", "textures/items/check_board3.png"));
-        addTexture(IModItem.MODEL_2D_ITEM, new ResourceLocation("base", "textures/items/check_board3.png"));
+        addTexture(IModItem.MODEL_2_5D_ITEM, new ResourceLocation("base", "textures/items/medkit.png"));
+        addTexture(IModItem.MODEL_2D_ITEM, new ResourceLocation("base", "textures/items/medkit.png"));
+        addTexture(IModItem.MODEL_2_5D_ITEM, new ResourceLocation(Puzzle.MOD_ID, "textures/items/block_wrench.png"));
+        addTexture(IModItem.MODEL_2D_ITEM, new ResourceLocation(Puzzle.MOD_ID, "textures/items/block_wrench.png"));
+        addTexture(IModItem.MODEL_2_5D_ITEM, new ResourceLocation(Puzzle.MOD_ID, "textures/items/checker_board.png"));
+        addTexture(IModItem.MODEL_2D_ITEM, new ResourceLocation(Puzzle.MOD_ID, "textures/items/checker_board.png"));
+        addTexture(IModItem.MODEL_2_5D_ITEM, new ResourceLocation(Puzzle.MOD_ID, "textures/items/checker_board1.png"));
+        addTexture(IModItem.MODEL_2D_ITEM, new ResourceLocation(Puzzle.MOD_ID, "textures/items/checker_board1.png"));
+        addTexture(IModItem.MODEL_2_5D_ITEM, new ResourceLocation(Puzzle.MOD_ID, "textures/items/checker_board2.png"));
+        addTexture(IModItem.MODEL_2D_ITEM, new ResourceLocation(Puzzle.MOD_ID, "textures/items/checker_board2.png"));
 
-        texture_count = ((ListDataAttribute) getTagManifest().getTag("textures").attribute).getValue().size();
+        texture_count = ((ListDataAttribute) getTagManifest().getTag("textures").attribute).getValue().size() - 1;
     }
 
     @Override
@@ -57,7 +59,7 @@ public class NullStick implements IModItem, ITickingItem {
         if (!manifest.hasTag("currentEntry")) manifest.addTag(new DataTag<>("currentEntry", new IntDataAttribute(0)));
 
         Integer currentEntry = manifest.getTag("currentEntry").getTagAsType(Integer.class).getValue();
-        currentEntry = currentEntry >= texture_count - 1 ? 0 : currentEntry + 1;
+        currentEntry = currentEntry >= texture_count ? 0 : currentEntry + 1;
         manifest.addTag(new DataTag<>("currentEntry", new IntDataAttribute(currentEntry)));
         DataTagUtil.setManifestOnStack(manifest, slot.itemStack);
 
@@ -98,12 +100,11 @@ public class NullStick implements IModItem, ITickingItem {
 
     @Override
     public void tickStack(float fixedUpdateTimeStep, ItemStack stack, boolean isBeingHeld) {
-        if (isBeingHeld) System.out.println("I AM A REAL TOOL NOW :D");
         DataTagManifest manifest = DataTagUtil.getManifestFromStack(stack);
         if (!manifest.hasTag("currentEntry")) manifest.addTag(new DataTag<>("currentEntry", new IntDataAttribute(0)));
 
         Integer currentEntry = manifest.getTag("currentEntry").getTagAsType(Integer.class).getValue();
-        currentEntry = currentEntry >= 7 ? 0 : currentEntry + 1;
+        currentEntry = currentEntry >= texture_count ? 0 : currentEntry + 1;
         manifest.addTag(new DataTag<>("currentEntry", new IntDataAttribute(currentEntry)));
         DataTagUtil.setManifestOnStack(manifest, stack);
     }
@@ -111,9 +112,10 @@ public class NullStick implements IModItem, ITickingItem {
     @Override
     public void tickEntity(Zone zone, double deltaTime, ItemEntity entity, ItemStack stack) {
         DataTagManifest manifest = DataTagUtil.getManifestFromStack(stack);
+        if (!manifest.hasTag("currentEntry")) manifest.addTag(new DataTag<>("currentEntry", new IntDataAttribute(0)));
 
         Integer currentEntry = manifest.getTag("currentEntry").getTagAsType(Integer.class).getValue();
-        currentEntry = currentEntry >= 7 ? 0 : currentEntry + 1;
+        currentEntry = currentEntry >= texture_count ? 0 : currentEntry + 1;
         manifest.addTag(new DataTag<>("currentEntry", new IntDataAttribute(currentEntry)));
         DataTagUtil.setManifestOnStack(manifest, stack);
     }

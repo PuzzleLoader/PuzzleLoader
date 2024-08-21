@@ -9,6 +9,7 @@ import com.github.puzzle.game.commands.PuzzleCommandSource;
 import com.github.puzzle.game.engine.shaders.ItemShader;
 import com.github.puzzle.game.events.OnRegisterZoneGenerators;
 import com.github.puzzle.game.items.IModItem;
+import com.github.puzzle.game.items.ITickingItem;
 import com.github.puzzle.game.items.data.DataTagManifest;
 import com.github.puzzle.game.items.puzzle.BlockWrench;
 import com.github.puzzle.game.items.puzzle.CheckBoard;
@@ -20,6 +21,7 @@ import com.github.puzzle.loader.entrypoint.interfaces.PostModInitializer;
 import com.github.puzzle.loader.entrypoint.interfaces.PreModInitializer;
 import com.github.puzzle.loader.launch.PuzzleClassLoader;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.Threads;
 import finalforeach.cosmicreach.blocks.Block;
 import finalforeach.cosmicreach.chat.Chat;
@@ -136,5 +138,31 @@ public class Puzzle implements PreModInitializer, ModInitializer, PostModInitial
         BuiltInTags.logs.add(Block.getInstance("block_tree_log"));
         BuiltInTags.planks.add(Block.getInstance("block_wood_planks"));
         BuiltInTags.light.add(Block.getInstance("block_light"));
+
+        GameSingletons.updateObservers.add(fixedUpdateTimeStep -> {
+            if (InGame.getLocalPlayer() != null && UI.hotbar.getContainer() != null) {
+                for (int i = 0; i < UI.hotbar.getContainer().getNumSlots(); i++) {
+                    ItemSlot slot = UI.hotbar.getContainer().getSlot(i);
+
+                    if (slot != null) {
+                        if (slot.itemStack != null && slot.itemStack.getItem() instanceof ITickingItem tickingItem1) {
+                            tickingItem1.tickStack(fixedUpdateTimeStep, slot.itemStack, false);
+                        }
+                    }
+                }
+
+                for (int ic = 0; ic < UI.openContainers.size; ic++) {
+                    for (int i = 0; i < UI.openContainers.get(ic).getNumSlots(); i++) {
+                        ItemSlot slot = UI.openContainers.get(ic).getSlot(i);
+
+                        if (slot != null) {
+                            if (slot.itemStack != null && slot.itemStack.getItem() instanceof ITickingItem tickingItem1) {
+                                tickingItem1.tickStack(fixedUpdateTimeStep, slot.itemStack, false);
+                            }
+                        }
+                    }
+                }
+            }
+        });
     }
 }

@@ -13,6 +13,7 @@ import com.github.puzzle.game.items.data.attributes.*;
 import com.github.puzzle.game.mixins.accessors.ItemRenderAccessor;
 import com.github.puzzle.game.util.Reflection;
 import finalforeach.cosmicreach.GameSingletons;
+import finalforeach.cosmicreach.TickRunner;
 import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.entities.player.Player;
 import finalforeach.cosmicreach.gamestates.InGame;
@@ -167,18 +168,6 @@ public interface IModItem extends Item {
             registerItemModelCreator(item.getClass(), (modItem) -> {
 //                return new ModItemModel(modItem.get());
                 return new ExperimentalItemModel(modItem.get()).wrap();
-            });
-        }
-
-        if (item instanceof ITickingItem tickingItem) {
-            GameSingletons.updateObservers.add(fixedUpdateTimeStep -> {
-                if (InGame.getLocalPlayer() != null) {
-                    ItemStack stack = UI.hotbar.getSelectedItemStack();
-
-                    if (stack != null && stack.getItem() == tickingItem) {
-                        tickingItem.tickStack(fixedUpdateTimeStep, stack, true);
-                    }
-                }
             });
         }
 
