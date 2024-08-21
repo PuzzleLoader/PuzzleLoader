@@ -20,6 +20,8 @@ public class NullStick implements IModItem, ITickingItem {
     Identifier id = new Identifier(Puzzle.MOD_ID, "null_stick");
     DataTagManifest tagManifest = new DataTagManifest();
 
+    int texture_count = 0;
+
     public NullStick() {
         tagManifest.addTag(IModItem.IS_DEBUG_ATTRIBUTE.createTag(false));
 
@@ -31,6 +33,16 @@ public class NullStick implements IModItem, ITickingItem {
         addTexture(IModItem.MODEL_2D_ITEM, new ResourceLocation("base", "textures/items/pickaxe_stone.png"));
         addTexture(IModItem.MODEL_2_5D_ITEM, new ResourceLocation("base", "textures/items/shovel_stone.png"));
         addTexture(IModItem.MODEL_2D_ITEM, new ResourceLocation("base", "textures/items/shovel_stone.png"));
+        addTexture(IModItem.MODEL_2_5D_ITEM, new ResourceLocation("base", "textures/items/check_board.png"));
+        addTexture(IModItem.MODEL_2D_ITEM, new ResourceLocation("base", "textures/items/check_board.png"));
+        addTexture(IModItem.MODEL_2_5D_ITEM, new ResourceLocation("base", "textures/items/check_board1.png"));
+        addTexture(IModItem.MODEL_2D_ITEM, new ResourceLocation("base", "textures/items/check_board1.png"));
+        addTexture(IModItem.MODEL_2_5D_ITEM, new ResourceLocation("base", "textures/items/check_board2.png"));
+        addTexture(IModItem.MODEL_2D_ITEM, new ResourceLocation("base", "textures/items/check_board2.png"));
+        addTexture(IModItem.MODEL_2_5D_ITEM, new ResourceLocation("base", "textures/items/check_board3.png"));
+        addTexture(IModItem.MODEL_2D_ITEM, new ResourceLocation("base", "textures/items/check_board3.png"));
+
+        texture_count = ((ListDataAttribute) getTagManifest().getTag("textures").attribute).getValue().size();
     }
 
     @Override
@@ -45,7 +57,7 @@ public class NullStick implements IModItem, ITickingItem {
         if (!manifest.hasTag("currentEntry")) manifest.addTag(new DataTag<>("currentEntry", new IntDataAttribute(0)));
 
         Integer currentEntry = manifest.getTag("currentEntry").getTagAsType(Integer.class).getValue();
-        currentEntry = currentEntry >= 7 ? 0 : currentEntry + 1;
+        currentEntry = currentEntry >= texture_count - 1 ? 0 : currentEntry + 1;
         manifest.addTag(new DataTag<>("currentEntry", new IntDataAttribute(currentEntry)));
         DataTagUtil.setManifestOnStack(manifest, slot.itemStack);
 

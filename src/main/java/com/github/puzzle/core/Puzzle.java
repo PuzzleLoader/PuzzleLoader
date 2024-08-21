@@ -13,10 +13,7 @@ import com.github.puzzle.game.items.data.DataTagManifest;
 import com.github.puzzle.game.items.puzzle.BlockWrench;
 import com.github.puzzle.game.items.puzzle.CheckBoard;
 import com.github.puzzle.game.items.puzzle.NullStick;
-import com.github.puzzle.game.keybinds.KeybindingProvider;
-import com.github.puzzle.game.keybinds.KeybindsHelper;
 import com.github.puzzle.game.oredict.tags.BuiltInTags;
-import com.github.puzzle.game.ui.menus.PuzzleKeybinds;
 import com.github.puzzle.game.util.DataTagUtil;
 import com.github.puzzle.loader.entrypoint.interfaces.ModInitializer;
 import com.github.puzzle.loader.entrypoint.interfaces.PostModInitializer;
@@ -27,7 +24,6 @@ import finalforeach.cosmicreach.Threads;
 import finalforeach.cosmicreach.blocks.Block;
 import finalforeach.cosmicreach.chat.Chat;
 import finalforeach.cosmicreach.gamestates.InGame;
-import finalforeach.cosmicreach.gamestates.KeybindsMenu;
 import finalforeach.cosmicreach.items.ItemSlot;
 import finalforeach.cosmicreach.settings.Keybind;
 import finalforeach.cosmicreach.ui.UI;
@@ -140,10 +136,5 @@ public class Puzzle implements PreModInitializer, ModInitializer, PostModInitial
         BuiltInTags.logs.add(Block.getInstance("block_tree_log"));
         BuiltInTags.planks.add(Block.getInstance("block_wood_planks"));
         BuiltInTags.light.add(Block.getInstance("block_light"));
-
-        KeybindingProvider provider = KeybindsHelper.getProviderForModId(Puzzle.MOD_ID);
-        provider.addKeybind("test", Keybind.fromDefaultKey("key", 129));
-        provider.addKeybind("test2", Keybind.fromDefaultKey("key3", 129));
-        PuzzleKeybinds.addNewProvider(provider);
     }
 }
