@@ -53,7 +53,7 @@ public class Puzzle implements PreModInitializer, ModInitializer, PostModInitial
     }
 
     public Puzzle() {
-        PuzzleRegistries.EVENT_BUS.register(this);
+//        PuzzleRegistries.EVENT_BUS.register(this);
     }
 
     public static InputStream getFile(String file) {
