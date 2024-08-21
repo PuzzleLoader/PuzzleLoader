@@ -114,11 +114,6 @@ public class Puzzle implements PreModInitializer, ModInitializer, PostModInitial
         BlockWrench = IModItem.registerItem(new BlockWrench());
     }
 
-    @Subscribe
-    public void onEvent(OnRegisterZoneGenerators zoneGenerators) {
-        zoneGenerators.registerGenerator(EarthZoneGenerator::new);
-    }
-
     @Override
     public void onPostInit() {
         BuiltInTags.stone.add(Block.getInstance("block_stone_basalt"));
