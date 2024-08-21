@@ -30,7 +30,6 @@
     "loot.LootTableMixin",
     "ui.MainMenuMixin",
     "ui.OptionsMixin",
-    "ui.OptionsMixin2",
     "window.IconMixin",
     "window.TitleMixin",
     "zones.ZoneGeneratorMixin"
