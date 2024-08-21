@@ -24,6 +24,22 @@ public class DataTagManifest implements ICRBinSerializable {
         return this;
     }
 
+    public void setTag(DataTagPreset<?> tagPreset, DataTag<?> tag) {
+        tagMap.put(tagPreset.name, tag);
+    }
+
+    public void setTag(String name, DataTag<?> tag) {
+        tagMap.put(name, tag);
+    }
+
+    public void deleteTag(DataTagPreset<?> tagPreset) {
+        tagMap.remove(tagPreset.name);
+    }
+
+    public void deleteTag(String name) {
+        tagMap.remove(name);
+    }
+
     public boolean hasTag(DataTagPreset<?> tagPreset) {
         return tagMap.containsKey(tagPreset.name);
     }

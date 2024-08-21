@@ -8,6 +8,8 @@ public class ByteDataAttribute implements DataTag.DataTagAttribute<Byte> {
 
     byte data;
 
+    public ByteDataAttribute() {}
+
     public ByteDataAttribute(byte data) {
         this.data = data;
     }
@@ -34,6 +36,11 @@ public class ByteDataAttribute implements DataTag.DataTagAttribute<Byte> {
     @Override
     public String getFormattedString() {
         return Byte.toString(data);
+    }
+
+    @Override
+    public String toString() {
+        return getFormattedString();
     }
 
     @Override

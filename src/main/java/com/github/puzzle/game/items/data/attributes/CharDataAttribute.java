@@ -8,6 +8,8 @@ public class CharDataAttribute implements DataTag.DataTagAttribute<Character> {
 
     char data;
 
+    public CharDataAttribute() {}
+
     public CharDataAttribute(char data) {
         this.data = data;
     }
@@ -34,6 +36,11 @@ public class CharDataAttribute implements DataTag.DataTagAttribute<Character> {
     @Override
     public String getFormattedString() {
         return Character.toString(data);
+    }
+
+    @Override
+    public String toString() {
+        return getFormattedString();
     }
 
     @Override

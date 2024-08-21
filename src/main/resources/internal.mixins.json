@@ -24,12 +24,16 @@
     "items.InGameMixin",
     "items.ItemCatalogMixin",
     "items.ItemStackMixin",
+    "items.rendering.EntityMixin",
+    "items.rendering.ItemSlotWidgetMixin",
+    "items.ticking.ItemEntityMixin",
     "loot.LootTableMixin",
     "ui.MainMenuMixin",
     "ui.OptionsMixin",
     "ui.OptionsMixin2",
     "window.IconMixin",
-    "window.TitleMixin"
+    "window.TitleMixin",
+    "zones.ZoneGeneratorMixin"
   ],
   "client": [],
   "server": [],

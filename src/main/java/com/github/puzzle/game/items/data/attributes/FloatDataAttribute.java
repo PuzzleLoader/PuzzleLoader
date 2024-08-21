@@ -8,6 +8,8 @@ public class FloatDataAttribute implements DataTag.DataTagAttribute<Float> {
 
     float data;
 
+    public FloatDataAttribute() {}
+
     public FloatDataAttribute(float data) {
         this.data = data;
     }
@@ -24,6 +26,11 @@ public class FloatDataAttribute implements DataTag.DataTagAttribute<Float> {
     @Override
     public Float getValue() {
         return data;
+    }
+
+    @Override
+    public String toString() {
+        return getFormattedString();
     }
 
     @Override

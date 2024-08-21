@@ -10,6 +10,8 @@ public class ResourceLocationDataAttribute implements DataTag.DataTagAttribute<R
 
     ResourceLocation value;
 
+    public ResourceLocationDataAttribute() {}
+
     public ResourceLocationDataAttribute(ResourceLocation value) {
         this.value = value;
     }
@@ -32,6 +34,11 @@ public class ResourceLocationDataAttribute implements DataTag.DataTagAttribute<R
     @Override
     public String getFormattedString() {
         return value.toString();
+    }
+
+    @Override
+    public String toString() {
+        return getFormattedString();
     }
 
     @Override

@@ -9,6 +9,8 @@ public class Vector2DataAttribute implements DataTag.DataTagAttribute<Vector2> {
 
     Vector2 data;
 
+    public Vector2DataAttribute() {}
+
     public Vector2DataAttribute(Vector2 data) {
         this.data = data;
     }
@@ -31,6 +33,11 @@ public class Vector2DataAttribute implements DataTag.DataTagAttribute<Vector2> {
     @Override
     public String getFormattedString() {
         return data.toString();
+    }
+
+    @Override
+    public String toString() {
+        return getFormattedString();
     }
 
     @Override

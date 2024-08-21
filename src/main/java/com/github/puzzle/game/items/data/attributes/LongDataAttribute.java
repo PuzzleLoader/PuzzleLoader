@@ -8,6 +8,8 @@ public class LongDataAttribute implements DataTag.DataTagAttribute<Long> {
 
     long data;
 
+    public LongDataAttribute() {}
+
     public LongDataAttribute(long data) {
         this.data = data;
     }
@@ -34,6 +36,11 @@ public class LongDataAttribute implements DataTag.DataTagAttribute<Long> {
     @Override
     public String getFormattedString() {
         return Long.toString(data);
+    }
+
+    @Override
+    public String toString() {
+        return getFormattedString();
     }
 
     @Override

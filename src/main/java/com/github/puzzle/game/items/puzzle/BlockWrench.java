@@ -28,11 +28,10 @@ public class BlockWrench implements IModItem {
     public void use(ItemSlot slot, Player player) {
         BlockState state = BlockSelection.getBlockLookingAt();
         BlockPosition position = BlockSelection.getBlockPositionLookingAt();
-        ItemRenderer.swingHeldItem();
-        System.out.println(state);
         if (state == null) return;
         if (position == null) return;
-//        Chat.MAIN_CHAT.sendMessage(InGame.world, InGame.getLocalPlayer(), null, "Interacting with block \"" + state + "\"");
+        ItemRenderer.swingHeldItem();
+
         BlockUtil.setBlockAt(position.getZone(), ((ItemBlock) state.getItem().getNextSwapGroupItem()).getBlockState(), position);
     }
 
@@ -61,19 +60,4 @@ public class BlockWrench implements IModItem {
         return tagManifest;
     }
 
-    @Override
-    public boolean isCatalogHidden() {
-        return false;
-    }
-
-    @Override
-    public boolean hasIntProperty(String s) {
-        return tagManifest.hasTag(s);
-    }
-
-    @Override
-    public int getIntProperty(String s, int i) {
-        if (tagManifest.hasTag(s)) return (int) tagManifest.getTag(s).getValue();
-        return i;
-    }
 }

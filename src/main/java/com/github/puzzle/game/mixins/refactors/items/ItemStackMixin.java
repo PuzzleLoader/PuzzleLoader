@@ -1,9 +1,6 @@
 package com.github.puzzle.game.mixins.refactors.items;
 
-import com.github.puzzle.game.items.data.DataTag;
 import com.github.puzzle.game.items.data.DataTagManifest;
-import com.github.puzzle.game.items.data.attributes.IntDataAttribute;
-import com.github.puzzle.game.items.data.attributes.StringDataAttribute;
 import com.github.puzzle.game.items.stack.ITaggedStack;
 import finalforeach.cosmicreach.io.CRBinDeserializer;
 import finalforeach.cosmicreach.io.CRBinSerializer;
@@ -25,6 +22,7 @@ public class ItemStackMixin implements ITaggedStack {
         try {
             manifest = crbd.readObj("dataTagManifest", DataTagManifest.class);
         } catch (Exception ignore) {
+            ignore.printStackTrace();
             manifest = new DataTagManifest();
         }
     }

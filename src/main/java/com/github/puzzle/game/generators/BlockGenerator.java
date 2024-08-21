@@ -28,6 +28,7 @@ public class BlockGenerator implements IGenerator {
         public int lightLevelGreen = 0;
         public int lightLevelBlue = 0;
         public int lightAttenuation = 15;
+
         /**
          * better name would be eventName
          */

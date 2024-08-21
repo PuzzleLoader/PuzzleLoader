@@ -8,6 +8,8 @@ public class ShortDataAttribute implements DataTag.DataTagAttribute<Short> {
 
     short data;
 
+    public ShortDataAttribute() {}
+
     public ShortDataAttribute(short data) {
         this.data = data;
     }
@@ -34,6 +36,11 @@ public class ShortDataAttribute implements DataTag.DataTagAttribute<Short> {
     @Override
     public String getFormattedString() {
         return Short.toString(data);
+    }
+
+    @Override
+    public String toString() {
+        return getFormattedString();
     }
 
     @Override

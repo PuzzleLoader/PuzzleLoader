@@ -8,6 +8,8 @@ public class BooleanDataAttribute implements DataTag.DataTagAttribute<Boolean> {
 
     boolean data;
 
+    public BooleanDataAttribute() {}
+
     public BooleanDataAttribute(boolean data) {
         this.data = data;
     }
@@ -34,6 +36,11 @@ public class BooleanDataAttribute implements DataTag.DataTagAttribute<Boolean> {
     @Override
     public String getFormattedString() {
         return Boolean.toString(data);
+    }
+
+    @Override
+    public String toString() {
+        return getFormattedString();
     }
 
     @Override

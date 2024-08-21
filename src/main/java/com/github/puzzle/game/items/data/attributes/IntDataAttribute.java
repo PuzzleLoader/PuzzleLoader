@@ -8,6 +8,8 @@ public class IntDataAttribute implements DataTag.DataTagAttribute<Integer> {
 
     int data;
 
+    public IntDataAttribute() {}
+
     public IntDataAttribute(int data) {
         this.data = data;
     }
@@ -34,6 +36,11 @@ public class IntDataAttribute implements DataTag.DataTagAttribute<Integer> {
     @Override
     public String getFormattedString() {
         return Integer.toString(data);
+    }
+
+    @Override
+    public String toString() {
+        return getFormattedString();
     }
 
     @Override

@@ -8,6 +8,8 @@ public class StringDataAttribute implements DataTag.DataTagAttribute<String> {
 
     String data;
 
+    public StringDataAttribute() {}
+
     public StringDataAttribute(String data) {
         this.data = data;
     }
@@ -30,6 +32,11 @@ public class StringDataAttribute implements DataTag.DataTagAttribute<String> {
     @Override
     public String getFormattedString() {
         return data;
+    }
+
+    @Override
+    public String toString() {
+        return getFormattedString();
     }
 
     @Override

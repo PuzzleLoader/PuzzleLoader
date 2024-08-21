@@ -1,29 +1,32 @@
 package com.github.puzzle.game.items;
 
 import com.badlogic.gdx.graphics.Mesh;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.github.puzzle.core.Identifier;
 import com.github.puzzle.core.Puzzle;
 import com.github.puzzle.core.resources.ResourceLocation;
-import com.github.puzzle.game.engine.items.PuzzleItemModel;
+import com.github.puzzle.game.engine.items.ExperimentalItemModel;
 import com.github.puzzle.game.items.data.DataTag;
 import com.github.puzzle.game.items.data.DataTagManifest;
 import com.github.puzzle.game.items.data.DataTagPreset;
-import com.github.puzzle.game.items.data.attributes.BooleanDataAttribute;
-import com.github.puzzle.game.items.data.attributes.IdentifierDataAttribute;
-import com.github.puzzle.game.items.data.attributes.ResourceLocationDataAttribute;
+import com.github.puzzle.game.items.data.attributes.*;
 import com.github.puzzle.game.mixins.accessors.ItemRenderAccessor;
 import com.github.puzzle.game.util.Reflection;
+import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.entities.player.Player;
+import finalforeach.cosmicreach.gamestates.InGame;
 import finalforeach.cosmicreach.items.Item;
 import finalforeach.cosmicreach.items.ItemSlot;
 import finalforeach.cosmicreach.items.ItemStack;
 import finalforeach.cosmicreach.rendering.items.ItemModel;
 import finalforeach.cosmicreach.rendering.items.ItemRenderer;
+import finalforeach.cosmicreach.ui.UI;
+import finalforeach.cosmicreach.util.FloatConsumer;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Function;
 
 import static finalforeach.cosmicreach.rendering.items.ItemRenderer.registerItemModelCreator;
@@ -44,6 +47,28 @@ public interface IModItem extends Item {
     DataTagPreset<ResourceLocation> TEXTURE_LOCATION_PRESET = new DataTagPreset<>("texture_resource_location", new ResourceLocationDataAttribute(new ResourceLocation(Puzzle.MOD_ID, "textures/items/null_stick.png")));
 
     DataTagPreset<Boolean> IS_DEBUG_ATTRIBUTE = new DataTagPreset<>("is_item_debug", new BooleanDataAttribute(false));
+
+    default void addTexture(Identifier model, ResourceLocation texture) {
+        if (getTagManifest().hasTag("textures")) {
+            ListDataAttribute<PairAttribute<IdentifierDataAttribute, ResourceLocationDataAttribute>> textures = (ListDataAttribute) getTagManifest().getTag("textures").attribute;
+            List<PairAttribute<IdentifierDataAttribute, ResourceLocationDataAttribute>> attributes = textures.getValue();
+            attributes.add(new PairAttribute<>(new IdentifierDataAttribute(model), new ResourceLocationDataAttribute(texture)));
+            textures.setValue(attributes);
+            getTagManifest().addTag(new DataTag<>("textures", textures));
+        } else {
+            List<PairAttribute<IdentifierDataAttribute, ResourceLocationDataAttribute>> attributes = new ArrayList<>();
+            attributes.add(new PairAttribute<>(new IdentifierDataAttribute(model), new ResourceLocationDataAttribute(texture)));
+            getTagManifest().addTag(new DataTag<>("textures", new ListDataAttribute<>(attributes)));
+        }
+    }
+
+    default List<PairAttribute<IdentifierDataAttribute, ResourceLocationDataAttribute>> getTextures() {
+        if (getTagManifest().hasTag("textures")) {
+            ListDataAttribute<PairAttribute<IdentifierDataAttribute, ResourceLocationDataAttribute>> textures = (ListDataAttribute) getTagManifest().getTag("textures").attribute;
+            return textures.getValue();
+        }
+        return new ArrayList<>();
+    }
 
     /**
      * The string version of the ID.
@@ -119,16 +144,16 @@ public interface IModItem extends Item {
     }
 
     /**
-     * A mesh the will come with your item if you decide 2d isn't enough.
-     * @see PuzzleItemModel
+     * A mesh that will come with your item if you decide 2d isn't enough.
+     * @see com.github.puzzle.game.engine.items.model.IPuzzleItemModel
      */
-    default Array<Mesh> getMesh() {
+    default Mesh getMesh() {
         return null;
     }
 
     /**
      * A simple method to register your item with the vanilla game for rendering and referencing.
-     * @see PuzzleItemModel
+     * @see com.github.puzzle.game.engine.items.model.IPuzzleItemModel
      * @see Item#allItems
      * @see finalforeach.cosmicreach.rendering.items.ItemRenderer#registerItemModelCreator
      */
@@ -140,7 +165,20 @@ public interface IModItem extends Item {
 
         if (!modelCreators.containsKey(item.getClass())) {
             registerItemModelCreator(item.getClass(), (modItem) -> {
-                return new PuzzleItemModel(modItem.get());
+//                return new ModItemModel(modItem.get());
+                return new ExperimentalItemModel(modItem.get()).wrap();
+            });
+        }
+
+        if (item instanceof ITickingItem tickingItem) {
+            GameSingletons.updateObservers.add(fixedUpdateTimeStep -> {
+                if (InGame.getLocalPlayer() != null) {
+                    ItemStack stack = UI.hotbar.getSelectedItemStack();
+
+                    if (stack != null && stack.getItem() == tickingItem) {
+                        tickingItem.tickStack(fixedUpdateTimeStep, stack, true);
+                    }
+                }
             });
         }
 
@@ -176,7 +214,7 @@ public interface IModItem extends Item {
 
     /**
      * This bool changes how the item is held in the "hand".
-     * @see PuzzleItemModel
+     * @see com.github.puzzle.game.engine.items.model.IPuzzleItemModel
      */
     default boolean isTool() {
         return false;
@@ -191,15 +229,30 @@ public interface IModItem extends Item {
         return new DataTagManifest();
     }
 
+    /**
+     * Redirected hasIntProperty to use the TagManifest
+     * @see DataTagManifest
+     */
     default boolean hasIntProperty(String s) {
         if (getTagManifest() == null) return false;
         return getTagManifest().hasTag(s);
     }
 
+    /**
+     * Redirected getIntProperty to use the TagManifest
+     * @see DataTagManifest
+     */
     default int getIntProperty(String s, int i) {
         if (getTagManifest() == null) return i;
         if (getTagManifest().hasTag(s)) return (int) getTagManifest().getTag(s).getValue();
         return i;
+    }
+
+    /**
+     * Set the default catalog hidden to false
+     */
+    default boolean isCatalogHidden() {
+        return false;
     }
 
 }

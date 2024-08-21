@@ -9,6 +9,8 @@ public class IdentifierDataAttribute implements DataTag.DataTagAttribute<Identif
 
     Identifier value;
 
+    public IdentifierDataAttribute() {}
+
     public IdentifierDataAttribute(Identifier value) {
         this.value = value;
     }
@@ -31,6 +33,11 @@ public class IdentifierDataAttribute implements DataTag.DataTagAttribute<Identif
     @Override
     public String getFormattedString() {
         return value.toString();
+    }
+
+    @Override
+    public String toString() {
+        return getFormattedString();
     }
 
     @Override

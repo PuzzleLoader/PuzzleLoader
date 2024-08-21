@@ -8,6 +8,8 @@ public class DoubleDataAttribute implements DataTag.DataTagAttribute<Double> {
 
     double data;
 
+    public DoubleDataAttribute() {}
+
     public DoubleDataAttribute(double data) {
         this.data = data;
     }
@@ -24,6 +26,11 @@ public class DoubleDataAttribute implements DataTag.DataTagAttribute<Double> {
     @Override
     public Double getValue() {
         return data;
+    }
+
+    @Override
+    public String toString() {
+        return getFormattedString();
     }
 
     @Override

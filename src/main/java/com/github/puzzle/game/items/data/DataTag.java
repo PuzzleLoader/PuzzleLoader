@@ -1,8 +1,7 @@
 package com.github.puzzle.game.items.data;
 
-import com.github.puzzle.game.oredict.tags.TagFormatException;
 import com.github.puzzle.game.util.Reflection;
-import finalforeach.cosmicreach.Threads;
+import com.github.puzzle.loader.launch.Piece;
 import finalforeach.cosmicreach.io.CRBinDeserializer;
 import finalforeach.cosmicreach.io.CRBinSerializer;
 import finalforeach.cosmicreach.io.ICRBinSerializable;
@@ -13,12 +12,14 @@ import java.util.regex.Pattern;
 
 public class DataTag<T> implements ICRBinSerializable {
 
-    public final String name;
-    public final DataTagAttribute<T> attribute;
+    public String name;
+    public DataTagAttribute<T> attribute;
 
     public static Pattern pattern = Pattern.compile("[^a-zA-Z_]");
 
     static final Logger LOGGER = LoggerFactory.getLogger("DataTags");
+
+    public DataTag() {}
 
     public DataTag(String name, DataTagAttribute<T> attribute) {
         if (pattern.matcher(name).matches())
@@ -42,12 +43,19 @@ public class DataTag<T> implements ICRBinSerializable {
     @Override
     public void read(CRBinDeserializer crBinDeserializer) {
         Reflection.setFieldContents(this, "name", crBinDeserializer.readString("tag_name"));
-        Reflection.setFieldContents(this, "attribute", crBinDeserializer.readObj("tag_attribute", DataTagAttribute.class));
+        Class<? extends DataTagAttribute> attributeClass = null;
+        try {
+            attributeClass = (Class<? extends DataTagAttribute>) Piece.classLoader.findClass(crBinDeserializer.readString("tag_attribute_class"));
+            Reflection.setFieldContents(this, "attribute", crBinDeserializer.readObj("tag_attribute", attributeClass));
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void write(CRBinSerializer crBinSerializer) {
         crBinSerializer.writeString("tag_name", name);
+        crBinSerializer.writeString("tag_attribute_class", attribute.getClass().getName());
         crBinSerializer.writeObj("tag_attribute", attribute);
     }
 
