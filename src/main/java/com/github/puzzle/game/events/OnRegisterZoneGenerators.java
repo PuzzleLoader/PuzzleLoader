@@ -13,7 +13,7 @@ public class OnRegisterZoneGenerators {
         this.zoneFactories = zoneFactories;
     }
 
-    public void registerBlock(Supplier<ZoneGenerator> zoneGenerator) {
+    public void registerGenerator(Supplier<ZoneGenerator> zoneGenerator) {
         zoneFactories.add(zoneGenerator);
     }
 
