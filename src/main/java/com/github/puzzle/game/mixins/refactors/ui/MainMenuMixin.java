@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(MainMenu.class)
-public class MainMenuMixin extends GameState{
+public class MainMenuMixin extends GameState {
     /**
      * @author replet
      * @reason Change pos and size of the language button
