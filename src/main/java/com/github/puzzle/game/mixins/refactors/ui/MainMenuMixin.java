@@ -33,7 +33,7 @@ public class MainMenuMixin extends GameState {
     */
     @Inject(method = "create",at = @At("TAIL"))
     void addModsButton(CallbackInfo ci) {
-        if (Puzzle.VERSION.equals("69.69.69")) {
+//        if (Puzzle.VERSION.equals("69.69.69")) {
             UIElement modsButton = new UIElement((275.0F / 4) + 2, 140.0F, (275.0F / 2) - 5, 35.0F) {
                 public void onClick() {
                     super.onClick();
@@ -44,7 +44,7 @@ public class MainMenuMixin extends GameState {
             modsButton.setText(LanguageManager.string(new TranslationKey("puzzle-loader:menu.mods")));
             modsButton.show();
             uiObjects.add(modsButton);
-        }
+//        }
     }
 
 }
