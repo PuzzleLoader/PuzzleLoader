@@ -20,6 +20,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.puzzle.game.ui.font.CosmicReachFont;
 import com.github.puzzle.loader.mod.ModContainer;
 import com.github.puzzle.loader.mod.ModLocator;
+import com.github.puzzle.loader.mod.info.ModInfo;
 import finalforeach.cosmicreach.GameAssetLoader;
 import finalforeach.cosmicreach.gamestates.GameState;
 import finalforeach.cosmicreach.gamestates.MainMenu;
@@ -62,6 +63,7 @@ public class ModMenu extends GameState {
         gdxStage = new Stage(gdxStageViewport, batch);
         gdxStageCamera.position.set(0, 0, 0);
         Gdx.input.setInputProcessor(gdxStage);
+        modPage = new Table();
 
         Table bottomBarLeft = new Table();
         Table bottomBarRight = new Table();
@@ -96,7 +98,7 @@ public class ModMenu extends GameState {
         root.row();
 
         root.add(container).width(150).maxWidth(160).left().fill().expandY();
-        modPage = root.add(new Table()).expandX().left().getActor();
+        root.add(modPage).expand().pad(10).fill();
         root.row();
 
         root.add(bottomBarLeft).minHeight(40).maxHeight(40).maxWidth(160).fill();
@@ -180,10 +182,29 @@ public class ModMenu extends GameState {
         gdxStage.dispose();
     }
 
-    private ClickListener getClickListener(ModContainer mod, Actor actor){
+    private ClickListener getClickListener(ModContainer mod, Table table){
+        TextField.TextFieldStyle textFieldStyle = new TextField.TextFieldStyle();
+        textFieldStyle.font = CosmicReachFont.FONT;
+        textFieldStyle.fontColor = Color.WHITE;
+
         return new ClickListener(){
             public void clicked(InputEvent event, float x, float y){
-                //
+                ModInfo info = mod.INFO;
+                String str = switch (mod.NAME) {
+                    case "Puzzle Loader" -> "Mod Loader";
+                    case "Cosmic Reach" -> "Base";
+                    default -> "Mod";
+                };
+                table.clear();
+                table.add(new Label(str + ": " + mod.NAME, new Label.LabelStyle(CosmicReachFont.FONT, Color.WHITE))).height(30).width(250).top().left().fill().row();
+                table.add(new Label("Version: [" + mod.VERSION.toString() + "]", new Label.LabelStyle(CosmicReachFont.FONT, Color.WHITE))).height(30).width(250).top().left().fill().row();
+                table.add(new Label(info.Description, new Label.LabelStyle(CosmicReachFont.FONT, Color.WHITE))).left().expandY().pad(5).fill();
+                table.add(new Table()).expand();
+                ((Label)table.getChild(0)).setAlignment(Align.bottom);
+                ((Label)table.getChild(1)).setAlignment(Align.bottom);
+                Label label = ((Label)table.getChild(2));
+                label.setAlignment(Align.center);
+                label.setWrap(true);
             }
         };
     }
