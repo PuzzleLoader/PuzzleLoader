@@ -28,6 +28,7 @@
     "items.rendering.ItemSlotWidgetMixin",
     "items.ticking.ItemEntityMixin",
     "loot.LootTableMixin",
+    "ui.MainMenuMixin",
     "ui.OptionsMixin",
     "window.IconMixin",
     "window.TitleMixin",
