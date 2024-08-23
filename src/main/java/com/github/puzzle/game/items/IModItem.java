@@ -10,24 +10,24 @@ import com.github.puzzle.game.items.data.DataTag;
 import com.github.puzzle.game.items.data.DataTagManifest;
 import com.github.puzzle.game.items.data.DataTagPreset;
 import com.github.puzzle.game.items.data.attributes.*;
+import com.github.puzzle.game.items.puzzle.ItemInstance;
 import com.github.puzzle.game.mixins.accessors.ItemRenderAccessor;
+import com.github.puzzle.game.util.DataTagUtil;
 import com.github.puzzle.game.util.Reflection;
-import finalforeach.cosmicreach.GameSingletons;
-import finalforeach.cosmicreach.TickRunner;
+import finalforeach.cosmicreach.Threads;
+import finalforeach.cosmicreach.blockentities.BlockEntityFurnace;
 import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.entities.player.Player;
-import finalforeach.cosmicreach.gamestates.InGame;
 import finalforeach.cosmicreach.items.Item;
 import finalforeach.cosmicreach.items.ItemSlot;
 import finalforeach.cosmicreach.items.ItemStack;
 import finalforeach.cosmicreach.rendering.items.ItemModel;
 import finalforeach.cosmicreach.rendering.items.ItemRenderer;
-import finalforeach.cosmicreach.ui.UI;
-import finalforeach.cosmicreach.util.FloatConsumer;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.WeakHashMap;
 import java.util.function.Function;
 
 import static finalforeach.cosmicreach.rendering.items.ItemRenderer.registerItemModelCreator;
@@ -39,6 +39,25 @@ public interface IModItem extends Item {
      * @see Identifier
      */
     Identifier getIdentifier();
+
+    /**
+     * A simple method to register your item with the vanilla game for rendering and referencing.
+     * @see com.github.puzzle.game.engine.items.model.IPuzzleItemModel
+     * @see Item#allItems
+     * @see finalforeach.cosmicreach.rendering.items.ItemRenderer#registerItemModelCreator
+     */
+    static <T extends IModItem> T registerItem(T item) {
+        allItems.put(item.getID(), item);
+
+        ItemRenderAccessor.getRefMap().put(item, new WeakReference<>(item));
+        ObjectMap<Class<? extends Item>, Function<?, ItemModel>> modelCreators = Reflection.getFieldContents(ItemRenderer.class, "modelCreators");
+
+        if (!modelCreators.containsKey(item.getClass())) {
+            registerItemModelCreator(item.getClass(), (modItem) -> new ExperimentalItemModel(modItem.get()).wrap());
+        }
+
+        return item;
+    }
 
     DataTagPreset<Identifier> MODEL_ID_PRESET = new DataTagPreset<>("model_id", new IdentifierDataAttribute(Identifier.of(Puzzle.MOD_ID, "2d_item_model")));
     Identifier MODEL_2D_ITEM = new Identifier(Puzzle.MOD_ID, "2d_item_model");
@@ -60,6 +79,12 @@ public interface IModItem extends Item {
             List<PairAttribute<IdentifierDataAttribute, ResourceLocationDataAttribute>> attributes = new ArrayList<>();
             attributes.add(new PairAttribute<>(new IdentifierDataAttribute(model), new ResourceLocationDataAttribute(texture)));
             getTagManifest().addTag(new DataTag<>("textures", new ListDataAttribute<>(attributes)));
+        }
+    }
+
+    default void addTexture(Identifier model, ResourceLocation... textures) {
+        for (ResourceLocation location : textures) {
+            addTexture(model, location);
         }
     }
 
@@ -153,28 +178,6 @@ public interface IModItem extends Item {
     }
 
     /**
-     * A simple method to register your item with the vanilla game for rendering and referencing.
-     * @see com.github.puzzle.game.engine.items.model.IPuzzleItemModel
-     * @see Item#allItems
-     * @see finalforeach.cosmicreach.rendering.items.ItemRenderer#registerItemModelCreator
-     */
-    static <T extends IModItem> T registerItem(T item) {
-        allItems.put(item.getID(), item);
-
-        ItemRenderAccessor.getRefMap().put(item, new WeakReference<>(item));
-        ObjectMap<Class<? extends Item>, Function<?, ItemModel>> modelCreators = Reflection.getFieldContents(ItemRenderer.class, "modelCreators");
-
-        if (!modelCreators.containsKey(item.getClass())) {
-            registerItemModelCreator(item.getClass(), (modItem) -> {
-//                return new ModItemModel(modItem.get());
-                return new ExperimentalItemModel(modItem.get()).wrap();
-            });
-        }
-
-        return item;
-    }
-
-    /**
      * A method to allow you to merge with other itemStacks of the same type,
      * this method is normally used when an item/block has extra data on it,
      * like blockStates
@@ -218,6 +221,10 @@ public interface IModItem extends Item {
         return new DataTagManifest();
     }
 
+    /* Property Presets */
+    DataTagPreset<Integer> FIRE_TICKS = new DataTagPreset<>(BlockEntityFurnace.FUEL_PROPERTY_NAME, new IntDataAttribute(64));
+    //    DataTagPreset<Float> TOOL_SPEED = new DataTagPreset<>("toolSpeed", new FloatDataAttribute(4));
+
     /**
      * Redirected hasIntProperty to use the TagManifest
      * @see DataTagManifest
@@ -233,9 +240,31 @@ public interface IModItem extends Item {
      */
     default int getIntProperty(String s, int i) {
         if (getTagManifest() == null) return i;
-        if (getTagManifest().hasTag(s)) return (int) getTagManifest().getTag(s).getValue();
+        if (getTagManifest().hasTag(s)) return getTagManifest().getTag(s).getTagAsType(Integer.class).getValue();
         return i;
     }
+
+    /**
+     * It gets the property from the stack manifest before checking the base item manifest
+     * @see DataTagManifest
+     */
+    default boolean hasIntProperty(ItemStack parent, String s) {
+        DataTagManifest manifest = DataTagUtil.getManifestFromStack(parent);
+        return manifest.hasTag(s) || hasIntProperty(s);
+    }
+
+    /**
+     * It gets the property from the stack manifest before checking the base item manifest
+     * @see DataTagManifest
+     */
+    default int getIntProperty(ItemStack parent, String s, int i) {
+        DataTagManifest manifest = DataTagUtil.getManifestFromStack(parent);
+        if (manifest.hasTag(s)) {
+            return manifest.getTag(s).getTagAsType(Integer.class).getValue();
+        }
+        return getIntProperty(s, i);
+    }
+
 
     /**
      * Set the default catalog hidden to false

@@ -18,10 +18,21 @@ public class PuzzleGameAssetLoader {
     private static final Logger LOGGER = LoggerFactory.getLogger("Puzzle | AssetLoader");
 
     public static FileHandle locateAsset(String fileName) {
-        return locateAsset(Identifier.fromString(fileName));
+        return locateAsset(ResourceLocation.fromString(fileName));
+    }
+    public static boolean assetExists(String fileName) {
+        return assetExists(ResourceLocation.fromString(fileName));
     }
 
-    public static @Nullable FileHandle locateAsset(@NotNull Identifier location) {
+    public static boolean assetExists(@NotNull ResourceLocation location) {
+        FileHandle classpathLocationFile = Gdx.files.classpath("assets/%s/%s".formatted(location.namespace, location.name));
+        FileHandle modLocationFile = Gdx.files.absolute(SaveLocation.getSaveFolderLocation() + "/mods/assets/" + location.name);
+        FileHandle vanillaLocationFile = Gdx.files.internal(location.name);
+
+        return vanillaLocationFile.exists() || modLocationFile.exists() || classpathLocationFile.exists();
+    }
+
+    public static @Nullable FileHandle locateAsset(@NotNull ResourceLocation location) {
         FileHandle classpathLocationFile = Gdx.files.classpath("assets/%s/%s".formatted(location.namespace, location.name));
         if (classpathLocationFile.exists()) {
             LOGGER.info("Loading " + AnsiColours.PURPLE + "\"{}\"" + AnsiColours.WHITE + " from Java Mod " + AnsiColours.GREEN + "\"{}\"" + AnsiColours.WHITE, location.name, location.namespace);

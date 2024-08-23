@@ -49,11 +49,11 @@ public class GameLoader extends GameState {
 
     public static final Logger LOGGER = LoggerFactory.getLogger("Puzzle | GameLoader");
 
-    private static final TranslationKey TEXT_RAM_USAGE = new TranslationKey("puzzle-loader:loading_menu.ram_usage");
+    public static final TranslationKey TEXT_RAM_USAGE = new TranslationKey("puzzle-loader:loading_menu.ram_usage");
 
-    public Stage gdxStage;
-    public OrthographicCamera gdxStageCamera;
-    public Viewport gdxStageViewport;
+    public static Stage gdxStage;
+    public static OrthographicCamera gdxStageCamera;
+    public static Viewport gdxStageViewport;
     protected Color background = Color.BLACK;
 
     private Texture textLogo;
@@ -264,7 +264,6 @@ public class GameLoader extends GameState {
         gdxStage.clear();
 
         Globals.GameLoaderHasLoaded = true;
-//        throw new RuntimeException("penis");
     }
 
     private void uncaughtException(Thread t, Throwable e) {
@@ -273,7 +272,6 @@ public class GameLoader extends GameState {
         Threads.runOnMainThread(() -> {
             Threads.stopAllThreads();
             GameState.switchToGameState(new PuzzleExceptionScreen(new Exception(e)));
-//                CrashScreen.showCrash(startTime, new StringBuilder(), new Exception(e));
         });
     }
 

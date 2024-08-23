@@ -1,6 +1,7 @@
 package com.github.puzzle.game.mixins.refactors.items.ticking;
 
 import com.github.puzzle.game.items.ITickingItem;
+import com.github.puzzle.game.items.puzzle.ItemInstance;
 import finalforeach.cosmicreach.entities.ItemEntity;
 import finalforeach.cosmicreach.items.ItemStack;
 import finalforeach.cosmicreach.world.Zone;
@@ -19,6 +20,11 @@ public class ItemEntityMixin {
     private void update(Zone zone, double deltaTime, CallbackInfo ci) {
         if (itemStack.getItem() instanceof ITickingItem tickingItem) {
             tickingItem.tickEntity(zone, deltaTime, (ItemEntity) (Object) this, itemStack);
+        }
+        if (itemStack.getItem() instanceof ItemInstance inst) {
+            if (inst.getParentItem() instanceof ITickingItem tickingItem) {
+                tickingItem.tickEntity(zone, deltaTime, (ItemEntity) (Object) this, itemStack);
+            }
         }
     }
 

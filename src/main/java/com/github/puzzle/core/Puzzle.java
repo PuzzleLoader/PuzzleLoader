@@ -6,13 +6,14 @@ import com.github.puzzle.core.localization.files.LanguageFileVersion1;
 import com.github.puzzle.game.Globals;
 import com.github.puzzle.game.commands.CommandManager;
 import com.github.puzzle.game.commands.PuzzleCommandSource;
+import com.github.puzzle.game.engine.items.InstanceModelWrapper;
 import com.github.puzzle.game.engine.shaders.ItemShader;
-import com.github.puzzle.game.events.OnRegisterZoneGenerators;
 import com.github.puzzle.game.items.IModItem;
 import com.github.puzzle.game.items.ITickingItem;
 import com.github.puzzle.game.items.data.DataTagManifest;
 import com.github.puzzle.game.items.puzzle.BlockWrench;
 import com.github.puzzle.game.items.puzzle.CheckBoard;
+import com.github.puzzle.game.items.puzzle.ItemInstance;
 import com.github.puzzle.game.items.puzzle.NullStick;
 import com.github.puzzle.game.oredict.tags.BuiltInTags;
 import com.github.puzzle.game.util.DataTagUtil;
@@ -26,14 +27,18 @@ import finalforeach.cosmicreach.Threads;
 import finalforeach.cosmicreach.blocks.Block;
 import finalforeach.cosmicreach.chat.Chat;
 import finalforeach.cosmicreach.gamestates.InGame;
+import finalforeach.cosmicreach.items.Item;
 import finalforeach.cosmicreach.items.ItemSlot;
-import finalforeach.cosmicreach.settings.Keybind;
+import finalforeach.cosmicreach.rendering.items.ItemModel;
+import finalforeach.cosmicreach.rendering.items.ItemRenderer;
 import finalforeach.cosmicreach.ui.UI;
-import finalforeach.cosmicreach.worldgen.generators.EarthZoneGenerator;
-import org.greenrobot.eventbus.Subscribe;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ref.WeakReference;
+import java.util.HashMap;
+
+import static finalforeach.cosmicreach.rendering.items.ItemRenderer.registerItemModelCreator;
 
 public class Puzzle implements PreModInitializer, ModInitializer, PostModInitializer {
     public static final String MOD_ID = "puzzle-loader";
@@ -108,6 +113,40 @@ public class Puzzle implements PreModInitializer, ModInitializer, PostModInitial
         DebugStick = IModItem.registerItem(new NullStick());
         CheckerBoard = IModItem.registerItem(new CheckBoard());
         BlockWrench = IModItem.registerItem(new BlockWrench());
+
+        Item.registerItem(new ItemInstance(null));
+
+        registerItemModelCreator(ItemInstance.class, (inst) -> {
+//            ObjectMap<Class<? extends Item>, Function<?, ItemModel>> modelCreators = Reflection.getFieldContents(ItemRenderer.class, "modelCreators");
+//            ObjectMap<WeakReference<Item>, ItemModel> models = Reflection.getFieldContents(ItemRenderer.class, "models");
+//
+//            Item item = Objects.requireNonNull(inst.get()).getParentItem();
+//            WeakReference<Item> ref = ItemRenderAccessor.getRefMap().get(item);
+//
+//            Function<WeakReference<Item>, ItemModel> itemModelFunction = (Function<WeakReference<Item>, ItemModel>) modelCreators.get(item.getClass());
+//            ItemModel model = itemModelFunction.apply(ref);
+//            models.put(ref, model);
+//            Reflection.setFieldContents(ItemRenderer.class, "models", models);
+//            return model;
+//            if (Objects.requireNonNull(inst.get()).getParentItem() instanceof IModItem modItem) {
+//                if (!modelHashMap.containsKey(modItem.getClass())) {
+//                    Threads.runOnMainThread(() -> {
+////                        ObjectMap<WeakReference<Item>, ItemModel> models = Reflection.getFieldContents(ItemRenderer.class, "models");
+////
+////                        Puzzle.references.put(modItem.getClass(), new WeakReference<>(modItem));
+////                        Puzzle.references2.put(Puzzle.references.get(modItem.getClass()).get(), Puzzle.references.get(modItem.getClass()));
+////                        modelHashMap.put(modItem.getClass(), new ExperimentalItemModel(references.get(modItem.getClass()), modItem).wrap());
+////                        WeakHashMap<Item, WeakReference<Item>> I = ItemRenderAccessor.getRefMap();
+////                        I.put(modItem, Puzzle.references.get(modItem.getClass()));
+////                        ItemRenderAccessor.setRefMap(I);
+////                        models.put(Puzzle.references.get(modItem.getClass()), modelHashMap.get(modItem.getClass()));
+////                        Reflection.setFieldContents(ItemRenderer.class, "models", models);
+//                    });
+//                }
+//                return ;
+//            }
+            return new InstanceModelWrapper(inst.get(), ItemRenderer.getModel(inst.get().getParentItem(), true));
+        });
     }
 
     @Override
@@ -136,6 +175,11 @@ public class Puzzle implements PreModInitializer, ModInitializer, PostModInitial
                     ItemSlot slot = UI.hotbar.getContainer().getSlot(i);
 
                     if (slot != null) {
+                        if (slot.itemStack != null && slot.itemStack.getItem() instanceof ItemInstance inst) {
+                            if (inst.getParentItem() instanceof ITickingItem tickingItem) {
+                                tickingItem.tickStack(fixedUpdateTimeStep, slot.itemStack, false);
+                            }
+                        }
                         if (slot.itemStack != null && slot.itemStack.getItem() instanceof ITickingItem tickingItem1) {
                             tickingItem1.tickStack(fixedUpdateTimeStep, slot.itemStack, false);
                         }
@@ -147,6 +191,11 @@ public class Puzzle implements PreModInitializer, ModInitializer, PostModInitial
                         ItemSlot slot = UI.openContainers.get(ic).getSlot(i);
 
                         if (slot != null) {
+                            if (slot.itemStack != null && slot.itemStack.getItem() instanceof ItemInstance inst) {
+                                if (inst.getParentItem() instanceof ITickingItem tickingItem) {
+                                    tickingItem.tickStack(fixedUpdateTimeStep, slot.itemStack, false);
+                                }
+                            }
                             if (slot.itemStack != null && slot.itemStack.getItem() instanceof ITickingItem tickingItem1) {
                                 tickingItem1.tickStack(fixedUpdateTimeStep, slot.itemStack, false);
                             }
