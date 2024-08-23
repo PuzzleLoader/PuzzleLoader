@@ -106,6 +106,6 @@ public class ItemInstance implements Item {
     @Override
     public String toString() {
         if (parentItem == null) return getID();
-        return "item_instance_" + parentItem.toString();
+        return parentItem.toString();
     }
 }
