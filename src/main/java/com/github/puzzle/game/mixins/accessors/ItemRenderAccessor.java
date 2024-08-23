@@ -15,4 +15,9 @@ public interface ItemRenderAccessor {
     public static WeakHashMap<Item, WeakReference<Item>> getRefMap(){
         throw new AssertionError();
     }
+
+    @Accessor("referenceMap")
+    public static void setRefMap(WeakHashMap<Item, WeakReference<Item>> referenceMap) {
+        throw new AssertionError();
+    }
 }

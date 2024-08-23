@@ -25,6 +25,7 @@
     "items.ItemCatalogMixin",
     "items.ItemStackMixin",
     "items.rendering.EntityMixin",
+    "items.rendering.ItemRendererMixin",
     "items.rendering.ItemSlotWidgetMixin",
     "items.ticking.ItemEntityMixin",
     "loot.LootTableMixin",

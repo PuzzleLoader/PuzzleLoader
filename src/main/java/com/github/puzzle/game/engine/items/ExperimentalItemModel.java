@@ -14,9 +14,9 @@ import com.github.puzzle.game.items.data.DataTagManifest;
 import com.github.puzzle.game.items.data.attributes.IdentifierDataAttribute;
 import com.github.puzzle.game.items.data.attributes.PairAttribute;
 import com.github.puzzle.game.items.data.attributes.ResourceLocationDataAttribute;
-import com.github.puzzle.game.items.ITickingItem;
 import com.github.puzzle.game.util.DataTagUtil;
 import com.github.puzzle.game.util.MutablePair;
+import com.github.puzzle.game.util.Reflection;
 import com.llamalad7.mixinextras.lib.apache.commons.tuple.Pair;
 import finalforeach.cosmicreach.blocks.BlockPosition;
 import finalforeach.cosmicreach.entities.Entity;
@@ -25,24 +25,26 @@ import finalforeach.cosmicreach.items.Item;
 import finalforeach.cosmicreach.items.ItemStack;
 import finalforeach.cosmicreach.rendering.MeshData;
 import finalforeach.cosmicreach.rendering.RenderOrder;
+import finalforeach.cosmicreach.rendering.items.ItemRenderer;
 import finalforeach.cosmicreach.rendering.shaders.GameShader;
+import finalforeach.cosmicreach.ui.UI;
 import finalforeach.cosmicreach.world.Sky;
 import finalforeach.cosmicreach.world.Zone;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ExperimentalItemModel implements IPuzzleItemModel {
 
     List<Pair<Mesh, Texture>> modelTexturePairs = new ArrayList<>();
+    static Mesh _2D_MESH;
 
     GameShader program = new MeshData(ItemShader.DEFAULT_ITEM_SHADER, RenderOrder.FULLY_TRANSPARENT).shader;
 
     static Matrix4 noRotMtrx = new Matrix4();
     static Camera itemCam2 = new OrthographicCamera(100F, 100F);
-
-    boolean isTool;
 
     static {
         noRotMtrx.setTranslation(0, -1f, 0);
@@ -53,9 +55,11 @@ public class ExperimentalItemModel implements IPuzzleItemModel {
         itemCam2.update();
     }
 
+    IModItem item;
+
     public ExperimentalItemModel(IModItem item) {
         DataTagManifest manifest = item.getTagManifest();
-        isTool = item.isTool();
+        this.item = item;
 
         if (manifest.hasTag(IModItem.TEXTURE_LOCATION_PRESET) && manifest.hasTag(IModItem.MODEL_ID_PRESET)) {
             ResourceLocation location = manifest.getTag(IModItem.TEXTURE_LOCATION_PRESET).getValue();
@@ -63,8 +67,10 @@ public class ExperimentalItemModel implements IPuzzleItemModel {
 
             Texture localTex = ItemModelBuilder.flip(PuzzleGameAssetLoader.LOADER.getResource(location, Texture.class));
             Mesh m = null;
-            if (modelId.toString().equals(IModItem.MODEL_2D_ITEM.toString()))
-                m = ItemModelBuilder.build2DMesh();
+            if (modelId.toString().equals(IModItem.MODEL_2D_ITEM.toString())) {
+                if (_2D_MESH != null) m = _2D_MESH;
+                else _2D_MESH = ItemModelBuilder.build2DMesh();
+            }
             else if (modelId.toString().equals(IModItem.MODEL_2_5D_ITEM.toString()))
                 m = ItemModelBuilder.build2_5DMesh(localTex);
 
@@ -79,7 +85,8 @@ public class ExperimentalItemModel implements IPuzzleItemModel {
             Texture localTex = ItemModelBuilder.flip(PuzzleGameAssetLoader.LOADER.getResource(location, Texture.class));
             Mesh m = null;
             if (modelId.toString().equals(IModItem.MODEL_2D_ITEM.toString()))
-                m = ItemModelBuilder.build2DMesh();
+                if (_2D_MESH != null) m = _2D_MESH;
+                else _2D_MESH = ItemModelBuilder.build2DMesh();
             else if (modelId.toString().equals(IModItem.MODEL_2_5D_ITEM.toString()))
                 m = ItemModelBuilder.build2_5DMesh(localTex);
 
@@ -121,20 +128,24 @@ public class ExperimentalItemModel implements IPuzzleItemModel {
         program.bindOptionalMatrix4("u_modelMat", tmpMatrix);
         program.bindOptionalUniform4f("tintColor", tintColor);
         program.bindOptionalTexture("texDiffuse", meshTexturePair.getRight(), 0);
-        meshTexturePair.getLeft().render(program.shader, GL20.GL_TRIANGLES);
+        if (meshTexturePair.getLeft() != null)
+            meshTexturePair.getLeft().render(program.shader, GL20.GL_TRIANGLES);
         program.unbind();
     }
 
     @Override
     public void renderInSlot(Vector3 pos, ItemStack stack, Camera slotCamera, Matrix4 tmpMatrix, boolean useAmbientLighting) {
+        System.out.println((Object) Reflection.getFieldContents(ItemRenderer.class, "lastHeldItemModel"));
         renderGeneric(new Vector3(0, 0, 0), stack, slotCamera, noRotMtrx, true);
     }
 
     @Override
     public void dispose(WeakReference<Item> itemRef) {
         for (Pair<Mesh, Texture> meshTexturePair : modelTexturePairs) {
-            meshTexturePair.getLeft().dispose();
-            meshTexturePair.getRight().dispose();
+            try {
+                meshTexturePair.getLeft().dispose();
+                meshTexturePair.getRight().dispose();
+            } catch (Exception ignore) {}
         }
         modelTexturePairs.clear();
     }
@@ -147,8 +158,9 @@ public class ExperimentalItemModel implements IPuzzleItemModel {
     static final PerspectiveCamera heldItemCamera = new PerspectiveCamera();
 
     @Override
-    public void renderAsHeldItem(Vector3 pos, ItemStack stack, Camera handCam, float popUpTimer, float maxPopUpTimer, float swingTimer, float maxSwingTimer) {
+    public void renderAsHeldItem(Vector3 pos, ItemStack stack2, Camera handCam, float popUpTimer, float maxPopUpTimer, float swingTimer, float maxSwingTimer) {
         Matrix4 tmpHeldMat4 = new Matrix4();
+        ItemStack stack = UI.hotbar.getSelectedItemStack();
 
         heldItemCamera.fieldOfView = 50.0F;
         heldItemCamera.viewportHeight = handCam.viewportHeight;
@@ -174,7 +186,7 @@ public class ExperimentalItemModel implements IPuzzleItemModel {
             tmpHeldMat4.translate(st * 2.0F, st, 0.0F);
         }
 
-        if (isTool) {
+        if (item.isTool()) {
             tmpHeldMat4.translate(.6f,0, 0);
             tmpHeldMat4.translate(0,-.2f, 0);
             tmpHeldMat4.rotate(new Vector3(0, 0, 1), 20);

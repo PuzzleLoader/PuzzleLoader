@@ -86,8 +86,6 @@ public class ModMenu extends GameState {
         }
 
     }
-
-    @Override
     public void render() {
         super.render();
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
