@@ -22,10 +22,8 @@ public class MainMenuMixin extends GameState {
      */
     @Inject(method = "create",at = @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/ui/UIElement;setText(Ljava/lang/String;)V",ordinal = 3),locals = LocalCapture.CAPTURE_FAILHARD)
     void moveLanguage(CallbackInfo ci, GameState thisState, UIElement startButton, UIElement loadButton, UIElement optionsButton, UIElement langButton){
-        if (Puzzle.VERSION.equals("69.69.69")) {
-            langButton.x = -(275.0F/4)-2;
-            langButton.w = (275.0F/2)-5;
-        }
+        langButton.x = -(275.0F/4)-2;
+        langButton.w = (275.0F/2)-5;
     }
     /**
      * @author replet
@@ -33,18 +31,16 @@ public class MainMenuMixin extends GameState {
     */
     @Inject(method = "create",at = @At("TAIL"))
     void addModsButton(CallbackInfo ci) {
-//        if (Puzzle.VERSION.equals("69.69.69")) {
-            UIElement modsButton = new UIElement((275.0F / 4) + 2, 140.0F, (275.0F / 2) - 5, 35.0F) {
-                public void onClick() {
-                    super.onClick();
-                    GameState.switchToGameState(new ModMenu(currentGameState));
-                }
-            };
-            modsButton.hAnchor = HorizontalAnchor.CENTERED;
-            modsButton.setText(LanguageManager.string(new TranslationKey("puzzle-loader:menu.mods")));
-            modsButton.show();
-            uiObjects.add(modsButton);
-//        }
+         UIElement modsButton = new UIElement((275.0F / 4) + 2, 140.0F, (275.0F / 2) - 5, 35.0F) {
+             public void onClick() {
+                 super.onClick();
+                 GameState.switchToGameState(new ModMenu(currentGameState));
+             }
+         };
+         modsButton.hAnchor = HorizontalAnchor.CENTERED;
+         modsButton.setText(LanguageManager.string(new TranslationKey("puzzle-loader:menu.mods")));
+         modsButton.show();
+         uiObjects.add(modsButton);
     }
 
 }
