@@ -6,23 +6,17 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.BaseDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.github.puzzle.core.Puzzle;
 import com.github.puzzle.game.ui.font.CosmicReachFont;
 import com.github.puzzle.loader.mod.ModContainer;
 import com.github.puzzle.loader.mod.ModLocator;
@@ -30,15 +24,8 @@ import finalforeach.cosmicreach.GameAssetLoader;
 import finalforeach.cosmicreach.gamestates.GameState;
 import finalforeach.cosmicreach.gamestates.MainMenu;
 import finalforeach.cosmicreach.gamestates.PauseMenu;
-import finalforeach.cosmicreach.lang.Lang;
-import finalforeach.cosmicreach.ui.UIElement;
 import org.lwjgl.opengl.GL11;
-
-import java.util.ArrayList;
-
-import static com.badlogic.gdx.graphics.TextureData.TextureDataType.Pixmap;
-import static com.badlogic.gdx.scenes.scene2d.ui.Table.Debug.actor;
-import static com.badlogic.gdx.scenes.scene2d.ui.Table.Debug.table;
+import org.lwjgl.opengl.GL20;
 
 public class ModMenu extends GameState {
 
@@ -70,7 +57,6 @@ public class ModMenu extends GameState {
     @Override
     public void create() {
         super.create();
-        Gdx.gl.glDisable(2884);
         gdxStageCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         gdxStageViewport = new ExtendViewport(800, 600, gdxStageCamera);
         gdxStage = new Stage(gdxStageViewport, batch);
@@ -158,6 +144,7 @@ public class ModMenu extends GameState {
     }
     public void render() {
         super.render();
+        Gdx.gl.glDisable(GL20.GL_CULL_FACE);
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             this.returnToPrevious();
         }
@@ -166,6 +153,7 @@ public class ModMenu extends GameState {
         gdxStageViewport.apply(true);
         gdxStage.act(Gdx.graphics.getDeltaTime());
         gdxStage.draw();
+        Gdx.gl.glEnable(GL20.GL_CULL_FACE);
     }
 
     @Override

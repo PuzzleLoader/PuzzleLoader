@@ -1,6 +1,5 @@
 package com.github.puzzle.game.items;
 
-import finalforeach.cosmicreach.blocks.BlockPosition;
 import finalforeach.cosmicreach.constants.Direction;
 import finalforeach.cosmicreach.items.ISlotContainer;
 import finalforeach.cosmicreach.items.ItemSlot;

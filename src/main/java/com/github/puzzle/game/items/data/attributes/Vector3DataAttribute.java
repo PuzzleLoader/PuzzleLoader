@@ -1,6 +1,5 @@
 package com.github.puzzle.game.items.data.attributes;
 
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.github.puzzle.game.items.data.DataTag;
 import finalforeach.cosmicreach.io.CRBinDeserializer;

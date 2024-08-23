@@ -1,6 +1,5 @@
 package com.github.puzzle.game.items.data.attributes;
 
-import com.github.puzzle.core.Identifier;
 import com.github.puzzle.core.resources.ResourceLocation;
 import com.github.puzzle.game.items.data.DataTag;
 import finalforeach.cosmicreach.io.CRBinDeserializer;

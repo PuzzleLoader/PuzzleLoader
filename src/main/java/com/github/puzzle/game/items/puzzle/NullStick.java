@@ -1,6 +1,5 @@
 package com.github.puzzle.game.items.puzzle;
 
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.OrderedMap;
 import com.github.puzzle.core.Identifier;
 import com.github.puzzle.core.Puzzle;
@@ -9,7 +8,8 @@ import com.github.puzzle.game.items.IModItem;
 import com.github.puzzle.game.items.ITickingItem;
 import com.github.puzzle.game.items.data.DataTag;
 import com.github.puzzle.game.items.data.DataTagManifest;
-import com.github.puzzle.game.items.data.attributes.*;
+import com.github.puzzle.game.items.data.attributes.IntDataAttribute;
+import com.github.puzzle.game.items.data.attributes.ListDataAttribute;
 import com.github.puzzle.game.util.DataTagUtil;
 import finalforeach.cosmicreach.BlockSelection;
 import finalforeach.cosmicreach.blocks.BlockPosition;

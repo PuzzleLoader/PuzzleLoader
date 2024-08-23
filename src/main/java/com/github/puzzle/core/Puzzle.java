@@ -29,14 +29,11 @@ import finalforeach.cosmicreach.chat.Chat;
 import finalforeach.cosmicreach.gamestates.InGame;
 import finalforeach.cosmicreach.items.Item;
 import finalforeach.cosmicreach.items.ItemSlot;
-import finalforeach.cosmicreach.rendering.items.ItemModel;
 import finalforeach.cosmicreach.rendering.items.ItemRenderer;
 import finalforeach.cosmicreach.ui.UI;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.ref.WeakReference;
-import java.util.HashMap;
 
 import static finalforeach.cosmicreach.rendering.items.ItemRenderer.registerItemModelCreator;
 
@@ -117,35 +114,7 @@ public class Puzzle implements PreModInitializer, ModInitializer, PostModInitial
         Item.registerItem(new ItemInstance(null));
 
         registerItemModelCreator(ItemInstance.class, (inst) -> {
-//            ObjectMap<Class<? extends Item>, Function<?, ItemModel>> modelCreators = Reflection.getFieldContents(ItemRenderer.class, "modelCreators");
-//            ObjectMap<WeakReference<Item>, ItemModel> models = Reflection.getFieldContents(ItemRenderer.class, "models");
-//
-//            Item item = Objects.requireNonNull(inst.get()).getParentItem();
-//            WeakReference<Item> ref = ItemRenderAccessor.getRefMap().get(item);
-//
-//            Function<WeakReference<Item>, ItemModel> itemModelFunction = (Function<WeakReference<Item>, ItemModel>) modelCreators.get(item.getClass());
-//            ItemModel model = itemModelFunction.apply(ref);
-//            models.put(ref, model);
-//            Reflection.setFieldContents(ItemRenderer.class, "models", models);
-//            return model;
-//            if (Objects.requireNonNull(inst.get()).getParentItem() instanceof IModItem modItem) {
-//                if (!modelHashMap.containsKey(modItem.getClass())) {
-//                    Threads.runOnMainThread(() -> {
-////                        ObjectMap<WeakReference<Item>, ItemModel> models = Reflection.getFieldContents(ItemRenderer.class, "models");
-////
-////                        Puzzle.references.put(modItem.getClass(), new WeakReference<>(modItem));
-////                        Puzzle.references2.put(Puzzle.references.get(modItem.getClass()).get(), Puzzle.references.get(modItem.getClass()));
-////                        modelHashMap.put(modItem.getClass(), new ExperimentalItemModel(references.get(modItem.getClass()), modItem).wrap());
-////                        WeakHashMap<Item, WeakReference<Item>> I = ItemRenderAccessor.getRefMap();
-////                        I.put(modItem, Puzzle.references.get(modItem.getClass()));
-////                        ItemRenderAccessor.setRefMap(I);
-////                        models.put(Puzzle.references.get(modItem.getClass()), modelHashMap.get(modItem.getClass()));
-////                        Reflection.setFieldContents(ItemRenderer.class, "models", models);
-//                    });
-//                }
-//                return ;
-//            }
-            return new InstanceModelWrapper(inst.get(), ItemRenderer.getModel(inst.get().getParentItem(), true));
+            return new InstanceModelWrapper(inst.get(), ItemRenderer.getModel(inst.get().getParentItem(), false));
         });
     }
 

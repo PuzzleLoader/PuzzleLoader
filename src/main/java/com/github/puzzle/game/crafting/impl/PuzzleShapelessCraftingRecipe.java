@@ -1,7 +1,6 @@
 package com.github.puzzle.game.crafting.impl;
 
 import com.github.puzzle.core.Identifier;
-import com.github.puzzle.core.Puzzle;
 import com.github.puzzle.game.crafting.IPuzzleCraftingRecipe;
 import com.github.puzzle.game.crafting.IRecipeSerializer;
 import com.github.puzzle.game.crafting.RecipeInput;

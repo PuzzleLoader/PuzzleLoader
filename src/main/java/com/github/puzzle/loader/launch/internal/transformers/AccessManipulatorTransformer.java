@@ -1,18 +1,14 @@
 package com.github.puzzle.loader.launch.internal.transformers;
 
 import com.github.puzzle.access_manipulators.AccessManipulators;
-import com.github.puzzle.access_manipulators.pairs.FieldModifierPair;
-import com.github.puzzle.access_manipulators.readers.AccessTransformerReader;
 import com.github.puzzle.access_manipulators.readers.api.IAccessModifierReader;
-import com.github.puzzle.access_manipulators.util.ClassPathUtil;
 import com.github.puzzle.loader.launch.Piece;
 import com.github.puzzle.loader.mod.ModContainer;
 import com.github.puzzle.loader.mod.ModLocator;
 import net.minecraft.launchwrapper.IClassTransformer;
 
-import java.io.*;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.zip.ZipFile;
 
 import static com.github.puzzle.access_manipulators.AccessManipulators.readerMap;

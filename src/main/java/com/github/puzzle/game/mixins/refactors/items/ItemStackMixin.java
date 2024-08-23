@@ -4,7 +4,6 @@ import com.github.puzzle.game.items.IModItem;
 import com.github.puzzle.game.items.data.DataTagManifest;
 import com.github.puzzle.game.items.puzzle.ItemInstance;
 import com.github.puzzle.game.items.stack.ITaggedStack;
-import com.github.puzzle.game.util.Reflection;
 import finalforeach.cosmicreach.io.CRBinDeserializer;
 import finalforeach.cosmicreach.io.CRBinSerializer;
 import finalforeach.cosmicreach.items.Item;
@@ -36,7 +35,7 @@ public class ItemStackMixin implements ITaggedStack {
 
     @Inject(method = "write", at = @At("TAIL"))
     private void write(CRBinSerializer crbs, CallbackInfo ci) {
-        crbs.writeBoolean("isModItem", true);
+        crbs.writeBoolean("isModItem", isModItem);
         crbs.writeObj("dataTagManifest", manifest == null ? new DataTagManifest() : manifest);
     }
 

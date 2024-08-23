@@ -7,7 +7,6 @@ import com.github.puzzle.game.engine.items.InstanceModelWrapper;
 import com.github.puzzle.game.engine.items.model.ItemModelWrapper;
 import com.github.puzzle.game.util.Reflection;
 import finalforeach.cosmicreach.entities.Entity;
-import finalforeach.cosmicreach.entities.ItemEntity;
 import finalforeach.cosmicreach.items.ItemStack;
 import finalforeach.cosmicreach.rendering.entities.IEntityModel;
 import finalforeach.cosmicreach.rendering.items.ItemEntityModel;

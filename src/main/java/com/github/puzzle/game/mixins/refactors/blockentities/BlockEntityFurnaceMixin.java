@@ -2,8 +2,6 @@ package com.github.puzzle.game.mixins.refactors.blockentities;
 
 import com.github.puzzle.game.items.IStorageContainer;
 import finalforeach.cosmicreach.blockentities.BlockEntityFurnace;
-import finalforeach.cosmicreach.constants.Direction;
-import finalforeach.cosmicreach.items.ISlotContainer;
 import finalforeach.cosmicreach.items.ItemSlot;
 import finalforeach.cosmicreach.items.containers.FurnaceSlotContainer;
 import org.spongepowered.asm.mixin.Mixin;

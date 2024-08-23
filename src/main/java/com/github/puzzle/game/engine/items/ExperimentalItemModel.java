@@ -15,8 +15,7 @@ import com.github.puzzle.game.items.data.attributes.IdentifierDataAttribute;
 import com.github.puzzle.game.items.data.attributes.PairAttribute;
 import com.github.puzzle.game.items.data.attributes.ResourceLocationDataAttribute;
 import com.github.puzzle.game.util.DataTagUtil;
-import com.github.puzzle.game.util.MutablePair;
-import com.github.puzzle.game.util.Reflection;
+import com.llamalad7.mixinextras.lib.apache.commons.tuple.ImmutablePair;
 import com.llamalad7.mixinextras.lib.apache.commons.tuple.Pair;
 import finalforeach.cosmicreach.blocks.BlockPosition;
 import finalforeach.cosmicreach.entities.Entity;
@@ -25,20 +24,21 @@ import finalforeach.cosmicreach.items.Item;
 import finalforeach.cosmicreach.items.ItemStack;
 import finalforeach.cosmicreach.rendering.MeshData;
 import finalforeach.cosmicreach.rendering.RenderOrder;
-import finalforeach.cosmicreach.rendering.items.ItemRenderer;
 import finalforeach.cosmicreach.rendering.shaders.GameShader;
 import finalforeach.cosmicreach.ui.UI;
 import finalforeach.cosmicreach.world.Sky;
 import finalforeach.cosmicreach.world.Zone;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.HashMap;
 
 public class ExperimentalItemModel implements IPuzzleItemModel {
 
-    List<Pair<Mesh, Texture>> modelTexturePairs = new ArrayList<>();
+//    static HashMap<String, List<Pair<Mesh, Texture>>> modelTexturePairs = new HashMap<>();
+//    static HashMap<String, HashMap<String, Texture>> textureCache = new HashMap<>();
+    static HashMap<String, Texture> ITEM_TEXTURE_CACHE = new HashMap<>();
+    static HashMap<String, Mesh> ITEM_MESH_CACHE = new HashMap<>();
+    static HashMap<String, Pair<String, String>> INDEX_CACHE = new HashMap<>();
     static Mesh _2D_MESH;
 
     GameShader program = new MeshData(ItemShader.DEFAULT_ITEM_SHADER, RenderOrder.FULLY_TRANSPARENT).shader;
@@ -61,41 +61,80 @@ public class ExperimentalItemModel implements IPuzzleItemModel {
         DataTagManifest manifest = item.getTagManifest();
         this.item = item;
 
+        boolean isOld = false;
         if (manifest.hasTag(IModItem.TEXTURE_LOCATION_PRESET) && manifest.hasTag(IModItem.MODEL_ID_PRESET)) {
             ResourceLocation location = manifest.getTag(IModItem.TEXTURE_LOCATION_PRESET).getValue();
             Identifier modelId = manifest.getTag(IModItem.MODEL_ID_PRESET).getValue();
 
-            Texture localTex = ItemModelBuilder.flip(PuzzleGameAssetLoader.LOADER.getResource(location, Texture.class));
-            Mesh m = null;
-            if (modelId.toString().equals(IModItem.MODEL_2D_ITEM.toString())) {
-                if (_2D_MESH != null) m = _2D_MESH;
-                else _2D_MESH = ItemModelBuilder.build2DMesh();
-            }
-            else if (modelId.toString().equals(IModItem.MODEL_2_5D_ITEM.toString()))
-                m = ItemModelBuilder.build2_5DMesh(localTex);
 
-            modelTexturePairs.add(new MutablePair<>(m, localTex));
+            if (!ITEM_MESH_CACHE.containsKey(item.getID() + "_" + location + "_" + modelId + "_model")){
+                Texture localTex;
+
+                if (ITEM_TEXTURE_CACHE.containsKey(item.getID() + "_" + location + "_texture")) {
+                    localTex = ITEM_TEXTURE_CACHE.get(item.getID() + "_" + location + "_texture");
+                } else localTex = ItemModelBuilder.flip(PuzzleGameAssetLoader.LOADER.getResource(location, Texture.class));
+
+                Mesh m = null;
+                if (modelId.toString().equals(IModItem.MODEL_2D_ITEM.toString())) {
+                    if (_2D_MESH != null) m = _2D_MESH;
+                    else _2D_MESH = ItemModelBuilder.build2DMesh();
+                } else if (modelId.toString().equals(IModItem.MODEL_2_5D_ITEM.toString()))
+                    m = ItemModelBuilder.build2_5DMesh(localTex);
+
+                ITEM_MESH_CACHE.put(item.getID() + "_" + location + "_" + modelId + "_model", m);
+                ITEM_TEXTURE_CACHE.put(item.getID() + "_" + location + "_texture", localTex);
+                INDEX_CACHE.put(item.getID() + "_0", new ImmutablePair<>(
+                        item.getID() + "_" + location + "_" + modelId + "_model",
+                        item.getID() + "_" + location + "_texture"
+                ));
+                isOld = true;
+            }
         }
 
+        int index = isOld ? 1 : 0;
         for (PairAttribute<IdentifierDataAttribute, ResourceLocationDataAttribute> pairAttribute : item.getTextures()) {
             Pair<IdentifierDataAttribute, ResourceLocationDataAttribute> pair = pairAttribute.getValue();
             ResourceLocation location = pair.getRight().getValue();
             Identifier modelId = pair.getLeft().getValue();
 
-            Texture localTex = ItemModelBuilder.flip(PuzzleGameAssetLoader.LOADER.getResource(location, Texture.class));
-            Mesh m = null;
-            if (modelId.toString().equals(IModItem.MODEL_2D_ITEM.toString()))
-                if (_2D_MESH != null) m = _2D_MESH;
-                else _2D_MESH = ItemModelBuilder.build2DMesh();
-            else if (modelId.toString().equals(IModItem.MODEL_2_5D_ITEM.toString()))
-                m = ItemModelBuilder.build2_5DMesh(localTex);
+            if (!ITEM_MESH_CACHE.containsKey(item.getID() + "_" + location + "_" + modelId + "_model")){
+                Texture localTex;
 
-            modelTexturePairs.add(new MutablePair<>(m, localTex));
+                if (ITEM_TEXTURE_CACHE.containsKey(item.getID() + "_" + location + "_texture")) {
+                    localTex = ITEM_TEXTURE_CACHE.get(item.getID() + "_" + location + "_texture");
+                } else localTex = ItemModelBuilder.flip(PuzzleGameAssetLoader.LOADER.getResource(location, Texture.class));
+
+                Mesh m = null;
+                if (modelId.toString().equals(IModItem.MODEL_2D_ITEM.toString()))
+                    if (_2D_MESH != null) m = _2D_MESH;
+                    else _2D_MESH = ItemModelBuilder.build2DMesh();
+                else if (modelId.toString().equals(IModItem.MODEL_2_5D_ITEM.toString()))
+                    m = ItemModelBuilder.build2_5DMesh(localTex);
+
+                ITEM_MESH_CACHE.put(item.getID() + "_" + location + "_" + modelId + "_model", m);
+                ITEM_TEXTURE_CACHE.put(item.getID() + "_" + location + "_texture", localTex);
+                INDEX_CACHE.put(item.getID() + "_" + index, new ImmutablePair<>(
+                        item.getID() + "_" + location + "_" + modelId + "_model",
+                        item.getID() + "_" + location + "_texture"
+                ));
+                index++;
+            }
         }
     }
 
     static final Color tintColor = new Color();
     static final BlockPosition tmpBlockPos = new BlockPosition(null, 0, 0, 0);
+
+    public Mesh getMeshFromIndex(int i) {
+        String meshId = INDEX_CACHE.get(item.getID() + "_" + i).getLeft();
+        return ITEM_MESH_CACHE.get(meshId);
+    }
+
+    public Texture getTextureFromIndex(int i) {
+        System.out.println(item.getID() + "_" + i);
+        String meshId = INDEX_CACHE.get(item.getID() + "_" + i).getRight();
+        return ITEM_TEXTURE_CACHE.get(meshId);
+    }
 
     public void renderGeneric(Vector3 pos, ItemStack stack, Camera cam, Matrix4 tmpMatrix, boolean isSlot) {
         DataTagManifest stackManifest;
@@ -108,7 +147,7 @@ public class ExperimentalItemModel implements IPuzzleItemModel {
         int currentEntry;
         if (stackManifest != null) {
             currentEntry = stackManifest.hasTag("currentEntry") ? stackManifest.getTag("currentEntry").getTagAsType(Integer.class).getValue() : 0;
-            currentEntry = currentEntry >= modelTexturePairs.size() ? 0 : currentEntry;
+            currentEntry = currentEntry >= item.getTextures().size() ? 0 : currentEntry;
         } else currentEntry = 0;
         if (isSlot) {
             tintColor.set(Color.WHITE);
@@ -121,33 +160,27 @@ public class ExperimentalItemModel implements IPuzzleItemModel {
             }
         }
 
-        Pair<Mesh, Texture> meshTexturePair = modelTexturePairs.get(currentEntry);
-
         program.bind(cam);
         program.bindOptionalMatrix4("u_projViewTrans", cam.combined);
         program.bindOptionalMatrix4("u_modelMat", tmpMatrix);
         program.bindOptionalUniform4f("tintColor", tintColor);
-        program.bindOptionalTexture("texDiffuse", meshTexturePair.getRight(), 0);
-        if (meshTexturePair.getLeft() != null)
-            meshTexturePair.getLeft().render(program.shader, GL20.GL_TRIANGLES);
+        program.bindOptionalTexture("texDiffuse", getTextureFromIndex(currentEntry), 0);
+        if (getMeshFromIndex(currentEntry) != null)
+            getMeshFromIndex(currentEntry).render(program.shader, GL20.GL_TRIANGLES);
         program.unbind();
     }
 
     @Override
     public void renderInSlot(Vector3 pos, ItemStack stack, Camera slotCamera, Matrix4 tmpMatrix, boolean useAmbientLighting) {
-        System.out.println((Object) Reflection.getFieldContents(ItemRenderer.class, "lastHeldItemModel"));
         renderGeneric(new Vector3(0, 0, 0), stack, slotCamera, noRotMtrx, true);
     }
 
     @Override
     public void dispose(WeakReference<Item> itemRef) {
-        for (Pair<Mesh, Texture> meshTexturePair : modelTexturePairs) {
-            try {
-                meshTexturePair.getLeft().dispose();
-                meshTexturePair.getRight().dispose();
-            } catch (Exception ignore) {}
+        for (int i = 0; i < item.getTextures().size(); i++) {
+            getMeshFromIndex(i).dispose();
+            getTextureFromIndex(i).dispose();
         }
-        modelTexturePairs.clear();
     }
 
     @Override

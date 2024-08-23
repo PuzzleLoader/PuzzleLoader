@@ -27,9 +27,9 @@ import com.github.puzzle.loader.mod.ModLocator;
 import finalforeach.cosmicreach.blockentities.BlockEntityCreator;
 import finalforeach.cosmicreach.blockevents.BlockEvents;
 import finalforeach.cosmicreach.io.SaveLocation;
-import finalforeach.cosmicreach.items.recipes.CraftingRecipes;
 import finalforeach.cosmicreach.items.ItemThing;
 import finalforeach.cosmicreach.items.loot.Loot;
+import finalforeach.cosmicreach.items.recipes.CraftingRecipes;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;

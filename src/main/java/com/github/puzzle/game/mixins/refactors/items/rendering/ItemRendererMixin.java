@@ -18,7 +18,6 @@ public abstract class ItemRendererMixin {
     private static <T extends Item> void getModel0(T item, boolean createIfNull, CallbackInfoReturnable<ItemModel> cir) {
         if (item instanceof ItemInstance && ((ItemInstance) item).getParentItem() != null) {
             cir.setReturnValue(getModel(((ItemInstance) item).getParentItem(), createIfNull));
-            return;
         }
     }
 }

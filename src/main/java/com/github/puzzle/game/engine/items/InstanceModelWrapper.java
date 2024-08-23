@@ -6,9 +6,7 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.github.puzzle.game.items.puzzle.ItemInstance;
 import finalforeach.cosmicreach.items.Item;
-import finalforeach.cosmicreach.items.ItemStack;
 import finalforeach.cosmicreach.rendering.items.ItemModel;
-import finalforeach.cosmicreach.ui.UI;
 
 import java.lang.ref.WeakReference;
 
