@@ -131,7 +131,6 @@ public class ExperimentalItemModel implements IPuzzleItemModel {
     }
 
     public Texture getTextureFromIndex(int i) {
-        System.out.println(item.getID() + "_" + i);
         String meshId = INDEX_CACHE.get(item.getID() + "_" + i).getRight();
         return ITEM_TEXTURE_CACHE.get(meshId);
     }
