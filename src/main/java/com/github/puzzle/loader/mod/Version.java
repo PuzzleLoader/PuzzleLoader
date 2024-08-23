@@ -5,13 +5,28 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.LoggerFactory;
 
 
-//TODO: support more than just the numbers
-public record Version(
-    int Major,
-    int Minor,
-    int Patch
-) {
+//TODO: Possibly support things like release candidate?
+public record Version(int Major, int Minor, int Patch, VersionType Type) {
 
+    public enum VersionType {
+        ALPHA,
+        BETA,
+        UNDEFINED
+    }
+
+    public Version(int Major, int Minor, int Patch){
+        this(Major, Minor, Patch, VersionType.UNDEFINED);
+    }
+    public static @NotNull VersionType getVersionType(@NotNull String type){
+        switch (type.toLowerCase()){
+            case "beta":
+                return VersionType.BETA;
+            case "alpha":
+                return VersionType.ALPHA;
+            default:
+                return VersionType.UNDEFINED;
+        }
+    }
     public static @NotNull Version parseVersion(String ver) {
         try {
             return parseVersionWithThrow(ver);
@@ -24,12 +39,25 @@ public record Version(
 
     @Contract("_ -> new")
     public static @NotNull Version parseVersionWithThrow(String ver) throws NumberFormatException {
-        if (ver == null) return new Version(0, 0, 0);
-        String[] pieces = ver.split("\\.");
+        if (ver == null || ver.isBlank() || ver.isEmpty()) return new Version(0, 0, 0);
+        String[] split =  ver.split("-", 2);
+        String versionString;
+        Version.VersionType versionType = Version.VersionType.UNDEFINED;
+
+        if (split.length > 1) {
+            versionString = split[0];
+            versionType = getVersionType(split[1]);
+
+        }
+        else {
+            versionString = ver;
+        }
+        String[] pieces = versionString.split("\\.");
         return new Version(
                 Integer.parseInt(pieces[0]),
                 Integer.parseInt(pieces[1]),
-                Integer.parseInt(pieces[2])
+                Integer.parseInt(pieces[2]),
+                versionType
         );
     }
 
@@ -40,15 +68,16 @@ public record Version(
     }
 
     public SIZE_COMP otherIs(@NotNull Version version) {
-        if (Major == version.Major && Minor == version.Minor && Patch == version.Patch) return SIZE_COMP.SAME;
-        if (Major > version.Major()) return SIZE_COMP.LARGER;
-        if (Minor > version.Minor() && Major <= version.Major) return SIZE_COMP.LARGER;
-        if (Patch > version.Patch() && Major <= version.Major && Minor <= version.Minor) return SIZE_COMP.LARGER;
+        if (Major == version.Major && Minor == version.Minor && Patch == version.Patch && version.Type.ordinal() == Type.ordinal()) return SIZE_COMP.SAME;
+        if (Type.ordinal() > version.Type.ordinal()) return SIZE_COMP.LARGER;
+        if (Major > version.Major && Type.ordinal() == version.Type.ordinal()) return SIZE_COMP.LARGER;
+        if (Minor > version.Minor && Major == version.Major && Type.ordinal() == version.Type.ordinal()) return SIZE_COMP.LARGER;
+        if (Patch > version.Patch && Major == version.Major && Minor == version.Minor && Type.ordinal() == version.Type.ordinal()) return SIZE_COMP.LARGER;
         return SIZE_COMP.SMALLER;
     }
 
     @Override
     public String toString() {
-        return "%d.%d.%d".formatted(Major, Minor, Patch);
+        return "%d.%d.%d%s".formatted(Major, Minor, Patch,Type == VersionType.UNDEFINED ? "" : "-" + Type);
     }
 }
