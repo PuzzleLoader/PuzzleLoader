@@ -33,16 +33,16 @@ public class PuzzleGameAssetLoader {
     }
 
     public static @Nullable FileHandle locateAsset(@NotNull ResourceLocation location) {
-        FileHandle classpathLocationFile = Gdx.files.classpath("assets/%s/%s".formatted(location.namespace, location.name));
-        if (classpathLocationFile.exists()) {
-            LOGGER.info("Loading " + AnsiColours.PURPLE + "\"{}\"" + AnsiColours.WHITE + " from Java Mod " + AnsiColours.GREEN + "\"{}\"" + AnsiColours.WHITE, location.name, location.namespace);
-            return classpathLocationFile;
-        }
-
         FileHandle modLocationFile = Gdx.files.absolute(SaveLocation.getSaveFolderLocation() + "/mods/assets/" + location.name);
         if (modLocationFile.exists()) {
             LOGGER.info("Loading " + AnsiColours.CYAN+"\"{}\"" + AnsiColours.WHITE + " from Mods Folder", location.name);
             return modLocationFile;
+        }
+
+        FileHandle classpathLocationFile = Gdx.files.classpath("assets/%s/%s".formatted(location.namespace, location.name));
+        if (classpathLocationFile.exists()) {
+            LOGGER.info("Loading " + AnsiColours.PURPLE + "\"{}\"" + AnsiColours.WHITE + " from Java Mod " + AnsiColours.GREEN + "\"{}\"" + AnsiColours.WHITE, location.name, location.namespace);
+            return classpathLocationFile;
         }
 
         FileHandle vanillaLocationFile = Gdx.files.internal(location.name);
