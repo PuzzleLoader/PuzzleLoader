@@ -35,9 +35,10 @@ public class BlockGameMixin {
         }
     }
 
-    @Inject(method = "dispose", at = @At(value = "INVOKE", target = "Ljava/lang/System;exit(I)V", shift = At.Shift.BEFORE), require = 0)
+    @Inject(method = "dispose", at = @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/audio/SoundManager;dispose()V", shift = At.Shift.BEFORE), require = 0)
     public void dispose(CallbackInfo ci) {
         AssetManager manager = PuzzleGameAssetLoader.LOADER.getAssetManager();
+        manager.clear();
         manager.dispose();
         Piece.LOGGER.info("Puzzle API Destroyed");
     }
