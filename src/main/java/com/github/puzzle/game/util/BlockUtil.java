@@ -13,15 +13,15 @@ import finalforeach.cosmicreach.world.Zone;
 public class BlockUtil {
 
     public static void setBlockAt(Zone zone, BlockState state, BlockPosition vector3) {
-        BlockSetter.replaceBlock(zone, state, vector3, new Queue<>());
+        BlockSetter.get().replaceBlock(zone, state, vector3);
     }
 
     public static void setBlockAt(Zone zone, BlockState state, Vector3 vector3) {
-        BlockSetter.replaceBlock(zone, state, getBlockPosAtVec(zone, vector3), new Queue<>());
+        BlockSetter.get().replaceBlock(zone, state, getBlockPosAtVec(zone, vector3));
     }
 
     public static void setBlockAt(Zone zone, BlockState state, int x, int y, int z) {
-        BlockSetter.replaceBlock(zone, state, getBlockPosAtVec(zone, x, y, z), new Queue<>());
+        BlockSetter.get().replaceBlock(zone, state, x, y ,z);
     }
 
     public static Chunk getChunkAtVec(Zone zone, int x, int y, int z) {
