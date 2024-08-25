@@ -270,4 +270,8 @@ public interface IModItem extends Item {
         return false;
     }
 
+    @Override
+    default boolean hasTag(String s) {
+        return false;
+    }
 }

@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class LootTableMixin {
     @Shadow public static ObjectMap<String, Loot> lootMap;
 
-    @Redirect(method = "loadLoot", at = @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/items/loot/Loot;registerLoot(Lfinalforeach/cosmicreach/items/loot/Loot;)V"))
+    @Redirect(method = "loadLoot(Lcom/badlogic/gdx/utils/JsonValue;)V", at = @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/items/loot/Loot;registerLoot(Lfinalforeach/cosmicreach/items/loot/Loot;)V"))
     private static void registerLoot0(Loot loot) {
         if (lootMap.containsKey(loot.lootId)) {
             throw new RuntimeException("Cannot register loot with a duplicate id: " + loot.lootId);
