@@ -28,6 +28,10 @@ public class BuiltInTags {
     public static Tag iron_ingot = Tag.of("iron_ingot");
     public static Tag iron_block = Tag.of("iron_block");
 
+    public static Tag gold_ore = Tag.of("gold_ore");
+    public static Tag gold_ingot = Tag.of("gold_ingot");
+    public static Tag gold_block = Tag.of("gold_block");
+
     public static Tag steel_ingot = Tag.of("steel_ingot");
     public static Tag steel_block = Tag.of("steel_block");
 

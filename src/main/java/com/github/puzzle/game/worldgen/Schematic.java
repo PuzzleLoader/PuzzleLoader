@@ -1,11 +1,8 @@
 package com.github.puzzle.game.worldgen;
 
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.llamalad7.mixinextras.lib.apache.commons.tuple.Pair;
 import finalforeach.cosmicreach.blocks.BlockState;
-
-import java.util.Arrays;
 
 public class Schematic {
     Array<BlockState> blockStates;

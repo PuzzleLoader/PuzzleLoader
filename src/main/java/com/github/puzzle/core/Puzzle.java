@@ -120,6 +120,10 @@ public class Puzzle implements PreModInitializer, ModInitializer, PostModInitial
 
     @Override
     public void onPostInit() {
+        BuiltInTags.ore.add(Block.getInstance("block_ore_gold"));
+        BuiltInTags.ore.add(Block.getInstance("block_ore_bauxite"));
+        BuiltInTags.ore.add(Block.getInstance("block_ore_iron"));
+
         BuiltInTags.stone.add(Block.getInstance("block_stone_basalt"));
         BuiltInTags.stone.add(Block.getInstance("block_stone_gabbro"));
         BuiltInTags.stone.add(Block.getInstance("block_stone_limestone"));
@@ -132,7 +136,16 @@ public class Puzzle implements PreModInitializer, ModInitializer, PostModInitial
         BuiltInTags.dirt.add(Block.getInstance("block_lunar_soil_packed"));
 
         BuiltInTags.aluminum_block.add(Block.getInstance("block_aluminium_panel"));
-        BuiltInTags.steel_block.add(Block.getInstance("block_metal_panel"));
+        BuiltInTags.aluminum_ore.add(Block.getInstance("block_ore_bauxite"));
+        BuiltInTags.aluminum_ingot.add(Item.getItem("base:ingot_aluminium"));
+
+        BuiltInTags.iron_ore.add(Block.getInstance("block_metal_panel"));
+        BuiltInTags.iron_block.add(Block.getInstance("block_ore_iron"));
+        BuiltInTags.iron_ingot.add(Item.getItem("base:ingot_iron"));
+
+        BuiltInTags.gold_ore.add(Block.getInstance("block_grass"));
+        BuiltInTags.gold_block.add(Block.getInstance("block_metal_panel"));
+        BuiltInTags.gold_ingot.add(Item.getItem("base:ingot_gold"));
 
         BuiltInTags.logs.add(Block.getInstance("block_tree_log"));
         BuiltInTags.planks.add(Block.getInstance("block_wood_planks"));
