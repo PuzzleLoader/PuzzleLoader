@@ -62,7 +62,11 @@ public class CustomTextureLoader {
 
     public static int createUBOFloatsIdx(final float u, final float v, Vector3 normal) {
         for (int i = 0; i < ChunkShader.faceTexBufFloats.size; i += 5) {
-            if (ChunkShader.faceTexBufFloats.get(i) == u && ChunkShader.faceTexBufFloats.get(i + 1) == v) {
+            if (ChunkShader.faceTexBufFloats.get(i) == u && ChunkShader.faceTexBufFloats.get(i + 1) == v
+                && ChunkShader.faceTexBufFloats.get(i + 2) == normal.x
+                && ChunkShader.faceTexBufFloats.get(i + 3) == normal.y
+                && ChunkShader.faceTexBufFloats.get(i + 4) == normal.z
+            ) {
                 return i / 5;
             }
         }
