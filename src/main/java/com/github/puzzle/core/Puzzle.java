@@ -3,7 +3,6 @@ package com.github.puzzle.core;
 import com.github.puzzle.core.localization.ILanguageFile;
 import com.github.puzzle.core.localization.LanguageManager;
 import com.github.puzzle.core.localization.files.LanguageFileVersion1;
-import com.github.puzzle.core.resources.ResourceLocation;
 import com.github.puzzle.game.Globals;
 import com.github.puzzle.game.commands.CommandManager;
 import com.github.puzzle.game.commands.PuzzleCommandSource;
@@ -12,15 +11,16 @@ import com.github.puzzle.game.engine.shaders.ItemShader;
 import com.github.puzzle.game.items.IModItem;
 import com.github.puzzle.game.items.ITickingItem;
 import com.github.puzzle.game.items.data.DataTagManifest;
-import com.github.puzzle.game.items.impl.BasicTool;
-import com.github.puzzle.game.items.puzzle.*;
+import com.github.puzzle.game.items.puzzle.BlockWrench;
+import com.github.puzzle.game.items.puzzle.CheckBoard;
+import com.github.puzzle.game.items.puzzle.ItemInstance;
+import com.github.puzzle.game.items.puzzle.NullStick;
 import com.github.puzzle.game.oredict.tags.BuiltInTags;
 import com.github.puzzle.game.util.DataTagUtil;
 import com.github.puzzle.loader.entrypoint.interfaces.ModInitializer;
 import com.github.puzzle.loader.entrypoint.interfaces.PostModInitializer;
 import com.github.puzzle.loader.entrypoint.interfaces.PreModInitializer;
 import com.github.puzzle.loader.launch.PuzzleClassLoader;
-import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.Threads;
@@ -75,11 +75,77 @@ public class Puzzle implements PreModInitializer, ModInitializer, PostModInitial
     public static IModItem DebugStick;
     public static IModItem CheckerBoard;
     public static IModItem BlockWrench;
+    public static Vector3 vecpos1;
+    public static Vector3 vecpos2;
+    public static Schematic clipBoard;
 
     @Override
     public void onInit() {
         Threads.runOnMainThread(ItemShader::initItemShader);
 
+        LiteralArgumentBuilder<PuzzleCommandSource> pos1 = CommandManager.literal("pos1");
+        pos1.executes(context -> {
+            Vector3 playerPositon = InGame.getLocalPlayer().getPosition();
+            vecpos1 = new Vector3((float) Math.floor(playerPositon.x), (float) Math.floor(playerPositon.y), (float) Math.floor(playerPositon.z));
+            return 0;
+        });
+        CommandManager.dispatcher.register(pos1);
+
+        LiteralArgumentBuilder<PuzzleCommandSource> pos2 = CommandManager.literal("pos2");
+        pos2.executes(context -> {
+            Vector3 playerPositon = InGame.getLocalPlayer().getPosition();
+            vecpos2 = new Vector3((float) Math.floor(playerPositon.x), (float) Math.floor(playerPositon.y), (float) Math.floor(playerPositon.z));
+            return 0;
+        });
+        CommandManager.dispatcher.register(pos2);
+
+        LiteralArgumentBuilder<PuzzleCommandSource> paste = CommandManager.literal("paste");
+        paste.executes(context -> {
+            if(clipBoard == null) {
+
+                return 0;
+            }
+            Player player = InGame.getLocalPlayer();
+            Vector3 playerPositon = player.getPosition();
+            System.out.println(playerPositon);
+            Schematic.genSchematicStructureAtGlobal(clipBoard, player.getZone(InGame.world), player.getChunk(InGame.world),(int) Math.floor(playerPositon.x), (int) Math.floor(playerPositon.y), (int) Math.floor(playerPositon.z));
+            return 0;
+        });
+        CommandManager.dispatcher.register(paste);
+
+        LiteralArgumentBuilder<PuzzleCommandSource> genSchmatic = CommandManager.literal("gs");
+        genSchmatic.executes(context -> {
+            clipBoard = Schematic.generateASchematic(vecpos1, vecpos2, InGame.getLocalPlayer().getZone(InGame.world));
+            return 0;
+        });
+        CommandManager.dispatcher.register(genSchmatic);
+
+        LiteralArgumentBuilder<PuzzleCommandSource> getAttributes = CommandManager.literal("getattributes");
+        getAttributes.executes(context -> {
+            if (UI.hotbar != null && UI.hotbar.getSelectedSlot() != null) {
+                ItemSlot slot = UI.hotbar.getSelectedSlot();
+                if (slot.itemStack == null) return 0;
+                DataTagManifest manifest = DataTagUtil.getManifestFromStack(slot.itemStack);
+                Chat.MAIN_CHAT.sendMessage(InGame.world, InGame.getLocalPlayer(), null, manifest.toString());
+            }
+            return 0;
+        });
+        CommandManager.dispatcher.register(getAttributes);
+
+        LiteralArgumentBuilder<PuzzleCommandSource> getItemAttribs = CommandManager.literal("getitemattributes");
+        getItemAttribs.executes(context -> {
+            if (UI.hotbar != null && UI.hotbar.getSelectedSlot() != null) {
+                ItemSlot slot = UI.hotbar.getSelectedSlot();
+                if (slot.itemStack == null) return 0;
+                if (slot.itemStack.getItem() instanceof IModItem item) {
+                    Chat.MAIN_CHAT.sendMessage(InGame.world, InGame.getLocalPlayer(), null, item.getTagManifest().toString());
+                    return 0;
+                }
+                Chat.MAIN_CHAT.sendMessage(InGame.world, InGame.getLocalPlayer(), null, "Not a ModItem");
+            }
+            return 0;
+        });
+        CommandManager.dispatcher.register(getItemAttribs);
         LiteralArgumentBuilder<PuzzleCommandSource> getAttributes = CommandManager.literal("attributes");
         getAttributes.then(CommandManager.literal("stack")
                 .then(CommandManager.literal("get").then(CommandManager.argument("attrib", StringArgumentType.string())
