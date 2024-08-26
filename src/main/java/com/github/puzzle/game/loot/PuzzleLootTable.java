@@ -176,9 +176,6 @@ public class PuzzleLootTable {
 
     List<Pair<Float, LootDrop[]>> lootDrops = new ArrayList<>();
 
-    /**
-     *
-     */
     public static class LootDrop {
 
         int min;

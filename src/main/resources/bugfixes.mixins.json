@@ -8,7 +8,9 @@
     "BlockRegisterer",
     "BlockStateGeneratorCopyFixer",
     "BlockStateGeneratorMixin",
+    "ItemBlockPrefixFixer",
     "ItemPickBlock",
+    "ItemPrefixFixer",
     "NullPlayer"
   ],
   "client": [],

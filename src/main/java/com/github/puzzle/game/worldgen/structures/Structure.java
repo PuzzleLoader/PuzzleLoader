@@ -1,16 +1,8 @@
-package com.github.puzzle.game.structures;
+package com.github.puzzle.game.worldgen.structures;
 
 import com.github.puzzle.core.Identifier;
-import com.github.puzzle.core.resources.PuzzleGameAssetLoader;
-import com.github.puzzle.game.worldgen.SchematicFormat;
-import com.github.puzzle.util.TriPair;
 import com.github.puzzle.util.Vec3i;
-import finalforeach.cosmicreach.blocks.Block;
-import finalforeach.cosmicreach.blocks.BlockPosition;
 import finalforeach.cosmicreach.blocks.BlockState;
-import finalforeach.cosmicreach.gamestates.InGame;
-import finalforeach.cosmicreach.world.BlockSetter;
-import org.apache.logging.log4j.util.TriConsumer;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.*;
@@ -82,19 +74,6 @@ public class Structure {
 
     static Map<String, BlockState> blockStateCache = new HashMap<>();
 
-    static {
-        Structure s = new Structure(
-                (short) 0,
-                Identifier.fromString("test:test"),
-                (byte) 16, (byte) 16, (byte) 16
-        );
-
-        s.addToBlock(Block.DIRT.getBlockState("default"), 0, 0, 0);
-
-        s.foreach((vec3i, blockState) -> {
-        });
-    }
-
     public void foreach(BiConsumer<Vec3i, @Nullable BlockState> blockConsumer) {
         Function<String, BlockState> getInstance = (str) -> {
             if (blockStateCache.containsKey(str)) return blockStateCache.get(str);
@@ -121,7 +100,7 @@ public class Structure {
     public static Structure readFromStream(DataInputStream stream) throws IOException {
         // Read Header
         short version = stream.readShort();
-        switch (SchematicFormat.values()[version]) {
+        switch (StructureFormat.values()[version]) {
             case BLOCKS_ONLY: return readVersion0(version, stream);
             default: throw new RuntimeException("Invalid structure version");
         }
@@ -158,7 +137,7 @@ public class Structure {
     public void writeToStream(DataOutputStream stream) throws IOException {
         // Write Header
         stream.writeShort(version);
-        switch (SchematicFormat.values()[version]) {
+        switch (StructureFormat.values()[version]) {
             case BLOCKS_ONLY: writeVersion0(this, stream);
             default: throw new RuntimeException("Invalid structure version");
         }

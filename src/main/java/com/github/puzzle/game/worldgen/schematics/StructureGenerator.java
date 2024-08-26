@@ -1,4 +1,4 @@
-package com.github.puzzle.game.worldgen;
+package com.github.puzzle.game.worldgen.schematics;
 
 import com.badlogic.gdx.utils.ArrayMap;
 import com.github.puzzle.core.Identifier;

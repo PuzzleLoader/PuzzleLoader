@@ -16,7 +16,7 @@ public class ItemModelBuilder {
         }
 
         public static Mesh build2_5DMesh(Texture texture) {
-            buildItemRects((1f / 16f), false);
+            buildItemRects((1f / texture.getWidth()), false);
             buildMeshSides(texture);
             return builder.end();
         }
