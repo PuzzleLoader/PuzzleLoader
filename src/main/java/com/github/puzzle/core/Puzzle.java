@@ -1,5 +1,6 @@
 package com.github.puzzle.core;
 
+import com.badlogic.gdx.math.Vector3;
 import com.github.puzzle.core.localization.ILanguageFile;
 import com.github.puzzle.core.localization.LanguageManager;
 import com.github.puzzle.core.localization.files.LanguageFileVersion1;
@@ -17,6 +18,8 @@ import com.github.puzzle.game.items.puzzle.ItemInstance;
 import com.github.puzzle.game.items.puzzle.NullStick;
 import com.github.puzzle.game.oredict.tags.BuiltInTags;
 import com.github.puzzle.game.util.DataTagUtil;
+import com.github.puzzle.game.worldgen.Schematic;
+import com.github.puzzle.game.worldgen.StructureGenerator;
 import com.github.puzzle.loader.entrypoint.interfaces.ModInitializer;
 import com.github.puzzle.loader.entrypoint.interfaces.PostModInitializer;
 import com.github.puzzle.loader.entrypoint.interfaces.PreModInitializer;
@@ -26,6 +29,7 @@ import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.Threads;
 import finalforeach.cosmicreach.blocks.Block;
 import finalforeach.cosmicreach.chat.Chat;
+import finalforeach.cosmicreach.entities.player.Player;
 import finalforeach.cosmicreach.gamestates.InGame;
 import finalforeach.cosmicreach.items.Item;
 import finalforeach.cosmicreach.items.ItemSlot;
@@ -75,10 +79,50 @@ public class Puzzle implements PreModInitializer, ModInitializer, PostModInitial
     public static IModItem DebugStick;
     public static IModItem CheckerBoard;
     public static IModItem BlockWrench;
+    public static Vector3 vecpos1;
+    public static Vector3 vecpos2;
+    public static Schematic clipBoard;
 
     @Override
     public void onInit() {
         Threads.runOnMainThread(ItemShader::initItemShader);
+
+        LiteralArgumentBuilder<PuzzleCommandSource> pos1 = CommandManager.literal("pos1");
+        pos1.executes(context -> {
+            Vector3 playerPositon = InGame.getLocalPlayer().getPosition();
+            vecpos1 = new Vector3((float) Math.floor(playerPositon.x), (float) Math.floor(playerPositon.y), (float) Math.floor(playerPositon.z));
+            return 0;
+        });
+        CommandManager.dispatcher.register(pos1);
+
+        LiteralArgumentBuilder<PuzzleCommandSource> pos2 = CommandManager.literal("pos2");
+        pos2.executes(context -> {
+            Vector3 playerPositon = InGame.getLocalPlayer().getPosition();
+            vecpos2 = new Vector3((float) Math.floor(playerPositon.x), (float) Math.floor(playerPositon.y), (float) Math.floor(playerPositon.z));
+            return 0;
+        });
+        CommandManager.dispatcher.register(pos2);
+
+        LiteralArgumentBuilder<PuzzleCommandSource> paste = CommandManager.literal("paste");
+        paste.executes(context -> {
+            if(clipBoard == null) {
+
+                return 0;
+            }
+            Player player = InGame.getLocalPlayer();
+            Vector3 playerPositon = player.getPosition();
+            System.out.println(playerPositon);
+            Schematic.genSchematicStructureAtGlobal(clipBoard, player.getZone(InGame.world), player.getChunk(InGame.world),(int) Math.floor(playerPositon.x), (int) Math.floor(playerPositon.y), (int) Math.floor(playerPositon.z));
+            return 0;
+        });
+        CommandManager.dispatcher.register(paste);
+
+        LiteralArgumentBuilder<PuzzleCommandSource> genSchmatic = CommandManager.literal("gs");
+        genSchmatic.executes(context -> {
+            clipBoard = Schematic.generateASchematic(vecpos1, vecpos2, InGame.getLocalPlayer().getZone(InGame.world));
+            return 0;
+        });
+        CommandManager.dispatcher.register(genSchmatic);
 
         LiteralArgumentBuilder<PuzzleCommandSource> getAttributes = CommandManager.literal("getattributes");
         getAttributes.executes(context -> {
