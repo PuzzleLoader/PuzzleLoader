@@ -130,6 +130,9 @@ public class CosmicReachProvider implements IGameProvider {
                     "bugfixes.mixins.json",
                     "logging.mixins.json"
             );
+            puzzleLoaderInfo.setAuthors(new String[]{
+                    "Mr_Zombii", "Repletsin5", "SinfullySoul"
+            });
             puzzleLoaderInfo.setVersion(Puzzle.VERSION);
             puzzleLoaderInfo.setAccessManipulator("puzzle_loader.manipulator");
             puzzleLoaderInfo.addEntrypoint("preInit", Puzzle.class.getName());

@@ -21,7 +21,7 @@ public class ModInfo {
     public final Version ModVersion;
     public final String Description;
     public final ImmutableCollection<String> Authors;
-    public final ImmutableMap<String, Object> Metadata;
+    public final ImmutableMap<String, JsonValue> Metadata;
 
     // Entrypoints & Mixins
     public final ImmutableMap<String, ImmutableCollection<AdapterPathPair>> Entrypoints;
@@ -51,12 +51,12 @@ public class ModInfo {
         Authors = ImmutableList.copyOf(jsonInfo.authors());
 
         if (jsonInfo.meta() != null) {
-            var MetadataBuilder = ImmutableMap.<String, Object>builder();
+            var MetadataBuilder = ImmutableMap.<String, JsonValue>builder();
             for (String key : jsonInfo.meta().keySet()) {
                 MetadataBuilder.put(key, jsonInfo.meta().get(key));
             }
             Metadata = MetadataBuilder.build();
-        } else Metadata = ImmutableMap.<String, Object>builder().build();
+        } else Metadata = ImmutableMap.<String, JsonValue>builder().build();
 
         var EntrypointsBuilder = ImmutableMap.<String, ImmutableCollection<AdapterPathPair>>builder();
         for (String key : jsonInfo.entrypoints().keySet()) {
