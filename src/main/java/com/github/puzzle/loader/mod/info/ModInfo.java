@@ -58,7 +58,7 @@ public class ModInfo {
             Metadata = MetadataBuilder.build();
         } else Metadata = ImmutableMap.<String, JsonValue>builder().build();
 
-        var EntrypointsBuilder = ImmutableMap.<String, ImmutableCollection<AdapterPathPair>>builder();
+        var EntrypointsBuilder = ImmutableMap.<String, Collection<AdapterPathPair>>builder();
         for (String key : jsonInfo.entrypoints().keySet()) {
             EntrypointsBuilder.put(key, ImmutableList.copyOf(jsonInfo.entrypoints().get(key)));
         }
