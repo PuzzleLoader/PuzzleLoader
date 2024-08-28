@@ -33,7 +33,7 @@ import static com.github.puzzle.game.ui.font.CosmicReachFont.createCosmicReachFo
 
 public class ModMenu extends GameState {
 
-    private static final ArrayMap<String, Table> customTable = new ArrayMap<>();
+    private static final ArrayMap<String, Table> customTables = new ArrayMap<>();
     Stage gdxStage;
     Viewport gdxStageViewport;
     OrthographicCamera gdxStageCamera;
@@ -163,7 +163,7 @@ public class ModMenu extends GameState {
             public void clicked(InputEvent event, float x, float y){
                 table.clear();
                 ModInfo info = mod.INFO;
-                ScrollPane bottomBar = customTable.get(mod.ID) == null ? new ScrollPane(mod.getCustomModTable()) : new ScrollPane(customTable.get(mod.ID));
+                ScrollPane bottomBar = customTables.get(mod.ID) == null ? new ScrollPane(getDefaultTable()) : new ScrollPane(customTables.get(mod.ID));
                 Table topBar = new Table();
                 Table topRightBar = new Table();
                 topRightBar.setBackground(genColor(.196f,.196f, .196f));
@@ -229,6 +229,6 @@ public class ModMenu extends GameState {
     }
 
     static {
-        PuzzleRegistries.EVENT_BUS.post(new OnRegisterModMenuTable(customTable));
+        PuzzleRegistries.EVENT_BUS.post(new OnRegisterModMenuTable(customTables));
     }
 }

@@ -5,14 +5,13 @@ import com.badlogic.gdx.utils.ArrayMap;
 
 public class OnRegisterModMenuTable {
 
-    private final ArrayMap<String, Table> customTable;
+    private final ArrayMap<String, Table> customTables;
 
     public OnRegisterModMenuTable(ArrayMap<String, Table> customTable) {
-        this.customTable = customTable;
+        this.customTables = customTable;
     }
 
     public void registerTable(String id, Table table) {
-
-        customTable.put(id, table);
+        customTables.put(id, table);
     }
 }
