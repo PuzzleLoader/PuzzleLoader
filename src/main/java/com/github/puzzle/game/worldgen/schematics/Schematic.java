@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.ArrayMap;
 import com.github.puzzle.core.Identifier;
 import com.llamalad7.mixinextras.lib.apache.commons.tuple.Pair;
 import finalforeach.cosmicreach.blocks.Block;
+import finalforeach.cosmicreach.blocks.BlockPosition;
 import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.world.Chunk;
 import finalforeach.cosmicreach.world.Zone;
@@ -47,25 +48,23 @@ public class Schematic {
             blockStates.add(blockState.toString());
         }
         int location = (x * height * width) + (y * width) + z;
-        System.out.println(location + " at -->" + new Vector3(x, y, z));
         blockPlacement[location] = index;
     }
 
     public BlockState getBlockState(int x, int y, int z){
         int location = (x * height * width) + (y * width) + z;
-        System.out.println(location + " at -->" + new Vector3(x, y, z));
         return BlockState.getInstance(blockStates.get(blockPlacement[location]));
     }
 
     public void spawnSchematic(Zone zone, Chunk chunk, int localX, int localY, int localZ) {
-        System.out.println("genSchem at:" + new Vector3(localX, localY, localZ));
         for (int x = 0; x < this.length; x++) {
             for (int y = 0; y < this.height; y++) {
                 for (int z = 0; z < this.width; z++) {
                     int calX = x + localX;
                     int calY = y + localY;
                     int calZ = z + localZ;
-                    if(calX >= Chunk.CHUNK_WIDTH || calY >= Chunk.CHUNK_WIDTH || calZ >= Chunk.CHUNK_WIDTH) {
+                    //System.out.println(new Vector3(localX, localY, localZ));
+                    if(calX >= Chunk.CHUNK_WIDTH || calY >= Chunk.CHUNK_WIDTH || calZ >= Chunk.CHUNK_WIDTH ) {
                         int cx = Math.floorDiv(calX + chunk.blockX, 16);
                         int cy = Math.floorDiv(calY + chunk.blockY, 16);
                         int cz = Math.floorDiv(calZ + chunk.blockZ, 16);
@@ -88,6 +87,9 @@ public class Schematic {
                     }
                     BlockState blockState = this.getBlockState(x, y, z);
                     if(blockState == null) continue;
+
+
+
                     chunk.setBlockState(blockState, calX, calY, calZ);
                     chunk.flagForRemeshing(false);
                 }
@@ -165,14 +167,18 @@ public class Schematic {
         }
     }
 
+    public static Schematic generateASchematic(BlockPosition pos1, BlockPosition pos2, Zone zone){
+
+        return generateASchematic(new Vector3(pos1.getGlobalX(), pos1.getGlobalY(), pos1.getGlobalZ()), new Vector3(pos2.getGlobalX(), pos2.getGlobalY(), pos2.getGlobalZ()), zone);
+    }
+
     public static Schematic generateASchematic(Vector3 pos1, Vector3 pos2, Zone zone){
-        boolean isflip = false;
         if(pos1.y < pos2.y) {
             Vector3 newBottomVec = pos1;
             pos1 = pos2;
             pos2 = newBottomVec;
-            isflip = true;
         }
+        pos1.y += 1;
         int length = (int)Math.floor(Math.abs(pos2.x - pos1.x));  // Length along x-axis
         int height = (int)Math.floor(Math.abs(pos2.y - pos1.y));  // Height along y-axis
         int width = (int)Math.floor(Math.abs(pos2.z - pos1.z));
@@ -185,7 +191,7 @@ public class Schematic {
                     int bpy = (int) findStartingPos.y + y;
                     int bpz = (int) findStartingPos.z + z;
                     BlockState bs = zone.getBlockState(bpx,bpy,bpz);
-                    if(bs == null) { System.out.println("NULL"); return null; }
+                    if(bs == null) { return null; }
                     schematic.setBlockState(bs,x,y,z);
                 }
             }
@@ -215,9 +221,9 @@ public class Schematic {
     }
 
     public static void genSchematicStructureAtGlobal(Schematic schematic, Zone zone, Chunk chunk, int globalX, int globalY, int globalZ){
-        int localX = globalX - chunk.blockX;
-        int localY = globalY - chunk.blockY;
-        int localZ = globalZ - chunk.blockZ;
+        int localX = Math.abs(globalX - chunk.blockX);
+        int localY = Math.abs(globalY - chunk.blockY);
+        int localZ = Math.abs(globalZ - chunk.blockZ);
         schematic.spawnSchematic(zone, chunk, localX, localY, localZ);
     }
 

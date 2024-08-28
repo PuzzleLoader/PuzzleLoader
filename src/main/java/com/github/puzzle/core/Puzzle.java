@@ -1,32 +1,22 @@
 package com.github.puzzle.core;
 
-import com.badlogic.gdx.math.Vector3;
 import com.github.puzzle.core.localization.ILanguageFile;
 import com.github.puzzle.core.localization.LanguageManager;
 import com.github.puzzle.core.localization.files.LanguageFileVersion1;
 import com.github.puzzle.game.Globals;
-import com.github.puzzle.game.commands.CommandManager;
-import com.github.puzzle.game.commands.PuzzleCommandSource;
 import com.github.puzzle.game.engine.items.InstanceModelWrapper;
 import com.github.puzzle.game.engine.shaders.ItemShader;
 import com.github.puzzle.game.items.IModItem;
 import com.github.puzzle.game.items.ITickingItem;
-import com.github.puzzle.game.items.data.DataTagManifest;
 import com.github.puzzle.game.items.puzzle.*;
 import com.github.puzzle.game.oredict.tags.BuiltInTags;
-import com.github.puzzle.game.util.DataTagUtil;
-import com.github.puzzle.game.worldgen.schematics.Schematic;
 import com.github.puzzle.loader.entrypoint.interfaces.ModInitializer;
 import com.github.puzzle.loader.entrypoint.interfaces.PostModInitializer;
 import com.github.puzzle.loader.entrypoint.interfaces.PreModInitializer;
 import com.github.puzzle.loader.launch.PuzzleClassLoader;
-import com.mojang.brigadier.arguments.StringArgumentType;
-import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.Threads;
 import finalforeach.cosmicreach.blocks.Block;
-import finalforeach.cosmicreach.chat.Chat;
-import finalforeach.cosmicreach.entities.player.Player;
 import finalforeach.cosmicreach.gamestates.InGame;
 import finalforeach.cosmicreach.items.Item;
 import finalforeach.cosmicreach.items.ItemSlot;
@@ -88,7 +78,7 @@ public class Puzzle implements PreModInitializer, ModInitializer, PostModInitial
         BlockWrench = IModItem.registerItem(new BlockWrench());
 
         Item.registerItem(new ItemInstance(null));
-        IModItem.registerItem(new BabyWand());
+        IModItem.registerItem(new BuilderWand());
 
         registerItemModelCreator(ItemInstance.class, (inst) -> {
             return new InstanceModelWrapper(inst.get(), ItemRenderer.getModel(inst.get().getParentItem(), false));
