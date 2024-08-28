@@ -13,6 +13,8 @@ look at [jitpack](https://jitpack.io/#PuzzleLoader/PuzzleLoader) for adding this
 [Scala Example Mod](https://github.com/PuzzleLoader/ScalaExampleMod) </br>
 [Lua Example Mod](https://github.com/PuzzleLoader/LuaExampleMod) </br>
 
+[Need help set up your mod?](https://github.com/PuzzleLoader/PuzzleLoader/wiki/How-to-set-up-your-mod!)
+
 ### Contribution
 - If you were to contribute to this project you must acknowledge that you are under the [LGPLv3](LICENSE.txt) License.
 - We use the 4-space tabs provided by the code editor.
