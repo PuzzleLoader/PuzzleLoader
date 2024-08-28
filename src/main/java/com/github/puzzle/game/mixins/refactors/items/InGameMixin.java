@@ -23,11 +23,11 @@ public class InGameMixin {
             if (UI.hotbar.getSelectedSlot() != null){
                 ItemStack stack = UI.hotbar.getSelectedSlot().itemStack;
                 if (stack != null && stack.getItem() instanceof IModItem modItem) {
-                    if (ControlSettings.keyUsePlace.isPressed() && !isPressed) {
-                        modItem.use(UI.hotbar.getSelectedSlot(), localPlayer);
-                        isPressed = true;
+                    if ((ControlSettings.keyUsePlace.isPressed() && !isPressed) || (ControlSettings.keyAttackBreak.isPressed() && !isPressed)) {
+                            modItem.use(UI.hotbar.getSelectedSlot(), localPlayer, ControlSettings.keyAttackBreak.isPressed());
+                            isPressed = true;
                     }
-                    if (isPressed && !ControlSettings.keyUsePlace.isPressed()) isPressed = false;
+                    if ((isPressed && !ControlSettings.keyUsePlace.isPressed()) && (isPressed && !ControlSettings.keyAttackBreak.isPressed())) isPressed = false;
                 }
             }
     }

@@ -110,6 +110,18 @@ public interface IModItem extends Item {
     default void use(ItemSlot slot, Player player) {
     }
 
+    /**
+     * This allows your item to be used by the player.
+     * This method is a remap/rename of useItem
+     * @see IModItem#useItem(ItemSlot, Player)
+     * @see Item#useItem(ItemSlot, Player)
+     */
+    default void use(ItemSlot slot, Player player, boolean isLeftClick) {
+        if (!isLeftClick) {
+            use(slot, player);
+            return;
+        }
+    }
 
     /**
      * This is a method that makes your item usable by the player.

@@ -91,6 +91,11 @@ public class ItemInstance implements IModItem {
         else if (parentItem instanceof IModItem) ((IModItem) parentItem).use(slot, player);
     }
 
+    public void use(ItemSlot slot, Player player, boolean isLeftClick) {
+        if (parentItem == null) return;
+        else if (parentItem instanceof IModItem) ((IModItem) parentItem).use(slot, player, isLeftClick);
+    }
+
     public boolean useItem(ItemSlot slot, Player player) {
         if (parentItem == null) return false;
         return parentItem.useItem(slot, player);

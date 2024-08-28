@@ -10,7 +10,6 @@
     "BlockStateGeneratorMixin",
     "ItemBlockPrefixFixer",
     "ItemPickBlock",
-    "ItemPrefixFixer",
     "NullPlayer"
   ],
   "client": [],

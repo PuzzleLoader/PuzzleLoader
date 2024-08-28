@@ -69,6 +69,7 @@ public class PuzzleClassLoader extends URLClassLoader {
         // transformer exclusions
         addTransformerExclusion("javax.");
         addTransformerExclusion("argo.");
+        addTransformerExclusion("com.google.");
         addTransformerExclusion("org.objectweb.asm.");
         addTransformerExclusion("com.google.common.");
         addTransformerExclusion("org.bouncycastle.");
