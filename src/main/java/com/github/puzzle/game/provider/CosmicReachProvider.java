@@ -153,7 +153,7 @@ public class CosmicReachProvider implements IGameProvider {
             cosmicReachInfo.setVersion(getGameVersion());
             HashMap<String, JsonValue> meta = new HashMap<>();
             meta.put("icon", JsonObject.valueOf("textures/logox128.png"));
-            puzzleLoaderInfo.setMeta(meta);
+            cosmicReachInfo.setMeta(meta);
             ModLocator.locatedMods.put(getId(), cosmicReachInfo.build().getOrCreateModContainer());
         }
 
