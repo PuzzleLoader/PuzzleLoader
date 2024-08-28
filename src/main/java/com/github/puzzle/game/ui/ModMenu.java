@@ -7,39 +7,33 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.NinePatch;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.github.puzzle.game.engine.GameLoader;
+import com.github.puzzle.core.PuzzleRegistries;
+import com.github.puzzle.game.events.OnRegisterModMenuTable;
 import com.github.puzzle.game.ui.font.CosmicReachFont;
 import com.github.puzzle.loader.mod.ModContainer;
 import com.github.puzzle.loader.mod.ModLocator;
 import com.github.puzzle.loader.mod.info.ModInfo;
-import com.google.common.collect.ImmutableMap;
-import finalforeach.cosmicreach.GameAssetLoader;
 import finalforeach.cosmicreach.gamestates.GameState;
 import finalforeach.cosmicreach.gamestates.MainMenu;
 import finalforeach.cosmicreach.gamestates.PauseMenu;
-import org.hjson.JsonObject;
-import org.hjson.JsonValue;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
-
-import java.util.Collection;
 
 import static com.github.puzzle.core.resources.PuzzleGameAssetLoader.LOADER;
 import static com.github.puzzle.game.ui.font.CosmicReachFont.createCosmicReachFont;
 
 public class ModMenu extends GameState {
 
+    private static final ArrayMap<String, Table> customTable = new ArrayMap<>();
     Stage gdxStage;
     Viewport gdxStageViewport;
     OrthographicCamera gdxStageCamera;
@@ -87,7 +81,7 @@ public class ModMenu extends GameState {
             modversion.setAlignment(Align.center);
             Button button = new Button(buttonStyle);
             button.addListener(getClickListener(m, righTable));
-            button.add(icon).width(32).height(32).left().expandY().fill();
+            button.add(icon).width(32).height(32).left().padLeft(5).expandY().fill();
             button.add(rightSide).padLeft(4).expand().fill();
             rightSide.add(modname).height(25).left().bottom().expandX().row();
             rightSide.add(modversion).height(25).left().padTop(3).bottom().expandX();
@@ -107,9 +101,9 @@ public class ModMenu extends GameState {
 
         leftTable.add(title).width(leftTable.getWidth()).padTop(50).padBottom(10).center().fill().row();
         leftTable.add(scrollPane).center().expand().fill().row();
-        leftTable.add(backButton).height(30).width(backButton.getPrefWidth() + 10).bottom().padBottom(5);
+        leftTable.add(backButton).height(30).width(150).bottom().padBottom(5);
 
-        baseTable.add(leftTable).left().width(160).expandY().fill();
+        baseTable.add(leftTable).left().width(170).expandY().fill();
         baseTable.add(righTable).pad(10).expand().fill();
         baseTable.setFillParent(true);
         //righTable.debugAll();
@@ -169,7 +163,7 @@ public class ModMenu extends GameState {
             public void clicked(InputEvent event, float x, float y){
                 table.clear();
                 ModInfo info = mod.INFO;
-                ScrollPane bottomBar = mod.getCustomModTable() != null ? new ScrollPane(mod.getCustomModTable()) : new ScrollPane(getDefaultTable());
+                ScrollPane bottomBar = customTable.get(mod.ID) == null ? new ScrollPane(mod.getCustomModTable()) : new ScrollPane(customTable.get(mod.ID));
                 Table topBar = new Table();
                 Table topRightBar = new Table();
                 topRightBar.setBackground(genColor(.196f,.196f, .196f));
@@ -184,7 +178,6 @@ public class ModMenu extends GameState {
                 Container<Image> container1 = new Container<Image>(icon).center().height(180).width(180);
                 container1.setBackground(genColor(.196f,.196f, .196f));
                 Container<Label> container3 = new Container<>(descriptionLabel).fillX();
-                container3.pad(10);
                 container3.setBackground(genColor(.196f,.196f, .196f));
                 Container<ScrollPane> scrollContainer = new Container<>(bottomBar).fill();
                 scrollContainer.setBackground(genColor(.196f,.196f, .196f));
@@ -199,7 +192,7 @@ public class ModMenu extends GameState {
                 Container<Label> authorsLabelContainer = new Container<>(authorsLabel).fill();
                 authorsLabelContainer.setBackground(genColor(.231f,.231f,.231f));
 
-                topRightBar.add(modname).height(100).pad(10).expandX().fill().row();
+                topRightBar.add(modname).height(120).pad(10).expandX().fill().row();
                 topRightBar.add(authorsLabelContainer).pad(10).expand().fill();
                 //topRightBar.debugAll();
 
@@ -232,7 +225,10 @@ public class ModMenu extends GameState {
 
     private Table getDefaultTable(){
         Table table = new Table();
-
         return table;
+    }
+
+    static {
+        PuzzleRegistries.EVENT_BUS.post(new OnRegisterModMenuTable(customTable));
     }
 }
