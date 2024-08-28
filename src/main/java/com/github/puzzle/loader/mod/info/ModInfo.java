@@ -20,16 +20,16 @@ public class ModInfo {
     public final String ModID;
     public final Version ModVersion;
     public final String Description;
-    public final ImmutableCollection<String> Authors;
-    public final ImmutableMap<String, JsonValue> Metadata;
+    public final Collection<String> Authors;
+    public final Map<String, JsonValue> Metadata;
 
     // Entrypoints & Mixins
-    public final ImmutableMap<String, ImmutableCollection<AdapterPathPair>> Entrypoints;
-    public final ImmutableCollection<String> MixinConfigs;
+    public final Map<String, ImmutableCollection<AdapterPathPair>> Entrypoints;
+    public final Collection<String> MixinConfigs;
 
     // Dependencies
-    public final ImmutableMap<String, Version> RequiredDependencies;
-    public final ImmutableMap<String, Version> OptionalDependencies;
+    public final Map<String, Version> RequiredDependencies;
+    public final Map<String, Version> OptionalDependencies;
 
     // Access Transformers
     public final String AccessTransformer;
