@@ -24,7 +24,7 @@ public class ModInfo {
     public final Map<String, JsonValue> Metadata;
 
     // Entrypoints & Mixins
-    public final Map<String, ImmutableCollection<AdapterPathPair>> Entrypoints;
+    public final Map<String, Collection<AdapterPathPair>> Entrypoints;
     public final Collection<String> MixinConfigs;
 
     // Dependencies
