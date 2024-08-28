@@ -13,6 +13,8 @@ import com.github.puzzle.loader.providers.api.IGameProvider;
 import com.github.puzzle.util.MethodUtil;
 import finalforeach.cosmicreach.GameAssetLoader;
 import finalforeach.cosmicreach.lwjgl3.Lwjgl3Launcher;
+import org.hjson.JsonObject;
+import org.hjson.JsonValue;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.launch.MixinBootstrap;
@@ -23,10 +25,7 @@ import org.spongepowered.asm.mixin.Mixins;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.regex.Pattern;
 
 public class CosmicReachProvider implements IGameProvider {
@@ -130,6 +129,9 @@ public class CosmicReachProvider implements IGameProvider {
                     "bugfixes.mixins.json",
                     "logging.mixins.json"
             );
+            HashMap<String, JsonValue> meta = new HashMap<>();
+            meta.put("icon", JsonObject.valueOf("assets/puzzle-loader/icons/PuzzleLoaderIconx160.png"));
+            puzzleLoaderInfo.setMeta(meta);
             puzzleLoaderInfo.setAuthors(new String[]{
                     "Mr_Zombii", "Repletsin5", "SinfullySoul"
             });
