@@ -77,6 +77,7 @@ public class Commands {
                             return 0;
                         }))
         );
+        CommandManager.dispatcher.register(getAttributes);
     }
 
 }
