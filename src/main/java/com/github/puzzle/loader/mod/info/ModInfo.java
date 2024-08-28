@@ -20,16 +20,16 @@ public class ModInfo {
     public final String ModID;
     public final Version ModVersion;
     public final String Description;
-    public final Collection<String> Authors;
-    public final Map<String, JsonValue> Metadata;
+    public final ImmutableCollection<String> Authors;
+    public final ImmutableMap<String, JsonValue> Metadata;
 
     // Entrypoints & Mixins
-    public final Map<String, Collection<AdapterPathPair>> Entrypoints;
-    public final Collection<String> MixinConfigs;
+    public final ImmutableMap<String, ImmutableCollection<AdapterPathPair>> Entrypoints;
+    public final ImmutableCollection<String> MixinConfigs;
 
     // Dependencies
-    public final Map<String, Version> RequiredDependencies;
-    public final Map<String, Version> OptionalDependencies;
+    public final ImmutableMap<String, Version> RequiredDependencies;
+    public final ImmutableMap<String, Version> OptionalDependencies;
 
     // Access Transformers
     public final String AccessTransformer;
@@ -58,7 +58,7 @@ public class ModInfo {
             Metadata = MetadataBuilder.build();
         } else Metadata = ImmutableMap.<String, JsonValue>builder().build();
 
-        var EntrypointsBuilder = ImmutableMap.<String, Collection<AdapterPathPair>>builder();
+        var EntrypointsBuilder = ImmutableMap.<String, ImmutableCollection<AdapterPathPair>>builder();
         for (String key : jsonInfo.entrypoints().keySet()) {
             EntrypointsBuilder.put(key, ImmutableList.copyOf(jsonInfo.entrypoints().get(key)));
         }

@@ -10,14 +10,12 @@ import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableMap;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collection;
-import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
 
 @Internal
 public class EntrypointContainer {
-    private final Map<String, Collection<AdapterPathPair>> entrypointClasses;
+    private final ImmutableMap<String, ImmutableCollection<AdapterPathPair>> entrypointClasses;
     private final ModContainer container;
 
     public <T> void invokeClasses(String key, Class<T> type, Consumer<? super T> invoker) throws Exception {
@@ -31,7 +29,7 @@ public class EntrypointContainer {
         }
     }
 
-    public EntrypointContainer(ModContainer container, @NotNull Map<String, Collection<AdapterPathPair>> entrypoints) {
+    public EntrypointContainer(ModContainer container, @NotNull ImmutableMap<String, ImmutableCollection<AdapterPathPair>> entrypoints) {
         this.container = container;
 //        ImmutableMap.Builder<String, ImmutableCollection<Class<?>>> entrypointClasses0 = ImmutableMap.builder();
 //        entrypoints.keySet().forEach(key -> {
