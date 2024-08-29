@@ -22,12 +22,10 @@ public class ItemBlockPrefixFixer {
         } else if (!itemId.contains(":")) {
             itemId = "base:" + itemId;
             allItems.put(itemId, item);
-            System.out.println("Registered item id: " + itemId);
         } else if (allItems.containsKey(itemId)) {
             throw new DuplicateIDException("Duplicate item for id: " + item.getID());
         } else {
             allItems.put(itemId, item);
-            System.out.println("Registered item id: " + item.getID());
         }
     }
 
