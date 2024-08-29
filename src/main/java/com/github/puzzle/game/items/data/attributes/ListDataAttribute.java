@@ -1,7 +1,7 @@
 package com.github.puzzle.game.items.data.attributes;
 
 import com.github.puzzle.game.items.data.DataTag;
-import com.github.puzzle.game.util.MutablePair;
+import com.github.puzzle.game.loot.MutablePair;
 import finalforeach.cosmicreach.io.CRBinDeserializer;
 import finalforeach.cosmicreach.io.CRBinSerializer;
 import finalforeach.cosmicreach.io.ICRBinSerializable;

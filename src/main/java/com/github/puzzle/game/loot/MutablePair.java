@@ -1,4 +1,4 @@
-package com.github.puzzle.game.util;
+package com.github.puzzle.game.loot;
 
 import com.llamalad7.mixinextras.lib.apache.commons.tuple.Pair;
 
