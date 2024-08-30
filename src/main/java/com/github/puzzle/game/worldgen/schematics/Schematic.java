@@ -4,15 +4,12 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.github.puzzle.core.Identifier;
-import com.llamalad7.mixinextras.lib.apache.commons.tuple.Pair;
-import finalforeach.cosmicreach.blocks.Block;
 import finalforeach.cosmicreach.blocks.BlockPosition;
 import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.world.Chunk;
 import finalforeach.cosmicreach.world.Zone;
 
 import java.io.*;
-import java.util.Arrays;
 
 public class Schematic {
     static ArrayMap<String, Schematic> schematic = new ArrayMap<>();

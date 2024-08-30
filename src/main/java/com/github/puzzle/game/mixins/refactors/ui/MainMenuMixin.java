@@ -1,6 +1,5 @@
 package com.github.puzzle.game.mixins.refactors.ui;
 
-import com.github.puzzle.core.Puzzle;
 import com.github.puzzle.core.localization.LanguageManager;
 import com.github.puzzle.core.localization.TranslationKey;
 import com.github.puzzle.game.ui.ModMenu;

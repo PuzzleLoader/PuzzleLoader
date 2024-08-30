@@ -8,7 +8,6 @@ import com.github.puzzle.loader.mod.AdapterPathPair;
 import com.github.puzzle.loader.mod.ModContainer;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableMap;
-import org.hjson.JsonObject;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;

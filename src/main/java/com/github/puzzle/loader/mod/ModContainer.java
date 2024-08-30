@@ -1,7 +1,5 @@
 package com.github.puzzle.loader.mod;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.github.puzzle.game.ui.ModMenu;
 import com.github.puzzle.loader.entrypoint.EntrypointContainer;
 import com.github.puzzle.loader.entrypoint.interfaces.ModInitializer;
 import com.github.puzzle.loader.mod.info.ModInfo;
