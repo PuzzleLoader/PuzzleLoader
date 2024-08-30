@@ -26,6 +26,7 @@ public class DataModBlock implements IModBlock {
     public ResourceLocation debugResourceLocation;
     public String blockJson;
     public String blockName;
+    private Identifier identifier;
 
     public DataModBlock(String blockName) {
         this(blockName, VanillaAssetLocations.getBlock(blockName));
@@ -42,10 +43,16 @@ public class DataModBlock implements IModBlock {
     }
 
     @Override
+    public Identifier getIdentifier() {
+        return identifier;
+    }
+
+    @Override
     public BlockGenerator getBlockGenerator() {
         Json json = new Json();
         JsonBlock block = json.fromJson(JsonBlock.class, blockJson);
-        BlockGenerator generator = new BlockGenerator(Identifier.fromString(block.stringId), blockName);
+        identifier = Identifier.fromString(block.stringId);
+        BlockGenerator generator = new BlockGenerator(getIdentifier(), blockName);
         generator.blockEntityId = block.blockEntityId;
         generator.blockEntityParams = block.blockEntityParams;
         generator.defaultParams = block.defaultParams;
