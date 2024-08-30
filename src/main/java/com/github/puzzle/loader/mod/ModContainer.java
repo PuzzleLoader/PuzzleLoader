@@ -16,7 +16,6 @@ public class ModContainer {
     public final String ID;
     public final Version VERSION;
     public final ZipFile JAR;
-    public ModInitializer modInitializer;
 
     public ModContainer(ModInfo info) {
         this(info, null);

@@ -58,7 +58,6 @@ public interface IModItem extends Item {
     DataTagPreset<Identifier> MODEL_ID_PRESET = new DataTagPreset<>("model_id", new IdentifierDataAttribute(Identifier.of(Puzzle.MOD_ID, "2d_item_model")));
     Identifier MODEL_2D_ITEM = new Identifier(Puzzle.MOD_ID, "2d_item_model");
     Identifier MODEL_2_5D_ITEM = new Identifier(Puzzle.MOD_ID, "2.5d_item_model");
-    Identifier CUSTOM_RENDERER = new Identifier(Puzzle.MOD_ID, "CUSTOM_RENDERER");
 
     DataTagPreset<ResourceLocation> TEXTURE_LOCATION_PRESET = new DataTagPreset<>("texture_resource_location", new ResourceLocationDataAttribute(new ResourceLocation(Puzzle.MOD_ID, "textures/items/null_stick.png")));
 
