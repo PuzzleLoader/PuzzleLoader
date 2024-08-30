@@ -128,12 +128,6 @@ public class ItemInstance implements IModItem {
         return 1000;
     }
 
-    public Mesh getMesh() {
-        if (parentItem == null) return null;
-        if (parentItem instanceof IModItem) return ((IModItem) parentItem).getMesh();
-        return null;
-    }
-
     public boolean canMergeWithSwapGroup(Item item) {
         if (parentItem == null) {
             if (item.getID().equals(this.getID())) {
