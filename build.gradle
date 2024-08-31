@@ -90,6 +90,8 @@ dependencies {
 
     bundle("org.greenrobot:eventbus:$eventbusVersion")
 
+//    implementation(files("./lib/Cosmic Reach-0.2.0.jar"))
+
 //    implementation {
 //        group: ""
 //        name: ""

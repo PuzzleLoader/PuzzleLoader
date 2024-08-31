@@ -6,12 +6,14 @@ import com.github.puzzle.core.Identifier;
 import com.github.puzzle.core.resources.PuzzleGameAssetLoader;
 import de.pottgames.tuningfork.SoundBuffer;
 import finalforeach.cosmicreach.GameAssetLoader;
+import finalforeach.cosmicreach.Threads;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
 import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Mixin(GameAssetLoader.class)
 public class AssetLoaderMixin {

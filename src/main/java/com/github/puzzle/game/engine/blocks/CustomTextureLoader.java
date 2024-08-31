@@ -60,22 +60,28 @@ public class CustomTextureLoader {
         normal.z = Math.signum(vertZ - 0.5F);
     }
 
-    public static int createUBOFloatsIdx(final float u, final float v, Vector3 normal) {
-        for (int i = 0; i < ChunkShader.faceTexBufFloats.size; i += 5) {
+    public static int createUBOFloatsIdx(final float u, final float v, Vector3 vecNormal, Vector3 faceNormal) {
+        for (int i = 0; i < ChunkShader.faceTexBufFloats.size; i += 8) {
             if (ChunkShader.faceTexBufFloats.get(i) == u && ChunkShader.faceTexBufFloats.get(i + 1) == v
-                && ChunkShader.faceTexBufFloats.get(i + 2) == normal.x
-                && ChunkShader.faceTexBufFloats.get(i + 3) == normal.y
-                && ChunkShader.faceTexBufFloats.get(i + 4) == normal.z
+                && ChunkShader.faceTexBufFloats.get(i + 2) == vecNormal.x
+                && ChunkShader.faceTexBufFloats.get(i + 3) == vecNormal.y
+                && ChunkShader.faceTexBufFloats.get(i + 4) == vecNormal.z
+                && ChunkShader.faceTexBufFloats.get(i + 5) == faceNormal.x
+                && ChunkShader.faceTexBufFloats.get(i + 6) == faceNormal.y
+                && ChunkShader.faceTexBufFloats.get(i + 7) == faceNormal.z
             ) {
-                return i / 5;
+                return i / 8;
             }
         }
-        final int fIdx = ChunkShader.faceTexBufFloats.size / 5;
+        final int fIdx = ChunkShader.faceTexBufFloats.size / 8;
         ChunkShader.faceTexBufFloats.add(u);
         ChunkShader.faceTexBufFloats.add(v);
-        ChunkShader.faceTexBufFloats.add(normal.x);
-        ChunkShader.faceTexBufFloats.add(normal.y);
-        ChunkShader.faceTexBufFloats.add(normal.z);
+        ChunkShader.faceTexBufFloats.add(vecNormal.x);
+        ChunkShader.faceTexBufFloats.add(vecNormal.y);
+        ChunkShader.faceTexBufFloats.add(vecNormal.z);
+        ChunkShader.faceTexBufFloats.add(faceNormal.x);
+        ChunkShader.faceTexBufFloats.add(faceNormal.y);
+        ChunkShader.faceTexBufFloats.add(faceNormal.z);
         return fIdx;
     }
 

@@ -411,15 +411,18 @@ public class PuzzleBlockModelCuboid
             f.vD += (centV - f.vD) * n;
 
             Vector3 tmpNormal = new Vector3();
+            Vector3 tmpFaceNormal = new Vector3();
+
+            tmpFaceNormal.set((f.x1 + f.x2) / 2.0F, (f.y1 + f.y2) / 2.0F, (f.z1 + f.z2) / 2.0F).sub(0.5F).nor();
 
             CustomTextureLoader.setNormal(tmpNormal, f.x1, f.y1, f.z1);
-            f.modelUvIdxA = CustomTextureLoader.createUBOFloatsIdx(f.uA, f.vA, tmpNormal);
+            f.modelUvIdxA = CustomTextureLoader.createUBOFloatsIdx(f.uA, f.vA, tmpNormal, tmpFaceNormal);
             CustomTextureLoader.setNormal(tmpNormal, f.midX1, f.midY1, f.midZ1);
-            f.modelUvIdxB = CustomTextureLoader.createUBOFloatsIdx(f.uB, f.vB, tmpNormal);
+            f.modelUvIdxB = CustomTextureLoader.createUBOFloatsIdx(f.uB, f.vB, tmpNormal, tmpFaceNormal);
             CustomTextureLoader.setNormal(tmpNormal, f.x2, f.y2, f.z2);
-            f.modelUvIdxC = CustomTextureLoader.createUBOFloatsIdx(f.uC, f.vC, tmpNormal);
+            f.modelUvIdxC = CustomTextureLoader.createUBOFloatsIdx(f.uC, f.vC, tmpNormal, tmpFaceNormal);
             CustomTextureLoader.setNormal(tmpNormal, f.midX2, f.midY2, f.midZ2);
-            f.modelUvIdxD = CustomTextureLoader.createUBOFloatsIdx(f.uD, f.vD, tmpNormal);
+            f.modelUvIdxD = CustomTextureLoader.createUBOFloatsIdx(f.uD, f.vD, tmpNormal, tmpFaceNormal);
 
             if (isValidFace) allFaces.add(f);
 

@@ -12,7 +12,7 @@ public class BlockStateGeneratorCopyFixer {
     private BlockState fixedCopy(BlockState oldState, boolean initialize) {
         BlockState copy = oldState.copy(initialize);
         // deprecated
-        copy.generateSlabs = false;
+//        copy.generateSlabs = false;
 
         // does the same thing
         /*List<String> stateGenerators = Arrays.asList(copy.stateGenerators);
