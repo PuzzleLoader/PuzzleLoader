@@ -44,7 +44,9 @@ public class RecipeInput {
     }
 
     public boolean matches(Item item) {
-        return matches(new ItemStack(item, 1));
+        if (item != null)
+            return matches(new ItemStack(item, 1));
+        return false;
     }
 
     public boolean matches(ItemStack itemstack) {
