@@ -54,6 +54,7 @@ public class RecipeInput {
             if (ResourceDictionary.getItemsFromTag(tag).contains(itemstack.getItem())) {
                 return count == itemstack.amount;
             }
+            return false;
         }
         assert item != null;
         if (item.equals(itemstack)) {
