@@ -5,8 +5,10 @@ import com.github.puzzle.core.Identifier;
 import com.github.puzzle.core.resources.ResourceLocation;
 import com.github.puzzle.core.resources.VanillaAssetLocations;
 import com.github.puzzle.game.generators.BlockGenerator;
+import com.github.puzzle.game.generators.BlockModelGenerator;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * @see IModBlock
@@ -58,5 +60,10 @@ public class DataModBlock implements IModBlock {
         generator.defaultParams = block.defaultParams;
         generator.blockStates = block.blockStates;
         return generator;
+    }
+
+    @Override
+    public List<BlockModelGenerator> getBlockModelGenerators(Identifier blockId) {
+        return List.of();
     }
 }
