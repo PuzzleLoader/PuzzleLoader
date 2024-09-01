@@ -86,10 +86,10 @@ public class BuilderWand implements IModItem {
         return "Item: " + getID();
     }
 
-//    @Override
-//    public boolean isTool() {
-//        return true;
-//    }
+    @Override
+    public boolean isTool() {
+        return true;
+    }
 
     @Override
     public int getMaxStackSize() {
