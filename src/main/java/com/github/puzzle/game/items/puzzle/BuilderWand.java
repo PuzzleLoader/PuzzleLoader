@@ -28,7 +28,6 @@ public class BuilderWand implements IModItem {
     public BuilderWand() {
         tagManifest.addTag(IModItem.MODEL_ID_PRESET.createTag(IModItem.MODEL_2_5D_ITEM));
         tagManifest.addTag(IModItem.TEXTURE_LOCATION_PRESET.createTag(new ResourceLocation(Puzzle.MOD_ID, "textures/items/baby_wand.png")));
-        tagManifest.addTag(IModItem.TEXTURE_LOCATION_PRESET.createTag(new ResourceLocation(Puzzle.MOD_ID, "textures/items/baby_wand.png")));
     }
 
     @Override
@@ -87,10 +86,10 @@ public class BuilderWand implements IModItem {
         return "Item: " + getID();
     }
 
-    @Override
-    public boolean isTool() {
-        return true;
-    }
+//    @Override
+//    public boolean isTool() {
+//        return true;
+//    }
 
     @Override
     public int getMaxStackSize() {

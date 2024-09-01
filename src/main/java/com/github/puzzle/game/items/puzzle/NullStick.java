@@ -78,12 +78,12 @@ public class NullStick implements IModItem, ITickingItem {
 //        manifest.addTag(new DataTag<>("currentEntry", new IntDataAttribute(currentEntry)));
 //        DataTagUtil.setManifestOnStack(manifest, slot.itemStack);
 
-        OrderedMap<String, BlockState> blockStates = state.getBlock().blockStates;
-        SlotContainer c = new SlotContainer(blockStates.size);
-        UI.addOpenContainer(c);
-        for (int i = 0; i < c.numberOfSlots; i++) {
-            c.addItemStack(new ItemStack(this));
-        }
+//        OrderedMap<String, BlockState> blockStates = state.getBlock().blockStates;
+//        SlotContainer c = new SlotContainer(blockStates.size);
+//        UI.addOpenContainer(c);
+//        for (int i = 0; i < c.numberOfSlots; i++) {
+//            c.addItemStack(new ItemStack(this));
+//        }
 
 //        BlockUtil.setBlockAt(position.getZone(), ((ItemBlock) state.getItem().getNextSwapGroupItem()).getBlockState(), position);
     }
