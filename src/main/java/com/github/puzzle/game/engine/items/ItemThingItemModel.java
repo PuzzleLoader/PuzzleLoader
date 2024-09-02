@@ -84,6 +84,7 @@ public class ItemThingItemModel implements IPuzzleItemModel {
         program.bindOptionalMatrix4("u_modelMat", tmpMatrix);
         program.bindOptionalUniform4f("tintColor", tintColor);
         program.bindOptionalTexture("texDiffuse", texture, 0);
+        program.bindOptionalInt("isInSlot", isSlot ? 1 : 0);
         mesh.render(program.shader, GL20.GL_TRIANGLES);
         program.unbind();
     }

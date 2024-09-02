@@ -163,6 +163,7 @@ public class ExperimentalItemModel implements IPuzzleItemModel {
         program.bindOptionalMatrix4("u_projViewTrans", cam.combined);
         program.bindOptionalMatrix4("u_modelMat", tmpMatrix);
         program.bindOptionalUniform4f("tintColor", tintColor);
+        program.bindOptionalInt("isInSlot", isSlot ? 1 : 0);
         program.bindOptionalTexture("texDiffuse", getTextureFromIndex(currentEntry), 0);
         if (getMeshFromIndex(currentEntry) != null)
             getMeshFromIndex(currentEntry).render(program.shader, GL20.GL_TRIANGLES);
