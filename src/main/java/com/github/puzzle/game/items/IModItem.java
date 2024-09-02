@@ -91,6 +91,18 @@ public interface IModItem extends Item {
         return new ArrayList<>();
     }
 
+    default void setCurrentEntry(ItemStack stack, int entry) {
+        DataTagManifest manifest = DataTagUtil.getManifestFromStack(stack);
+        manifest.addTag(new DataTag<>("currentEntry", new IntDataAttribute(entry)));
+        DataTagUtil.setManifestOnStack(manifest, stack);
+    }
+
+    default int getCurrentEntry(ItemStack stack) {
+        DataTagManifest manifest = DataTagUtil.getManifestFromStack(stack);
+        if (!manifest.hasTag("currentEntry")) manifest.addTag(new DataTag<>("currentEntry", new IntDataAttribute(0)));
+        return manifest.getTag("currentEntry").getTagAsType(Integer.class).getValue();
+    }
+
     /**
      * The string version of the ID.
      * @see Identifier#toString
