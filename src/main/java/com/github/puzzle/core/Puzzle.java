@@ -4,7 +4,9 @@ import com.github.puzzle.core.localization.ILanguageFile;
 import com.github.puzzle.core.localization.LanguageManager;
 import com.github.puzzle.core.localization.files.LanguageFileVersion1;
 import com.github.puzzle.game.Globals;
+import com.github.puzzle.game.engine.items.ExperimentalItemModel;
 import com.github.puzzle.game.engine.items.InstanceModelWrapper;
+import com.github.puzzle.game.engine.items.ItemThingItemModel;
 import com.github.puzzle.game.engine.shaders.ItemShader;
 import com.github.puzzle.game.items.IModItem;
 import com.github.puzzle.game.items.ITickingItem;
@@ -20,6 +22,9 @@ import finalforeach.cosmicreach.blocks.Block;
 import finalforeach.cosmicreach.gamestates.InGame;
 import finalforeach.cosmicreach.items.Item;
 import finalforeach.cosmicreach.items.ItemSlot;
+import finalforeach.cosmicreach.items.ItemStack;
+import finalforeach.cosmicreach.items.ItemThing;
+import finalforeach.cosmicreach.rendering.items.ItemModel;
 import finalforeach.cosmicreach.rendering.items.ItemRenderer;
 import finalforeach.cosmicreach.ui.UI;
 
@@ -78,15 +83,33 @@ public class Puzzle implements PreModInitializer, ModInitializer, PostModInitial
         BlockWrench = IModItem.registerItem(new BlockWrench());
 
         Item.registerItem(new ItemInstance(null));
+        Item.registerItem(new ItemThingWrapper(null));
         IModItem.registerItem(new BuilderWand());
 
         registerItemModelCreator(ItemInstance.class, (inst) -> {
             return new InstanceModelWrapper(inst.get(), ItemRenderer.getModel(inst.get().getParentItem(), false));
         });
+
+        registerItemModelCreator(ItemThingWrapper.class, (inst) -> {
+//            ItemModel model = ItemRenderer.getModel(inst.get().getParentItem(), false);
+
+//            return new InstanceModelWrapper(inst.get(), model);
+            System.out.println(inst.get().getParentItem());
+            return new ItemThingItemModel(inst.get()).wrap();
+        });
     }
 
     @Override
     public void onPostInit() {
+        for (String id : Item.allItems.keys()) {
+            Item item = Item.allItems.get(id);
+
+            if (ItemThing.class.isAssignableFrom(item.getClass())) {
+                System.out.println("Reassigning -> " + item + " is Instance of " + ItemThing.class.isAssignableFrom(item.getClass()));
+                Item.allItems.put(id, new ItemThingWrapper(item));
+            }
+        }
+//
         BuiltInTags.ore.add(Block.getInstance("block_ore_gold"));
         BuiltInTags.ore.add(Block.getInstance("block_ore_bauxite"));
         BuiltInTags.ore.add(Block.getInstance("block_ore_iron"));
