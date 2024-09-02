@@ -58,7 +58,8 @@ public class ItemInstance implements IModItem {
                 attributes.add(new PairAttribute<>(new IdentifierDataAttribute(model), new ResourceLocationDataAttribute(texture)));
                 getTagManifest().addTag(new DataTag<>("textures", new ListDataAttribute<>(attributes)));
             }
-        } else if (parentItem instanceof IModItem) ((IModItem) parentItem).addTexture(model, texture);
+        } else if (IModItem.class.isAssignableFrom(parentItem.getClass()))
+            ((IModItem) parentItem).addTexture(model, texture);
     }
 
     public void addTexture(Identifier model, ResourceLocation... textures) {
@@ -66,7 +67,7 @@ public class ItemInstance implements IModItem {
             for (ResourceLocation location : textures) {
                 addTexture(model, location);
             }
-        } else if (parentItem instanceof IModItem) ((IModItem) parentItem).addTexture(model, textures);
+        } else if (IModItem.class.isAssignableFrom(parentItem.getClass())) ((IModItem) parentItem).addTexture(model, textures);
 
     }
 
@@ -77,7 +78,7 @@ public class ItemInstance implements IModItem {
                 return textures.getValue();
             }
             return new ArrayList<>();
-        } else if (parentItem instanceof IModItem) return ((IModItem) parentItem).getTextures();
+        } else if (IModItem.class.isAssignableFrom(parentItem.getClass())) return ((IModItem) parentItem).getTextures();
         return new ArrayList<>();
     }
 
@@ -88,12 +89,12 @@ public class ItemInstance implements IModItem {
 
     public void use(ItemSlot slot, Player player) {
         if (parentItem == null) return;
-        else if (parentItem instanceof IModItem) ((IModItem) parentItem).use(slot, player);
+        else if (IModItem.class.isAssignableFrom(parentItem.getClass())) ((IModItem) parentItem).use(slot, player);
     }
 
     public void use(ItemSlot slot, Player player, boolean isLeftClick) {
         if (parentItem == null) return;
-        else if (parentItem instanceof IModItem) ((IModItem) parentItem).use(slot, player, isLeftClick);
+        else if (IModItem.class.isAssignableFrom(parentItem.getClass())) ((IModItem) parentItem).use(slot, player, isLeftClick);
     }
 
     public boolean useItem(ItemSlot slot, Player player) {
@@ -118,13 +119,13 @@ public class ItemInstance implements IModItem {
 
     public ItemStack getDefaultItemStack() {
         if (parentItem == null) return new ItemStack(this, Math.min(getMaxStackSize(), 100));
-        else if (parentItem instanceof IModItem) return ((IModItem) parentItem).getDefaultItemStack();
+        else if (IModItem.class.isAssignableFrom(parentItem.getClass())) return ((IModItem) parentItem).getDefaultItemStack();
         return new ItemStack(this, Math.min(getMaxStackSize(), 100));
     }
 
     public int getMaxStackSize() {
         if (parentItem == null) return 1000;
-        else if (parentItem instanceof IModItem) return ((IModItem) parentItem).getMaxStackSize();
+        else if (IModItem.class.isAssignableFrom(parentItem.getClass())) return ((IModItem) parentItem).getMaxStackSize();
         return 1000;
     }
 
@@ -157,13 +158,13 @@ public class ItemInstance implements IModItem {
     @Override
     public boolean isTool() {
         if (parentItem == null) return false;
-        else if (parentItem instanceof IModItem) return ((IModItem) parentItem).isTool();
+        else if (IModItem.class.isAssignableFrom(parentItem.getClass())) return ((IModItem) parentItem).isTool();
         return false;
     }
 
     public DataTagManifest getTagManifest() {
         if (parentItem == null) return manifest;
-        else if (parentItem instanceof IModItem) return ((IModItem) parentItem).getTagManifest();
+        else if (IModItem.class.isAssignableFrom(parentItem.getClass())) return ((IModItem) parentItem).getTagManifest();
         return manifest;
     }
 
@@ -179,13 +180,13 @@ public class ItemInstance implements IModItem {
 
     public boolean hasIntProperty(ItemStack parent, String s) {
         if (parentItem == null) return false;
-        else if (parentItem instanceof IModItem) return ((IModItem) parentItem).hasIntProperty(parent, s);
+        else if (IModItem.class.isAssignableFrom(parentItem.getClass())) return ((IModItem) parentItem).hasIntProperty(parent, s);
         return parentItem.hasIntProperty(s);
     }
 
     public int getIntProperty(ItemStack parent, String s, int i) {
         if (parentItem == null) return 0;
-        else if (parentItem instanceof IModItem) return ((IModItem) parentItem).getIntProperty(parent, s, i);
+        else if (IModItem.class.isAssignableFrom(parentItem.getClass())) return ((IModItem) parentItem).getIntProperty(parent, s, i);
         return parentItem.getIntProperty(s, i);
     }
 
