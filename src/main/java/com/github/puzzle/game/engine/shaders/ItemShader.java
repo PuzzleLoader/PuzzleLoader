@@ -12,11 +12,12 @@ public class ItemShader extends GameShader {
     public static ItemShader DEFAULT_ITEM_SHADER;
     private static final VertexAttribute posAttrib = VertexAttribute.Position();
     private static final VertexAttribute texCoordsAttrib = VertexAttribute.TexCoords(0);
+    private static final VertexAttribute normalAttrib = VertexAttribute.Normal();
 
 
     public ItemShader(String vertexShader, String fragmentShader) {
         super(vertexShader, fragmentShader);
-        this.allVertexAttributesObj = new VertexAttributes(posAttrib, texCoordsAttrib);
+        this.allVertexAttributesObj = new VertexAttributes(posAttrib, texCoordsAttrib, normalAttrib);
     }
 
     public static void initItemShader() {
