@@ -67,7 +67,7 @@ public class ItemThingItemModel implements IPuzzleItemModel {
     static final Color tintColor = new Color();
     static final BlockPosition tmpBlockPos = new BlockPosition(null, 0, 0, 0);
 
-    public void renderGeneric(Vector3 pos, ItemStack stack, Camera cam, Matrix4 tmpMatrix, boolean isSlot) {
+    public void renderGeneric(Vector3 pos, Camera cam, Matrix4 tmpMatrix, boolean isSlot) {
         if (isSlot) {
             tintColor.set(Color.WHITE);
         } else {
@@ -90,7 +90,7 @@ public class ItemThingItemModel implements IPuzzleItemModel {
 
     @Override
     public void renderInSlot(Vector3 pos, ItemStack stack, Camera slotCamera, Matrix4 tmpMatrix, boolean useAmbientLighting) {
-        renderGeneric(new Vector3(0, 0, 0), stack, slotCamera, noRotMtrx, true);
+        renderGeneric(new Vector3(0, 0, 0), slotCamera, noRotMtrx, true);
     }
 
     @Override
@@ -109,7 +109,6 @@ public class ItemThingItemModel implements IPuzzleItemModel {
     @Override
     public void renderAsHeldItem(Vector3 pos, ItemStack stack2, Camera handCam, float popUpTimer, float maxPopUpTimer, float swingTimer, float maxSwingTimer) {
         Matrix4 tmpHeldMat4 = new Matrix4();
-        ItemStack stack = UI.hotbar.getSelectedItemStack();
 
         heldItemCamera.fieldOfView = 50.0F;
         heldItemCamera.viewportHeight = handCam.viewportHeight;
@@ -142,15 +141,15 @@ public class ItemThingItemModel implements IPuzzleItemModel {
             tmpHeldMat4.rotate(new Vector3(1, 0, 0), 15);
         }
 
-        Gdx.gl.glDisable(2929);
-        renderGeneric(pos, stack, heldItemCamera, tmpHeldMat4, false);
-        Gdx.gl.glEnable(2929);
+        Gdx.gl.glDisable(GL20.GL_DEPTH_TEST);
+        renderGeneric(pos, heldItemCamera, tmpHeldMat4, false);
+        Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
     }
 
     @Override
     public void renderAsEntity(Vector3 pos, ItemStack stack, Camera entityCam, Matrix4 tmpMatrix) {
         tmpMatrix.translate(0.5F, 0.2F, 0.5F);
         tmpMatrix.scale(0.7f, 0.7f, 0.7f);
-        renderGeneric(pos, stack, entityCam, tmpMatrix, false);
+        renderGeneric(pos, entityCam, tmpMatrix, false);
     }
 }

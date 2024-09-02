@@ -1,5 +1,6 @@
 package com.github.puzzle.game.mixins.refactors.items;
 
+import com.github.puzzle.game.engine.items.InstanceModelWrapper;
 import com.github.puzzle.game.items.IModItem;
 import com.github.puzzle.game.items.data.DataTagManifest;
 import com.github.puzzle.game.items.puzzle.ItemInstance;
@@ -68,10 +69,18 @@ public class ItemStackMixin implements ITaggedStack {
      */
     @Overwrite
     public Item getItem() {
+        // This shitty code should be redone
         if (item instanceof IModItem) {
-            return puzzleLoader$getItemInstance();
+            if (item instanceof ItemInstance || item instanceof ItemThingWrapper)
+                return puzzleLoader$getItem();
+            this.item = puzzleLoader$getItemInstance();
+            return getItem();
         } else if (item instanceof ItemThing){
-            return new ItemThingWrapper(item);
-        } else return puzzleLoader$getItem();
+            ItemThingWrapper wrapped = new ItemThingWrapper(item);
+            this.item = wrapped;
+            return wrapped;
+        } else {
+            return puzzleLoader$getItem();
+        }
     }
 }

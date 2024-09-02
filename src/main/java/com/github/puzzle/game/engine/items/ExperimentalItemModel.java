@@ -225,9 +225,9 @@ public class ExperimentalItemModel implements IPuzzleItemModel {
             tmpHeldMat4.rotate(new Vector3(1, 0, 0), 15);
         }
 
-        Gdx.gl.glDisable(2929);
+        Gdx.gl.glDisable(GL20.GL_DEPTH_TEST);
         renderGeneric(pos, stack, heldItemCamera, tmpHeldMat4, false);
-        Gdx.gl.glEnable(2929);
+        Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
     }
 
     @Override
