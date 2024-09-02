@@ -14,9 +14,9 @@ out vec4 outColor;
 void main()
 {
     //bs numbers might want to mess around with
-    float test = abs(dot(vec3(0,0,1), v_normal) ) + 0.6;
-    test *= abs(dot(vec3(0,1,0), v_normal) + 0.8);
-    test *= 1.5;
+    float faceShade = abs(dot(vec3(0,0,1), v_normal) ) + 0.6;
+    faceShade *= abs(dot(vec3(0,1,0), v_normal) + 0.8);
+    faceShade *= 1.5;
     vec4 texColor = texture(texDiffuse, v_texCoord0);
 
     if(texColor.a == 0)
@@ -24,5 +24,5 @@ void main()
         discard;
     }
 
-    outColor = vec4(texColor.rgb * test , texColor.a) * tintColor;
+    outColor = vec4(texColor.rgb * faceShade , texColor.a) * tintColor;
 }
