@@ -52,7 +52,7 @@ public class BlockGenerator implements IGenerator {
 
         public String swapGroupId;
         public String dropId;
-        public float hardness;
+        public float hardness = 1.5F;
 
         ObjectIntMap<String> intProperties = new ObjectIntMap();
 
