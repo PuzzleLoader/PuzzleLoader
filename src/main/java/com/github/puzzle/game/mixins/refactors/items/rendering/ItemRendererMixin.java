@@ -1,7 +1,6 @@
 package com.github.puzzle.game.mixins.refactors.items.rendering;
 
 import com.github.puzzle.game.engine.items.ItemThingModel;
-import com.github.puzzle.game.items.puzzle.ItemInstance;
 import finalforeach.cosmicreach.items.Item;
 import finalforeach.cosmicreach.items.ItemThing;
 import finalforeach.cosmicreach.rendering.items.ItemModel;
@@ -20,9 +19,7 @@ public abstract class ItemRendererMixin {
 
     @Inject(method = "getModel", cancellable = true, at = @At("HEAD"))
     private static <T extends Item> void getModel0(T item, boolean createIfNull, CallbackInfoReturnable<ItemModel> cir) {
-        if (item instanceof ItemInstance && ((ItemInstance) item).getParentItem() != null) {
-            cir.setReturnValue(getModel(((ItemInstance) item).getParentItem(), createIfNull));
-        }
+//        cir.setReturnValue(getModel(item, createIfNull));
     }
 
     @Inject(method = "lambda$static$1", at = @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/rendering/items/ItemModel2D;<init>(Lfinalforeach/cosmicreach/items/ItemThing;)V", shift = At.Shift.BEFORE), cancellable = true)

@@ -1,15 +1,11 @@
 package com.github.puzzle.game.mixins.refactors.items;
 
-import com.github.puzzle.game.engine.items.InstanceModelWrapper;
-import com.github.puzzle.game.items.IModItem;
 import com.github.puzzle.game.items.data.DataTagManifest;
-import com.github.puzzle.game.items.puzzle.ItemInstance;
 import com.github.puzzle.game.items.stack.ITaggedStack;
 import finalforeach.cosmicreach.io.CRBinDeserializer;
 import finalforeach.cosmicreach.io.CRBinSerializer;
 import finalforeach.cosmicreach.items.Item;
 import finalforeach.cosmicreach.items.ItemStack;
-import finalforeach.cosmicreach.items.ItemThing;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
@@ -42,11 +38,6 @@ public class ItemStackMixin implements ITaggedStack {
     }
 
     @Override
-    public Item puzzleLoader$getItemInstance() {
-        return new ItemInstance((ItemStack) (Object) this);
-    }
-
-    @Override
     public Item puzzleLoader$getItem() {
         return item;
     }
@@ -69,13 +60,6 @@ public class ItemStackMixin implements ITaggedStack {
     @Overwrite
     public Item getItem() {
         // This shitty code should be redone
-        if (item instanceof IModItem) {
-            if (item instanceof ItemInstance)
-                return puzzleLoader$getItem();
-            this.item = puzzleLoader$getItemInstance();
-            return getItem();
-        } else {
-            return puzzleLoader$getItem();
-        }
+        return item;
     }
 }

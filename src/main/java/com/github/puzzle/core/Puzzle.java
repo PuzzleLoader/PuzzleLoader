@@ -4,7 +4,6 @@ import com.github.puzzle.core.localization.ILanguageFile;
 import com.github.puzzle.core.localization.LanguageManager;
 import com.github.puzzle.core.localization.files.LanguageFileVersion1;
 import com.github.puzzle.game.Globals;
-import com.github.puzzle.game.engine.items.InstanceModelWrapper;
 import com.github.puzzle.game.engine.shaders.ItemShader;
 import com.github.puzzle.game.items.IModItem;
 import com.github.puzzle.game.items.ITickingItem;
@@ -77,12 +76,7 @@ public class Puzzle implements PreModInitializer, ModInitializer, PostModInitial
         CheckerBoard = IModItem.registerItem(new CheckBoard());
         BlockWrench = IModItem.registerItem(new BlockWrench());
 
-        Item.registerItem(new ItemInstance(null));
         IModItem.registerItem(new BuilderWand());
-
-        registerItemModelCreator(ItemInstance.class, (inst) -> {
-            return new InstanceModelWrapper(inst.get(), ItemRenderer.getModel(inst.get().getParentItem(), false));
-        });
     }
 
     @Override
@@ -124,11 +118,6 @@ public class Puzzle implements PreModInitializer, ModInitializer, PostModInitial
                     ItemSlot slot = UI.hotbar.getContainer().getSlot(i);
 
                     if (slot != null) {
-                        if (slot.itemStack != null && slot.itemStack.getItem() instanceof ItemInstance inst) {
-                            if (inst.getParentItem() instanceof ITickingItem tickingItem) {
-                                tickingItem.tickStack(fixedUpdateTimeStep, slot.itemStack, false);
-                            }
-                        }
                         if (slot.itemStack != null && slot.itemStack.getItem() instanceof ITickingItem tickingItem1) {
                             tickingItem1.tickStack(fixedUpdateTimeStep, slot.itemStack, false);
                         }
@@ -140,11 +129,6 @@ public class Puzzle implements PreModInitializer, ModInitializer, PostModInitial
                         ItemSlot slot = UI.openContainers.get(ic).getSlot(i);
 
                         if (slot != null) {
-                            if (slot.itemStack != null && slot.itemStack.getItem() instanceof ItemInstance inst) {
-                                if (inst.getParentItem() instanceof ITickingItem tickingItem) {
-                                    tickingItem.tickStack(fixedUpdateTimeStep, slot.itemStack, false);
-                                }
-                            }
                             if (slot.itemStack != null && slot.itemStack.getItem() instanceof ITickingItem tickingItem1) {
                                 tickingItem1.tickStack(fixedUpdateTimeStep, slot.itemStack, false);
                             }

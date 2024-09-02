@@ -3,7 +3,6 @@ package com.github.puzzle.game.mixins.refactors.items.rendering;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.github.puzzle.game.engine.items.InstanceModelWrapper;
 import com.github.puzzle.game.engine.items.model.ItemModelWrapper;
 import com.llamalad7.mixinextras.sugar.Local;
 import finalforeach.cosmicreach.items.ItemStack;
@@ -25,13 +24,6 @@ public class ItemSlotWidgetMixin {
     @Inject(method = "drawItem", at = @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/rendering/items/ItemRenderer;drawItem(Lcom/badlogic/gdx/graphics/Camera;Lfinalforeach/cosmicreach/items/Item;)V", shift = At.Shift.BEFORE), cancellable = true)
     private void drawItem(Viewport itemViewport, CallbackInfo ci, @Local ItemStack itemStack, @Local Camera itemCam) {
         ItemModel model = ItemRenderer.getModel(itemStack.getItem(), true);
-        if (model instanceof InstanceModelWrapper m0) {
-            if (m0.getModel() instanceof ItemModelWrapper itemModel) {
-                itemModel.renderInSlot(null, itemStack, itemCam, identMat4, false);
-                ci.cancel();
-                return;
-            }
-        }
         if (model instanceof ItemModelWrapper itemModel) {
             itemModel.renderInSlot(null, itemStack, itemCam, identMat4, false);
             ci.cancel();
