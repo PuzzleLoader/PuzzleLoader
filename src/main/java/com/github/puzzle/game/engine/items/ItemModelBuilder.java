@@ -19,7 +19,7 @@ public class ItemModelBuilder {
         public static Mesh build2_5DMesh(Texture texture) {
             builder.begin(ItemShader.DEFAULT_ITEM_SHADER.allVertexAttributesObj, GL20.GL_TRIANGLES);
             buildMeshSides(texture);
-            buildItemRects((1f / 16f), false);
+            buildItemRects((1f / texture.getWidth()), false);
             return builder.end();
         }
 
