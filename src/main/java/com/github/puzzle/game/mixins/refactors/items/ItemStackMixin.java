@@ -38,11 +38,6 @@ public class ItemStackMixin implements ITaggedStack {
     }
 
     @Override
-    public Item puzzleLoader$getItem() {
-        return item;
-    }
-
-    @Override
     public void puzzleLoader$setDataManifest(DataTagManifest tagManifest) {
         manifest = tagManifest;
     }
@@ -51,15 +46,5 @@ public class ItemStackMixin implements ITaggedStack {
     public DataTagManifest puzzleLoader$getDataManifest() {
         if (manifest == null) puzzleLoader$setDataManifest(new DataTagManifest());
         return manifest;
-    }
-
-    /**
-     * @author Mr_Zombii
-     * @reason add item meta data
-     */
-    @Overwrite
-    public Item getItem() {
-        // This shitty code should be redone
-        return item;
     }
 }

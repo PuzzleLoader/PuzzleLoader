@@ -12,15 +12,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.lang.ref.WeakReference;
 
-import static finalforeach.cosmicreach.rendering.items.ItemRenderer.getModel;
-
 @Mixin(ItemRenderer.class)
 public abstract class ItemRendererMixin {
-
-    @Inject(method = "getModel", cancellable = true, at = @At("HEAD"))
-    private static <T extends Item> void getModel0(T item, boolean createIfNull, CallbackInfoReturnable<ItemModel> cir) {
-//        cir.setReturnValue(getModel(item, createIfNull));
-    }
 
     @Inject(method = "lambda$static$1", at = @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/rendering/items/ItemModel2D;<init>(Lfinalforeach/cosmicreach/items/ItemThing;)V", shift = At.Shift.BEFORE), cancellable = true)
     private static void replaceItem2D(WeakReference<Item> itemRef, CallbackInfoReturnable<ItemModel> cir) {
