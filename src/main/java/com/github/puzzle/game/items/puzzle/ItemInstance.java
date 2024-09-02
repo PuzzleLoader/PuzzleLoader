@@ -16,6 +16,7 @@ import finalforeach.cosmicreach.entities.player.Player;
 import finalforeach.cosmicreach.items.Item;
 import finalforeach.cosmicreach.items.ItemSlot;
 import finalforeach.cosmicreach.items.ItemStack;
+import finalforeach.cosmicreach.items.ItemThing;
 
 import java.util.ArrayList;
 import java.util.List;

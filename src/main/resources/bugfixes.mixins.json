@@ -9,6 +9,7 @@
     "BlockStateGeneratorCopyFixer",
     "BlockStateGeneratorMixin",
     "ItemBlockPrefixFixer",
+    "ItemMixin",
     "ItemPickBlock",
     "NullPlayer"
   ],

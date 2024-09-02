@@ -1,19 +1,21 @@
 package com.github.puzzle.game.mixins.bugfixes;
 
 import finalforeach.cosmicreach.items.Item;
-import finalforeach.cosmicreach.items.ItemBlock;
 import finalforeach.cosmicreach.util.exceptions.DuplicateIDException;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.Overwrite;
 
 import static finalforeach.cosmicreach.items.Item.allItems;
 
-@Mixin(ItemBlock.class)
-public class ItemBlockPrefixFixer {
+@Mixin(Item.class)
+public interface ItemMixin {
 
-    @Redirect(method = "<init>", at = @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/items/Item;registerItem(Lfinalforeach/cosmicreach/items/Item;)V"))
-    private void registerItem(Item item) {
+    /**
+     * @author Mr_Zombii
+     * @reason Get rid of certain wrappers
+     */
+    @Overwrite
+    static void registerItem(Item item) {
         String itemId = item.getID();
         if (itemId == null) {
             throw new RuntimeException("Item id cannot be null!");

@@ -4,7 +4,6 @@ import com.github.puzzle.game.engine.items.InstanceModelWrapper;
 import com.github.puzzle.game.items.IModItem;
 import com.github.puzzle.game.items.data.DataTagManifest;
 import com.github.puzzle.game.items.puzzle.ItemInstance;
-import com.github.puzzle.game.items.puzzle.ItemThingWrapper;
 import com.github.puzzle.game.items.stack.ITaggedStack;
 import finalforeach.cosmicreach.io.CRBinDeserializer;
 import finalforeach.cosmicreach.io.CRBinSerializer;
@@ -71,14 +70,10 @@ public class ItemStackMixin implements ITaggedStack {
     public Item getItem() {
         // This shitty code should be redone
         if (item instanceof IModItem) {
-            if (item instanceof ItemInstance || item instanceof ItemThingWrapper)
+            if (item instanceof ItemInstance)
                 return puzzleLoader$getItem();
             this.item = puzzleLoader$getItemInstance();
             return getItem();
-        } else if (item instanceof ItemThing){
-            ItemThingWrapper wrapped = new ItemThingWrapper(item);
-            this.item = wrapped;
-            return wrapped;
         } else {
             return puzzleLoader$getItem();
         }

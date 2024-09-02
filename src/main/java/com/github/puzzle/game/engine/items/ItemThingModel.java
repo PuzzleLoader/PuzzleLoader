@@ -4,20 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
-import com.github.puzzle.core.Identifier;
 import com.github.puzzle.core.resources.PuzzleGameAssetLoader;
-import com.github.puzzle.core.resources.ResourceLocation;
 import com.github.puzzle.game.engine.items.model.IPuzzleItemModel;
 import com.github.puzzle.game.engine.shaders.ItemShader;
-import com.github.puzzle.game.items.IModItem;
-import com.github.puzzle.game.items.data.DataTagManifest;
-import com.github.puzzle.game.items.data.attributes.IdentifierDataAttribute;
-import com.github.puzzle.game.items.data.attributes.PairAttribute;
-import com.github.puzzle.game.items.data.attributes.ResourceLocationDataAttribute;
-import com.github.puzzle.game.items.puzzle.ItemThingWrapper;
-import com.github.puzzle.game.util.DataTagUtil;
-import com.llamalad7.mixinextras.lib.apache.commons.tuple.ImmutablePair;
-import com.llamalad7.mixinextras.lib.apache.commons.tuple.Pair;
 import finalforeach.cosmicreach.blocks.BlockPosition;
 import finalforeach.cosmicreach.entities.Entity;
 import finalforeach.cosmicreach.gamestates.InGame;
@@ -27,14 +16,12 @@ import finalforeach.cosmicreach.items.ItemThing;
 import finalforeach.cosmicreach.rendering.MeshData;
 import finalforeach.cosmicreach.rendering.RenderOrder;
 import finalforeach.cosmicreach.rendering.shaders.GameShader;
-import finalforeach.cosmicreach.ui.UI;
 import finalforeach.cosmicreach.world.Sky;
 import finalforeach.cosmicreach.world.Zone;
 
 import java.lang.ref.WeakReference;
-import java.util.HashMap;
 
-public class ItemThingItemModel implements IPuzzleItemModel {
+public class ItemThingModel implements IPuzzleItemModel {
 
     Mesh mesh;
     Texture texture;
@@ -53,15 +40,23 @@ public class ItemThingItemModel implements IPuzzleItemModel {
         itemCam2.update();
     }
 
-    ItemThingWrapper item;
+    ItemThing item;
 
-    public ItemThingItemModel(ItemThingWrapper item) {
+    public ItemThingModel(ItemThing item) {
         this.item = item;
-        String texturePath = (String) ((ItemThing) item.getParentItem()).itemProperties.get("texture");
+        String texturePath = (String) item.itemProperties.get("texture");
         this.texture = PuzzleGameAssetLoader.LOADER.loadSync(texturePath, Texture.class);
-//        texture.getTextureData().prepare();
         texture = ItemModelBuilder.flip(texture);
         mesh = ItemModelBuilder.build2_5DMesh(texture);
+    }
+
+    public boolean isTool() {
+        switch (item.getID()) {
+            case "base:stick":
+                return true;
+            default:
+                return item.getEffectiveBreakingSpeed(new ItemStack(item, 1)) != 1.0F;
+        }
     }
 
     static final Color tintColor = new Color();
@@ -135,7 +130,7 @@ public class ItemThingItemModel implements IPuzzleItemModel {
             tmpHeldMat4.translate(st * 2.0F, st, 0.0F);
         }
 
-        if (item.isTool()) {
+        if (isTool()) {
             tmpHeldMat4.translate(.6f,0, 0);
             tmpHeldMat4.translate(0,-.2f, 0);
             tmpHeldMat4.rotate(new Vector3(0, 0, 1), 20);
