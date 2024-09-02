@@ -12,19 +12,22 @@ public class ItemModelBuilder {
         static MeshBuilder builder = new MeshBuilder();
 
         public static Mesh build2DMesh() {
+            builder.begin(ItemShader.DEFAULT_ITEM_SHADER.allVertexAttributesObj, GL20.GL_TRIANGLES);
             return buildItemRects(0, true);
         }
 
         public static Mesh build2_5DMesh(Texture texture) {
-            buildItemRects((1f / texture.getWidth()), false);
+            builder.begin(ItemShader.DEFAULT_ITEM_SHADER.allVertexAttributesObj, GL20.GL_TRIANGLES);
             buildMeshSides(texture);
+            buildItemRects((1f / texture.getWidth()), false);
             return builder.end();
         }
 
-        public static MeshPartBuilder.VertexInfo vertex(float x, float y, float z, float u, float v) {
+        public static MeshPartBuilder.VertexInfo vertex(float x, float y, float z, float u, float v, Vector3 normal) {
             MeshPartBuilder.VertexInfo vertexInfo = new MeshPartBuilder.VertexInfo();
             vertexInfo.setPos(new Vector3(x, y, z));
             vertexInfo.setUV(new Vector2(u, v));
+            vertexInfo.setNor(new Vector3(normal));
             return vertexInfo;
         }
 
@@ -67,20 +70,22 @@ public class ItemModelBuilder {
 
                     // Left Faces
                     if (isLeftClear && isSolid) {
-                        MeshPartBuilder.VertexInfo topLeft0 = vertex(startingPos, (pixelSize * y) + pixelSize, (pixelSize / 2f), u1, v1);
-                        MeshPartBuilder.VertexInfo topRight0 = vertex(startingPos, (pixelSize * y) + pixelSize, ((pixelSize / 2f) - pixelSize), u1, v1);
-                        MeshPartBuilder.VertexInfo bottomLeft0 = vertex(startingPos, pixelSize * y, (pixelSize / 2f), u1, v0);
-                        MeshPartBuilder.VertexInfo bottomRight0 = vertex(startingPos, pixelSize * y, ((pixelSize / 2f) - pixelSize), u0, v0);
+                        Vector3 tmp = new Vector3(1,0,0);
+                        MeshPartBuilder.VertexInfo topLeft0 = vertex(startingPos, (pixelSize * y) + pixelSize, (pixelSize / 2f), u1, v1, tmp);
+                        MeshPartBuilder.VertexInfo topRight0 = vertex(startingPos, (pixelSize * y) + pixelSize, ((pixelSize / 2f) - pixelSize), u1, v1, tmp);
+                        MeshPartBuilder.VertexInfo bottomLeft0 = vertex(startingPos, pixelSize * y, (pixelSize / 2f), u1, v0, tmp);
+                        MeshPartBuilder.VertexInfo bottomRight0 = vertex(startingPos, pixelSize * y, ((pixelSize / 2f) - pixelSize), u0, v0, tmp);
 
                         builder.rect(topLeft0, bottomLeft0, bottomRight0, topRight0);
                     }
 
                     // Right Faces
                     if (isRightClear && isSolid) {
-                        MeshPartBuilder.VertexInfo topLeft0 = vertex(startingPos - pixelSize, (pixelSize * y) + pixelSize, (pixelSize / 2f), u1, v1);
-                        MeshPartBuilder.VertexInfo topRight0 = vertex(startingPos - pixelSize, (pixelSize * y) + pixelSize, ((pixelSize / 2f) - pixelSize), u1, v1);
-                        MeshPartBuilder.VertexInfo bottomLeft0 = vertex(startingPos - pixelSize, pixelSize * y, (pixelSize / 2f), u1, v0);
-                        MeshPartBuilder.VertexInfo bottomRight0 = vertex(startingPos - pixelSize, pixelSize * y, ((pixelSize / 2f) - pixelSize), u0, v0);
+                        Vector3 tmp = new Vector3(-1,0,0);
+                        MeshPartBuilder.VertexInfo topLeft0 = vertex(startingPos - pixelSize, (pixelSize * y) + pixelSize, (pixelSize / 2f), u1, v1, tmp);
+                        MeshPartBuilder.VertexInfo topRight0 = vertex(startingPos - pixelSize, (pixelSize * y) + pixelSize, ((pixelSize / 2f) - pixelSize), u1, v1, tmp);
+                        MeshPartBuilder.VertexInfo bottomLeft0 = vertex(startingPos - pixelSize, pixelSize * y, (pixelSize / 2f), u1, v0, tmp);
+                        MeshPartBuilder.VertexInfo bottomRight0 = vertex(startingPos - pixelSize, pixelSize * y, ((pixelSize / 2f) - pixelSize), u0, v0, tmp);
 
                         builder.rect(topLeft0, topRight0, bottomRight0, bottomLeft0);
                     }
@@ -89,20 +94,22 @@ public class ItemModelBuilder {
 
                     // Top Faces
                     if (isAboveClear && isSolid) {
-                        MeshPartBuilder.VertexInfo topLeft0 = vertex((pixelSize * ((texture.getWidth() / 2f) - x)), startingPos2 + pixelSize, (pixelSize / 2f), u1, v1);
-                        MeshPartBuilder.VertexInfo topRight0 = vertex((pixelSize * ((texture.getWidth() / 2f) - x)), startingPos2 + pixelSize, ((pixelSize / 2f) - pixelSize), u1, v1);
-                        MeshPartBuilder.VertexInfo bottomLeft0 = vertex(pixelSize * ((texture.getWidth() / 2f) - x) - pixelSize, startingPos2 + pixelSize, (pixelSize / 2f), u1, v0);
-                        MeshPartBuilder.VertexInfo bottomRight0 = vertex(pixelSize * ((texture.getWidth() / 2f) - x) - pixelSize, startingPos2 + pixelSize, ((pixelSize / 2f) - pixelSize), u0, v0);
+                        Vector3 tmp = new Vector3(0,1,0);
+                        MeshPartBuilder.VertexInfo topLeft0 = vertex((pixelSize * ((texture.getWidth() / 2f) - x)), startingPos2 + pixelSize, (pixelSize / 2f), u1, v1, tmp);
+                        MeshPartBuilder.VertexInfo topRight0 = vertex((pixelSize * ((texture.getWidth() / 2f) - x)), startingPos2 + pixelSize, ((pixelSize / 2f) - pixelSize), u1, v1, tmp);
+                        MeshPartBuilder.VertexInfo bottomLeft0 = vertex(pixelSize * ((texture.getWidth() / 2f) - x) - pixelSize, startingPos2 + pixelSize, (pixelSize / 2f), u1, v0, tmp);
+                        MeshPartBuilder.VertexInfo bottomRight0 = vertex(pixelSize * ((texture.getWidth() / 2f) - x) - pixelSize, startingPos2 + pixelSize, ((pixelSize / 2f) - pixelSize), u0, v0, tmp);
 
                         builder.rect(topLeft0, topRight0, bottomRight0, bottomLeft0);
                     }
 
                     // Bottom Faces
                     if (isBelowClear && isSolid) {
-                        MeshPartBuilder.VertexInfo topLeft0 = vertex((pixelSize * ((texture.getWidth() / 2f) - x)), startingPos2, (pixelSize / 2f), u1, v1);
-                        MeshPartBuilder.VertexInfo topRight0 = vertex((pixelSize * ((texture.getWidth() / 2f) - x)), startingPos2, ((pixelSize / 2f) - pixelSize), u1, v1);
-                        MeshPartBuilder.VertexInfo bottomLeft0 = vertex(pixelSize * ((texture.getWidth() / 2f) - x) - pixelSize, startingPos2, (pixelSize / 2f), u1, v0);
-                        MeshPartBuilder.VertexInfo bottomRight0 = vertex(pixelSize * ((texture.getWidth() / 2f) - x) - pixelSize, startingPos2, ((pixelSize / 2f) - pixelSize), u0, v0);
+                        Vector3 tmp = new Vector3(0,-1,0);
+                        MeshPartBuilder.VertexInfo topLeft0 = vertex((pixelSize * ((texture.getWidth() / 2f) - x)), startingPos2, (pixelSize / 2f), u1, v1, tmp);
+                        MeshPartBuilder.VertexInfo topRight0 = vertex((pixelSize * ((texture.getWidth() / 2f) - x)), startingPos2, ((pixelSize / 2f) - pixelSize), u1, v1, tmp);
+                        MeshPartBuilder.VertexInfo bottomLeft0 = vertex(pixelSize * ((texture.getWidth() / 2f) - x) - pixelSize, startingPos2, (pixelSize / 2f), u1, v0, tmp);
+                        MeshPartBuilder.VertexInfo bottomRight0 = vertex(pixelSize * ((texture.getWidth() / 2f) - x) - pixelSize, startingPos2, ((pixelSize / 2f) - pixelSize), u0, v0, tmp);
 
                         builder.rect(topLeft0, bottomLeft0, bottomRight0, topRight0);
                     }
@@ -111,41 +118,50 @@ public class ItemModelBuilder {
         }
 
         public static Mesh buildItemRects(float sideOffsets, boolean endMesh) {
-            builder.begin(ItemShader.DEFAULT_ITEM_SHADER.allVertexAttributesObj, GL20.GL_TRIANGLES);
+
+            Vector3 tmp = new Vector3(0,0,-1);
 
             MeshPartBuilder.VertexInfo topLeft0 = new MeshPartBuilder.VertexInfo();
             topLeft0.setPos(new Vector3(-1, 2, sideOffsets));
             topLeft0.setUV(new Vector2(1, 1));
+            topLeft0.setNor(tmp.cpy());
 
             MeshPartBuilder.VertexInfo topRight0 = new MeshPartBuilder.VertexInfo();
             topRight0.setPos(new Vector3(1, 2, sideOffsets));
             topRight0.setUV(new Vector2(0, 1));
+            topRight0.setNor(tmp.cpy());
 
             MeshPartBuilder.VertexInfo bottomLeft0 = new MeshPartBuilder.VertexInfo();
             bottomLeft0.setPos(new Vector3(-1, 0, sideOffsets));
             bottomLeft0.setUV(new Vector2(1, 0));
+            bottomLeft0.setNor(tmp.cpy());
 
             MeshPartBuilder.VertexInfo bottomRight0 = new MeshPartBuilder.VertexInfo();
             bottomRight0.setPos(new Vector3(1, 0, sideOffsets));
             bottomRight0.setUV(new Vector2(0, 0));
+            bottomRight0.setNor(tmp.cpy());
 
             builder.rect(topLeft0, bottomLeft0, bottomRight0, topRight0);
-
+             tmp = new Vector3(0,0,1);
             MeshPartBuilder.VertexInfo topLeft1 = new MeshPartBuilder.VertexInfo();
             topLeft1.setPos(new Vector3(-1, 2, -sideOffsets));
             topLeft1.setUV(topLeft0.uv.cpy());
+            topLeft1.setNor(tmp.cpy());
 
             MeshPartBuilder.VertexInfo topRight1 = new MeshPartBuilder.VertexInfo();
             topRight1.setPos(new Vector3(1, 2, -sideOffsets));
             topRight1.setUV(topRight0.uv.cpy());
+            topRight1.setNor(tmp.cpy());
 
             MeshPartBuilder.VertexInfo bottomLeft1 = new MeshPartBuilder.VertexInfo();
             bottomLeft1.setPos(new Vector3(-1, 0, -sideOffsets));
             bottomLeft1.setUV(bottomLeft0.uv.cpy());
+            bottomLeft1.setNor(tmp.cpy());
 
             MeshPartBuilder.VertexInfo bottomRight1 = new MeshPartBuilder.VertexInfo();
             bottomRight1.setPos(new Vector3(1, 0, -sideOffsets));
             bottomRight1.setUV(bottomRight0.uv.cpy());
+            bottomRight1.setNor(tmp.cpy());
 
             builder.rect(topLeft1, topRight1, bottomRight1, bottomLeft1);
             if (endMesh) return builder.end();
