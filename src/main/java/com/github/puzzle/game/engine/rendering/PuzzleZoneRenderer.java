@@ -1,4 +1,4 @@
-package com.github.puzzle.game.rendering;
+package com.github.puzzle.game.engine.rendering;
 
 import finalforeach.cosmicreach.rendering.IZoneRenderer;
 
