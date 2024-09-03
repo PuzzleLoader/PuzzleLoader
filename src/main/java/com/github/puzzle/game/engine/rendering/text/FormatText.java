@@ -44,7 +44,7 @@ public class FormatText {
                     }
 
                 }
-                if(split[0].isBlank() || split[0].isEmpty())
+                if(!split[0].isBlank() || !split[0].isEmpty())
                     parseIndex.put(split[0],null);
             }
             hasParsed = true;
