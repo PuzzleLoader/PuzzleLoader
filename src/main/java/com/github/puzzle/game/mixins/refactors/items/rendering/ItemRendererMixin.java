@@ -15,7 +15,7 @@ import java.lang.ref.WeakReference;
 @Mixin(ItemRenderer.class)
 public abstract class ItemRendererMixin {
 
-    @Inject(method = "lambda$static$1", at = @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/rendering/items/ItemModel2D;<init>(Lfinalforeach/cosmicreach/items/ItemThing;)V", shift = At.Shift.BEFORE), cancellable = true)
+    @Inject(method = "lambda$static$1", at = @At("HEAD"), cancellable = true)
     private static void replaceItem2D(WeakReference<Item> itemRef, CallbackInfoReturnable<ItemModel> cir) {
         cir.setReturnValue(new ItemThingModel((ItemThing) itemRef.get()).wrap());
 //        cir.setReturnValue(new ItemModel2D((ItemThing) itemRef.get()));
