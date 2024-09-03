@@ -17,6 +17,7 @@
     "be.InGameMixin",
     "be.ZoneMixin",
     "blockentities.BlockEntityFurnaceMixin",
+    "blockentities.BlockEntityItemContainerMixin",
     "chat.ChatMixin",
     "chat.CommandMixin",
     "entrypoint.GameSingletonsMixin",

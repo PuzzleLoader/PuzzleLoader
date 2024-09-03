@@ -4,8 +4,12 @@ import com.github.puzzle.game.items.IStorageContainer;
 import finalforeach.cosmicreach.blockentities.BlockEntityFurnace;
 import finalforeach.cosmicreach.items.ItemSlot;
 import finalforeach.cosmicreach.items.containers.FurnaceSlotContainer;
+import finalforeach.cosmicreach.items.containers.SlotContainer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Mixin(BlockEntityFurnace.class)
 public class BlockEntityFurnaceMixin implements IStorageContainer {
@@ -14,18 +18,18 @@ public class BlockEntityFurnaceMixin implements IStorageContainer {
     public FurnaceSlotContainer slotContainer;
 
     @Override
-    public ItemSlot[] getInputSlots() {
-        ItemSlot[] Slots = new ItemSlot[2];
-        Slots[0] = slotContainer.getFuelSlot();
-        Slots[1] = slotContainer.getIngredientSlot();
-        return Slots;
+    public List<ItemSlot> getInputSlots() {
+        List<ItemSlot> itemSlotList = new ArrayList<>(2);
+        itemSlotList.add(slotContainer.getFuelSlot());
+        itemSlotList.add(slotContainer.getIngredientSlot());
+        return itemSlotList;
     }
 
     @Override
-    public ItemSlot[] getOutputSlots() {
-        ItemSlot[] Slots = new ItemSlot[2];
-        Slots[0] = slotContainer.getOutputProductSlot();
-        Slots[1] = slotContainer.getOutputByProductSlot();
-        return Slots;
+    public List<ItemSlot> getOutputSlots() {
+        List<ItemSlot> itemSlotList = new ArrayList<>(2);
+        itemSlotList.add(slotContainer.getOutputProductSlot());
+        itemSlotList.add(slotContainer.getOutputByProductSlot());
+        return itemSlotList;
     }
 }
