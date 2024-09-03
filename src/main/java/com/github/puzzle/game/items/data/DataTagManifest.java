@@ -6,7 +6,9 @@ import finalforeach.cosmicreach.io.ICRBinSerializable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class DataTagManifest implements ICRBinSerializable {
@@ -73,6 +75,10 @@ public class DataTagManifest implements ICRBinSerializable {
 
             crBinSerializer.writeObj("data_tag_key_" + key, value);
         }
+    }
+
+    public List<String> getKeys() {
+        return new ArrayList<>(tagMap.keySet());
     }
 
     @Override
