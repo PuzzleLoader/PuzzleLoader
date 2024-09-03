@@ -6,6 +6,7 @@ import com.github.puzzle.core.Identifier;
 import com.github.puzzle.core.resources.PuzzleGameAssetLoader;
 import de.pottgames.tuningfork.SoundBuffer;
 import finalforeach.cosmicreach.GameAssetLoader;
+import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.Threads;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -43,7 +44,8 @@ public class AssetLoaderMixin {
      */
     @Overwrite
     public static SoundBuffer getSound(String fileName) {
-        return PuzzleGameAssetLoader.LOADER.loadSync(fileName, SoundBuffer.class);
+        return GameSingletons.soundManager.loadSound(PuzzleGameAssetLoader.locateAsset(fileName));
+//        return PuzzleGameAssetLoader.LOADER.loadSync(fileName, SoundBuffer.class);
     }
 
     /**
@@ -52,6 +54,7 @@ public class AssetLoaderMixin {
      */
     @Overwrite
     public static Texture getTexture(String fileName) {
-        return PuzzleGameAssetLoader.LOADER.loadSync(fileName, Texture.class);
+        return new Texture(PuzzleGameAssetLoader.locateAsset(fileName));
+//        return PuzzleGameAssetLoader.LOADER.loadSync(fileName, Texture.class);
     }
 }
