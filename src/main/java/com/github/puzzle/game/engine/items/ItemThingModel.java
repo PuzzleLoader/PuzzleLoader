@@ -45,8 +45,7 @@ public class ItemThingModel implements IPuzzleItemModel {
     public ItemThingModel(ItemThing item) {
         this.item = item;
         String texturePath = (String) item.itemProperties.get("texture");
-        this.texture = PuzzleGameAssetLoader.LOADER.loadSync(texturePath, Texture.class);
-        texture = ItemModelBuilder.flip(texture);
+        this.texture = ItemModelBuilder.flip(PuzzleGameAssetLoader.LOADER.loadSync(texturePath, Texture.class));
 //        switch (item.getModelTypeString()) {
 //            case "base:item2D": mesh = ItemModelBuilder.build2DMesh(); break;
 //            case "base:item3D": mesh = ItemModelBuilder.build2_5DMesh(texture); break;
