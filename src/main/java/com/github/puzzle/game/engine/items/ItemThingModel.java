@@ -142,9 +142,9 @@ public class ItemThingModel implements IPuzzleItemModel {
             tmpHeldMat4.rotate(new Vector3(1, 0, 0), 15);
         }
 
-        Gdx.gl.glDisable(GL20.GL_DEPTH_TEST);
+        Gdx.gl.glDepthFunc(GL20.GL_ALWAYS);
         renderGeneric(pos, heldItemCamera, tmpHeldMat4, false);
-        Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
+        Gdx.gl.glDepthFunc(GL20.GL_LESS);
     }
 
     @Override
