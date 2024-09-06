@@ -309,10 +309,18 @@ public class PuzzleBlockModel extends BlockModel {
             final int viC = f.vertexIndexC;
             final int viD = f.vertexIndexD;
 
-            final int i1 = addVert(meshData, x1, y1, z1, f.uA, f.vA, aoIdA, blockLightLevels[viA], skyLightLevels[viA], f.modelUvIdxA);
-            final int i2 = addVert(meshData, midX1, midY1, midZ1, f.uB, f.vB, aoIdB, blockLightLevels[viB], skyLightLevels[viB], f.modelUvIdxB);
-            final int i3 = addVert(meshData, x2, y2, z2, f.uC, f.vC, aoIdC, blockLightLevels[viC], skyLightLevels[viC], f.modelUvIdxC);
-            final int i4 = addVert(meshData, midX2, midY2, midZ2, f.uD, f.vD, aoIdD, blockLightLevels[viD], skyLightLevels[viD], f.modelUvIdxD);
+            int bx2 = bx - 64 * Math.floorDiv(bx, 64);
+            int by2 = by - 64 * Math.floorDiv(by, 64);
+            int bz2 = bz - 64 * Math.floorDiv(bz, 64);
+            bx2 &= 63;
+            by2 &= 63;
+            bz2 &= 63;
+
+            int packedPos = bx2 << 12 | by2 << 6 | bz2;
+            final int i1 = addVert(meshData, packedPos, x1, y1, z1, f.uA, f.vA, aoIdA, blockLightLevels[viA], skyLightLevels[viA], f.modelUvIdxA);
+            final int i2 = addVert(meshData, packedPos, midX1, midY1, midZ1, f.uB, f.vB, aoIdB, blockLightLevels[viB], skyLightLevels[viB], f.modelUvIdxB);
+            final int i3 = addVert(meshData, packedPos, x2, y2, z2, f.uC, f.vC, aoIdC, blockLightLevels[viC], skyLightLevels[viC], f.modelUvIdxC);
+            final int i4 = addVert(meshData, packedPos, midX2, midY2, midZ2, f.uD, f.vD, aoIdD, blockLightLevels[viD], skyLightLevels[viD], f.modelUvIdxD);
 
             if (PuzzleBlockModel.useIndices) {
                 indices.add(i1);
@@ -326,9 +334,9 @@ public class PuzzleBlockModel extends BlockModel {
         }
     }
     
-    public int addVert(final IMeshData meshData, final float x, final float y, final float z, final float u, final float v, final int aoId, final short blockLight, int skyLight, final int uvIdx) {
+    public int addVert(final IMeshData meshData, int packedPos, final float x, final float y, final float z, final float u, final float v, final int aoId, final short blockLight, int skyLight, final int uvIdx) {
         FloatArray vertices = meshData.getVertices();
-        final int currentVertexIndex = vertices.size / 5;
+        final int currentVertexIndex = vertices.size / 3;
 
         final float subAO = aoId / 4.0f + 0.25f;
         int r = (int) (17f * ((blockLight & 0xF00) >> 8) * subAO);
@@ -336,12 +344,10 @@ public class PuzzleBlockModel extends BlockModel {
         int b = (int) (17f * (blockLight & 0xF) * subAO);
         skyLight *= (int)(subAO * 17f);
 
-        vertices.items[vertices.size] = x;
-        vertices.items[vertices.size + 1] = y;
-        vertices.items[vertices.size + 2] = z;
-        vertices.items[vertices.size + 3] = Color.toFloatBits(r, g, b, skyLight);
-        vertices.items[vertices.size + 4] = (float) uvIdx;
-        vertices.size += 5;
+        vertices.items[vertices.size] = packedPos;
+        vertices.items[vertices.size + 1] = Color.toFloatBits(r, g, b, skyLight);
+        vertices.items[vertices.size + 2] = (float) uvIdx;
+        vertices.size += 3;
 
         return currentVertexIndex;
     }

@@ -54,14 +54,16 @@ public class CustomTextureLoader {
         }
     }
 
+    static Vector3 tmpVertPos = new Vector3();
     public static void setNormal(Vector3 normal, float vertX, float vertY, float vertZ) {
+        tmpVertPos.set(vertX, vertY, vertZ);
         normal.x = Math.signum(vertX - 0.5F);
         normal.y = Math.signum(vertY - 0.5F);
         normal.z = Math.signum(vertZ - 0.5F);
     }
 
     public static int createUBOFloatsIdx(final float u, final float v, Vector3 vecNormal, Vector3 faceNormal) {
-        for (int i = 0; i < ChunkShader.faceTexBufFloats.size; i += 8) {
+        for (int i = 0; i < ChunkShader.faceTexBufFloats.size; i += 11) {
             if (ChunkShader.faceTexBufFloats.get(i) == u && ChunkShader.faceTexBufFloats.get(i + 1) == v
                 && ChunkShader.faceTexBufFloats.get(i + 2) == vecNormal.x
                 && ChunkShader.faceTexBufFloats.get(i + 3) == vecNormal.y
@@ -69,11 +71,14 @@ public class CustomTextureLoader {
                 && ChunkShader.faceTexBufFloats.get(i + 5) == faceNormal.x
                 && ChunkShader.faceTexBufFloats.get(i + 6) == faceNormal.y
                 && ChunkShader.faceTexBufFloats.get(i + 7) == faceNormal.z
+                && ChunkShader.faceTexBufFloats.get(i + 8) == tmpVertPos.x
+                && ChunkShader.faceTexBufFloats.get(i + 9) == tmpVertPos.y
+                && ChunkShader.faceTexBufFloats.get(i + 10) == tmpVertPos.z
             ) {
-                return i / 8;
+                return i / 11;
             }
         }
-        final int fIdx = ChunkShader.faceTexBufFloats.size / 8;
+        final int fIdx = ChunkShader.faceTexBufFloats.size / 11;
         ChunkShader.faceTexBufFloats.add(u);
         ChunkShader.faceTexBufFloats.add(v);
         ChunkShader.faceTexBufFloats.add(vecNormal.x);
@@ -82,6 +87,9 @@ public class CustomTextureLoader {
         ChunkShader.faceTexBufFloats.add(faceNormal.x);
         ChunkShader.faceTexBufFloats.add(faceNormal.y);
         ChunkShader.faceTexBufFloats.add(faceNormal.z);
+        ChunkShader.faceTexBufFloats.add(tmpVertPos.x);
+        ChunkShader.faceTexBufFloats.add(tmpVertPos.y);
+        ChunkShader.faceTexBufFloats.add(tmpVertPos.z);
         return fIdx;
     }
 

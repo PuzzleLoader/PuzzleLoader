@@ -58,8 +58,6 @@ repositories {
 tasks.buildBundleJar.configure {dependsOn(tasks.compileJava)}
 
 dependencies {
-//    implementation "finalforeach2:cosmic-reach:0.1.45:client"
-
     compileOnly('org.jetbrains:annotations:24.0.0')
 
     compileOnly("org.spongepowered:mixin:$mixinVersion")
@@ -90,14 +88,7 @@ dependencies {
 
     bundle("org.greenrobot:eventbus:$eventbusVersion")
 
-//    implementation(files("./lib/Cosmic Reach-0.2.0.jar"))
-
-//    implementation {
-//        group: ""
-//        name: ""
-//        version: ""
-//        classifier: ""
-//    }
+    implementation(files("./lib/Cosmic Reach-0.2.3.jar"))
 }
 
 processResources {
