@@ -2,7 +2,7 @@ package com.github.puzzle.game.mixins.refactors.ui;
 
 import com.github.puzzle.core.localization.LanguageManager;
 import com.github.puzzle.core.localization.TranslationKey;
-import com.github.puzzle.game.ui.ModMenu;
+import com.github.puzzle.game.ui.modmenu.ModMenu;
 import finalforeach.cosmicreach.gamestates.GameState;
 import finalforeach.cosmicreach.gamestates.MainMenu;
 import finalforeach.cosmicreach.ui.HorizontalAnchor;

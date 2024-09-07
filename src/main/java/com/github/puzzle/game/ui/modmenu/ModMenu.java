@@ -1,4 +1,4 @@
-package com.github.puzzle.game.ui;
+package com.github.puzzle.game.ui.modmenu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -7,10 +7,12 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ArrayMap;
@@ -28,12 +30,16 @@ import finalforeach.cosmicreach.gamestates.PauseMenu;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 
+import java.util.HashMap;
+
 import static com.github.puzzle.core.resources.PuzzleGameAssetLoader.LOADER;
 import static com.github.puzzle.game.ui.font.CosmicReachFont.createCosmicReachFont;
 
 public class ModMenu extends GameState {
 
     private static final ArrayMap<String, Table> customTables = new ArrayMap<>();
+    private static final HashMap<String, ConfigScreenFactory<?>> customConfigScreens = new HashMap<>();
+
     Stage gdxStage;
     Viewport gdxStageViewport;
     OrthographicCamera gdxStageCamera;
@@ -42,6 +48,7 @@ public class ModMenu extends GameState {
     Button.ButtonStyle buttonStyle;
     BitmapFont modlablefont = createCosmicReachFont();
     BitmapFont versonfont = createCosmicReachFont();
+    Texture cog = LOADER.loadSync("assets/puzzle-loader/textures/ui/cog.png", Texture.class);
 
     public ModMenu(GameState currentGameState) {
         this.previousState = currentGameState;
@@ -50,6 +57,10 @@ public class ModMenu extends GameState {
         buttonStyle.down = genColor(.331f,.331f, .331f);
         versonfont.getData().setScale(0.6F);
         modlablefont.getData().setScale(0.9F);
+    }
+
+    public static void registerModConfigScreen(String modID, ConfigScreenFactory<?> configScreen) {
+        customConfigScreens.put(modID, configScreen);
     }
 
     @Override
@@ -106,7 +117,7 @@ public class ModMenu extends GameState {
         baseTable.add(leftTable).left().width(170).expandY().fill();
         baseTable.add(righTable).pad(10).expand().fill();
         baseTable.setFillParent(true);
-        //righTable.debugAll();
+
         gdxStage.addActor(baseTable);
         gdxStage.setScrollFocus(scrollPane);
     }
@@ -119,8 +130,8 @@ public class ModMenu extends GameState {
         } else {
             switchToGameState(this.previousState);
         }
-
     }
+
     public void render() {
         super.render();
         Gdx.gl.glDisable(GL20.GL_CULL_FACE);
@@ -157,10 +168,12 @@ public class ModMenu extends GameState {
         gdxStage.dispose();
     }
 
-    private ClickListener getClickListener(ModContainer mod, Table table){
-
+    private ClickListener getClickListener(ModContainer mod, Table table) {
         return new ClickListener(){
             public void clicked(InputEvent event, float x, float y){
+                //loadConfigButton(mod);
+
+
                 table.clear();
                 ModInfo info = mod.INFO;
                 ScrollPane bottomBar = customTables.get(mod.ID) == null ? new ScrollPane(getDefaultTable()) : new ScrollPane(customTables.get(mod.ID));
@@ -192,7 +205,12 @@ public class ModMenu extends GameState {
                 Container<Label> authorsLabelContainer = new Container<>(authorsLabel).fill();
                 authorsLabelContainer.setBackground(genColor(.231f,.231f,.231f));
 
-                topRightBar.add(modname).height(120).pad(10).expandX().fill().row();
+                Table modNameAndConfigButton = new Table();
+                modNameAndConfigButton.add(modname).height(100).left().expandX().fill();
+                modNameAndConfigButton.add(loadConfigButton(mod)).top().pad(5).maxWidth(30).maxHeight(30).minHeight(30).minWidth(30).row();
+                modNameAndConfigButton.add().expand();
+                //topRightBar.add(topRightBarButtons).width(50).height(50).padTop(10).padRight(10).expandX().fill().right().row();
+                topRightBar.add(modNameAndConfigButton).pad(10).expandX().left().fill().row();
                 topRightBar.add(authorsLabelContainer).pad(10).expand().fill();
                 //topRightBar.debugAll();
 
@@ -204,6 +222,27 @@ public class ModMenu extends GameState {
                 table.add(scrollContainer).expand().fill().pad(10);
             }
         };
+    }
+
+    private ImageButton loadConfigButton(ModContainer mod) {
+        ConfigScreenFactory<?> configScreenFactory = customConfigScreens.get(mod.ID);
+        if(configScreenFactory == null) return null;
+        GameState modMenu = this;
+
+        ImageButton.ImageButtonStyle imageButtonStyle = new ImageButton.ImageButtonStyle();
+        imageButtonStyle.up = genColor(.231f,.231f, .231f);
+        imageButtonStyle.down = genColor(.331f,.331f, .331f);
+        imageButtonStyle.imageUp = new SpriteDrawable(new Sprite(cog));
+        ImageButton imageButton = new ImageButton(imageButtonStyle);
+        imageButton.addListener(new ClickListener() {
+                public void clicked(InputEvent event, float x, float y) {
+                    System.out.println(mod.ID);
+                    GameState gameState = configScreenFactory.OnInitConfigScreen();
+                    gameState.previousState = modMenu;
+                    switchAwayTo(gameState);
+                }
+        });
+        return imageButton;
     }
 
     private ClickListener getClickListener(ModMenu modMenu){
