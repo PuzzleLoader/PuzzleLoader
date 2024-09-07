@@ -9,10 +9,16 @@ import com.github.puzzle.game.items.IModItem;
 import com.github.puzzle.game.items.ITickingItem;
 import com.github.puzzle.game.items.puzzle.*;
 import com.github.puzzle.game.oredict.tags.BuiltInTags;
+import com.github.puzzle.game.ui.modmenu.ConfigScreenFactory;
+import com.github.puzzle.game.ui.modmenu.ModMenu;
 import com.github.puzzle.loader.entrypoint.interfaces.ModInitializer;
 import com.github.puzzle.loader.entrypoint.interfaces.PostModInitializer;
 import com.github.puzzle.loader.entrypoint.interfaces.PreModInitializer;
 import com.github.puzzle.loader.launch.PuzzleClassLoader;
+import com.github.puzzle.loader.mod.AdapterPathPair;
+import com.github.puzzle.loader.mod.ModLocator;
+import com.github.puzzle.util.PuzzleEntrypointUtil;
+import com.google.common.collect.ImmutableCollection;
 import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.Threads;
 import finalforeach.cosmicreach.blocks.Block;
@@ -69,6 +75,18 @@ public class Puzzle implements PreModInitializer, ModInitializer, PostModInitial
     @Override
     public void onInit() {
         Threads.runOnMainThread(ItemShader::initItemShader);
+        PuzzleEntrypointUtil.invoke("modmenu", ConfigScreenFactory.class, (configScreen) -> {
+            ModLocator.locatedMods.values().forEach(modContainer -> {
+                ImmutableCollection<AdapterPathPair> collection = modContainer.INFO.Entrypoints.getOrDefault("modmenu", null);
+                if (collection != null) {
+                    collection.forEach(adapterPathPair -> {
+                        if(adapterPathPair.getValue().equals(configScreen.getClass().getName())) {
+                            ModMenu.registerModConfigScreen(modContainer.ID, configScreen);
+                        }
+                    });
+                }
+            });
+        });
 
         Commands.register();
 
