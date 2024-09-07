@@ -236,10 +236,9 @@ public class ModMenu extends GameState {
         ImageButton imageButton = new ImageButton(imageButtonStyle);
         imageButton.addListener(new ClickListener() {
                 public void clicked(InputEvent event, float x, float y) {
-                    System.out.println(mod.ID);
                     GameState gameState = configScreenFactory.OnInitConfigScreen();
                     gameState.previousState = modMenu;
-                    switchAwayTo(gameState);
+                    switchToGameState(gameState);
                 }
         });
         return imageButton;
