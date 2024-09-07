@@ -3,24 +3,21 @@ package com.github.puzzle.game.worldgen.structures;
 import com.github.puzzle.core.Identifier;
 import com.github.puzzle.util.Vec3i;
 import finalforeach.cosmicreach.blocks.BlockState;
-import org.jetbrains.annotations.Nullable;
+import finalforeach.cosmicreach.constants.Direction;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.BiConsumer;
-import java.util.function.Function;
+import java.util.function.Predicate;
 
 public class Structure {
 
     final short version;
     final Identifier id;
 
-    final List<String> blocks;
+    final List<String> palette;
 
     // int blocks
     // blocksIndex, chunk x y z, bp x y z
@@ -28,28 +25,29 @@ public class Structure {
 
     public Structure(
             short version,
-            Identifier id,
-            byte width,
-            byte depth,
-            byte height
+            Identifier id
     ) {
-        this.blocks = new ArrayList<>(1);
+        this.palette = new ArrayList<>(0);
+        palette.add("base:air[default]");
         this.version = version;
         this.id = id;
 
-        this.positions = new int[(width * height) * depth];
+        this.positions = new int[16 * 16 * 16];
     }
 
     Structure(short version, String id, List<String> blocks, int[] positions) {
         this.version = version;
-        this.blocks = blocks;
+        this.palette = blocks;
         this.id = Identifier.fromString(id);
         this.positions = positions;
     }
 
     int addBlock(String blockId) {
-        if (!blocks.contains(blockId)) blocks.add(blockId);
-        return blocks.size() - 1;
+        if (!palette.contains(blockId)) {
+            palette.add(blockId);
+            return palette.size() - 1;
+        }
+        return palette.indexOf(blockId);
     }
 
     static int to1DCoords(int x, int y, int z) {
@@ -57,7 +55,7 @@ public class Structure {
     }
 
     static int to1DCoords(Vec3i vec3i) {
-        return (vec3i.z * 16 * 16) + (vec3i.y * 16) + vec3i.x;
+        return (vec3i.z() * 16 * 16) + (vec3i.y() * 16) + vec3i.x();
     }
 
     static Vec3i to3DCoords(int index) {
@@ -70,32 +68,82 @@ public class Structure {
         return new Vec3i(x, y, z);
     }
 
-    public void addToBlock(BlockState state, int x, int y, int z) {
+    public void setBlockState(BlockState state, int x, int y, int z) {
         positions[to1DCoords(x, y, z)] = addBlock(state.getSaveKey());
     }
 
     static Map<String, BlockState> blockStateCache = new HashMap<>();
 
-    public void foreach(BiConsumer<Vec3i, @Nullable BlockState> blockConsumer) {
-        Function<String, BlockState> getInstance = (str) -> {
-            if (blockStateCache.containsKey(str)) return blockStateCache.get(str);
-            blockStateCache.put(str, BlockState.getInstance(str));
-            return blockStateCache.get(str);
-        };
+    public BlockState getBlockState(int x, int y, int z) {
+        return
+                x >= 0 && y >= 0 && z >= 0 && x < 16 && y < 16 && z < 16 ?
+                        getInstance(palette.get(positions[to1DCoords(x, y, z)]))
+                        : null;
+    }
 
+    public void prunePalette() {
+        List<String> oldPalette = new ArrayList<>(palette);
+        palette.clear();
+        for (int i = 0; i < positions.length; i++) {
+            palette.add(oldPalette.get(positions[i]));
+            positions[i] = palette.size() - 1;
+        }
+        oldPalette.clear();
+    }
+
+    public boolean isEntirely(BlockState state) {
+        prunePalette();
+        return (palette.size() == 1) && (Objects.equals(palette.get(0), state.getSaveKey()));
+    }
+
+    public boolean isEntirely(Predicate<BlockState> statePredicate) {
+        for (int idx : positions) {
+            BlockState state = getInstance(palette.get(idx));
+
+            if (!statePredicate.test(state)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean isEntirelyOpaque() {
+        return isEntirely((b) -> b != null && b.isOpaque);
+    }
+
+    public boolean isEntirelyOneBlockSelfCulling() {
+        prunePalette();
+        return (palette.size() == 1) && isEntirely((b) -> b != null && b.cullsSelf);
+    }
+
+    public boolean isCulledByAdjacentChunks(Vec3i pos, Map<Vec3i, Structure> zone) {
+        for (Direction d : Direction.ALL_DIRECTIONS) {
+            Structure n = zone.get(new Vec3i(pos.x() + d.getXOffset(), pos.y() + d.getYOffset(), pos.z() + d.getZOffset()));
+            if (n == null || !n.isEntirelyOpaque()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public int getMaxNonEmptyBlockIdxYXZ() {
+        return 4096;
+    }
+
+    public static BlockState getInstance(String str) {
+        if (blockStateCache.containsKey(str)) return blockStateCache.get(str);
+        blockStateCache.put(str, BlockState.getInstance(str));
+        return blockStateCache.get(str);
+    };
+
+    public void foreach(BiConsumer<Vec3i, BlockState> blockConsumer) {
         for (int i = 0; i < positions.length; i++) {
             int idx = positions[i];
-            if (idx == 0) {
-                blockConsumer.accept(
-                        to3DCoords(i),
-                        null
-                );
-            } else {
-                blockConsumer.accept(
-                        to3DCoords(i),
-                        getInstance.apply(blocks.get(idx))
-                );
-            }
+            blockConsumer.accept(
+                    to3DCoords(i),
+                    getInstance(palette.get(idx))
+            );
         }
     }
 
@@ -113,7 +161,6 @@ public class Structure {
         List<String> blocks = new ArrayList<>();
 
         int blockListSize = stream.readInt();
-        blocks.add(null);
         for (int i = 0; i < blockListSize - 1; i++) {
             blocks.add(stream.readUTF());
         }
@@ -150,8 +197,8 @@ public class Structure {
         stream.writeUTF(structure.id.toString());
 
         // Write Block Palette
-        stream.writeInt(structure.blocks.size());
-        for (String block : structure.blocks) stream.writeUTF(block);
+        stream.writeInt(structure.palette.size());
+        for (String block : structure.palette) stream.writeUTF(block);
 
         // Write Structure Data
         stream.writeInt(structure.positions.length);
@@ -159,9 +206,9 @@ public class Structure {
             stream.writeInt(structure.positions[i]);
 
             Vec3i coords = to3DCoords(i);
-            stream.writeByte(coords.x);
-            stream.writeByte(coords.y);
-            stream.writeByte(coords.z);
+            stream.writeByte(coords.x());
+            stream.writeByte(coords.y());
+            stream.writeByte(coords.z());
         }
     }
 
