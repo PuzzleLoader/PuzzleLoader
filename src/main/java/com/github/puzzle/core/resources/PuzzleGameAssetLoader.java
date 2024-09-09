@@ -25,15 +25,31 @@ public class PuzzleGameAssetLoader {
     }
 
     public static boolean assetExists(@NotNull ResourceLocation location) {
+        location.name = location.name.replaceFirst("assets/base/", "");
+
+        // Regular Locations
         FileHandle classpathLocationFile = Gdx.files.classpath("assets/%s/%s".formatted(location.namespace, location.name));
         FileHandle modLocationFile = Gdx.files.absolute(SaveLocation.getSaveFolderLocation() + "/mods/assets/" + location.name);
         FileHandle vanillaLocationFile = Gdx.files.internal(location.name);
 
-        return vanillaLocationFile.exists() || modLocationFile.exists() || classpathLocationFile.exists();
+        // Split Locations
+        FileHandle splitModLocationFile = Gdx.files.absolute(SaveLocation.getSaveFolderLocation() + "/mods/assets/%s/%s".formatted(location.namespace, location.name));
+        FileHandle splitVanillaLocationFile = Gdx.files.internal("assets/%s/%s".formatted(location.namespace, location.name));
+
+        return vanillaLocationFile.exists() || splitVanillaLocationFile.exists() || modLocationFile.exists() || splitModLocationFile.exists() || classpathLocationFile.exists();
     }
 
     public static @Nullable FileHandle locateAsset(@NotNull ResourceLocation location) {
-        FileHandle modLocationFile = Gdx.files.absolute(SaveLocation.getSaveFolderLocation() + "/mods/assets/" + location.name);
+        // Fix asset loading bug
+        location.name = location.name.replaceFirst("assets/base/", "");
+
+        FileHandle modLocationFile = Gdx.files.absolute(SaveLocation.getSaveFolderLocation() + "/mods/assets/%s/%s".formatted(location.namespace, location.name));
+        if (modLocationFile.exists()) {
+            LOGGER.info("Loading " + AnsiColours.CYAN+"\"{}\"" + AnsiColours.WHITE + " from Mods Folder", location.name);
+            return modLocationFile;
+        }
+
+        modLocationFile = Gdx.files.absolute(SaveLocation.getSaveFolderLocation() + "/mods/assets/" + location.name);
         if (modLocationFile.exists()) {
             LOGGER.info("Loading " + AnsiColours.CYAN+"\"{}\"" + AnsiColours.WHITE + " from Mods Folder", location.name);
             return modLocationFile;
@@ -45,9 +61,15 @@ public class PuzzleGameAssetLoader {
             return classpathLocationFile;
         }
 
-        FileHandle vanillaLocationFile = Gdx.files.internal(location.name);
+        FileHandle vanillaLocationFile = Gdx.files.internal("assets/%s/%s".formatted(location.namespace, location.name));
         if (vanillaLocationFile.exists()) {
             LOGGER.info("Loading " + AnsiColours.YELLOW + "\"{}\""+AnsiColours.WHITE+" from Cosmic Reach", location.name);
+            return vanillaLocationFile;
+        }
+
+        vanillaLocationFile = Gdx.files.internal(location.name);
+        if (vanillaLocationFile.exists()) {
+            LOGGER.info("Loading " + AnsiColours.YELLOW + "\"{}\""+AnsiColours.WHITE+" from Cosmic Reach (Old)", location.name);
             return vanillaLocationFile;
         }
 
