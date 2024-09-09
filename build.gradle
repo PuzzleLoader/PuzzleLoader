@@ -88,7 +88,7 @@ dependencies {
 
     bundle("org.greenrobot:eventbus:$eventbusVersion")
 
-//    implementation(files("./lib/Cosmic Reach-0.2.3.jar"))
+//    implementation(files("./lib/Cosmic Reach-0.2.5.jar"))
 }
 
 processResources {
