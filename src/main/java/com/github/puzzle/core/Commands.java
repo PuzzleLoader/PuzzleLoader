@@ -31,7 +31,7 @@ public class Commands {
         });
         CommandManager.dispatcher.register(genSchmatic);
 
-        LiteralArgumentBuilder<PuzzleCommandSource> saveSchmatic = CommandManager.literal("saveschm");
+        LiteralArgumentBuilder<PuzzleCommandSource> saveSchmatic = CommandManager.literal("saveschematic");
         saveSchmatic.then(CommandManager.argument("filename", StringArgumentType.string())
                 .executes(commandContext -> {
                     String filename = StringArgumentType.getString(commandContext, "filename");
@@ -63,7 +63,7 @@ public class Commands {
 
         CommandManager.dispatcher.register(saveSchmatic);
 
-        LiteralArgumentBuilder<PuzzleCommandSource> loadSchmatic = CommandManager.literal("loadschm");
+        LiteralArgumentBuilder<PuzzleCommandSource> loadSchmatic = CommandManager.literal("loadschematic");
         loadSchmatic.then(CommandManager.argument("filename", StringArgumentType.string()).executes( commandContext -> {
             String filename = StringArgumentType.getString(commandContext, "filename");
 
