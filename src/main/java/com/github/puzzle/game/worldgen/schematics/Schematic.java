@@ -10,9 +10,10 @@ import finalforeach.cosmicreach.world.Chunk;
 import finalforeach.cosmicreach.world.Zone;
 
 import java.io.*;
+import java.util.HashMap;
 
 public class Schematic {
-    static ArrayMap<String, Schematic> schematic = new ArrayMap<>();
+    static HashMap<String, Schematic> schematic = new HashMap<>();
     Array<String> blockStates;
     int[] blockPlacement;
     public int length, height, width;
@@ -38,8 +39,8 @@ public class Schematic {
 
     public void setBlockState(BlockState blockState, int x, int y, int z){
         int index;
-        if(blockStates.contains(blockState.toString(), true))
-            index = blockStates.indexOf(blockState.toString(), true);
+        if(blockStates.contains(blockState.toString(), false))
+            index = blockStates.indexOf(blockState.toString(), false);
         else {
             index = blockStates.size;
             blockStates.add(blockState.toString());
@@ -150,6 +151,11 @@ public class Schematic {
         DataInputStream stream = new DataInputStream(new FileInputStream(schematicFile));
         Schematic loadedSchematic = Schematic.read(stream);
         Identifier identifier = new Identifier("Player", schematicFile.getName());
+
+        if(schematic.get(identifier.toString()) != null) {
+            schematic.replace(identifier.toString(), loadedSchematic);
+            return loadedSchematic;
+        }
         Schematic.registerSchematic(identifier, loadedSchematic);
         return loadedSchematic;
     }
@@ -193,6 +199,9 @@ public class Schematic {
                 }
             }
         }
+
+        System.out.println(schematic.blockStates);
+        System.out.println(schematic.blockPlacement);
         return schematic;
     }
 
