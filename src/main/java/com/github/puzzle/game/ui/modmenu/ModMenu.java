@@ -19,6 +19,7 @@ import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.puzzle.core.PuzzleRegistries;
+import com.github.puzzle.core.resources.PuzzleGameAssetLoader;
 import com.github.puzzle.game.events.OnRegisterModMenuTable;
 import com.github.puzzle.game.ui.font.CosmicReachFont;
 import com.github.puzzle.loader.mod.ModContainer;
@@ -181,6 +182,7 @@ public class ModMenu extends GameState {
                 Table topRightBar = new Table();
                 topRightBar.setBackground(genColor(.196f,.196f, .196f));
                 String path = info.Metadata.get("icon") != null ? info.Metadata.get("icon").asString() : "assets/puzzle-loader/icons/example.png";
+                if(!PuzzleGameAssetLoader.assetExists(path)) path = "assets/puzzle-loader/icons/example.png";
                 Image icon = new Image(LOADER.loadSync(path, Texture.class));
                 Label modname = new Label(mod.NAME, new Label.LabelStyle(CosmicReachFont.FONT_BIG, Color.WHITE));
                 modname.setAlignment(Align.bottomLeft);
