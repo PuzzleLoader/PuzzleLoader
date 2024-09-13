@@ -8,6 +8,8 @@ import finalforeach.cosmicreach.ui.FontRenderer;
 import finalforeach.cosmicreach.ui.HorizontalAnchor;
 import finalforeach.cosmicreach.ui.VerticalAnchor;
 
+import java.util.ArrayList;
+
 import static finalforeach.cosmicreach.ui.FontRenderer.getTextDimensions;
 
 public class TextRenderer {
@@ -37,7 +39,9 @@ public class TextRenderer {
         Color clr2 = batch.getColor().cpy();
 
         int index = 0;
-        for (String f : ft.parseIndex.keySet()){
+        ArrayList<String > arr = new ArrayList<>(ft.parseIndex.keySet());
+        for(int i = ft.parseIndex.keySet().size()-1; i >= 0; i--){
+            String f = arr.get(i);
             if(f.isEmpty() || f.isBlank())
                 continue;
             Color clr = ft.parseIndex.get(f) == null ? Color.WHITE.cpy() :  ft.parseIndex.get(f).cpy();
