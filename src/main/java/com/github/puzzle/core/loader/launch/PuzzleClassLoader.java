@@ -63,7 +63,6 @@ public class PuzzleClassLoader extends URLClassLoader {
         addClassLoaderExclusion("sun.");
         addClassLoaderExclusion("org.lwjgl.");
         addClassLoaderExclusion("org.apache.logging.");
-        addClassLoaderExclusion("com.github.puzzle.loader.launch.");
         addClassLoaderExclusion("org.slf4j");
         addClassLoaderExclusion("com.google.");
         addClassLoaderExclusion("org.hjson");

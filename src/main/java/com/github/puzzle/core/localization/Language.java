@@ -11,7 +11,7 @@ public record Language(ILanguageFile file) {
 			return file.get(key);
 		}
 		for (TranslationLocale fallback : file.fallbacks()) {
-			Language language = PuzzleRegistries.LANGUAGES.get(fallback.toIdentifier());
+			Language language = LanguageManager.LANGUAGES.get(fallback.toIdentifier());
 			if (language != null) {
 				return language.entry(key);
 			}

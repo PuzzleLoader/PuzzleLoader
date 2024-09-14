@@ -25,7 +25,6 @@ public class PuzzleRegistries {
     public static final EventBus EVENT_BUS = EventBus.builder().sendNoSubscriberEvent(false).logNoSubscriberMessages(false).logger(new SLF4JEventBusLogger()).build();
 
     public static final IRegistry<PuzzleLootTable> LOOT_TABLES = new GenericRegistry<>(Identifier.of(MOD_ID, "loot_tables"));
-    public static final LanguageRegistry LANGUAGES = new LanguageRegistry(Identifier.of(MOD_ID, "languages"));
     public static final IRegistry<IFactory<PuzzleBlockAction>> BLOCK_EVENT_ACTION_FACTORIES = new GenericRegistry<>(new Identifier(MOD_ID, "block_event_actions_factories"));
 
     public static final IRegistry<IModBlock> BLOCKS = new GenericRegistry<>(new Identifier(MOD_ID, "blocks"));

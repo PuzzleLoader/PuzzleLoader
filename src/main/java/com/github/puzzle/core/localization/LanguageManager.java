@@ -16,11 +16,12 @@ import com.github.puzzle.game.ui.font.TranslationParameters;
 
 import java.util.List;
 
-import static com.github.puzzle.game.PuzzleRegistries.LANGUAGES;
+import static com.github.puzzle.game.common.Puzzle.MOD_ID;
 
 public class LanguageManager {
 	private static final Logger LOGGER = LoggerFactory.getLogger("Language Manager");
 	public static TranslationEntry UNDEFINED = new TranslationEntry();
+	public static final LanguageRegistry LANGUAGES = new LanguageRegistry(Identifier.of(MOD_ID, "languages"));
 	private static Language selectedLanguage;
 
 	public static boolean hasLanguageInstalled(@NotNull TranslationLocale locale) {
@@ -39,17 +40,17 @@ public class LanguageManager {
 		TranslationLocale locale = lang.locale();
 		Identifier localeIdentifier = locale.toIdentifier();
 
-		if (PuzzleRegistries.LANGUAGES.contains(localeIdentifier))
-			if (PuzzleRegistries.LANGUAGES.get(localeIdentifier).file() instanceof MergedLanguageFile merged) {
+		if (LANGUAGES.contains(localeIdentifier))
+			if (LANGUAGES.get(localeIdentifier).file() instanceof MergedLanguageFile merged) {
 				merged.addLanguageFile(lang);
 			} else {
 				MergedLanguageFile merged = new MergedLanguageFile(locale);
 				merged.addLanguageFile(lang);
-				PuzzleRegistries.LANGUAGES.register(merged);
+				LANGUAGES.register(merged);
 			}
 
-		if (!PuzzleRegistries.LANGUAGES.contains(localeIdentifier)) {
-			PuzzleRegistries.LANGUAGES.register(lang);
+		if (!LANGUAGES.contains(localeIdentifier)) {
+			LANGUAGES.register(lang);
 		}
 	}
 

@@ -40,11 +40,11 @@ public class Puzzle implements PreModInitializer, ModInitializer, PostModInitial
     static {
         try {
             InputStream stream = getFile("assets/puzzle-loader/version.txt");
-            String bytez = new String(stream.readAllBytes()).strip();
+            String bytes = new String(stream.readAllBytes()).strip();
             stream.close();
-            if (!bytez.contains(".")) {
+            if (!bytes.contains(".")) {
                 VERSION = "69.69.69";
-            } else VERSION = bytez;
+            } else VERSION = bytes;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

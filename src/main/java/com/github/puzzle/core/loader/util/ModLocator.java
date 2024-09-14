@@ -23,11 +23,16 @@ import static com.github.puzzle.core.loader.meta.parser.VersionParser.hasDepende
 
 public class ModLocator {
     public static Logger LOGGER = LogManager.getLogger("Puzzle | ModLocator");
+    public static File MODFOLDER = new File("pmods");
 
     public static Map<String, ModContainer> locatedMods = new HashMap<>();
 
     public static boolean isModLoaded(String modId) {
         return locatedMods.get(modId) != null;
+    }
+
+    public static void setModFolder(File file) {
+        MODFOLDER = file;
     }
 
     public static @NotNull Collection<URL> getUrlsOnClasspath() {
@@ -128,13 +133,12 @@ public class ModLocator {
     }
 
     public static void crawlModsFolder(Collection<URL> urls) {
-        File modsFolder = new File("pmods");
-        if (!modsFolder.exists()) {
-            modsFolder.mkdir();
+        if (!MODFOLDER.exists()) {
+            MODFOLDER.mkdir();
             return;
         }
 
-        for (File modFile : Objects.requireNonNull(modsFolder.listFiles())) {
+        for (File modFile : Objects.requireNonNull(MODFOLDER.listFiles())) {
             try {
                 LOGGER.info("Found Jar/Zip {}", modFile);
                 urls.add(modFile.toURI().toURL());

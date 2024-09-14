@@ -20,7 +20,7 @@ public class EntrypointContainer {
         if (!ILangProvider.PROVDERS.containsKey("java")) ILangProvider.PROVDERS.put("java", ILangProvider.JAVA_INSTANCE);
         if (entrypointClasses.get(key) != null) {
             for (AdapterPathPair pair : Objects.requireNonNull(entrypointClasses.get(key))){
-                if (ILangProvider.PROVDERS.get(pair.getAdapter()) == null) throw new ProviderException("Langauge Adapter \"" + pair.getAdapter() + "\" does not exist.");
+                if (ILangProvider.PROVDERS.get(pair.getAdapter()) == null) throw new ProviderException("LangProvider \"" + pair.getAdapter() + "\" does not exist.");
                 T inst = ILangProvider.PROVDERS.get(pair.getAdapter()).create(container.INFO, pair.getValue(), type);
                 invoker.accept(inst);
             }

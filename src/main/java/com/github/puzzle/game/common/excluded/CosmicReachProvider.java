@@ -1,6 +1,7 @@
-package com.github.puzzle.game.common;
+package com.github.puzzle.game.common.excluded;
 
 import com.github.puzzle.core.loader.util.MethodUtil;
+import com.github.puzzle.game.common.Puzzle;
 import finalforeach.cosmicreach.GameAssetLoader;
 import finalforeach.cosmicreach.lwjgl3.Lwjgl3Launcher;
 import org.hjson.JsonObject;

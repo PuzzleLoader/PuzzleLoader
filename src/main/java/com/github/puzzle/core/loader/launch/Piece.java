@@ -8,9 +8,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import com.github.puzzle.core.loader.provider.IGameProvider;
 import com.github.puzzle.core.loader.util.ModLocator;
-import com.github.puzzle.game.common.CosmicReachProvider;
+import com.github.puzzle.game.common.excluded.CosmicReachProvider;
 import com.github.puzzle.game.util.Reflection;
 
+import java.io.File;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
@@ -52,9 +53,10 @@ public class Piece {
             OptionSpec<String> provider_option = parser.accepts("gameProvider").withOptionalArg().ofType(String.class);
             OptionSpec<String> modFolder_option = parser.accepts("modFolder").withOptionalArg().ofType(String.class);
 
+            ModLocator.setModFolder(new File(modFolder_option.value(options)));
             classLoader.addClassLoaderExclusion(DEFAULT_PROVIDER.substring(0, DEFAULT_PROVIDER.lastIndexOf('.')));
             classLoader.addClassLoaderExclusion("com.github.puzzle.core.loader.launch");
-            classLoader.addClassLoaderExclusion("com.github.puzzle.core.loader.provider.mod");
+            classLoader.addClassLoaderExclusion("com.github.puzzle.game.common.excluded.");
             classLoader.addClassLoaderExclusion("com.github.puzzle.core.loader.meta");
             classLoader.addClassLoaderExclusion("com.github.puzzle.core.loader.provider");
             classLoader.addClassLoaderExclusion("com.github.puzzle.core.loader.transformers");

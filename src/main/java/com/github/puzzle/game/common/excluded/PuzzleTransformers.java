@@ -1,4 +1,4 @@
-package com.github.puzzle.game.common;
+package com.github.puzzle.game.common.excluded;
 
 import com.github.puzzle.core.loader.launch.PuzzleClassLoader;
 import com.github.puzzle.core.loader.provider.mod.entrypoint.impls.TransformerInitializer;
