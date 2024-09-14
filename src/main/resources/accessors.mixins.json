@@ -4,9 +4,9 @@
   "package": "com.github.puzzle.game.mixins.accessors",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "r.github.puzzle.game.mixins.accessors.ChunkShaderAccessor",
-    "r.github.puzzle.game.mixins.accessors.ItemRenderAccessor",
-    "r.github.puzzle.game.mixins.accessors.Point3DMapAccessor"
+    "ChunkShaderAccessor",
+    "ItemRenderAccessor",
+    "Point3DMapAccessor"
   ],
   "client": [],
   "server": [],
