@@ -1,13 +1,13 @@
 package com.github.puzzle.core.localization.files;
 
 import com.badlogic.gdx.files.FileHandle;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import com.github.puzzle.core.loader.meta.Version;
 import com.github.puzzle.core.localization.ILanguageFile;
 import com.github.puzzle.core.localization.TranslationEntry;
 import com.github.puzzle.core.localization.TranslationKey;
 import com.github.puzzle.core.localization.TranslationLocale;
-import com.github.puzzle.loader.mod.Version;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.Serial;
 import java.util.*;

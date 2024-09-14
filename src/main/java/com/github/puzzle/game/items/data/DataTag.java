@@ -1,12 +1,12 @@
 package com.github.puzzle.game.items.data;
 
-import com.github.puzzle.game.util.Reflection;
-import com.github.puzzle.loader.launch.Piece;
 import finalforeach.cosmicreach.io.CRBinDeserializer;
 import finalforeach.cosmicreach.io.CRBinSerializer;
 import finalforeach.cosmicreach.io.ICRBinSerializable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.github.puzzle.core.loader.launch.Piece;
+import com.github.puzzle.game.util.Reflection;
 
 import java.util.regex.Pattern;
 

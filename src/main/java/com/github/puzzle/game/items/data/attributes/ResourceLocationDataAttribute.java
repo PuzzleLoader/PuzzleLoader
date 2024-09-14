@@ -1,9 +1,9 @@
 package com.github.puzzle.game.items.data.attributes;
 
-import com.github.puzzle.core.resources.ResourceLocation;
-import com.github.puzzle.game.items.data.DataTag;
 import finalforeach.cosmicreach.io.CRBinDeserializer;
 import finalforeach.cosmicreach.io.CRBinSerializer;
+import com.github.puzzle.core.util.ResourceLocation;
+import com.github.puzzle.game.items.data.DataTag;
 
 public class ResourceLocationDataAttribute implements DataTag.DataTagAttribute<ResourceLocation> {
 

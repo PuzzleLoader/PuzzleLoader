@@ -1,12 +1,12 @@
 package com.github.puzzle.core.localization;
 
-import com.github.puzzle.core.Identifier;
 import org.jetbrains.annotations.NotNull;
+import com.github.puzzle.core.util.Identifier;
 
 import java.util.Locale;
 import java.util.Objects;
 
-import static com.github.puzzle.core.Puzzle.MOD_ID;
+import static com.github.puzzle.game.common.Puzzle.MOD_ID;
 
 public class TranslationLocale {
 	public static @NotNull TranslationLocale fromLanguageTag(String languageTag) {

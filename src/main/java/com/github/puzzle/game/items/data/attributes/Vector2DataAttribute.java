@@ -1,9 +1,9 @@
 package com.github.puzzle.game.items.data.attributes;
 
 import com.badlogic.gdx.math.Vector2;
-import com.github.puzzle.game.items.data.DataTag;
 import finalforeach.cosmicreach.io.CRBinDeserializer;
 import finalforeach.cosmicreach.io.CRBinSerializer;
+import com.github.puzzle.game.items.data.DataTag;
 
 public class Vector2DataAttribute implements DataTag.DataTagAttribute<Vector2> {
 

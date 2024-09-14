@@ -1,14 +1,14 @@
 package com.github.puzzle.game;
 
-import com.github.puzzle.core.Puzzle;
-import com.github.puzzle.core.localization.Language;
-import com.github.puzzle.core.resources.ResourceLocation;
 import finalforeach.cosmicreach.rendering.IZoneRenderer;
 import finalforeach.cosmicreach.settings.BooleanSetting;
 import finalforeach.cosmicreach.settings.IntSetting;
 import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.github.puzzle.core.localization.Language;
+import com.github.puzzle.core.util.ResourceLocation;
+import com.github.puzzle.game.common.Puzzle;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;

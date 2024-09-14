@@ -3,7 +3,6 @@ package com.github.puzzle.game.mixins.refactors.items.rendering;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.github.puzzle.game.engine.items.model.ItemModelWrapper;
 import com.llamalad7.mixinextras.sugar.Local;
 import finalforeach.cosmicreach.items.ItemStack;
 import finalforeach.cosmicreach.rendering.items.ItemModel;
@@ -14,6 +13,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import com.github.puzzle.game.engine.items.model.ItemModelWrapper;
 
 @Mixin(ItemSlotWidget.class)
 public class ItemSlotWidgetMixin {

@@ -13,19 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.github.puzzle.core.Puzzle;
-import com.github.puzzle.core.localization.LanguageManager;
-import com.github.puzzle.core.localization.TranslationKey;
-import com.github.puzzle.core.localization.TranslationLocale;
-import com.github.puzzle.game.Globals;
-import com.github.puzzle.game.engine.blocks.BlockLoader;
-import com.github.puzzle.game.engine.stages.Initialize;
-import com.github.puzzle.game.engine.stages.LoadingAssets;
-import com.github.puzzle.game.engine.stages.LoadingCosmicReach;
-import com.github.puzzle.game.engine.stages.PostInitialize;
-import com.github.puzzle.game.events.OnPreLoadAssetsEvent;
-import com.github.puzzle.game.ui.font.CosmicReachFont;
-import com.github.puzzle.game.ui.font.TranslationParameters;
 import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.Threads;
 import finalforeach.cosmicreach.gamestates.GameState;
@@ -37,14 +24,27 @@ import org.greenrobot.eventbus.Subscribe;
 import org.lwjgl.opengl.GL11;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.github.puzzle.core.localization.LanguageManager;
+import com.github.puzzle.core.localization.TranslationKey;
+import com.github.puzzle.core.localization.TranslationLocale;
+import com.github.puzzle.game.Globals;
+import com.github.puzzle.game.common.Puzzle;
+import com.github.puzzle.game.engine.blocks.BlockLoader;
+import com.github.puzzle.game.engine.stages.Initialize;
+import com.github.puzzle.game.engine.stages.LoadingAssets;
+import com.github.puzzle.game.engine.stages.LoadingCosmicReach;
+import com.github.puzzle.game.engine.stages.PostInitialize;
+import com.github.puzzle.game.events.OnPreLoadAssetsEvent;
+import com.github.puzzle.game.ui.font.CosmicReachFont;
+import com.github.puzzle.game.ui.font.TranslationParameters;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.CountDownLatch;
 
-import static com.github.puzzle.core.PuzzleRegistries.EVENT_BUS;
-import static com.github.puzzle.core.resources.PuzzleGameAssetLoader.LOADER;
+import static com.github.puzzle.game.PuzzleRegistries.EVENT_BUS;
+import static com.github.puzzle.game.resources.PuzzleGameAssetLoader.LOADER;
 
 public class GameLoader extends GameState {
 

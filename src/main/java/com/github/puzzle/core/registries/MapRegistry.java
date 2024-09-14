@@ -1,11 +1,11 @@
 package com.github.puzzle.core.registries;
 
-import com.github.puzzle.core.Identifier;
+import org.jetbrains.annotations.NotNull;
 import com.github.puzzle.core.registries.exception.AlreadyFrozenException;
 import com.github.puzzle.core.registries.exception.MissingEntryException;
 import com.github.puzzle.core.registries.exception.NotReadableException;
 import com.github.puzzle.core.registries.exception.NotWritableException;
-import org.jetbrains.annotations.NotNull;
+import com.github.puzzle.core.util.Identifier;
 
 import java.util.Iterator;
 import java.util.Map;

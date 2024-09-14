@@ -1,7 +1,6 @@
 package com.github.puzzle.game.mixins.refactors.be;
 
 import com.badlogic.gdx.graphics.PerspectiveCamera;
-import com.github.puzzle.game.blockentities.IRenderable;
 import finalforeach.cosmicreach.gamestates.InGame;
 import finalforeach.cosmicreach.world.Sky;
 import finalforeach.cosmicreach.world.Zone;
@@ -11,6 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
+import com.github.puzzle.game.blockentities.IRenderable;
 
 @Mixin(InGame.class)
 public class InGameMixin {

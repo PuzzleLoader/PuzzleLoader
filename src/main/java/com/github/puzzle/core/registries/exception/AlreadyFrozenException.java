@@ -1,7 +1,7 @@
 package com.github.puzzle.core.registries.exception;
 
-import com.github.puzzle.core.registries.IRegistry;
 import org.jetbrains.annotations.NotNull;
+import com.github.puzzle.core.registries.IRegistry;
 
 public class AlreadyFrozenException extends RuntimeException {
     public AlreadyFrozenException(@NotNull IRegistry<?> registry) {

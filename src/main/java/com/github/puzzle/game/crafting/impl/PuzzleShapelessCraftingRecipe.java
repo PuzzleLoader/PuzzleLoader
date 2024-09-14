@@ -1,15 +1,15 @@
 package com.github.puzzle.game.crafting.impl;
 
-import com.github.puzzle.core.Identifier;
-import com.github.puzzle.game.crafting.IPuzzleCraftingRecipe;
-import com.github.puzzle.game.crafting.IRecipeSerializer;
-import com.github.puzzle.game.crafting.RecipeInput;
-import com.github.puzzle.game.oredict.tags.Tag;
 import finalforeach.cosmicreach.items.Item;
 import finalforeach.cosmicreach.items.ItemStack;
 import org.hjson.JsonObject;
 import org.hjson.JsonValue;
 import org.jetbrains.annotations.Nullable;
+import com.github.puzzle.core.util.Identifier;
+import com.github.puzzle.game.crafting.IPuzzleCraftingRecipe;
+import com.github.puzzle.game.crafting.IRecipeSerializer;
+import com.github.puzzle.game.crafting.RecipeInput;
+import com.github.puzzle.game.oredict.tags.Tag;
 
 import java.util.ArrayList;
 import java.util.HashMap;

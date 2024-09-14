@@ -2,12 +2,11 @@ package com.github.puzzle.game.worldgen.schematics;
 
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.ArrayMap;
-import com.github.puzzle.core.Identifier;
 import finalforeach.cosmicreach.blocks.BlockPosition;
 import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.world.Chunk;
 import finalforeach.cosmicreach.world.Zone;
+import com.github.puzzle.core.util.Identifier;
 
 import java.io.*;
 import java.util.HashMap;

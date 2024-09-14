@@ -1,12 +1,12 @@
 package com.github.puzzle.game.engine.stages;
 
-import com.github.puzzle.core.Puzzle;
+import com.github.puzzle.core.loader.provider.mod.ModContainer;
+import com.github.puzzle.core.loader.provider.mod.entrypoint.impls.PostModInitializer;
+import com.github.puzzle.core.loader.util.ModLocator;
 import com.github.puzzle.core.localization.TranslationKey;
+import com.github.puzzle.game.common.Puzzle;
 import com.github.puzzle.game.engine.GameLoader;
 import com.github.puzzle.game.engine.LoadStage;
-import com.github.puzzle.loader.entrypoint.interfaces.PostModInitializer;
-import com.github.puzzle.loader.mod.ModContainer;
-import com.github.puzzle.loader.mod.ModLocator;
 
 public class PostInitialize extends LoadStage {
 

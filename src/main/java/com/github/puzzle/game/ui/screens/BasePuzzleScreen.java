@@ -1,11 +1,11 @@
 package com.github.puzzle.game.ui.screens;
 
-import com.github.puzzle.core.Identifier;
 import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.blockentities.BlockEntity;
 import finalforeach.cosmicreach.entities.player.Player;
 import finalforeach.cosmicreach.items.screens.BaseItemScreen;
 import finalforeach.cosmicreach.world.Zone;
+import com.github.puzzle.core.util.Identifier;
 
 public class BasePuzzleScreen extends BaseItemScreen {
 

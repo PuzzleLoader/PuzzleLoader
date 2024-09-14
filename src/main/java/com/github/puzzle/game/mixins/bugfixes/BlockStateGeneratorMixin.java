@@ -1,10 +1,10 @@
 package com.github.puzzle.game.mixins.bugfixes;
 
-import com.github.puzzle.core.resources.ResourceLocation;
 import finalforeach.cosmicreach.blocks.BlockStateGenerator;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import com.github.puzzle.core.util.ResourceLocation;
 
 import java.util.HashMap;
 

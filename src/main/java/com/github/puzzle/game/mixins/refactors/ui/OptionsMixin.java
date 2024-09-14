@@ -1,11 +1,11 @@
 package com.github.puzzle.game.mixins.refactors.ui;
 
-import com.github.puzzle.game.Globals;
 import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.settings.GraphicsSettings;
 import finalforeach.cosmicreach.ui.UIElement;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
+import com.github.puzzle.game.Globals;
 
 @Mixin(targets = "finalforeach/cosmicreach/gamestates/OptionsMenu$6") //The lambda for 'rendererButton'
 public abstract class OptionsMixin extends UIElement {

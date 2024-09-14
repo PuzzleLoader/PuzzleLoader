@@ -1,9 +1,9 @@
 package com.github.puzzle.core.localization;
 
-import com.github.puzzle.core.Identifier;
+import org.jetbrains.annotations.NotNull;
 import com.github.puzzle.core.localization.files.MergedLanguageFile;
 import com.github.puzzle.core.registries.MapRegistry;
-import org.jetbrains.annotations.NotNull;
+import com.github.puzzle.core.util.Identifier;
 
 import java.util.HashMap;
 import java.util.Map;

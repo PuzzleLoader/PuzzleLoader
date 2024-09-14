@@ -1,8 +1,8 @@
 package com.github.puzzle.game.crafting;
 
-import com.github.puzzle.core.Identifier;
 import finalforeach.cosmicreach.items.ItemStack;
 import org.hjson.JsonObject;
+import com.github.puzzle.core.util.Identifier;
 
 import java.util.*;
 

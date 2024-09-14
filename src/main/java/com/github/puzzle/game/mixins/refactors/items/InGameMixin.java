@@ -1,6 +1,5 @@
 package com.github.puzzle.game.mixins.refactors.items;
 
-import com.github.puzzle.game.items.IModItem;
 import finalforeach.cosmicreach.entities.player.Player;
 import finalforeach.cosmicreach.gamestates.InGame;
 import finalforeach.cosmicreach.items.ItemStack;
@@ -11,6 +10,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import com.github.puzzle.game.items.IModItem;
 
 @Mixin(InGame.class)
 public class InGameMixin {

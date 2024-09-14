@@ -1,7 +1,7 @@
 package com.github.puzzle.game.engine;
 
-import com.github.puzzle.core.PuzzleRegistries;
 import com.github.puzzle.core.localization.TranslationKey;
+import com.github.puzzle.game.PuzzleRegistries;
 
 import java.util.ArrayList;
 import java.util.List;

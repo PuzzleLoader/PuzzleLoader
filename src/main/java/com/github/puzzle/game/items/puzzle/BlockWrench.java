@@ -1,11 +1,5 @@
 package com.github.puzzle.game.items.puzzle;
 
-import com.github.puzzle.core.Identifier;
-import com.github.puzzle.core.Puzzle;
-import com.github.puzzle.core.resources.ResourceLocation;
-import com.github.puzzle.game.items.IModItem;
-import com.github.puzzle.game.items.data.DataTagManifest;
-import com.github.puzzle.game.util.BlockUtil;
 import finalforeach.cosmicreach.BlockSelection;
 import finalforeach.cosmicreach.blocks.BlockPosition;
 import finalforeach.cosmicreach.blocks.BlockState;
@@ -13,6 +7,12 @@ import finalforeach.cosmicreach.entities.player.Player;
 import finalforeach.cosmicreach.items.ItemBlock;
 import finalforeach.cosmicreach.items.ItemSlot;
 import finalforeach.cosmicreach.rendering.items.ItemRenderer;
+import com.github.puzzle.core.util.Identifier;
+import com.github.puzzle.core.util.ResourceLocation;
+import com.github.puzzle.game.common.Puzzle;
+import com.github.puzzle.game.items.IModItem;
+import com.github.puzzle.game.items.data.DataTagManifest;
+import com.github.puzzle.game.util.BlockUtil;
 
 public class BlockWrench implements IModItem {
 

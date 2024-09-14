@@ -2,14 +2,14 @@ package com.github.puzzle.game.mixins.refactors.be;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.utils.IntMap;
-import com.github.puzzle.game.blockentities.IRenderable;
-import com.github.puzzle.game.mixins.accessors.Point3DMapAccessor;
 import finalforeach.cosmicreach.util.Point3DMap;
 import finalforeach.cosmicreach.world.Chunk;
 import finalforeach.cosmicreach.world.Zone;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import com.github.puzzle.game.blockentities.IRenderable;
+import com.github.puzzle.game.mixins.accessors.Point3DMapAccessor;
 
 @Mixin(Zone.class)
 public class ZoneMixin implements IRenderable {

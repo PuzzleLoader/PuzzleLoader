@@ -1,9 +1,9 @@
 package com.github.puzzle.game.items.data.attributes;
 
-import com.github.puzzle.game.items.data.DataTag;
-import com.github.puzzle.game.items.data.DataTagManifest;
 import finalforeach.cosmicreach.io.CRBinDeserializer;
 import finalforeach.cosmicreach.io.CRBinSerializer;
+import com.github.puzzle.game.items.data.DataTag;
+import com.github.puzzle.game.items.data.DataTagManifest;
 
 public class DataTagManifestAttribute implements DataTag.DataTagAttribute<DataTagManifest> {
 

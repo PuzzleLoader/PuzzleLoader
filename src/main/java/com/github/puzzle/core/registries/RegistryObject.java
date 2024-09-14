@@ -1,7 +1,7 @@
 package com.github.puzzle.core.registries;
 
-import com.github.puzzle.core.Identifier;
 import org.jetbrains.annotations.NotNull;
+import com.github.puzzle.core.util.Identifier;
 
 import java.util.function.Supplier;
 

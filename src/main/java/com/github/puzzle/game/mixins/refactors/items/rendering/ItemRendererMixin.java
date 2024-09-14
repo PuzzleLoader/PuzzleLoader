@@ -1,6 +1,5 @@
 package com.github.puzzle.game.mixins.refactors.items.rendering;
 
-import com.github.puzzle.game.engine.items.ItemThingModel;
 import finalforeach.cosmicreach.items.Item;
 import finalforeach.cosmicreach.items.ItemThing;
 import finalforeach.cosmicreach.rendering.items.ItemModel;
@@ -9,6 +8,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import com.github.puzzle.game.engine.items.ItemThingModel;
 
 import java.lang.ref.WeakReference;
 

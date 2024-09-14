@@ -1,6 +1,5 @@
 package com.github.puzzle.game.mixins.refactors.be;
 
-import com.github.puzzle.game.Globals;
 import finalforeach.cosmicreach.ClientSingletons;
 import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.rendering.BatchedZoneRenderer;
@@ -9,6 +8,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import com.github.puzzle.game.Globals;
 
 @Mixin(ClientSingletons.class)
 public class ClientSingletonsMixin {

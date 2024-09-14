@@ -1,6 +1,6 @@
 package com.github.puzzle.game.mixins.refactors.zones;
 
-import com.github.puzzle.core.PuzzleRegistries;
+import com.github.puzzle.game.PuzzleRegistries;
 import com.github.puzzle.game.events.OnRegisterZoneGenerators;
 import finalforeach.cosmicreach.worldgen.ZoneGenerator;
 import org.spongepowered.asm.mixin.Mixin;

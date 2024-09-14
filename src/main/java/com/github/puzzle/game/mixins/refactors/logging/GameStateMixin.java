@@ -1,6 +1,6 @@
 package com.github.puzzle.game.mixins.refactors.logging;
 
-import com.github.puzzle.util.AnsiColours;
+import com.github.puzzle.core.loader.util.AnsiColours;
 import finalforeach.cosmicreach.gamestates.GameState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

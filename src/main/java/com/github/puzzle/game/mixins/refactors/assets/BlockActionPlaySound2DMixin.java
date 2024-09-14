@@ -1,6 +1,6 @@
 package com.github.puzzle.game.mixins.refactors.assets;
 
-import com.github.puzzle.core.Identifier;
+import com.github.puzzle.core.util.Identifier;
 import de.pottgames.tuningfork.SoundBuffer;
 import finalforeach.cosmicreach.GameAssetLoader;
 import finalforeach.cosmicreach.blockevents.actions.BlockActionPlaySound2D;

@@ -1,7 +1,5 @@
 package com.github.puzzle.game.mixins.refactors.chat;
 
-import com.github.puzzle.game.commands.CommandManager;
-import com.github.puzzle.game.commands.PuzzleCommandSource;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import finalforeach.cosmicreach.accounts.Account;
@@ -17,6 +15,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import com.github.puzzle.game.commands.CommandManager;
+import com.github.puzzle.game.commands.PuzzleCommandSource;
 
 import java.util.ArrayList;
 import java.util.List;

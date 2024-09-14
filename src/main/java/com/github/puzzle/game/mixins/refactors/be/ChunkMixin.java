@@ -1,10 +1,6 @@
 package com.github.puzzle.game.mixins.refactors.be;
 
 import com.badlogic.gdx.graphics.Camera;
-import com.github.puzzle.game.blockentities.ExtendedBlockEntity;
-import com.github.puzzle.game.blockentities.INeighborUpdateListener;
-import com.github.puzzle.game.blockentities.IRenderable;
-import com.github.puzzle.game.util.DirectionUtil;
 import com.llamalad7.mixinextras.sugar.Local;
 import finalforeach.cosmicreach.blockentities.BlockEntity;
 import finalforeach.cosmicreach.blocks.BlockState;
@@ -19,6 +15,10 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
+import com.github.puzzle.game.blockentities.ExtendedBlockEntity;
+import com.github.puzzle.game.blockentities.INeighborUpdateListener;
+import com.github.puzzle.game.blockentities.IRenderable;
+import com.github.puzzle.game.util.DirectionUtil;
 
 @Mixin(Chunk.class)
 public abstract class ChunkMixin implements IRenderable {

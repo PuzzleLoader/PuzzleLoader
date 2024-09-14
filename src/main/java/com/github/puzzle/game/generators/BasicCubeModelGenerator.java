@@ -1,8 +1,8 @@
 package com.github.puzzle.game.generators;
 
 import com.badlogic.gdx.graphics.Pixmap;
-import com.github.puzzle.core.Identifier;
-import com.github.puzzle.core.resources.ResourceLocation;
+import com.github.puzzle.core.util.Identifier;
+import com.github.puzzle.core.util.ResourceLocation;
 
 public class BasicCubeModelGenerator extends BlockModelGenerator {
 

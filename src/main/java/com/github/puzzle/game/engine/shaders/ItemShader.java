@@ -3,9 +3,9 @@ package com.github.puzzle.game.engine.shaders;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.VertexAttributes;
-import com.github.puzzle.core.Puzzle;
-import com.github.puzzle.core.resources.ResourceLocation;
 import finalforeach.cosmicreach.rendering.shaders.GameShader;
+import com.github.puzzle.core.util.ResourceLocation;
+import com.github.puzzle.game.common.Puzzle;
 
 public class ItemShader extends GameShader {
 

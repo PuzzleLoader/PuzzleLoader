@@ -1,8 +1,8 @@
 package com.github.puzzle.game.util;
 
+import finalforeach.cosmicreach.items.ItemStack;
 import com.github.puzzle.game.items.data.DataTagManifest;
 import com.github.puzzle.game.items.stack.ITaggedStack;
-import finalforeach.cosmicreach.items.ItemStack;
 
 public class DataTagUtil {
 

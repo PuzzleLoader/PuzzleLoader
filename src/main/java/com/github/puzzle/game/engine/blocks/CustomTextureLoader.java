@@ -3,9 +3,9 @@ package com.github.puzzle.game.engine.blocks;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
-import com.github.puzzle.game.mixins.accessors.ChunkShaderAccessor;
 import finalforeach.cosmicreach.rendering.blockmodels.BlockModelJsonTexture;
 import finalforeach.cosmicreach.rendering.shaders.ChunkShader;
+import com.github.puzzle.game.mixins.accessors.ChunkShaderAccessor;
 
 import java.util.HashMap;
 

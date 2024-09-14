@@ -3,12 +3,12 @@ package com.github.puzzle.core.localization.files;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import com.github.puzzle.core.localization.ILanguageFile;
 import com.github.puzzle.core.localization.TranslationEntry;
 import com.github.puzzle.core.localization.TranslationKey;
 import com.github.puzzle.core.localization.TranslationLocale;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.io.InputStream;

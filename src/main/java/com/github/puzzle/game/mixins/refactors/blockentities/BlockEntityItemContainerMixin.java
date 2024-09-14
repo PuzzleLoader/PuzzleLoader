@@ -1,11 +1,11 @@
 package com.github.puzzle.game.mixins.refactors.blockentities;
 
-import com.github.puzzle.game.items.IStorageContainer;
 import finalforeach.cosmicreach.blockentities.BlockEntityItemContainer;
 import finalforeach.cosmicreach.items.ItemSlot;
 import finalforeach.cosmicreach.items.containers.SlotContainer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import com.github.puzzle.game.items.IStorageContainer;
 
 import java.util.ArrayList;
 import java.util.List;

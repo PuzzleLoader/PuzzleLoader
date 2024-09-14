@@ -1,8 +1,8 @@
 package com.github.puzzle.game.oredict;
 
-import com.github.puzzle.game.oredict.tags.Tag;
 import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.items.Item;
+import com.github.puzzle.game.oredict.tags.Tag;
 
 import java.util.HashMap;
 import java.util.HashSet;

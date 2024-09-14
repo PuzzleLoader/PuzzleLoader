@@ -2,7 +2,6 @@ package com.github.puzzle.game.engine.rendering.text;
 
 import com.badlogic.gdx.graphics.Color;
 
-
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +21,7 @@ public class FormatText {
 
     public Color toColor(String c){
         return switch (c) {
-            case "0", "r" -> Color.WHITE.cpy();
+            case "0", "com" -> Color.WHITE.cpy();
             case "1" -> Color.BLACK.cpy();
             case "2" -> Color.BLUE.cpy();
             case "3" -> Color.RED.cpy();

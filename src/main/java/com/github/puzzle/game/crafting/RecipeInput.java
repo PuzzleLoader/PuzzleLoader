@@ -1,11 +1,11 @@
 package com.github.puzzle.game.crafting;
 
-import com.github.puzzle.game.oredict.ResourceDictionary;
-import com.github.puzzle.game.oredict.tags.Tag;
 import com.llamalad7.mixinextras.lib.apache.commons.tuple.ImmutablePair;
 import com.llamalad7.mixinextras.lib.apache.commons.tuple.Pair;
 import finalforeach.cosmicreach.items.Item;
 import finalforeach.cosmicreach.items.ItemStack;
+import com.github.puzzle.game.oredict.ResourceDictionary;
+import com.github.puzzle.game.oredict.tags.Tag;
 
 public class RecipeInput {
 

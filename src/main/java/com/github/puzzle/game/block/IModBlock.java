@@ -1,12 +1,5 @@
 package com.github.puzzle.game.block;
 
-import com.github.puzzle.core.Identifier;
-import com.github.puzzle.core.resources.ResourceLocation;
-import com.github.puzzle.game.engine.blocks.BlockLoader;
-import com.github.puzzle.game.generators.BlockEventGenerator;
-import com.github.puzzle.game.generators.BlockGenerator;
-import com.github.puzzle.game.generators.BlockModelGenerator;
-import com.github.puzzle.game.util.BlockEventActionFactory;
 import finalforeach.cosmicreach.blockevents.actions.BlockActionItemDrop;
 import finalforeach.cosmicreach.blockevents.actions.BlockActionPlaySound2D;
 import finalforeach.cosmicreach.blockevents.actions.BlockActionReplaceBlockState;
@@ -14,6 +7,13 @@ import finalforeach.cosmicreach.blocks.BlockPosition;
 import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.entities.player.Player;
 import finalforeach.cosmicreach.world.Zone;
+import com.github.puzzle.core.util.Identifier;
+import com.github.puzzle.core.util.ResourceLocation;
+import com.github.puzzle.game.engine.blocks.BlockLoader;
+import com.github.puzzle.game.generators.BlockEventGenerator;
+import com.github.puzzle.game.generators.BlockGenerator;
+import com.github.puzzle.game.generators.BlockModelGenerator;
+import com.github.puzzle.game.util.BlockEventActionFactory;
 
 import java.util.Collections;
 import java.util.List;

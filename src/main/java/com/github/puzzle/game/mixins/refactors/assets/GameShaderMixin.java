@@ -1,8 +1,8 @@
 package com.github.puzzle.game.mixins.refactors.assets;
 
 import com.badlogic.gdx.files.FileHandle;
-import com.github.puzzle.core.resources.PuzzleGameAssetLoader;
-import com.github.puzzle.core.resources.ResourceLocation;
+import com.github.puzzle.game.resources.PuzzleGameAssetLoader;
+import com.github.puzzle.core.util.ResourceLocation;
 import finalforeach.cosmicreach.rendering.shaders.GameShader;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

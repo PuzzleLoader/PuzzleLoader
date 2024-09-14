@@ -3,7 +3,7 @@ package com.github.puzzle.game.events;
 import com.github.puzzle.core.localization.ILanguageFile;
 import com.github.puzzle.core.localization.LanguageManager;
 import com.github.puzzle.core.localization.files.LanguageFileVersion1;
-import com.github.puzzle.core.resources.ResourceLocation;
+import com.github.puzzle.core.util.ResourceLocation;
 
 import java.io.IOException;
 

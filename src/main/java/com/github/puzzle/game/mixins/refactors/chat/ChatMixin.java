@@ -2,8 +2,6 @@ package com.github.puzzle.game.mixins.refactors.chat;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Queue;
-import com.github.puzzle.game.commands.CommandManager;
-import com.github.puzzle.game.commands.PuzzleCommandSource;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import finalforeach.cosmicreach.accounts.Account;
 import finalforeach.cosmicreach.chat.Chat;
@@ -14,6 +12,8 @@ import finalforeach.cosmicreach.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import com.github.puzzle.game.commands.CommandManager;
+import com.github.puzzle.game.commands.PuzzleCommandSource;
 
 @Mixin(Chat.class)
 public abstract class ChatMixin {

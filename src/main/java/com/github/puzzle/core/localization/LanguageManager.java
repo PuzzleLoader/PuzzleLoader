@@ -4,19 +4,19 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
-import com.github.puzzle.core.Identifier;
-import com.github.puzzle.core.PuzzleRegistries;
-import com.github.puzzle.core.localization.files.MergedLanguageFile;
-import com.github.puzzle.game.ui.font.TranslationParameters;
 import finalforeach.cosmicreach.lang.Lang;
 import finalforeach.cosmicreach.settings.Preferences;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.github.puzzle.core.localization.files.MergedLanguageFile;
+import com.github.puzzle.core.util.Identifier;
+import com.github.puzzle.game.PuzzleRegistries;
+import com.github.puzzle.game.ui.font.TranslationParameters;
 
 import java.util.List;
 
-import static com.github.puzzle.core.PuzzleRegistries.LANGUAGES;
+import static com.github.puzzle.game.PuzzleRegistries.LANGUAGES;
 
 public class LanguageManager {
 	private static final Logger LOGGER = LoggerFactory.getLogger("Language Manager");

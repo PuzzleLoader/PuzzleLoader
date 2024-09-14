@@ -1,17 +1,6 @@
 package com.github.puzzle.game.items;
 
 import com.badlogic.gdx.utils.ObjectMap;
-import com.github.puzzle.core.Identifier;
-import com.github.puzzle.core.Puzzle;
-import com.github.puzzle.core.resources.ResourceLocation;
-import com.github.puzzle.game.engine.items.ExperimentalItemModel;
-import com.github.puzzle.game.items.data.DataTag;
-import com.github.puzzle.game.items.data.DataTagManifest;
-import com.github.puzzle.game.items.data.DataTagPreset;
-import com.github.puzzle.game.items.data.attributes.*;
-import com.github.puzzle.game.mixins.accessors.ItemRenderAccessor;
-import com.github.puzzle.game.util.DataTagUtil;
-import com.github.puzzle.game.util.Reflection;
 import finalforeach.cosmicreach.blockentities.BlockEntityFurnace;
 import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.entities.player.Player;
@@ -20,6 +9,18 @@ import finalforeach.cosmicreach.items.ItemSlot;
 import finalforeach.cosmicreach.items.ItemStack;
 import finalforeach.cosmicreach.rendering.items.ItemModel;
 import finalforeach.cosmicreach.rendering.items.ItemRenderer;
+import com.github.puzzle.core.util.Identifier;
+import com.github.puzzle.core.util.ResourceLocation;
+import com.github.puzzle.game.common.Puzzle;
+import com.github.puzzle.game.engine.items.ExperimentalItemModel;
+import com.github.puzzle.game.engine.items.model.IPuzzleItemModel;
+import com.github.puzzle.game.items.data.DataTag;
+import com.github.puzzle.game.items.data.DataTagManifest;
+import com.github.puzzle.game.items.data.DataTagPreset;
+import com.github.puzzle.game.items.data.attributes.*;
+import com.github.puzzle.game.mixins.accessors.ItemRenderAccessor;
+import com.github.puzzle.game.util.DataTagUtil;
+import com.github.puzzle.game.util.Reflection;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public interface IModItem extends Item {
 
     /**
      * A simple method to register your item with the vanilla game for rendering and referencing.
-     * @see com.github.puzzle.game.engine.items.model.IPuzzleItemModel
+     * @see IPuzzleItemModel
      * @see Item#allItems
      * @see finalforeach.cosmicreach.rendering.items.ItemRenderer#registerItemModelCreator
      */
@@ -217,7 +218,7 @@ public interface IModItem extends Item {
 
     /**
      * This bool changes how the item is held in the "hand".
-     * @see com.github.puzzle.game.engine.items.model.IPuzzleItemModel
+     * @see IPuzzleItemModel
      */
     default boolean isTool() {
         return false;
@@ -226,7 +227,7 @@ public interface IModItem extends Item {
     /**
      * This related to custom data that you can attach to your item.
      * @see DataTag
-     * @see com.github.puzzle.game.items.data.DataTag.DataTagAttribute
+     * @see DataTag.DataTagAttribute
      */
     default DataTagManifest getTagManifest() {
         return new DataTagManifest();

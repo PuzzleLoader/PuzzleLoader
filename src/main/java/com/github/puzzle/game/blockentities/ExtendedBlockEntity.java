@@ -1,6 +1,5 @@
 package com.github.puzzle.game.blockentities;
 
-import com.github.puzzle.annotations.Internal;
 import finalforeach.cosmicreach.blockentities.BlockEntity;
 import finalforeach.cosmicreach.io.CRBinDeserializer;
 import finalforeach.cosmicreach.io.CRBinSerializer;
@@ -54,7 +53,6 @@ public class ExtendedBlockEntity extends BlockEntity {
         return z;
     }
 
-    @Internal
     public void initialize(Chunk chunk, int localX, int localY, int localZ) {
         zone = chunk.getZone();
         x = chunk.blockX + localX;

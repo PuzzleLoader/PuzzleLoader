@@ -4,13 +4,13 @@
   "package": "com.github.puzzle.game.mixins.bugfixes",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "BlockEventDisabler",
-    "BlockRegisterer",
-    "BlockStateGeneratorCopyFixer",
-    "BlockStateGeneratorMixin",
-    "ItemMixin",
-    "ItemPickBlock",
-    "NullPlayer"
+    "r.github.puzzle.game.mixins.bugfixes.BlockEventDisabler",
+    "r.github.puzzle.game.mixins.bugfixes.BlockRegisterer",
+    "r.github.puzzle.game.mixins.bugfixes.BlockStateGeneratorCopyFixer",
+    "r.github.puzzle.game.mixins.bugfixes.BlockStateGeneratorMixin",
+    "r.github.puzzle.game.mixins.bugfixes.ItemMixin",
+    "r.github.puzzle.game.mixins.bugfixes.ItemPickBlock",
+    "r.github.puzzle.game.mixins.bugfixes.NullPlayer"
   ],
   "client": [],
   "server": [],

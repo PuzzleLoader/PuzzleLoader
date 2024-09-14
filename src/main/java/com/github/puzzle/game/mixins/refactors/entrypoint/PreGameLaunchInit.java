@@ -1,13 +1,13 @@
 package com.github.puzzle.game.mixins.refactors.entrypoint;
 
-import com.github.puzzle.game.Globals;
-import com.github.puzzle.loader.entrypoint.interfaces.PreModInitializer;
-import com.github.puzzle.loader.launch.Piece;
 import finalforeach.cosmicreach.lwjgl3.Lwjgl3Launcher;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import com.github.puzzle.core.loader.launch.Piece;
+import com.github.puzzle.core.loader.provider.mod.entrypoint.impls.PreModInitializer;
+import com.github.puzzle.game.Globals;
 
 @Mixin(Lwjgl3Launcher.class)
 public class PreGameLaunchInit {

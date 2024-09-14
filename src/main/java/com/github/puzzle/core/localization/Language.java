@@ -1,6 +1,6 @@
 package com.github.puzzle.core.localization;
 
-import com.github.puzzle.core.PuzzleRegistries;
+import com.github.puzzle.game.PuzzleRegistries;
 
 import java.util.List;
 

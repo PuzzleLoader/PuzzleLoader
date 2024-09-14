@@ -1,8 +1,8 @@
 package com.github.puzzle.game.engine.blocks;
 
-import com.github.puzzle.core.Identifier;
-import com.github.puzzle.game.block.IModBlock;
 import finalforeach.cosmicreach.blocks.Block;
+import com.github.puzzle.core.util.Identifier;
+import com.github.puzzle.game.block.IModBlock;
 
 public class BlockLoadException extends RuntimeException {
 

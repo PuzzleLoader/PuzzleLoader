@@ -3,8 +3,6 @@ package com.github.puzzle.game.mixins.refactors.items.rendering;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
-import com.github.puzzle.game.engine.items.model.ItemModelWrapper;
-import com.github.puzzle.game.util.Reflection;
 import finalforeach.cosmicreach.entities.Entity;
 import finalforeach.cosmicreach.items.ItemStack;
 import finalforeach.cosmicreach.rendering.entities.IEntityModelInstance;
@@ -15,6 +13,8 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import com.github.puzzle.game.engine.items.model.ItemModelWrapper;
+import com.github.puzzle.game.util.Reflection;
 
 @Mixin(Entity.class)
 public class EntityMixin {
