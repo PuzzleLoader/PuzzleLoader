@@ -1,7 +1,7 @@
 package com.github.puzzle.game.mixins.refactors.assets;
 
 import com.badlogic.gdx.files.FileHandle;
-import com.github.puzzle.core.Identifier;
+import finalforeach.cosmicreach.util.Identifier;
 import finalforeach.cosmicreach.GameAssetLoader;
 import finalforeach.cosmicreach.rendering.blockmodels.BlockModelJson;
 import org.slf4j.Logger;
@@ -16,15 +16,9 @@ public class BlockModelJsonMixin {
     @Unique
     private static final Logger LOGGER = LoggerFactory.getLogger("BlockModelJson");
 
-    @Redirect(method = "getInstance", at = @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/GameAssetLoader;loadAsset(Ljava/lang/String;)Lcom/badlogic/gdx/files/FileHandle;"))
-    private static FileHandle getModelFromModID(String fileName) {
+    @Redirect(method = "getInstance", at = @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/GameAssetLoader;loadAsset(Lfinalforeach/cosmicreach/util/Identifier;)Lcom/badlogic/gdx/files/FileHandle;"))
+    private static FileHandle getModelFromModID(Identifier location) {
         LOGGER.warn("using broken BlockModelJson.getInstance, this could possible indicate a broken mod");
-        String noFolder = fileName.replace("models/blocks/","");
-        if (noFolder.contains(":")) {
-            Identifier id = Identifier.fromString(noFolder);
-            id.name = "models/blocks/" + id.name;
-            return GameAssetLoader.loadAsset(id.toString());
-        }
-        return GameAssetLoader.loadAsset(fileName);
+        return GameAssetLoader.loadAsset(location);
     }
 }
