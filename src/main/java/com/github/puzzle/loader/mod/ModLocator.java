@@ -12,18 +12,20 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.net.URLDecoder;
+import java.nio.charset.Charset;
 import java.util.*;
-import java.util.function.Consumer;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import static com.github.puzzle.loader.mod.VersionParser.hasDependencyVersion;
 
+@SuppressWarnings("UrlHashCode")
 public class ModLocator {
     public static Logger LOGGER = LogManager.getLogger("Puzzle | ModLocator");
 
     public static Map<String, ModContainer> locatedMods = new HashMap<>();
 
+    @SuppressWarnings("unused")
     public static boolean isModLoaded(String modId) {
         return locatedMods.get(modId) != null;
     }
@@ -32,8 +34,11 @@ public class ModLocator {
         return getUrlsOnClasspath(new ArrayList<>());
     }
 
+    @SuppressWarnings("CallToPrintStackTrace")
     public static @NotNull Collection<URL> getUrlsOnClasspath(Collection<URL> urlz) {
         Set<URL> urls = new HashSet<>(urlz);
+        // 'urls' may contain URL objects
+        // i hope it does
 
         if (ModLocator.class.getClassLoader() instanceof URLClassLoader loader) {
             Collections.addAll(urls, loader.getURLs());
@@ -78,7 +83,7 @@ public class ModLocator {
         Collection<URL> urls = getUrlsOnClasspath(classPath);
 
         for (URL url : urls) {
-            File file = new File(URLDecoder.decode(url.getFile()));
+            File file = new File(URLDecoder.decode(url.getFile(), Charset.defaultCharset()));
             if (!file.isDirectory()) {
                 try {
                     if (file.exists()) {
@@ -107,28 +112,27 @@ public class ModLocator {
     public static void verifyDependencies() {
         LOGGER.warn("Warning! Only partial semantic versioning support");
         for(var mod : locatedMods.values()){
-            if (mod.INFO.JsonInfo.dependencies() != null)
-                if(!mod.INFO.JsonInfo.dependencies().isEmpty()) {
-                    LOGGER.info("Mod deps for {}", mod.ID);
-                    for (Map.Entry<String, String> entry : mod.INFO.JsonInfo.dependencies().entrySet()) {
-                        LOGGER.info("\t{}: {}", entry.getKey(), entry.getValue());
-                        var modDep = locatedMods.get(entry.getKey());
-                        if (modDep == null) {
-                            throw new RuntimeException(String.format("can not find mod dependency: %s for mod id: %s", entry.getKey(), mod.ID));
-                        } else {
-                            if (!hasDependencyVersion(modDep.VERSION, entry.getValue())) {
-                                throw new RuntimeException(String.format("Mod id: %s, requires: %s version of %s, got: %s", mod.ID, entry.getValue(), modDep.ID, modDep.VERSION));
-                            }
-                        }
+            if (mod.INFO.JsonInfo.dependencies() == null) continue;
+            if (mod.INFO.JsonInfo.dependencies().isEmpty()) continue;
+            LOGGER.info("Mod deps for {}", mod.ID);
+            for (Map.Entry<String, String> entry : mod.INFO.JsonInfo.dependencies().entrySet()) {
+                LOGGER.info("\t{}: {}", entry.getKey(), entry.getValue());
+                var modDep = locatedMods.get(entry.getKey());
+                if (modDep == null) {
+                    throw new RuntimeException(String.format("can not find mod dependency: %s for mod id: %s", entry.getKey(), mod.ID));
+                } else {
+                    if (!hasDependencyVersion(modDep.VERSION, entry.getValue())) {
+                        throw new RuntimeException(String.format("Mod id: %s, requires: %s version of %s, got: %s", mod.ID, entry.getValue(), modDep.ID, modDep.VERSION));
                     }
                 }
+            }
         }
     }
 
     public static void crawlModsFolder(Collection<URL> urls) {
         File modsFolder = new File("pmods");
         if (!modsFolder.exists()) {
-            modsFolder.mkdir();
+            if (!modsFolder.mkdir()) LOGGER.warn("{} could not be created, provide access to java", modsFolder);
             return;
         }
 
@@ -138,15 +142,5 @@ public class ModLocator {
                 urls.add(modFile.toURI().toURL());
             } catch (Exception ignore) {}
         }
-    }
-
-    public static <T> void invokeEntrypoint(String key, Class<T> type, Consumer<? super T> invoker) {
-        ModLocator.locatedMods.values().forEach(container -> {
-            try {
-                container.invokeEntrypoint(key, type, invoker);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        });
     }
 }

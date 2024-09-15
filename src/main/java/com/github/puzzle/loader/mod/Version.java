@@ -4,6 +4,8 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
+
 
 //TODO: Possibly support things like release candidate?
 public record Version(int Major, int Minor, int Patch, VersionType Type) {
@@ -18,14 +20,11 @@ public record Version(int Major, int Minor, int Patch, VersionType Type) {
         this(Major, Minor, Patch, VersionType.UNDEFINED);
     }
     public static @NotNull VersionType getVersionType(@NotNull String type){
-        switch (type.toLowerCase()){
-            case "beta":
-                return VersionType.BETA;
-            case "alpha":
-                return VersionType.ALPHA;
-            default:
-                return VersionType.UNDEFINED;
-        }
+        return switch (type.toLowerCase()) {
+            case "beta" -> VersionType.BETA;
+            case "alpha" -> VersionType.ALPHA;
+            default -> VersionType.UNDEFINED;
+        };
     }
     public static @NotNull Version parseVersion(String ver) {
         try {
@@ -53,6 +52,9 @@ public record Version(int Major, int Minor, int Patch, VersionType Type) {
             versionString = ver;
         }
         String[] pieces = versionString.split("\\.");
+        if (pieces.length > 3) {
+            throw new NumberFormatException();
+        }
         return new Version(
                 Integer.parseInt(pieces[0]),
                 Integer.parseInt(pieces[1]),
