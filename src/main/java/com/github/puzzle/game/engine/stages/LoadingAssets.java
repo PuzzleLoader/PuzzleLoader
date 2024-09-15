@@ -5,13 +5,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.github.puzzle.core.PuzzleRegistries;
 import com.github.puzzle.core.localization.TranslationKey;
 import com.github.puzzle.core.resources.PuzzleGameAssetLoader;
-import com.github.puzzle.core.resources.ResourceLocation;
 import com.github.puzzle.core.resources.VanillaAssetLocations;
 import com.github.puzzle.game.engine.GameLoader;
 import com.github.puzzle.game.engine.LoadStage;
 import com.github.puzzle.game.events.OnLoadAssetsEvent;
 import com.github.puzzle.game.events.OnLoadAssetsFinishedEvent;
 import de.pottgames.tuningfork.SoundBuffer;
+import finalforeach.cosmicreach.util.Identifier;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ public class LoadingAssets extends LoadStage {
 
     @Subscribe
     public void onEvent(OnLoadAssetsEvent event) {
-        List<ResourceLocation> textures = new ArrayList<>();
+        List<Identifier> textures = new ArrayList<>();
         textures.addAll(VanillaAssetLocations.getInternalFiles("textures/ui", ".png"));
         textures.addAll(VanillaAssetLocations.getInternalFiles("textures/items", ".png"));
         textures.addAll(VanillaAssetLocations.getInternalFiles("textures/entities", ".png"));
@@ -38,7 +38,7 @@ public class LoadingAssets extends LoadStage {
 
         textures.forEach( location -> PuzzleGameAssetLoader.LOADER.loadResource(location, Texture.class) );
 
-        List<ResourceLocation> sounds = new ArrayList<>();
+        List<Identifier> sounds = new ArrayList<>();
         sounds.addAll(VanillaAssetLocations.getInternalFiles("sounds/", ".ogg"));
         sounds.addAll(VanillaAssetLocations.getVanillaModFiles("sounds/", ".ogg"));
         sounds.forEach( location -> PuzzleGameAssetLoader.LOADER.loadResource(location, SoundBuffer.class) );

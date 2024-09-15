@@ -1,5 +1,6 @@
 package com.github.puzzle.game.oredict.tags;
 
+import finalforeach.cosmicreach.util.Identifier;
 import com.github.puzzle.game.oredict.ResourceDictionary;
 import finalforeach.cosmicreach.blocks.Block;
 import finalforeach.cosmicreach.blocks.BlockState;
@@ -10,7 +11,7 @@ import java.util.Map;
 
 /**
  * A simple class like the Identifier but just for compiling a groups of items and blocks
- * @see com.github.puzzle.core.Identifier
+ * @see Identifier
  * @author Mr Zombii
  */
 public class Tag {

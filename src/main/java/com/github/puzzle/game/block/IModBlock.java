@@ -1,7 +1,6 @@
 package com.github.puzzle.game.block;
 
-import com.github.puzzle.core.Identifier;
-import com.github.puzzle.core.resources.ResourceLocation;
+import finalforeach.cosmicreach.util.Identifier;
 import com.github.puzzle.game.engine.blocks.BlockLoader;
 import com.github.puzzle.game.generators.BlockEventGenerator;
 import com.github.puzzle.game.generators.BlockGenerator;
@@ -70,9 +69,9 @@ public interface IModBlock {
      */
     default BlockGenerator getBlockGenerator() {
         Identifier identifier = getIdentifier();
-        BlockGenerator generator = new BlockGenerator(identifier, identifier.name);
+        BlockGenerator generator = new BlockGenerator(identifier);
         BlockGenerator.State state = generator.createBlockState("default", "model", true);
-        state.dropId = identifier.namespace + ":" + identifier.name + "[default]";
+        state.dropId = identifier.getNamespace() + ":" + identifier.getName() + "[default]";
         state.blockEventsId = "base:block_events_default";
         return generator;
     }
@@ -85,7 +84,7 @@ public interface IModBlock {
      */
     default List<BlockModelGenerator> getBlockModelGenerators(Identifier blockId) {
         BlockModelGenerator generator = new BlockModelGenerator(blockId, "model");
-        generator.createTexture("all", new ResourceLocation("puzzle-loader", "textures/blocks/example_block.png"));
+        generator.createTexture("all", Identifier.of("puzzle-loader", "textures/blocks/example_block.png"));
         generator.createCuboid(0, 0, 0, 16, 16, 16, "all");
         return List.of(generator);
     }

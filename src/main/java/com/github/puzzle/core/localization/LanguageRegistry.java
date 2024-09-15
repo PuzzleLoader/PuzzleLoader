@@ -1,6 +1,6 @@
 package com.github.puzzle.core.localization;
 
-import com.github.puzzle.core.Identifier;
+import finalforeach.cosmicreach.util.Identifier;
 import com.github.puzzle.core.localization.files.MergedLanguageFile;
 import com.github.puzzle.core.registries.MapRegistry;
 import org.jetbrains.annotations.NotNull;

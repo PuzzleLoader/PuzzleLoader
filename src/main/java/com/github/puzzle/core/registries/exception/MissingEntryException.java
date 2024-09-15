@@ -1,6 +1,6 @@
 package com.github.puzzle.core.registries.exception;
 
-import com.github.puzzle.core.Identifier;
+import finalforeach.cosmicreach.util.Identifier;
 import com.github.puzzle.core.registries.IRegistry;
 import org.jetbrains.annotations.NotNull;
 

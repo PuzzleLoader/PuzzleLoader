@@ -1,7 +1,7 @@
 package com.github.puzzle.game.loot;
 
 import com.badlogic.gdx.math.Vector3;
-import com.github.puzzle.core.Identifier;
+import finalforeach.cosmicreach.util.Identifier;
 import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.items.Item;
 import finalforeach.cosmicreach.items.loot.Loot;

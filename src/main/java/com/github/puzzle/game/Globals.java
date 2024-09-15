@@ -2,10 +2,10 @@ package com.github.puzzle.game;
 
 import com.github.puzzle.core.Puzzle;
 import com.github.puzzle.core.localization.Language;
-import com.github.puzzle.core.resources.ResourceLocation;
 import finalforeach.cosmicreach.rendering.IZoneRenderer;
 import finalforeach.cosmicreach.settings.BooleanSetting;
 import finalforeach.cosmicreach.settings.IntSetting;
+import finalforeach.cosmicreach.util.Identifier;
 import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +20,7 @@ public class Globals {
 
     public static boolean GameLoaderHasLoaded;
 
-    public static final ResourceLocation LanguageEnUs = new ResourceLocation(Puzzle.MOD_ID, "languages/en-US.json");
+    public static final Identifier LanguageEnUs = Identifier.of(Puzzle.MOD_ID, "languages/en-US.json");
     public static final IntSetting AntiAliasing = new IntSetting("msaa", 4);
     public static final BooleanSetting EnabledVanillaMods = new BooleanSetting("enableVanillaMods", true);
     public static Language SelectedLanguage;

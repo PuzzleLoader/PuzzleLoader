@@ -4,16 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
-import com.github.puzzle.core.Identifier;
+import finalforeach.cosmicreach.util.Identifier;
 import com.github.puzzle.core.resources.PuzzleGameAssetLoader;
-import com.github.puzzle.core.resources.ResourceLocation;
 import com.github.puzzle.game.engine.items.model.IPuzzleItemModel;
 import com.github.puzzle.game.engine.shaders.ItemShader;
 import com.github.puzzle.game.items.IModItem;
 import com.github.puzzle.game.items.data.DataTagManifest;
 import com.github.puzzle.game.items.data.attributes.IdentifierDataAttribute;
 import com.github.puzzle.game.items.data.attributes.PairAttribute;
-import com.github.puzzle.game.items.data.attributes.ResourceLocationDataAttribute;
 import com.github.puzzle.game.util.DataTagUtil;
 import com.llamalad7.mixinextras.lib.apache.commons.tuple.ImmutablePair;
 import com.llamalad7.mixinextras.lib.apache.commons.tuple.Pair;
@@ -63,7 +61,7 @@ public class ExperimentalItemModel implements IPuzzleItemModel {
 
         boolean isOld = false;
         if (manifest.hasTag(IModItem.TEXTURE_LOCATION_PRESET) && manifest.hasTag(IModItem.MODEL_ID_PRESET)) {
-            ResourceLocation location = manifest.getTag(IModItem.TEXTURE_LOCATION_PRESET).getValue();
+            Identifier location = manifest.getTag(IModItem.TEXTURE_LOCATION_PRESET).getValue();
             Identifier modelId = manifest.getTag(IModItem.MODEL_ID_PRESET).getValue();
 
 
@@ -92,9 +90,9 @@ public class ExperimentalItemModel implements IPuzzleItemModel {
         }
 
         int index = isOld ? 1 : 0;
-        for (PairAttribute<IdentifierDataAttribute, ResourceLocationDataAttribute> pairAttribute : item.getTextures()) {
-            Pair<IdentifierDataAttribute, ResourceLocationDataAttribute> pair = pairAttribute.getValue();
-            ResourceLocation location = pair.getRight().getValue();
+        for (PairAttribute<IdentifierDataAttribute, IdentifierDataAttribute> pairAttribute : item.getTextures()) {
+            Pair<IdentifierDataAttribute, IdentifierDataAttribute> pair = pairAttribute.getValue();
+            Identifier location = pair.getRight().getValue();
             Identifier modelId = pair.getLeft().getValue();
 
             if (!ITEM_MESH_CACHE.containsKey(item.getID() + "_" + location + "_" + modelId + "_model")){

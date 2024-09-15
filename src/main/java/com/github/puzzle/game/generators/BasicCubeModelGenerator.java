@@ -1,8 +1,7 @@
 package com.github.puzzle.game.generators;
 
 import com.badlogic.gdx.graphics.Pixmap;
-import com.github.puzzle.core.Identifier;
-import com.github.puzzle.core.resources.ResourceLocation;
+import finalforeach.cosmicreach.util.Identifier;
 
 public class BasicCubeModelGenerator extends BlockModelGenerator {
 
@@ -13,7 +12,7 @@ public class BasicCubeModelGenerator extends BlockModelGenerator {
         createCuboid(0, 0, 0, 16, 16, 16, "side", "side", "side", "front").setAmbientOcclusion(ambientOcclusion);
     }
 
-    public BasicCubeModelGenerator(Identifier blockId, String modelName, boolean ambientOcclusion, ResourceLocation side, ResourceLocation front) {
+    public BasicCubeModelGenerator(Identifier blockId, String modelName, boolean ambientOcclusion, Identifier side, Identifier front) {
         super(blockId, modelName);
         createTexture("side", side);
         createTexture("front", front);
@@ -28,7 +27,7 @@ public class BasicCubeModelGenerator extends BlockModelGenerator {
         createCuboid(0, 0, 0, 16, 16, 16, "top", "bottom", "side").setAmbientOcclusion(ambientOcclusion);
     }
 
-    public BasicCubeModelGenerator(Identifier blockId, String modelName, boolean ambientOcclusion, ResourceLocation top, ResourceLocation bottom, ResourceLocation side) {
+    public BasicCubeModelGenerator(Identifier blockId, String modelName, boolean ambientOcclusion, Identifier top, Identifier bottom, Identifier side) {
         super(blockId, modelName);
         createTexture("top", top);
         createTexture("bottom", bottom);
@@ -45,7 +44,7 @@ public class BasicCubeModelGenerator extends BlockModelGenerator {
         createCuboid(0, 0, 0, 16, 16, 16, "top", "bottom", "side", "front").setAmbientOcclusion(ambientOcclusion);
     }
 
-    public BasicCubeModelGenerator(Identifier blockId, String modelName, boolean ambientOcclusion, ResourceLocation top, ResourceLocation bottom, ResourceLocation side, ResourceLocation front) {
+    public BasicCubeModelGenerator(Identifier blockId, String modelName, boolean ambientOcclusion, Identifier top, Identifier bottom, Identifier side, Identifier front) {
         super(blockId, modelName);
         createTexture("top", top);
         createTexture("bottom", bottom);
@@ -65,7 +64,7 @@ public class BasicCubeModelGenerator extends BlockModelGenerator {
         createCuboid(0, 0, 0, 16, 16, 16, "top", "bottom", "left", "right", "front", "back").setAmbientOcclusion(ambientOcclusion);
     }
 
-    public BasicCubeModelGenerator(Identifier blockId, String modelName, boolean ambientOcclusion, ResourceLocation top, ResourceLocation bottom, ResourceLocation left, ResourceLocation right, ResourceLocation front, ResourceLocation back) {
+    public BasicCubeModelGenerator(Identifier blockId, String modelName, boolean ambientOcclusion, Identifier top, Identifier bottom, Identifier left, Identifier right, Identifier front, Identifier back) {
         super(blockId, modelName);
         createTexture("top", top);
         createTexture("bottom", bottom);

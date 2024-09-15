@@ -7,6 +7,11 @@ import com.github.puzzle.game.engine.LoadStage;
 import com.github.puzzle.loader.entrypoint.interfaces.PostModInitializer;
 import com.github.puzzle.loader.mod.ModContainer;
 import com.github.puzzle.loader.mod.ModLocator;
+import finalforeach.cosmicreach.Threads;
+import finalforeach.cosmicreach.blockentities.BlockEntityCreator;
+import finalforeach.cosmicreach.items.ItemThing;
+import finalforeach.cosmicreach.items.loot.Loot;
+import finalforeach.cosmicreach.items.recipes.CraftingRecipes;
 
 public class PostInitialize extends LoadStage {
 
@@ -19,6 +24,7 @@ public class PostInitialize extends LoadStage {
     @Override
     public void doStage() {
         super.doStage();
+
         try {
             ModLocator.locatedMods.get(Puzzle.MOD_ID).invokeEntrypoint(PostModInitializer.ENTRYPOINT_KEY, PostModInitializer.class, PostModInitializer::onPostInit);
         } catch (Exception e) {

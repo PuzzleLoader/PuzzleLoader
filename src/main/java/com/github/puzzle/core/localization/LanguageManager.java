@@ -4,7 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
-import com.github.puzzle.core.Identifier;
+import finalforeach.cosmicreach.util.Identifier;
 import com.github.puzzle.core.PuzzleRegistries;
 import com.github.puzzle.core.localization.files.MergedLanguageFile;
 import com.github.puzzle.game.ui.font.TranslationParameters;
@@ -71,7 +71,7 @@ public class LanguageManager {
 	}
 
 	public static void selectLanguage(@NotNull TranslationLocale locale) {
-		if (locale.toIdentifier().name.equals("und")) {
+		if (locale.toIdentifier().getName().equals("und")) {
 			LOGGER.error("Language not found {}", locale);
 			return;
 		}

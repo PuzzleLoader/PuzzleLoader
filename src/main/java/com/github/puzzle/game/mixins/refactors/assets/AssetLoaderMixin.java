@@ -2,19 +2,17 @@ package com.github.puzzle.game.mixins.refactors.assets;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
-import com.github.puzzle.core.Identifier;
+import finalforeach.cosmicreach.util.Identifier;
 import com.github.puzzle.core.resources.PuzzleGameAssetLoader;
 import de.pottgames.tuningfork.SoundBuffer;
 import finalforeach.cosmicreach.GameAssetLoader;
 import finalforeach.cosmicreach.GameSingletons;
-import finalforeach.cosmicreach.Threads;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
 import java.util.HashMap;
-import java.util.concurrent.atomic.AtomicReference;
 
 @Mixin(GameAssetLoader.class)
 public class AssetLoaderMixin {
@@ -25,19 +23,14 @@ public class AssetLoaderMixin {
      * @reason Improves asset loading
      **/
     @Overwrite
-    public static FileHandle loadAsset(String fileName, boolean forceReload) {
-        Identifier location = Identifier.fromString(fileName);
-        if (!forceReload && ALL_ASSETS.containsKey(location.toString())) {
+    public static FileHandle loadAsset(Identifier location) {
+        if (ALL_ASSETS.containsKey(location.toString())) {
             return ALL_ASSETS.get(location.toString());
         }
-        if("base".equals(location.namespace)) {
-            fileName = location.name;
-        }
-        FileHandle handle = PuzzleGameAssetLoader.locateAsset(fileName);
+        FileHandle handle = PuzzleGameAssetLoader.locateAsset(location);
         ALL_ASSETS.put(location.toString(), handle);
         return handle;
     }
-
     /**
      * @author nanobass
      * @reason uses libgdx asset manager, which can load assets better

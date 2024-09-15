@@ -2,7 +2,7 @@ package com.github.puzzle.game.loot;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
-import com.github.puzzle.core.Identifier;
+import finalforeach.cosmicreach.util.Identifier;
 import com.github.puzzle.core.PuzzleRegistries;
 import com.llamalad7.mixinextras.lib.apache.commons.tuple.ImmutablePair;
 import com.llamalad7.mixinextras.lib.apache.commons.tuple.Pair;
@@ -28,7 +28,7 @@ import java.util.List;
  */
 public class PuzzleLootTable {
 
-    public static final PuzzleLootTable EMPTY = new PuzzleLootTable(new Identifier("base", "empty_loot_table"));
+    public static final PuzzleLootTable EMPTY = new PuzzleLootTable(Identifier.of("base", "empty_loot_table"));
 
     public static PuzzleLootTable registerLootTable(Identifier id, PuzzleLootTable lootTable) {
         PuzzleRegistries.LOOT_TABLES.store(id, lootTable);
@@ -43,7 +43,7 @@ public class PuzzleLootTable {
 
     public static PuzzleLootTable readLootTable(String jsonStr) {
         JsonObject object = JsonObject.readHjson(jsonStr).asObject();
-        PuzzleLootTable lootTable = new PuzzleLootTable(Identifier.fromString(object.getString("id", "base:empty_loot_table")));
+        PuzzleLootTable lootTable = new PuzzleLootTable(Identifier.of(object.getString("id", "base:empty_loot_table")));
         for (JsonValue value : object.get("options").asArray()) {
             JsonObject option = value.asObject();
             float weight = option.getFloat("weight", 100);
@@ -56,7 +56,7 @@ public class PuzzleLootTable {
                 dropId = dropId.isEmpty() ? "base:debug[default]" : dropId;
                 dropId = type.equals("item") ? "base:medkit" : dropId;
 
-                Identifier id = Identifier.fromString(dropId);
+                Identifier id = Identifier.of(dropId);
                 int min = Math.min(drop.getInt("min", 1), 1);
                 int max = drop.getInt("max", 10);
                 switch (type) {
@@ -72,7 +72,7 @@ public class PuzzleLootTable {
                     dropId = dropId.isEmpty() ? "base:debug[default]" : dropId;
                     dropId = type.equals("item") ? "base:medkit" : dropId;
 
-                    Identifier id = Identifier.fromString(dropId);
+                    Identifier id = Identifier.of(dropId);
                     int min = Math.min(drop.getInt("min", 1), 1);
                     int max = drop.getInt("max", 10);
                     switch (type) {
@@ -102,7 +102,7 @@ public class PuzzleLootTable {
      */
     @Contract("_ -> new")
     public static @NotNull Pair<Identifier, PuzzleLootTable> fromVanillaTable(@NotNull Loot loot) {
-        Identifier lootId = Identifier.fromString(loot.lootId);
+        Identifier lootId = Identifier.of(loot.lootId);
 
         PuzzleLootTable table = new PuzzleLootTable(lootId);
         for (LootOption option : loot.options) {

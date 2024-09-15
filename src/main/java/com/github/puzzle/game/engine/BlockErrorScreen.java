@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.github.puzzle.core.resources.PuzzleGameAssetLoader;
 import com.github.puzzle.game.block.DataModBlock;
 import com.github.puzzle.game.engine.blocks.BlockLoadException;
 import com.github.puzzle.game.engine.blocks.BlockLoader;
@@ -65,14 +66,12 @@ public class BlockErrorScreen extends GameState {
             String exception = writer.toString();
 
             String className = error.iModBlock != null ? error.iModBlock.getClass().getSimpleName() : "Unknown";
-            String fileName = error.iModBlock instanceof DataModBlock dataModBlock && dataModBlock.debugResourceLocation != null ? dataModBlock.debugResourceLocation.locate().name() : "Unknown";
-            String blockName = error.blockName != null ? error.blockName : "Unknown";
+            String fileName = error.iModBlock instanceof DataModBlock dataModBlock && dataModBlock.debugResourceLocation != null ? PuzzleGameAssetLoader.locateAsset(dataModBlock.debugResourceLocation).name() : "Unknown";
             String blockId = error.blockId != null ? error.blockId.toString() : "Unknown";
 
             errorText
                     .append("Error while loading Block (Class: ").append(className)
                     .append(", File: \"").append(fileName)
-                    .append("\", Name: \"").append(blockName)
                     .append("\", Id: \"").append(blockId)
                     .append("\")\n")
                     .append("\nError Stacktrace:\n");

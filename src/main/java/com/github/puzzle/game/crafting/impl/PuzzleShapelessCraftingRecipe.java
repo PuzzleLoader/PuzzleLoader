@@ -1,6 +1,6 @@
 package com.github.puzzle.game.crafting.impl;
 
-import com.github.puzzle.core.Identifier;
+import finalforeach.cosmicreach.util.Identifier;
 import com.github.puzzle.game.crafting.IPuzzleCraftingRecipe;
 import com.github.puzzle.game.crafting.IRecipeSerializer;
 import com.github.puzzle.game.crafting.RecipeInput;
@@ -18,7 +18,7 @@ import java.util.Map;
 
 public class PuzzleShapelessCraftingRecipe implements IPuzzleCraftingRecipe {
 
-    Identifier recipeType = new Identifier("base", "shaped_crafting");
+    Identifier recipeType = Identifier.of("base", "shaped_crafting");
 
     RecipeInput[] inputs;
     ItemStack result;
@@ -96,7 +96,7 @@ public class PuzzleShapelessCraftingRecipe implements IPuzzleCraftingRecipe {
         @Override
         public PuzzleShapelessCraftingRecipe readRecipe(JsonObject object) {
             PuzzleShapelessCraftingRecipe recipe = new PuzzleShapelessCraftingRecipe();
-            recipe.recipeType = Identifier.fromString(object.getString("type", "base:invalid_recipe"));
+            recipe.recipeType = Identifier.of(object.getString("type", "base:invalid_recipe"));
 
             List<RecipeInput> recipeInputs = new ArrayList<>();
             for (JsonValue ingredient : object.get("ingredients").asArray()) {

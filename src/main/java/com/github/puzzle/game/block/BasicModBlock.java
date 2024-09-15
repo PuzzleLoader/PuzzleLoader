@@ -1,7 +1,7 @@
 package com.github.puzzle.game.block;
 
 import com.badlogic.gdx.graphics.Pixmap;
-import com.github.puzzle.core.Identifier;
+import finalforeach.cosmicreach.util.Identifier;
 import com.github.puzzle.game.generators.BasicCubeModelGenerator;
 import com.github.puzzle.game.generators.BlockGenerator;
 import com.github.puzzle.game.generators.BlockModelGenerator;
@@ -32,7 +32,7 @@ public class BasicModBlock implements IModBlock {
 
     @Override
     public BlockGenerator getBlockGenerator() {
-        BlockGenerator generator = new BlockGenerator(blockId, blockName);
+        BlockGenerator generator = new BlockGenerator(blockId);
         generator.createBlockState("default", "model", true);
         return generator;
     }

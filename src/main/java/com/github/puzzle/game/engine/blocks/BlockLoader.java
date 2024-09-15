@@ -2,10 +2,8 @@ package com.github.puzzle.game.engine.blocks;
 
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.utils.Json;
-import com.github.puzzle.core.Identifier;
 import com.github.puzzle.core.PuzzleRegistries;
 import com.github.puzzle.core.resources.PuzzleGameAssetLoader;
-import com.github.puzzle.core.resources.ResourceLocation;
 import com.github.puzzle.game.block.IModBlock;
 import com.github.puzzle.game.block.PuzzleBlockAction;
 import com.github.puzzle.game.engine.blocks.models.PuzzleBlockModel;
@@ -16,7 +14,9 @@ import com.github.puzzle.game.generators.BlockModelGenerator;
 import finalforeach.cosmicreach.blockevents.BlockEvents;
 import finalforeach.cosmicreach.blocks.Block;
 import finalforeach.cosmicreach.blocks.BlockState;
+import finalforeach.cosmicreach.items.Item;
 import finalforeach.cosmicreach.rendering.blockmodels.BlockModel;
+import finalforeach.cosmicreach.util.Identifier;
 import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
@@ -59,7 +59,7 @@ public class BlockLoader {
         CustomTextureLoader.registerTexture(textureName, texture);
     }
 
-    public void registerTexture(ResourceLocation texture) {
+    public void registerTexture(Identifier texture) {
         Pixmap pixmap = PuzzleGameAssetLoader.LOADER.loadResourceSync(texture, Pixmap.class);
         CustomTextureLoader.registerTexture(texture.toString(), pixmap);
         PuzzleGameAssetLoader.LOADER.unloadResource(texture);
@@ -97,7 +97,7 @@ public class BlockLoader {
         try {
             blockGenerator = modBlock.getBlockGenerator();
         } catch (Exception e) {
-            throw new BlockLoadException(modBlock, null, null, null, null, e);
+            throw new BlockLoadException(modBlock, null, null, null, e);
         }
 
         String blockJson;
@@ -105,14 +105,14 @@ public class BlockLoader {
             blockGenerator.register(this);
             blockJson = blockGenerator.generateJson();
         } catch (Exception e) {
-            throw new BlockLoadException(modBlock, blockGenerator.blockName, blockGenerator.blockId, null, null, e);
+            throw new BlockLoadException(modBlock, blockGenerator.blockId, null, null, e);
         }
 
         Block block;
         try {
             block = json.fromJson(Block.class, blockJson);
         } catch (Exception e) {
-            throw new BlockLoadException(modBlock, blockGenerator.blockName, blockGenerator.blockId, blockJson, null, e);
+            throw new BlockLoadException(modBlock, blockGenerator.blockId, blockJson, null, e);
         }
 
         try {
@@ -130,9 +130,9 @@ public class BlockLoader {
                 eventGenerators = List.of(eventGenerator);
             }
             for(BlockEventGenerator eventGenerator : eventGenerators) {
-                eventGenerator.createTrigger("onInteract", Identifier.fromString("puzzle-loader:mod_block_interact"), Map.of("blockId", blockGenerator.blockId));
-                eventGenerator.createTrigger("onPlace", Identifier.fromString("puzzle-loader:mod_block_place"), Map.of("blockId", blockGenerator.blockId));
-                eventGenerator.createTrigger("onBreak", Identifier.fromString("puzzle-loader:mod_block_break"), Map.of("blockId", blockGenerator.blockId));
+                eventGenerator.createTrigger("onInteract", Identifier.of("puzzle-loader:mod_block_interact"), Map.of("blockId", blockGenerator.blockId));
+                eventGenerator.createTrigger("onPlace", Identifier.of("puzzle-loader:mod_block_place"), Map.of("blockId", blockGenerator.blockId));
+                eventGenerator.createTrigger("onBreak", Identifier.of("puzzle-loader:mod_block_break"), Map.of("blockId", blockGenerator.blockId));
                 eventGenerator.register(this);
                 String eventName = eventGenerator.getEventName();
                 String eventJson = eventGenerator.generateJson();
@@ -146,15 +146,13 @@ public class BlockLoader {
                 Block.allBlockStates.put(blockState.stringId, blockState);
             }
             Block.blocksByStringId.put(blockGenerator.blockId.toString(), block);
-            Block.blocksByName.put(blockGenerator.blockName, block);
         } catch (Exception e) {
             for(BlockState blockState : block.blockStates.values()) {
                 Block.allBlockStates.remove(blockState.stringId);
             }
             Block.allBlocks.removeValue(block, true);
             Block.blocksByStringId.remove(blockGenerator.blockId.toString());
-            Block.blocksByName.remove(blockGenerator.blockName);
-            throw new BlockLoadException(modBlock, blockGenerator.blockName, blockGenerator.blockId, blockJson, block, e);
+            throw new BlockLoadException(modBlock, blockGenerator.blockId, blockJson, block, e);
         }
         return blockGenerator.blockId;
     }
@@ -166,7 +164,7 @@ public class BlockLoader {
         for (BlockModel model : factory.sort()) {
             if(model instanceof PuzzleBlockModel flux) {
 //                System.out.println();
-                PuzzleRegistries.BLOCK_MODEL_FINALIZERS.store(Identifier.fromString(flux.modelName + "_" + flux.rotXZ), flux::initialize);
+                PuzzleRegistries.BLOCK_MODEL_FINALIZERS.store(Identifier.of(flux.modelName + "_" + flux.rotXZ), flux::initialize);
             }
         }
         PuzzleRegistries.BLOCK_MODEL_FINALIZERS.freeze();
@@ -177,7 +175,7 @@ public class BlockLoader {
                 try {
                     if(blockState.getModel() instanceof PuzzleBlockModel model) {
                         String blockStateId = block.getStringId() + "[" + blockState.stringId + "]";
-                        PuzzleRegistries.BLOCK_FINALIZERS.store(Identifier.fromString(blockStateId), () -> blockState.setBlockModel(model.modelName));
+                        PuzzleRegistries.BLOCK_FINALIZERS.store(Identifier.of(blockStateId), () -> blockState.setBlockModel(model.modelName));
                     }
                 } catch (Exception ignored) {}
             }
@@ -206,20 +204,20 @@ public class BlockLoader {
             }
         };
 
-        setBlockStaticFinalField.accept("AIR", Block.getInstance("block_air"));
-        setBlockStaticFinalField.accept("GRASS", Block.getInstance("block_grass"));
-        setBlockStaticFinalField.accept("STONE_BASALT", Block.getInstance("block_stone_basalt"));
-        setBlockStaticFinalField.accept("DIRT", Block.getInstance("block_dirt"));
-        setBlockStaticFinalField.accept("WOODPLANKS", Block.getInstance("block_wood_planks"));
-        setBlockStaticFinalField.accept("CRATE_WOOD", Block.getInstance("block_crate_wooden"));
-        setBlockStaticFinalField.accept("HAZARD", Block.getInstance("block_hazard"));
-        setBlockStaticFinalField.accept("SAND", Block.getInstance("block_sand"));
-        setBlockStaticFinalField.accept("TREELOG", Block.getInstance("block_tree_log"));
-        setBlockStaticFinalField.accept("LEAVES", Block.getInstance("block_leaves"));
-        setBlockStaticFinalField.accept("COCONUT", Block.getInstance("block_coconut"));
-        setBlockStaticFinalField.accept("SNOW", Block.getInstance("block_snow"));
-        setBlockStaticFinalField.accept("WATER", Block.getInstance("block_water"));
-        setBlockStaticFinalField.accept("LUNAR_SOIL", Block.getInstance("block_lunar_soil"));
+        setBlockStaticFinalField.accept("AIR", Block.getInstance("base:air"));
+        setBlockStaticFinalField.accept("GRASS", Block.getInstance("base:grass"));
+        setBlockStaticFinalField.accept("STONE_BASALT", Block.getInstance("base:stone_basalt"));
+        setBlockStaticFinalField.accept("DIRT", Block.getInstance("base:dirt"));
+        setBlockStaticFinalField.accept("WOODPLANKS", Block.getInstance("base:wood_planks"));
+        setBlockStaticFinalField.accept("CRATE_WOOD", Block.getInstance("base:crate_wooden"));
+        setBlockStaticFinalField.accept("HAZARD", Block.getInstance("base:hazard"));
+        setBlockStaticFinalField.accept("SAND", Block.getInstance("base:sand"));
+        setBlockStaticFinalField.accept("TREELOG", Block.getInstance("base:tree_log"));
+        setBlockStaticFinalField.accept("LEAVES", Block.getInstance("base:leaves"));
+        setBlockStaticFinalField.accept("COCONUT", Block.getInstance("base:coconut"));
+        setBlockStaticFinalField.accept("SNOW", Block.getInstance("base:snow"));
+        setBlockStaticFinalField.accept("WATER", Block.getInstance("base:water"));
+        setBlockStaticFinalField.accept("LUNAR_SOIL", Block.getInstance("base:lunar_soil"));
 
     }
 

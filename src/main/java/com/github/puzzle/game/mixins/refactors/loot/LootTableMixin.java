@@ -1,7 +1,7 @@
 package com.github.puzzle.game.mixins.refactors.loot;
 
 import com.badlogic.gdx.utils.ObjectMap;
-import com.github.puzzle.core.Identifier;
+import finalforeach.cosmicreach.util.Identifier;
 import com.github.puzzle.core.PuzzleRegistries;
 import com.github.puzzle.core.registries.RegistryObject;
 import com.github.puzzle.core.registries.exception.NotReadableException;
@@ -38,7 +38,7 @@ public class LootTableMixin {
     @Overwrite
     public static Loot get(String lootId) {
         try {
-            Identifier id = Identifier.fromString(lootId);
+            Identifier id = Identifier.of(lootId);
             RegistryObject<PuzzleLootTable> table = new RegistryObject<>(PuzzleRegistries.LOOT_TABLES, id);
             return new PuppetLootClass(id, table.get());
         } catch (NotReadableException e) {

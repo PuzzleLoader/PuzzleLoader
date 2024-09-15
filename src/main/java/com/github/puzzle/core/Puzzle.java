@@ -3,8 +3,11 @@ package com.github.puzzle.core;
 import com.github.puzzle.core.localization.ILanguageFile;
 import com.github.puzzle.core.localization.LanguageManager;
 import com.github.puzzle.core.localization.files.LanguageFileVersion1;
+import com.github.puzzle.core.resources.PuzzleGameAssetLoader;
 import com.github.puzzle.game.Globals;
 import com.github.puzzle.game.engine.shaders.ItemShader;
+import com.github.puzzle.game.events.OnPreLoadAssetsEvent;
+import com.github.puzzle.game.events.OnRegisterLanguageEvent;
 import com.github.puzzle.game.items.IModItem;
 import com.github.puzzle.game.items.ITickingItem;
 import com.github.puzzle.game.items.puzzle.*;
@@ -27,7 +30,9 @@ import finalforeach.cosmicreach.items.Item;
 import finalforeach.cosmicreach.items.ItemSlot;
 import finalforeach.cosmicreach.rendering.items.ItemRenderer;
 import finalforeach.cosmicreach.ui.UI;
+import org.greenrobot.eventbus.Subscribe;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -39,12 +44,26 @@ public class Puzzle implements PreModInitializer, ModInitializer, PostModInitial
 
     static {
         try {
-            InputStream stream = getFile("assets/puzzle-loader/version.txt");
+            InputStream stream = getFile("/assets/puzzle-loader/version.txt");
             String bytez = new String(stream.readAllBytes()).strip();
             stream.close();
             if (!bytez.contains(".")) {
                 VERSION = "69.69.69";
             } else VERSION = bytez;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Puzzle() {
+        PuzzleRegistries.EVENT_BUS.register(this);
+    }
+
+    @Subscribe
+    public void onEvent(OnPreLoadAssetsEvent event) {
+        try {
+            ILanguageFile lang = LanguageFileVersion1.loadLanguageFile(PuzzleGameAssetLoader.locateAsset(Globals.LanguageEnUs));
+            LanguageManager.registerLanguageFile(lang);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -56,16 +75,6 @@ public class Puzzle implements PreModInitializer, ModInitializer, PostModInitial
             input = PuzzleClassLoader.class.getClassLoader().getResourceAsStream(file);
         }
         return input;
-    }
-
-    @Override
-    public void onPreInit() {
-        try {
-            ILanguageFile lang = LanguageFileVersion1.loadLanguageFromString(new String(getFile(Globals.LanguageEnUs.toPath()).readAllBytes()));
-            LanguageManager.registerLanguageFile(lang);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public static IModItem DebugStick;
@@ -99,36 +108,36 @@ public class Puzzle implements PreModInitializer, ModInitializer, PostModInitial
 
     @Override
     public void onPostInit() {
-        BuiltInTags.ore.add(Block.getInstance("block_ore_gold"));
-        BuiltInTags.ore.add(Block.getInstance("block_ore_bauxite"));
-        BuiltInTags.ore.add(Block.getInstance("block_ore_iron"));
-
-        BuiltInTags.stone.add(Block.getInstance("block_stone_basalt"));
-        BuiltInTags.stone.add(Block.getInstance("block_stone_gabbro"));
-        BuiltInTags.stone.add(Block.getInstance("block_stone_limestone"));
-
-        BuiltInTags.glass.add(Block.getInstance("block_glass"));
-
-        BuiltInTags.grass.add(Block.getInstance("block_grass"));
-        BuiltInTags.dirt.add(Block.getInstance("block_dirt"));
-        BuiltInTags.dirt.add(Block.getInstance("block_lunar_soil"));
-        BuiltInTags.dirt.add(Block.getInstance("block_lunar_soil_packed"));
-
-        BuiltInTags.aluminum_block.add(Block.getInstance("block_aluminium_panel"));
-        BuiltInTags.aluminum_ore.add(Block.getInstance("block_ore_bauxite"));
-        BuiltInTags.aluminum_ingot.add(Item.getItem("base:ingot_aluminium"));
-
-        BuiltInTags.iron_ore.add(Block.getInstance("block_metal_panel"));
-        BuiltInTags.iron_block.add(Block.getInstance("block_ore_iron"));
-        BuiltInTags.iron_ingot.add(Item.getItem("base:ingot_iron"));
-
-        BuiltInTags.gold_ore.add(Block.getInstance("block_grass"));
-        BuiltInTags.gold_block.add(Block.getInstance("block_metal_panel"));
-        BuiltInTags.gold_ingot.add(Item.getItem("base:ingot_gold"));
-
-        BuiltInTags.logs.add(Block.getInstance("block_tree_log"));
-        BuiltInTags.planks.add(Block.getInstance("block_wood_planks"));
-        BuiltInTags.light.add(Block.getInstance("block_light"));
+//        BuiltInTags.ore.add(Block.getInstance("base:ore_gold"));
+//        BuiltInTags.ore.add(Block.getInstance("base:ore_bauxite"));
+//        BuiltInTags.ore.add(Block.getInstance("base:ore_iron"));
+//
+//        BuiltInTags.stone.add(Block.getInstance("base:stone_basalt"));
+//        BuiltInTags.stone.add(Block.getInstance("base:stone_gabbro"));
+//        BuiltInTags.stone.add(Block.getInstance("base:stone_limestone"));
+//
+//        BuiltInTags.glass.add(Block.getInstance("base:glass"));
+//
+//        BuiltInTags.grass.add(Block.getInstance("base:grass"));
+//        BuiltInTags.dirt.add(Block.getInstance("base:dirt"));
+//        BuiltInTags.dirt.add(Block.getInstance("base:lunar_soil"));
+//        BuiltInTags.dirt.add(Block.getInstance("base:lunar_soil_packed"));
+//
+//        BuiltInTags.aluminum_block.add(Block.getInstance("base:aluminium_panel"));
+//        BuiltInTags.aluminum_ore.add(Block.getInstance("base:ore_bauxite"));
+//        BuiltInTags.aluminum_ingot.add(Item.getItem("base:ingot_aluminium"));
+//
+//        BuiltInTags.iron_ore.add(Block.getInstance("base:metal_panel"));
+//        BuiltInTags.iron_block.add(Block.getInstance("base:ore_iron"));
+//        BuiltInTags.iron_ingot.add(Item.getItem("base:ingot_iron"));
+//
+//        BuiltInTags.gold_ore.add(Block.getInstance("base:grass"));
+//        BuiltInTags.gold_block.add(Block.getInstance("base:metal_panel"));
+//        BuiltInTags.gold_ingot.add(Item.getItem("base:ingot_gold"));
+//
+//        BuiltInTags.logs.add(Block.getInstance("base:tree_log"));
+//        BuiltInTags.planks.add(Block.getInstance("base:wood_planks"));
+//        BuiltInTags.light.add(Block.getInstance("base:light"));
 
         GameSingletons.updateObservers.add(fixedUpdateTimeStep -> {
             if (InGame.getLocalPlayer() != null && UI.hotbar.getContainer() != null) {
@@ -155,5 +164,10 @@ public class Puzzle implements PreModInitializer, ModInitializer, PostModInitial
                 }
             }
         });
+    }
+
+    @Override
+    public void onPreInit() {
+
     }
 }

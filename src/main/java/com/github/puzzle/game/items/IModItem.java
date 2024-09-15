@@ -1,9 +1,8 @@
 package com.github.puzzle.game.items;
 
 import com.badlogic.gdx.utils.ObjectMap;
-import com.github.puzzle.core.Identifier;
+import finalforeach.cosmicreach.util.Identifier;
 import com.github.puzzle.core.Puzzle;
-import com.github.puzzle.core.resources.ResourceLocation;
 import com.github.puzzle.game.engine.items.ExperimentalItemModel;
 import com.github.puzzle.game.items.data.DataTag;
 import com.github.puzzle.game.items.data.DataTagManifest;
@@ -56,36 +55,36 @@ public interface IModItem extends Item {
     }
 
     DataTagPreset<Identifier> MODEL_ID_PRESET = new DataTagPreset<>("model_id", new IdentifierDataAttribute(Identifier.of(Puzzle.MOD_ID, "2d_item_model")));
-    Identifier MODEL_2D_ITEM = new Identifier(Puzzle.MOD_ID, "2d_item_model");
-    Identifier MODEL_2_5D_ITEM = new Identifier(Puzzle.MOD_ID, "2.5d_item_model");
+    Identifier MODEL_2D_ITEM = Identifier.of(Puzzle.MOD_ID, "2d_item_model");
+    Identifier MODEL_2_5D_ITEM = Identifier.of(Puzzle.MOD_ID, "2.5d_item_model");
 
-    DataTagPreset<ResourceLocation> TEXTURE_LOCATION_PRESET = new DataTagPreset<>("texture_resource_location", new ResourceLocationDataAttribute(new ResourceLocation(Puzzle.MOD_ID, "textures/items/null_stick.png")));
+    DataTagPreset<Identifier> TEXTURE_LOCATION_PRESET = new DataTagPreset<>("texture_resource_location", new IdentifierDataAttribute(Identifier.of(Puzzle.MOD_ID, "textures/items/null_stick.png")));
 
     DataTagPreset<Boolean> IS_DEBUG_ATTRIBUTE = new DataTagPreset<>("is_item_debug", new BooleanDataAttribute(false));
 
-    default void addTexture(Identifier model, ResourceLocation texture) {
+    default void addTexture(Identifier model, Identifier texture) {
         if (getTagManifest().hasTag("textures")) {
-            ListDataAttribute<PairAttribute<IdentifierDataAttribute, ResourceLocationDataAttribute>> textures = (ListDataAttribute) getTagManifest().getTag("textures").attribute;
-            List<PairAttribute<IdentifierDataAttribute, ResourceLocationDataAttribute>> attributes = textures.getValue();
-            attributes.add(new PairAttribute<>(new IdentifierDataAttribute(model), new ResourceLocationDataAttribute(texture)));
+            ListDataAttribute<PairAttribute<IdentifierDataAttribute, IdentifierDataAttribute>> textures = (ListDataAttribute) getTagManifest().getTag("textures").attribute;
+            List<PairAttribute<IdentifierDataAttribute, IdentifierDataAttribute>> attributes = textures.getValue();
+            attributes.add(new PairAttribute<>(new IdentifierDataAttribute(model), new IdentifierDataAttribute(texture)));
             textures.setValue(attributes);
             getTagManifest().addTag(new DataTag<>("textures", textures));
         } else {
-            List<PairAttribute<IdentifierDataAttribute, ResourceLocationDataAttribute>> attributes = new ArrayList<>();
-            attributes.add(new PairAttribute<>(new IdentifierDataAttribute(model), new ResourceLocationDataAttribute(texture)));
+            List<PairAttribute<IdentifierDataAttribute, IdentifierDataAttribute>> attributes = new ArrayList<>();
+            attributes.add(new PairAttribute<>(new IdentifierDataAttribute(model), new IdentifierDataAttribute(texture)));
             getTagManifest().addTag(new DataTag<>("textures", new ListDataAttribute<>(attributes)));
         }
     }
 
-    default void addTexture(Identifier model, ResourceLocation... textures) {
-        for (ResourceLocation location : textures) {
+    default void addTexture(Identifier model, Identifier... textures) {
+        for (Identifier location : textures) {
             addTexture(model, location);
         }
     }
 
-    default List<PairAttribute<IdentifierDataAttribute, ResourceLocationDataAttribute>> getTextures() {
+    default List<PairAttribute<IdentifierDataAttribute, IdentifierDataAttribute>> getTextures() {
         if (getTagManifest().hasTag("textures")) {
-            ListDataAttribute<PairAttribute<IdentifierDataAttribute, ResourceLocationDataAttribute>> textures = (ListDataAttribute) getTagManifest().getTag("textures").attribute;
+            ListDataAttribute<PairAttribute<IdentifierDataAttribute, IdentifierDataAttribute>> textures = (ListDataAttribute) getTagManifest().getTag("textures").attribute;
             return textures.getValue();
         }
         return new ArrayList<>();

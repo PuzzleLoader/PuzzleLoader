@@ -2,7 +2,7 @@ package com.github.puzzle.game.generators;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
-import com.github.puzzle.core.Identifier;
+import finalforeach.cosmicreach.util.Identifier;
 
 public class SingleColorModelGenerator extends BlockModelGenerator {
     public SingleColorModelGenerator(Identifier blockId, String modelName, Color color) {

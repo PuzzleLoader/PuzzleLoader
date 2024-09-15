@@ -5,11 +5,12 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
-import com.github.puzzle.core.Identifier;
+import com.github.puzzle.core.resources.PuzzleGameAssetLoader;
+import finalforeach.cosmicreach.Threads;
+import finalforeach.cosmicreach.util.Identifier;
 import com.github.puzzle.core.PuzzleRegistries;
 import com.github.puzzle.core.localization.LanguageManager;
 import com.github.puzzle.core.localization.TranslationKey;
-import com.github.puzzle.core.resources.ResourceLocation;
 import com.github.puzzle.core.resources.VanillaAssetLocations;
 import com.github.puzzle.game.Globals;
 import com.github.puzzle.game.block.DataModBlock;
@@ -48,18 +49,14 @@ public class LoadingCosmicReach extends LoadStage {
 
     @Subscribe
     public void onEvent(OnRegisterBlockEvent event) {
-        List<String> blockNames = new ArrayList<>();
-        for(ResourceLocation internal : VanillaAssetLocations.getInternalFiles("blocks/", ".json")) {
-            blockNames.add(internal.name.replace("blocks/", "").replace(".json", ""));
-        }
+        List<Identifier> blockNames = new ArrayList<>(VanillaAssetLocations.getInternalFiles("blocks/", ".json"));
         if(Globals.EnabledVanillaMods.getValue()) {
-            for(ResourceLocation internal : VanillaAssetLocations.getVanillaModFiles("blocks/", ".json")) {
-                blockNames.add(internal.name.replace("blocks/", "").replace(".json", ""));
-            }
+            blockNames.addAll(VanillaAssetLocations.getVanillaModFiles("blocks/", ".json"));
         }
 
-        for(String blockName : blockNames) {
-            event.registerBlock(() -> new DataModBlock(blockName));
+        for(Identifier id : blockNames) {
+            System.out.println(id);
+            event.registerBlock(() -> new DataModBlock(id));
         }
     }
 
@@ -94,11 +91,11 @@ public class LoadingCosmicReach extends LoadStage {
         super.doStage();
 
         // Load Block Event Actions
-//        BlockEvents.initBlockEvents();
+        BlockEvents.initBlockEvents();
 
         List<FileHandle> BlockEventLocations = new ArrayList<>();
-        for (ResourceLocation location : VanillaAssetLocations.getInternalFiles("block_events", ".json")) {
-            BlockEventLocations.add(location.locate());
+        for (Identifier location : VanillaAssetLocations.getInternalFiles("block_events", ".json")) {
+            BlockEventLocations.add(PuzzleGameAssetLoader.locateAsset(location));
         }
         BlockEventLocations.removeIf(handle -> handle.path().contains("example"));
         BlockEventLocations.addAll(List.of(Gdx.files.absolute(SaveLocation.getSaveFolderLocation() + "/mods/assets/block_events").list()));
@@ -145,7 +142,7 @@ public class LoadingCosmicReach extends LoadStage {
                 Identifier blockId = loader.blockLoader.loadBlock(block);
                 PuzzleRegistries.BLOCKS.store(blockId, block);
             } catch (BlockLoadException e) {
-                ModLocator.LOGGER.error("Cannot load block: \"{}\"", e.blockName, e);
+                ModLocator.LOGGER.error("Cannot load block: \"{}\"", e.blockId, e);
                 loader.blockLoader.errors.add(e);
             }
             progress++;

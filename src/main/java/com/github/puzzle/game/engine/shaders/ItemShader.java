@@ -4,8 +4,8 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.github.puzzle.core.Puzzle;
-import com.github.puzzle.core.resources.ResourceLocation;
 import finalforeach.cosmicreach.rendering.shaders.GameShader;
+import finalforeach.cosmicreach.util.Identifier;
 
 public class ItemShader extends GameShader {
 
@@ -15,15 +15,15 @@ public class ItemShader extends GameShader {
     private static final VertexAttribute normalAttrib = VertexAttribute.Normal();
 
 
-    public ItemShader(String vertexShader, String fragmentShader) {
+    public ItemShader(Identifier vertexShader, Identifier fragmentShader) {
         super(vertexShader, fragmentShader);
         this.allVertexAttributesObj = new VertexAttributes(posAttrib, texCoordsAttrib, normalAttrib);
     }
 
     public static void initItemShader() {
         DEFAULT_ITEM_SHADER = new ItemShader(
-                new ResourceLocation(Puzzle.MOD_ID,"item_shader.vert.glsl").toString(),
-                new ResourceLocation(Puzzle.MOD_ID,"item_shader.frag.glsl").toString());
+                Identifier.of(Puzzle.MOD_ID,"item_shader.vert.glsl"),
+                Identifier.of(Puzzle.MOD_ID,"item_shader.frag.glsl"));
     }
 
     public void bind(Camera worldCamera) {

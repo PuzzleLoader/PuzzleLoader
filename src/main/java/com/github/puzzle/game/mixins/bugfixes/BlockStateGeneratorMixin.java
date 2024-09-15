@@ -1,7 +1,9 @@
 package com.github.puzzle.game.mixins.bugfixes;
 
-import com.github.puzzle.core.resources.ResourceLocation;
+import com.badlogic.gdx.files.FileHandle;
+import com.github.puzzle.core.resources.PuzzleGameAssetLoader;
 import finalforeach.cosmicreach.blocks.BlockStateGenerator;
+import finalforeach.cosmicreach.util.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
@@ -14,7 +16,7 @@ public abstract class BlockStateGeneratorMixin {
     @Shadow private static HashMap<String, BlockStateGenerator> generators;
 
     @Shadow
-    private static void loadGeneratorsFromFile(String fileName) {
+    private static void loadGeneratorsFromFile(FileHandle asset) {
     }
 
     /**
@@ -26,10 +28,10 @@ public abstract class BlockStateGeneratorMixin {
         if (generators.containsKey(genKey))
             return generators.get(genKey);
         else {
-            ResourceLocation location = ResourceLocation.fromString(genKey);
-            location.name = "block_state_generators/" + location.name + ".json";
+            Identifier location = Identifier.of(genKey);
+            location = Identifier.of(location.getNamespace(), "block_state_generators/" + location.getName() + ".json");
             System.out.println(location);
-            loadGeneratorsFromFile(location.toString());
+            loadGeneratorsFromFile(PuzzleGameAssetLoader.locateAsset(location));
         }
         return generators.get(genKey);
     }

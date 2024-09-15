@@ -1,8 +1,7 @@
 package com.github.puzzle.game.items.puzzle;
 
-import com.github.puzzle.core.Identifier;
+import finalforeach.cosmicreach.util.Identifier;
 import com.github.puzzle.core.Puzzle;
-import com.github.puzzle.core.resources.ResourceLocation;
 import com.github.puzzle.game.items.IModItem;
 import com.github.puzzle.game.items.data.DataTagManifest;
 import com.github.puzzle.game.util.BlockUtil;
@@ -16,12 +15,12 @@ import finalforeach.cosmicreach.rendering.items.ItemRenderer;
 
 public class BlockWrench implements IModItem {
 
-    Identifier id = new Identifier(Puzzle.MOD_ID, "block_wrench");
+    Identifier id = Identifier.of(Puzzle.MOD_ID, "block_wrench");
     DataTagManifest tagManifest = new DataTagManifest();
 
     public BlockWrench() {
         tagManifest.addTag(IModItem.MODEL_ID_PRESET.createTag(IModItem.MODEL_2_5D_ITEM));
-        tagManifest.addTag(IModItem.TEXTURE_LOCATION_PRESET.createTag(new ResourceLocation(Puzzle.MOD_ID, "textures/items/block_wrench.png")));
+        tagManifest.addTag(IModItem.TEXTURE_LOCATION_PRESET.createTag(Identifier.of(Puzzle.MOD_ID, "textures/items/block_wrench.png")));
     }
 
     @Override
@@ -60,4 +59,8 @@ public class BlockWrench implements IModItem {
         return tagManifest;
     }
 
+    @Override
+    public String getName() {
+        return "State Wrench";
+    }
 }

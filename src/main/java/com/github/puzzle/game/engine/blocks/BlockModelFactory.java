@@ -1,6 +1,7 @@
 package com.github.puzzle.game.engine.blocks;
 
 import com.badlogic.gdx.utils.Json;
+import com.github.puzzle.core.resources.PuzzleGameAssetLoader;
 import com.github.puzzle.core.resources.VanillaAssetLocations;
 import com.github.puzzle.game.engine.blocks.models.PuzzleBlockModel;
 import finalforeach.cosmicreach.blocks.BlockState;
@@ -62,7 +63,7 @@ public class BlockModelFactory implements IBlockModelInstantiator {
             return models.get(key);
         }
 
-        String modelJson = VanillaAssetLocations.getBlockModel(modelName).locate().readString();
+        String modelJson = PuzzleGameAssetLoader.locateAsset(VanillaAssetLocations.getBlockModel(modelName)).readString();
         PuzzleBlockModel model = PuzzleBlockModel.fromJson(modelJson, modelName, rotXZ);
         if (model.parent != null) {
             getInstance(model.parent, rotXZ);
