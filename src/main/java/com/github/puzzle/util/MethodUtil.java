@@ -24,7 +24,7 @@ public class MethodUtil {
 
     public static Object runMethod(Object obj, @NotNull Method method) {
         try {
-            return method.invoke(method);
+            return method.invoke(obj);
         } catch (IllegalAccessException | InvocationTargetException e) {
             throw new RuntimeException(e);
         }
@@ -32,7 +32,7 @@ public class MethodUtil {
 
     public static Object runMethod(Object obj, @NotNull Method method, Object... args) {
         try {
-            return method.invoke(method, args);
+            return method.invoke(obj, args);
         } catch (IllegalAccessException | InvocationTargetException e) {
             throw new RuntimeException(e);
         }
