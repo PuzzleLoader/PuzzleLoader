@@ -31,28 +31,28 @@ public class NullStick implements IModItem, ITickingItem {
 
         addTexture(
             IModItem.MODEL_2_5D_ITEM,
-            Identifier.of(Puzzle.MOD_ID, "textures/items/null_stick.png"),
-            Identifier.of("base", "textures/items/axe_stone.png"),
-            Identifier.of("base", "textures/items/pickaxe_stone.png"),
-            Identifier.of("base", "textures/items/shovel_stone.png"),
-            Identifier.of("base", "textures/items/medkit.png"),
-            Identifier.of(Puzzle.MOD_ID, "textures/items/block_wrench.png"),
-            Identifier.of(Puzzle.MOD_ID, "textures/items/checker_board.png"),
-            Identifier.of(Puzzle.MOD_ID, "textures/items/checker_board1.png"),
-            Identifier.of(Puzzle.MOD_ID, "textures/items/checker_board2.png")
+            Identifier.of(Puzzle.MOD_ID, "null_stick.png"),
+            Identifier.of("base", "axe_stone.png"),
+            Identifier.of("base", "pickaxe_stone.png"),
+            Identifier.of("base", "shovel_stone.png"),
+            Identifier.of("base", "medkit.png"),
+            Identifier.of(Puzzle.MOD_ID, "block_wrench.png"),
+            Identifier.of(Puzzle.MOD_ID, "checker_board.png"),
+            Identifier.of(Puzzle.MOD_ID, "checker_board1.png"),
+            Identifier.of(Puzzle.MOD_ID, "checker_board2.png")
         );
 
         addTexture(
                 IModItem.MODEL_2D_ITEM,
-                Identifier.of(Puzzle.MOD_ID, "textures/items/null_stick.png"),
-                Identifier.of("base", "textures/items/axe_stone.png"),
-                Identifier.of("base", "textures/items/pickaxe_stone.png"),
-                Identifier.of("base", "textures/items/shovel_stone.png"),
-                Identifier.of("base", "textures/items/medkit.png"),
-                Identifier.of(Puzzle.MOD_ID, "textures/items/block_wrench.png"),
-                Identifier.of(Puzzle.MOD_ID, "textures/items/checker_board.png"),
-                Identifier.of(Puzzle.MOD_ID, "textures/items/checker_board1.png"),
-                Identifier.of(Puzzle.MOD_ID, "textures/items/checker_board2.png")
+                Identifier.of(Puzzle.MOD_ID, "null_stick.png"),
+                Identifier.of("base", "axe_stone.png"),
+                Identifier.of("base", "pickaxe_stone.png"),
+                Identifier.of("base", "shovel_stone.png"),
+                Identifier.of("base", "medkit.png"),
+                Identifier.of(Puzzle.MOD_ID, "block_wrench.png"),
+                Identifier.of(Puzzle.MOD_ID, "checker_board.png"),
+                Identifier.of(Puzzle.MOD_ID, "checker_board1.png"),
+                Identifier.of(Puzzle.MOD_ID, "checker_board2.png")
         );
 
         texture_count = ((ListDataAttribute) getTagManifest().getTag("textures").attribute).getValue().size() - 1;

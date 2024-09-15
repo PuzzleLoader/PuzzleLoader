@@ -62,6 +62,7 @@ public class ExperimentalItemModel implements IPuzzleItemModel {
         boolean isOld = false;
         if (manifest.hasTag(IModItem.TEXTURE_LOCATION_PRESET) && manifest.hasTag(IModItem.MODEL_ID_PRESET)) {
             Identifier location = manifest.getTag(IModItem.TEXTURE_LOCATION_PRESET).getValue();
+            location = location.getName().startsWith("textures/items/") ? location : Identifier.of(location.getNamespace(), "textures/items/" + location.getName());
             Identifier modelId = manifest.getTag(IModItem.MODEL_ID_PRESET).getValue();
 
 

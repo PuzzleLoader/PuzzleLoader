@@ -20,7 +20,7 @@ public class BlockWrench implements IModItem {
 
     public BlockWrench() {
         tagManifest.addTag(IModItem.MODEL_ID_PRESET.createTag(IModItem.MODEL_2_5D_ITEM));
-        tagManifest.addTag(IModItem.TEXTURE_LOCATION_PRESET.createTag(Identifier.of(Puzzle.MOD_ID, "textures/items/block_wrench.png")));
+        tagManifest.addTag(IModItem.TEXTURE_LOCATION_PRESET.createTag(Identifier.of(Puzzle.MOD_ID, "block_wrench.png")));
     }
 
     @Override
