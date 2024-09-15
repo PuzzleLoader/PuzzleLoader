@@ -31,7 +31,7 @@ public class DataModBlock implements IModBlock {
 
     public DataModBlock(Identifier json) {
         this(PuzzleGameAssetLoader.locateAsset(Identifier.of(json.getNamespace(), json.getName().startsWith("blocks/") ? json.getName() : "blocks/" + json.getName())).readString());
-        this.debugResourceLocation = json;
+        this.debugResourceLocation = Identifier.of(json.getNamespace(), json.getName().startsWith("blocks/") ? json.getName() : "blocks/" + json.getName());
     }
 
     public DataModBlock(String blockJson) {

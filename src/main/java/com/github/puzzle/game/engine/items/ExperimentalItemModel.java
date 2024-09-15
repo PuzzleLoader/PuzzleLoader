@@ -94,6 +94,7 @@ public class ExperimentalItemModel implements IPuzzleItemModel {
         for (PairAttribute<IdentifierDataAttribute, IdentifierDataAttribute> pairAttribute : item.getTextures()) {
             Pair<IdentifierDataAttribute, IdentifierDataAttribute> pair = pairAttribute.getValue();
             Identifier location = pair.getRight().getValue();
+            location = location.getName().startsWith("textures/items/") ? location : Identifier.of(location.getNamespace(), "textures/items/" + location.getName());
             Identifier modelId = pair.getLeft().getValue();
 
             if (!ITEM_MESH_CACHE.containsKey(item.getID() + "_" + location + "_" + modelId + "_model")){
