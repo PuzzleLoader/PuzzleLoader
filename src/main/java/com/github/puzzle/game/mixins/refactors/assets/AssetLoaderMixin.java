@@ -2,11 +2,11 @@ package com.github.puzzle.game.mixins.refactors.assets;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
-import finalforeach.cosmicreach.util.Identifier;
 import com.github.puzzle.core.resources.PuzzleGameAssetLoader;
 import de.pottgames.tuningfork.SoundBuffer;
 import finalforeach.cosmicreach.GameAssetLoader;
 import finalforeach.cosmicreach.GameSingletons;
+import finalforeach.cosmicreach.util.Identifier;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;

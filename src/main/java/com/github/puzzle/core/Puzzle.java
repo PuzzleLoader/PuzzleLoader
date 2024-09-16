@@ -7,11 +7,12 @@ import com.github.puzzle.core.resources.PuzzleGameAssetLoader;
 import com.github.puzzle.game.Globals;
 import com.github.puzzle.game.engine.shaders.ItemShader;
 import com.github.puzzle.game.events.OnPreLoadAssetsEvent;
-import com.github.puzzle.game.events.OnRegisterLanguageEvent;
 import com.github.puzzle.game.items.IModItem;
 import com.github.puzzle.game.items.ITickingItem;
-import com.github.puzzle.game.items.puzzle.*;
-import com.github.puzzle.game.oredict.tags.BuiltInTags;
+import com.github.puzzle.game.items.puzzle.BlockWrench;
+import com.github.puzzle.game.items.puzzle.BuilderWand;
+import com.github.puzzle.game.items.puzzle.CheckBoard;
+import com.github.puzzle.game.items.puzzle.NullStick;
 import com.github.puzzle.game.ui.modmenu.ConfigScreenFactory;
 import com.github.puzzle.game.ui.modmenu.ModMenu;
 import com.github.puzzle.loader.entrypoint.interfaces.ModInitializer;
@@ -24,19 +25,13 @@ import com.github.puzzle.util.PuzzleEntrypointUtil;
 import com.google.common.collect.ImmutableCollection;
 import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.Threads;
-import finalforeach.cosmicreach.blocks.Block;
 import finalforeach.cosmicreach.gamestates.InGame;
-import finalforeach.cosmicreach.items.Item;
 import finalforeach.cosmicreach.items.ItemSlot;
-import finalforeach.cosmicreach.rendering.items.ItemRenderer;
 import finalforeach.cosmicreach.ui.UI;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-
-import static finalforeach.cosmicreach.rendering.items.ItemRenderer.registerItemModelCreator;
 
 public class Puzzle implements PreModInitializer, ModInitializer, PostModInitializer {
     public static final String MOD_ID = "puzzle-loader";

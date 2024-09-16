@@ -1,9 +1,9 @@
 package com.github.puzzle.game.items.data.attributes;
 
-import finalforeach.cosmicreach.util.Identifier;
 import com.github.puzzle.game.items.data.DataTag;
 import finalforeach.cosmicreach.io.CRBinDeserializer;
 import finalforeach.cosmicreach.io.CRBinSerializer;
+import finalforeach.cosmicreach.util.Identifier;
 
 public class IdentifierDataAttribute implements DataTag.DataTagAttribute<Identifier> {
 

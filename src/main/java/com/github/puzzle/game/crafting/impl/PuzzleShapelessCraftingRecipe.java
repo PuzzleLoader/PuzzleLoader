@@ -1,12 +1,12 @@
 package com.github.puzzle.game.crafting.impl;
 
-import finalforeach.cosmicreach.util.Identifier;
 import com.github.puzzle.game.crafting.IPuzzleCraftingRecipe;
 import com.github.puzzle.game.crafting.IRecipeSerializer;
 import com.github.puzzle.game.crafting.RecipeInput;
 import com.github.puzzle.game.oredict.tags.Tag;
 import finalforeach.cosmicreach.items.Item;
 import finalforeach.cosmicreach.items.ItemStack;
+import finalforeach.cosmicreach.util.Identifier;
 import org.hjson.JsonObject;
 import org.hjson.JsonValue;
 import org.jetbrains.annotations.Nullable;

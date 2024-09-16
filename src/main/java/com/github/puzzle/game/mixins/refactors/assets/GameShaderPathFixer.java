@@ -2,7 +2,6 @@ package com.github.puzzle.game.mixins.refactors.assets;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.github.puzzle.core.resources.PuzzleGameAssetLoader;
-import com.github.puzzle.game.util.Reflection;
 import finalforeach.cosmicreach.rendering.shaders.GameShader;
 import finalforeach.cosmicreach.util.Identifier;
 import org.spongepowered.asm.mixin.Mixin;

@@ -1,7 +1,6 @@
 package com.github.puzzle.game.items;
 
 import com.badlogic.gdx.utils.ObjectMap;
-import finalforeach.cosmicreach.util.Identifier;
 import com.github.puzzle.core.Puzzle;
 import com.github.puzzle.game.engine.items.ExperimentalItemModel;
 import com.github.puzzle.game.items.data.DataTag;
@@ -19,6 +18,7 @@ import finalforeach.cosmicreach.items.ItemSlot;
 import finalforeach.cosmicreach.items.ItemStack;
 import finalforeach.cosmicreach.rendering.items.ItemModel;
 import finalforeach.cosmicreach.rendering.items.ItemRenderer;
+import finalforeach.cosmicreach.util.Identifier;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;

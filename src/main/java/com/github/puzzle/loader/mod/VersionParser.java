@@ -3,9 +3,6 @@ package com.github.puzzle.loader.mod;
 import org.apache.logging.log4j.LogManager;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-import java.util.regex.Pattern;
-
 import static com.github.puzzle.loader.mod.Version.parseVersionWithThrow;
 
 public class VersionParser {

@@ -1,6 +1,5 @@
 package com.github.puzzle.game.items.puzzle;
 
-import finalforeach.cosmicreach.util.Identifier;
 import com.github.puzzle.core.Puzzle;
 import com.github.puzzle.game.items.IModItem;
 import com.github.puzzle.game.items.ITickingItem;
@@ -17,6 +16,7 @@ import finalforeach.cosmicreach.entities.player.Player;
 import finalforeach.cosmicreach.items.ItemSlot;
 import finalforeach.cosmicreach.items.ItemStack;
 import finalforeach.cosmicreach.rendering.items.ItemRenderer;
+import finalforeach.cosmicreach.util.Identifier;
 import finalforeach.cosmicreach.world.Zone;
 
 public class NullStick implements IModItem, ITickingItem {

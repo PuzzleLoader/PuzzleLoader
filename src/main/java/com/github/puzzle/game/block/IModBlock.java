@@ -1,6 +1,5 @@
 package com.github.puzzle.game.block;
 
-import finalforeach.cosmicreach.util.Identifier;
 import com.github.puzzle.game.engine.blocks.BlockLoader;
 import com.github.puzzle.game.generators.BlockEventGenerator;
 import com.github.puzzle.game.generators.BlockGenerator;
@@ -12,6 +11,7 @@ import finalforeach.cosmicreach.blockevents.actions.BlockActionReplaceBlockState
 import finalforeach.cosmicreach.blocks.BlockPosition;
 import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.entities.player.Player;
+import finalforeach.cosmicreach.util.Identifier;
 import finalforeach.cosmicreach.world.Zone;
 
 import java.util.Collections;

@@ -1,9 +1,9 @@
 package com.github.puzzle.game.mixins.refactors.assets;
 
 import com.badlogic.gdx.files.FileHandle;
-import finalforeach.cosmicreach.util.Identifier;
 import finalforeach.cosmicreach.GameAssetLoader;
 import finalforeach.cosmicreach.rendering.blockmodels.BlockModelJson;
+import finalforeach.cosmicreach.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spongepowered.asm.mixin.Mixin;

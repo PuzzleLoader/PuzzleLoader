@@ -1,9 +1,9 @@
 package com.github.puzzle.game.items.puzzle;
 
-import finalforeach.cosmicreach.util.Identifier;
 import com.github.puzzle.core.Puzzle;
 import com.github.puzzle.game.items.IModItem;
 import com.github.puzzle.game.items.data.DataTagManifest;
+import finalforeach.cosmicreach.util.Identifier;
 
 public class CheckBoard implements IModItem {
 

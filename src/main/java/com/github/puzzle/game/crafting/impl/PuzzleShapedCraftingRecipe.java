@@ -1,6 +1,5 @@
 package com.github.puzzle.game.crafting.impl;
 
-import finalforeach.cosmicreach.util.Identifier;
 import com.github.puzzle.game.crafting.IPuzzleCraftingRecipe;
 import com.github.puzzle.game.crafting.IRecipeSerializer;
 import com.github.puzzle.game.crafting.RecipeInput;
@@ -9,6 +8,7 @@ import com.llamalad7.mixinextras.lib.apache.commons.tuple.ImmutablePair;
 import com.llamalad7.mixinextras.lib.apache.commons.tuple.Pair;
 import finalforeach.cosmicreach.items.Item;
 import finalforeach.cosmicreach.items.ItemStack;
+import finalforeach.cosmicreach.util.Identifier;
 import org.hjson.JsonArray;
 import org.hjson.JsonObject;
 import org.hjson.JsonValue;

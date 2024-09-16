@@ -4,7 +4,6 @@ import com.github.puzzle.game.items.IStorageContainer;
 import finalforeach.cosmicreach.blockentities.BlockEntityFurnace;
 import finalforeach.cosmicreach.items.ItemSlot;
 import finalforeach.cosmicreach.items.containers.FurnaceSlotContainer;
-import finalforeach.cosmicreach.items.containers.SlotContainer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 

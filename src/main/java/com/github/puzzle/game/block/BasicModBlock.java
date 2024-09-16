@@ -1,10 +1,10 @@
 package com.github.puzzle.game.block;
 
 import com.badlogic.gdx.graphics.Pixmap;
-import finalforeach.cosmicreach.util.Identifier;
 import com.github.puzzle.game.generators.BasicCubeModelGenerator;
 import com.github.puzzle.game.generators.BlockGenerator;
 import com.github.puzzle.game.generators.BlockModelGenerator;
+import finalforeach.cosmicreach.util.Identifier;
 
 import java.util.List;
 

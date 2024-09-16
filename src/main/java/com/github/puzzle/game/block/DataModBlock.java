@@ -2,10 +2,9 @@ package com.github.puzzle.game.block;
 
 import com.badlogic.gdx.utils.Json;
 import com.github.puzzle.core.resources.PuzzleGameAssetLoader;
-import finalforeach.cosmicreach.util.Identifier;
-import com.github.puzzle.core.resources.VanillaAssetLocations;
 import com.github.puzzle.game.generators.BlockGenerator;
 import com.github.puzzle.game.generators.BlockModelGenerator;
+import finalforeach.cosmicreach.util.Identifier;
 
 import java.util.LinkedHashMap;
 import java.util.List;

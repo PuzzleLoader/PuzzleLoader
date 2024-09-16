@@ -3,9 +3,9 @@ package com.github.puzzle.game.generators;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.OrderedMap;
-import finalforeach.cosmicreach.util.Identifier;
 import com.github.puzzle.game.engine.blocks.BlockLoader;
 import com.github.puzzle.game.factories.IGenerator;
+import finalforeach.cosmicreach.util.Identifier;
 
 import java.util.ArrayList;
 import java.util.HashMap;

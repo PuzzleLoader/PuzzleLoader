@@ -1,7 +1,7 @@
 package com.github.puzzle.core.registries.exception;
 
-import finalforeach.cosmicreach.util.Identifier;
 import com.github.puzzle.core.registries.IRegistry;
+import finalforeach.cosmicreach.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 
 public class MissingEntryException extends RuntimeException {

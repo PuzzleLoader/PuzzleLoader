@@ -2,7 +2,6 @@ package com.github.puzzle.game.engine.rendering.text;
 
 import com.badlogic.gdx.graphics.Color;
 
-
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;

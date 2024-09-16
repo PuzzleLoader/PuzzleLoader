@@ -4,8 +4,6 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
-
 
 //TODO: Possibly support things like release candidate?
 public record Version(int Major, int Minor, int Patch, VersionType Type) {

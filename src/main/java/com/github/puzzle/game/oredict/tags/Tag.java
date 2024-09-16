@@ -1,10 +1,10 @@
 package com.github.puzzle.game.oredict.tags;
 
-import finalforeach.cosmicreach.util.Identifier;
 import com.github.puzzle.game.oredict.ResourceDictionary;
 import finalforeach.cosmicreach.blocks.Block;
 import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.items.Item;
+import finalforeach.cosmicreach.util.Identifier;
 
 import java.util.HashMap;
 import java.util.Map;

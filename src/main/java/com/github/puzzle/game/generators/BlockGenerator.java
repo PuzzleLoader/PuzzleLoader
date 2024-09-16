@@ -1,18 +1,15 @@
 package com.github.puzzle.game.generators;
 
 import com.badlogic.gdx.utils.*;
-import finalforeach.cosmicreach.blocks.BlockPlaceCheck;
-import finalforeach.cosmicreach.blocks.BlockState;
-import finalforeach.cosmicreach.rendering.items.ItemRenderer;
-import finalforeach.cosmicreach.util.Identifier;
 import com.github.puzzle.game.engine.blocks.BlockLoader;
 import com.github.puzzle.game.factories.IGenerator;
 import com.github.puzzle.game.oredict.tags.Tag;
+import finalforeach.cosmicreach.blocks.BlockPlaceCheck;
+import finalforeach.cosmicreach.blocks.BlockState;
+import finalforeach.cosmicreach.util.Identifier;
 import finalforeach.cosmicreach.util.JsonPredicateParser;
 
 import java.io.IOException;
-import java.lang.StringBuilder;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;

@@ -1,7 +1,5 @@
 package com.github.puzzle.util;
 
-import com.badlogic.gdx.math.MathUtils;
-
 public record Vec3i(int x, int y, int z) {
 
     public Vec3i add(Vec3i vec) {

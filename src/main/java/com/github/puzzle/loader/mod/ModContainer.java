@@ -1,7 +1,6 @@
 package com.github.puzzle.loader.mod;
 
 import com.github.puzzle.loader.entrypoint.EntrypointContainer;
-import com.github.puzzle.loader.entrypoint.interfaces.ModInitializer;
 import com.github.puzzle.loader.mod.info.ModInfo;
 import org.jetbrains.annotations.NotNull;
 

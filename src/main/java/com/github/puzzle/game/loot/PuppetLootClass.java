@@ -1,11 +1,11 @@
 package com.github.puzzle.game.loot;
 
 import com.badlogic.gdx.math.Vector3;
-import finalforeach.cosmicreach.util.Identifier;
 import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.items.Item;
 import finalforeach.cosmicreach.items.loot.Loot;
 import finalforeach.cosmicreach.items.loot.LootOption;
+import finalforeach.cosmicreach.util.Identifier;
 import finalforeach.cosmicreach.world.Zone;
 import org.jetbrains.annotations.NotNull;
 

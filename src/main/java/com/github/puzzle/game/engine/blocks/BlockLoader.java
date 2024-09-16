@@ -14,7 +14,6 @@ import com.github.puzzle.game.generators.BlockModelGenerator;
 import finalforeach.cosmicreach.blockevents.BlockEvents;
 import finalforeach.cosmicreach.blocks.Block;
 import finalforeach.cosmicreach.blocks.BlockState;
-import finalforeach.cosmicreach.items.Item;
 import finalforeach.cosmicreach.rendering.blockmodels.BlockModel;
 import finalforeach.cosmicreach.util.Identifier;
 import sun.misc.Unsafe;
