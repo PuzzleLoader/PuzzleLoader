@@ -54,7 +54,10 @@ public class VanillaAssetLocations {
     }
 
     public static @NotNull Identifier getBlockModel(String blockModelName) {
-        return getLocation("models/blocks", blockModelName, "json");
+        Identifier id = getLocation("models/blocks", blockModelName, "json");
+        id = Identifier.of(id.getNamespace(), id.getName().startsWith("models/blocks/") ? id.getName() : "models/blocks/" + id.getName());
+        id = Identifier.of(id.getNamespace(), id.getName().endsWith(".json") ? id.getName() : id.getName() + ".json");
+        return id;
     }
 
     public static @NotNull Identifier getBlockEvents(String blockEventsName) {
