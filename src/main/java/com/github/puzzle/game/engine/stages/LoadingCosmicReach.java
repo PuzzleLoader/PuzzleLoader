@@ -55,7 +55,6 @@ public class LoadingCosmicReach extends LoadStage {
         }
 
         for(Identifier id : blockNames) {
-            System.out.println(id);
             event.registerBlock(() -> new DataModBlock(id));
         }
     }

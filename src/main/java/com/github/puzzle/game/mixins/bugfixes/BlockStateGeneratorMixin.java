@@ -30,7 +30,6 @@ public abstract class BlockStateGeneratorMixin {
         else {
             Identifier location = Identifier.of(genKey);
             location = Identifier.of(location.getNamespace(), "block_state_generators/" + location.getName() + ".json");
-            System.out.println(location);
             loadGeneratorsFromFile(PuzzleGameAssetLoader.locateAsset(location));
         }
         return generators.get(genKey);

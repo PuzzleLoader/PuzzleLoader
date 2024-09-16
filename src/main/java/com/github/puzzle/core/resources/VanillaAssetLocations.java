@@ -44,9 +44,7 @@ public class VanillaAssetLocations {
     }
 
     public static @NotNull Identifier getBlock(String blockName) {
-        Identifier e = getLocation("blocks", blockName, "json");
-        System.out.println(e);
-        return e;
+        return getLocation("blocks", blockName, "json");
     }
 
     public static @NotNull Identifier getBlockTexture(String blockTextureName) {

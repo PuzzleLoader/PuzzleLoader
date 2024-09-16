@@ -204,7 +204,6 @@ public class BlockGenerator implements IGenerator {
             out += "\"blockEntityId\": " + json2.toJson(blockEntityParams) + ", ";
         out += "\"blockStates\": " + json.toJson(blockStates);
         out += "}";
-        System.out.println(out);
         return out;
     }
 }
