@@ -2,6 +2,7 @@ package com.github.puzzle.core.resources;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import finalforeach.cosmicreach.blocks.Block;
 import finalforeach.cosmicreach.io.SaveLocation;
 import finalforeach.cosmicreach.util.Identifier;
 import org.jetbrains.annotations.NotNull;
@@ -27,12 +28,12 @@ public class VanillaAssetLocations {
         return Gdx.files.absolute(SaveLocation.getSaveFolderLocation() + "/mods");
     }
 
-    public static @NotNull List<Identifier> getVanillaModFiles(String folder, String extension) {
+    public static @NotNull List<Identifier> getVanillaModFiles(String namespace, String folder, String extension) {
         List<Identifier> files = new ArrayList<>();
-        for(FileHandle f : Gdx.files.absolute(SaveLocation.getSaveFolderLocation() + "/mods/assets/" + folder).list()) {
+        for(FileHandle f : Gdx.files.absolute(SaveLocation.getSaveFolderLocation() + "/mods/" + namespace + "/" + folder).list()) {
             String fileName = f.name();
             if (fileName.endsWith(extension)) {
-                files.add(Identifier.of("base", fileName));
+                files.add(Identifier.of(namespace, fileName));
             }
         }
         return files;

@@ -27,7 +27,7 @@ public class PuzzleGameAssetLoader {
 
     public static boolean assetExists(@NotNull Identifier location) {
         // Split Locations
-        FileHandle splitModLocationFile = Gdx.files.absolute(SaveLocation.getSaveFolderLocation() + "/mods/assets/%s/%s".formatted(location.getNamespace(), location.getName()));
+        FileHandle splitModLocationFile = Gdx.files.absolute(SaveLocation.getSaveFolderLocation() + "/mods/%s/%s".formatted(location.getNamespace(), location.getName()));
         FileHandle splitVanillaLocationFile = Gdx.files.internal("%s/%s".formatted(location.getNamespace(), location.getName()));
         FileHandle splitJavaModLocationFile = Gdx.files.classpath("assets/%s/%s".formatted(location.getNamespace(), location.getName()));
 
@@ -36,7 +36,7 @@ public class PuzzleGameAssetLoader {
 
     public static @Nullable FileHandle locateAsset(@NotNull Identifier location) {
         // Fix asset loading bug
-        FileHandle modLocationFile = Gdx.files.absolute(SaveLocation.getSaveFolderLocation() + "/mods/assets/%s/%s".formatted(location.getNamespace(), location.getName()));
+        FileHandle modLocationFile = Gdx.files.absolute(SaveLocation.getSaveFolderLocation() + "/mods/%s/%s".formatted(location.getNamespace(), location.getName()));
         if (modLocationFile.exists()) {
             LOGGER.info("Loading " + AnsiColours.CYAN+"\"{}\"" + AnsiColours.WHITE + " from Mods Folder", location.getName());
             return modLocationFile;
