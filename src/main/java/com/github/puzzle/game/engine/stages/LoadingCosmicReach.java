@@ -23,6 +23,7 @@ import com.github.puzzle.game.events.OnRegisterBlockEvent;
 import com.github.puzzle.game.factories.IFactory;
 import com.github.puzzle.game.util.Reflection;
 import com.github.puzzle.loader.mod.ModLocator;
+import finalforeach.cosmicreach.GameAssetLoader;
 import finalforeach.cosmicreach.blockentities.BlockEntityCreator;
 import finalforeach.cosmicreach.blockevents.BlockEvents;
 import finalforeach.cosmicreach.io.SaveLocation;
@@ -50,7 +51,9 @@ public class LoadingCosmicReach extends LoadStage {
     public void onEvent(OnRegisterBlockEvent event) {
         List<Identifier> blockNames = new ArrayList<>(VanillaAssetLocations.getInternalFiles("blocks/", ".json"));
         if(Globals.EnabledVanillaMods.getValue()) {
-            blockNames.addAll(VanillaAssetLocations.getVanillaModFiles("blocks/", ".json"));
+            for (String space : GameAssetLoader.getAllNamespaces()) {
+                blockNames.addAll(VanillaAssetLocations.getVanillaModFiles(space, "blocks/", ".json"));
+            }
         }
 
         for(Identifier id : blockNames) {
