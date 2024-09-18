@@ -1,7 +1,9 @@
 package com.github.puzzle.game.ui.modmenu;
 
+import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -25,13 +27,16 @@ import com.github.puzzle.game.ui.font.CosmicReachFont;
 import com.github.puzzle.loader.mod.ModContainer;
 import com.github.puzzle.loader.mod.ModLocator;
 import com.github.puzzle.loader.mod.info.ModInfo;
+import finalforeach.cosmicreach.GameAssetLoader;
 import finalforeach.cosmicreach.gamestates.GameState;
 import finalforeach.cosmicreach.gamestates.MainMenu;
 import finalforeach.cosmicreach.gamestates.PauseMenu;
+import finalforeach.cosmicreach.io.SaveLocation;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 import static com.github.puzzle.core.resources.PuzzleGameAssetLoader.LOADER;
 import static com.github.puzzle.game.ui.font.CosmicReachFont.createCosmicReachFont;
@@ -49,7 +54,7 @@ public class ModMenu extends GameState {
     Button.ButtonStyle buttonStyle;
     BitmapFont modlablefont = createCosmicReachFont();
     BitmapFont versonfont = createCosmicReachFont();
-    Texture cog = LOADER.loadSync("assets/puzzle-loader/textures/ui/cog.png", Texture.class);
+    Texture cog = LOADER.loadSync("puzzle-loader:textures/ui/cog.png", Texture.class);
 
     public ModMenu(GameState currentGameState) {
         this.previousState = currentGameState;
@@ -84,8 +89,7 @@ public class ModMenu extends GameState {
         righTable.background(genColor(.31f, .31f, .31f));
 
         for(ModContainer m : ModLocator.locatedMods.values()) {
-            String path = m.INFO.Metadata.get("icon") != null ? m.INFO.Metadata.get("icon").asString() : "assets/puzzle-loader/icons/example.png";
-            Image icon = new Image(LOADER.loadSync(path, Texture.class));
+            Image icon = getIconImage(m);
             Table rightSide = new Table();
             Label modname = new Label(m.NAME, new Label.LabelStyle(modlablefont, Color.WHITE));
             Label modversion = new Label("v"+m.VERSION.toString() , new Label.LabelStyle(versonfont, Color.WHITE));
@@ -181,9 +185,7 @@ public class ModMenu extends GameState {
                 Table topBar = new Table();
                 Table topRightBar = new Table();
                 topRightBar.setBackground(genColor(.196f,.196f, .196f));
-                String path = info.Metadata.get("icon") != null ? info.Metadata.get("icon").asString() : "assets/puzzle-loader/icons/example.png";
-                if(!PuzzleGameAssetLoader.assetExists(path)) path = "assets/puzzle-loader/icons/example.png";
-                Image icon = new Image(LOADER.loadSync(path, Texture.class));
+                Image icon = getIconImage(mod);
                 Label modname = new Label(mod.NAME, new Label.LabelStyle(CosmicReachFont.FONT_BIG, Color.WHITE));
                 modname.setAlignment(Align.bottomLeft);
                 Label descriptionLabel = new Label(info.Description, new Label.LabelStyle(modlablefont, Color.WHITE));
@@ -266,6 +268,19 @@ public class ModMenu extends GameState {
     private Table getDefaultTable(){
         Table table = new Table();
         return table;
+    }
+
+    private Image getIconImage(ModContainer mod) {
+        ModInfo info = mod.INFO;
+        if(!Objects.equals(mod.NAME, "Cosmic Reach")) {
+            String path = info.Metadata.get("icon") != null ? info.Metadata.get("icon").asString() : "puzzle-loader:icons/example.png";
+            if (!PuzzleGameAssetLoader.assetExists(path)) path = "puzzle-loader:icons/example.png";
+            return new Image(LOADER.loadSync(path, Texture.class));
+        } else {
+            FileHandle fileHandle = Gdx.files.internal(info.Metadata.get("icon").asString());
+            if(!fileHandle.exists()) throw new RuntimeException("could not load Cosmic Reach icon!");
+            return new Image(new Texture(fileHandle));
+        }
     }
 
     static {
