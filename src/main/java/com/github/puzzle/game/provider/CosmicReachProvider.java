@@ -130,7 +130,7 @@ public class CosmicReachProvider implements IGameProvider {
                     "logging.mixins.json"
             );
             HashMap<String, JsonValue> meta = new HashMap<>();
-            meta.put("icon", JsonObject.valueOf("assets/puzzle-loader/icons/PuzzleLoaderIconx160.png"));
+            meta.put("icon", JsonObject.valueOf("puzzle-loader:icons/PuzzleLoaderIconx160.png"));
             puzzleLoaderInfo.setMeta(meta);
             puzzleLoaderInfo.setAuthors(new String[]{
                     "Mr_Zombii", "Repletsin5", "SinfullySoul"
@@ -152,7 +152,7 @@ public class CosmicReachProvider implements IGameProvider {
             cosmicReachInfo.addAuthor("FinalForEach");
             cosmicReachInfo.setVersion(getGameVersion());
             HashMap<String, JsonValue> meta = new HashMap<>();
-            meta.put("icon", JsonObject.valueOf("textures/logox256.png"));
+            meta.put("icon", JsonObject.valueOf("icons/logox256.png"));
             cosmicReachInfo.setMeta(meta);
             ModLocator.locatedMods.put(getId(), cosmicReachInfo.build().getOrCreateModContainer());
         }
