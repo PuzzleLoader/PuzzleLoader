@@ -12,6 +12,7 @@
     "assets.Sound2DBlockActionPlayerPathFixer",
     "blockentities.BlockEntityFurnaceMixin",
     "blockentities.BlockEntityItemContainerMixin",
+    "blocks.BlocksMixin",
     "chat.ChatMixin",
     "chat.CommandMixin",
     "entrypoint.GameSingletonsMixin",

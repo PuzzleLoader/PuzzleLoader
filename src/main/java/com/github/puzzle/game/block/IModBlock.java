@@ -24,6 +24,8 @@ public interface IModBlock {
 
     Identifier getIdentifier();
 
+    String getName();
+
     /**
      * Triggered when a Player Interacts with a block
      * @param zone The Zone that this block is in

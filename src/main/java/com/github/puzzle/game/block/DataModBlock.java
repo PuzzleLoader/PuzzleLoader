@@ -4,6 +4,7 @@ import com.badlogic.gdx.utils.Json;
 import com.github.puzzle.core.resources.PuzzleGameAssetLoader;
 import com.github.puzzle.game.generators.BlockGenerator;
 import com.github.puzzle.game.generators.BlockModelGenerator;
+import finalforeach.cosmicreach.lang.Lang;
 import finalforeach.cosmicreach.util.Identifier;
 
 import java.util.LinkedHashMap;
@@ -40,6 +41,11 @@ public class DataModBlock implements IModBlock {
     @Override
     public Identifier getIdentifier() {
         return identifier;
+    }
+
+    @Override
+    public String getName() {
+        return Lang.get(identifier.toString());
     }
 
     @Override

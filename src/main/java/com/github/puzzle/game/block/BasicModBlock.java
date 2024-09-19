@@ -31,6 +31,11 @@ public class BasicModBlock implements IModBlock {
     }
 
     @Override
+    public String getName() {
+        return "BasicModBlock";
+    }
+
+    @Override
     public BlockGenerator getBlockGenerator() {
         BlockGenerator generator = new BlockGenerator(blockId);
         generator.createBlockState("default", "model", true);
