@@ -198,7 +198,7 @@ public class BlockGenerator implements IGenerator {
         if (blockEntityId != null)
             out += "\"blockEntityId\": \"" + blockEntityId + "\", ";
         if (blockEntityParams != null)
-            out += "\"blockEntityId\": " + json2.toJson(blockEntityParams) + ", ";
+            out += "\"blockEntityParams\": " + json2.toJson(blockEntityParams) + ", ";
         out += "\"blockStates\": " + json.toJson(blockStates);
         out += "}";
         return out;
