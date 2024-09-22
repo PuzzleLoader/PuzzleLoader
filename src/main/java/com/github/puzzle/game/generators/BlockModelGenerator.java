@@ -116,6 +116,8 @@ public class BlockModelGenerator implements IGenerator {
     public Map<String, Pixmap> customTextures = new HashMap<>();
 
     public List<Cuboid> cuboids = new ArrayList<>();
+    public boolean isTransparent = false;
+    public boolean cullsSelf = false;
 
     public BlockModelGenerator(Identifier blockId, String modelName) {
         this.blockId = blockId;
@@ -206,6 +208,8 @@ public class BlockModelGenerator implements IGenerator {
     public String generateJson() {
         PuzzleBlockModel model = new PuzzleBlockModel();
         model.textures = new OrderedMap<>();
+        model.isTransparent = this.isTransparent;
+        model.cullsSelf = this.cullsSelf;
 
         for(String customTextureName : customTextures.keySet()) {
             BlockModelJsonTexture texture = new BlockModelJsonTexture();
