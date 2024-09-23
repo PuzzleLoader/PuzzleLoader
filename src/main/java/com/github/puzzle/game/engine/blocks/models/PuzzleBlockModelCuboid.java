@@ -413,7 +413,19 @@ public class PuzzleBlockModelCuboid
             Vector3 tmpNormal = new Vector3();
             Vector3 tmpFaceNormal = new Vector3();
 
-            tmpFaceNormal.set((f.x1 + f.x2) / 2.0F, (f.y1 + f.y2) / 2.0F, (f.z1 + f.z2) / 2.0F).sub(0.5F).nor();
+            //tmpFaceNormal.set((f.x1 + f.x2) / 2.0F, (f.y1 + f.y2) / 2.0F, (f.z1 + f.z2) / 2.0F).sub(0.5F).nor();
+            //Not sure why normals didn't work for slabs/stairs but this fixes them -Shfloop
+            //There may be something else happening before that causes it but this is an easier fix
+            Vector3 p1 = new Vector3(f.x1, f.y1, f.z1);
+            Vector3 p2 = new Vector3(f.x2, f.y2, f.z2);
+            Vector3 p3 = new Vector3(f.midX1, f.midY1, f.midZ1);
+            Vector3 u = p2.sub(p1);
+            Vector3 v = p3.sub(p1);
+
+            tmpFaceNormal.x = -1 *(u.y * v.z - u.z * v.y);
+            tmpFaceNormal.y = -1 *(u.z * v.x - u.x * v.z);
+            tmpFaceNormal.z = -1 *(u.x * v.y - u.y * v.x);
+            tmpFaceNormal.nor();
 
             CustomTextureLoader.setNormal(tmpNormal, f.x1, f.y1, f.z1);
             f.modelUvIdxA = CustomTextureLoader.createUBOFloatsIdx(f.uA, f.vA, tmpNormal, tmpFaceNormal);
@@ -428,6 +440,7 @@ public class PuzzleBlockModelCuboid
 
         }
     }
+
 
 
 
