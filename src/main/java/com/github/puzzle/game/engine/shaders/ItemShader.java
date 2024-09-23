@@ -3,7 +3,7 @@ package com.github.puzzle.game.engine.shaders;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.VertexAttributes;
-import com.github.puzzle.core.Puzzle;
+import com.github.puzzle.game.common.Puzzle;
 import finalforeach.cosmicreach.rendering.shaders.GameShader;
 import finalforeach.cosmicreach.util.Identifier;
 

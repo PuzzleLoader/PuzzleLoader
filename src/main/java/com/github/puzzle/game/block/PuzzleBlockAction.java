@@ -9,7 +9,6 @@ import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.util.Identifier;
 import finalforeach.cosmicreach.world.Zone;
 import org.hjson.JsonObject;
-import com.github.puzzle.core.util.Identifier;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;

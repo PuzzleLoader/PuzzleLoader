@@ -2,11 +2,9 @@ package com.github.puzzle.game.resources;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import finalforeach.cosmicreach.blocks.Block;
 import finalforeach.cosmicreach.io.SaveLocation;
 import finalforeach.cosmicreach.util.Identifier;
 import org.jetbrains.annotations.NotNull;
-import com.github.puzzle.core.util.ResourceLocation;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,8 @@
-package com.github.puzzle.loader.mod;
+package com.github.puzzle.core.loader.util;
 
-import com.github.puzzle.loader.mod.info.ModInfo;
+import com.github.puzzle.core.loader.meta.ModInfo;
+import com.github.puzzle.core.loader.meta.parser.ModJson;
+import com.github.puzzle.core.loader.provider.mod.ModContainer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -17,17 +19,22 @@ import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import static com.github.puzzle.loader.mod.VersionParser.hasDependencyVersion;
+import static com.github.puzzle.core.loader.meta.parser.VersionParser.hasDependencyVersion;
 
 @SuppressWarnings("UrlHashCode")
 public class ModLocator {
     public static Logger LOGGER = LogManager.getLogger("Puzzle | ModLocator");
+    public static File MOD_FOLDER = new File("pmods");
 
     public static Map<String, ModContainer> locatedMods = new HashMap<>();
 
     @SuppressWarnings("unused")
     public static boolean isModLoaded(String modId) {
         return locatedMods.get(modId) != null;
+    }
+
+    public static void setModFolder(File file) {
+        MOD_FOLDER = file;
     }
 
     public static @NotNull Collection<URL> getUrlsOnClasspath() {
@@ -67,7 +74,7 @@ public class ModLocator {
         } else if (file.getName().equals("puzzle.mod.json")) {
             try {
                 String strInfo = new String(new FileInputStream(file).readAllBytes());
-                ModJsonInfo info = ModJsonInfo.fromString(strInfo);
+                ModJson info = ModJson.fromString(strInfo);
                 LOGGER.info("Discovered Dev Mod \"{}\" with ID \"{}\"", info.name(), info.id());
                 if(locatedMods.containsKey(info.id()))
                     throw new RuntimeException("mod id \""+info.id()+"\" already used");
@@ -91,7 +98,7 @@ public class ModLocator {
                         ZipEntry modJson = jar.getEntry("puzzle.mod.json");
                         if (modJson != null) {
                             String strInfo = new String(jar.getInputStream(modJson).readAllBytes());
-                            ModJsonInfo info = ModJsonInfo.fromString(strInfo);
+                            ModJson info = ModJson.fromString(strInfo);
                             LOGGER.info("Discovered Mod \"{}\" with ID \"{}\"", info.name(), info.id());
                             if(locatedMods.containsKey(info.id()))
                                 throw new RuntimeException("mod id \""+info.id()+"\" already used");
@@ -112,10 +119,10 @@ public class ModLocator {
     public static void verifyDependencies() {
         LOGGER.warn("Warning! Only partial semantic versioning support");
         for(var mod : locatedMods.values()){
-            if (mod.INFO.JsonInfo.dependencies() == null) continue;
-            if (mod.INFO.JsonInfo.dependencies().isEmpty()) continue;
+            if (mod.INFO.JSON.dependencies() == null) continue;
+            if (mod.INFO.JSON.dependencies().isEmpty()) continue;
             LOGGER.info("Mod deps for {}", mod.ID);
-            for (Map.Entry<String, String> entry : mod.INFO.JsonInfo.dependencies().entrySet()) {
+            for (Map.Entry<String, String> entry : mod.INFO.JSON.dependencies().entrySet()) {
                 LOGGER.info("\t{}: {}", entry.getKey(), entry.getValue());
                 var modDep = locatedMods.get(entry.getKey());
                 if (modDep == null) {
@@ -130,13 +137,12 @@ public class ModLocator {
     }
 
     public static void crawlModsFolder(Collection<URL> urls) {
-        File modsFolder = new File("pmods");
-        if (!modsFolder.exists()) {
-            if (!modsFolder.mkdir()) LOGGER.warn("{} could not be created, provide access to java", modsFolder);
+        if (!MOD_FOLDER.exists()) {
+            if (!MOD_FOLDER.mkdir()) LOGGER.warn("{} could not be created, provide access to java", MOD_FOLDER);
             return;
         }
 
-        for (File modFile : Objects.requireNonNull(modsFolder.listFiles())) {
+        for (File modFile : Objects.requireNonNull(MOD_FOLDER.listFiles())) {
             try {
                 LOGGER.info("Found Jar/Zip {}", modFile);
                 urls.add(modFile.toURI().toURL());

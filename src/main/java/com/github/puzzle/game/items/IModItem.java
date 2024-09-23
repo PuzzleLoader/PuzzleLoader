@@ -1,7 +1,7 @@
 package com.github.puzzle.game.items;
 
 import com.badlogic.gdx.utils.ObjectMap;
-import com.github.puzzle.core.Puzzle;
+import com.github.puzzle.game.common.Puzzle;
 import com.github.puzzle.game.engine.items.ExperimentalItemModel;
 import com.github.puzzle.game.items.data.DataTag;
 import com.github.puzzle.game.items.data.DataTagManifest;

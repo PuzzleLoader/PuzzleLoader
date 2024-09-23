@@ -1,4 +1,4 @@
-package com.github.puzzle.core;
+package com.github.puzzle.game.common;
 
 import com.github.puzzle.game.commands.CommandManager;
 import com.github.puzzle.game.commands.PuzzleCommandSource;

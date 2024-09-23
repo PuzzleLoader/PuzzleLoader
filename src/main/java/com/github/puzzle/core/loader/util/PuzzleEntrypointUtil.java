@@ -1,6 +1,4 @@
-package com.github.puzzle.util;
-
-import com.github.puzzle.loader.mod.ModLocator;
+package com.github.puzzle.core.loader.util;
 
 import java.util.function.Consumer;
 

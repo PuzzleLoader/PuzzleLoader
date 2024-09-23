@@ -1,4 +1,4 @@
-package com.github.puzzle.core;
+package com.github.puzzle.game;
 
 import com.github.puzzle.core.localization.LanguageRegistry;
 import com.github.puzzle.core.registries.GenericRegistry;
@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.logging.Level;
 
-import static com.github.puzzle.core.Puzzle.MOD_ID;
+import static com.github.puzzle.game.common.Puzzle.MOD_ID;
 
 /**
  * List of all available registries

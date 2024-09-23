@@ -8,7 +8,6 @@ import finalforeach.cosmicreach.items.loot.LootOption;
 import finalforeach.cosmicreach.util.Identifier;
 import finalforeach.cosmicreach.world.Zone;
 import org.jetbrains.annotations.NotNull;
-import com.github.puzzle.core.util.Identifier;
 
 public class PuppetLootClass extends Loot {
     PuzzleLootTable parentTable;

@@ -1,7 +1,8 @@
-package com.github.puzzle.loader.mod;
+package com.github.puzzle.core.loader.provider.mod;
 
-import com.github.puzzle.loader.entrypoint.EntrypointContainer;
-import com.github.puzzle.loader.mod.info.ModInfo;
+import com.github.puzzle.core.loader.meta.ModInfo;
+import com.github.puzzle.core.loader.meta.Version;
+import com.github.puzzle.core.loader.provider.mod.entrypoint.EntrypointContainer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
@@ -14,7 +15,7 @@ public class ModContainer {
     public final String NAME;
     public final String ID;
     public final Version VERSION;
-    public final ZipFile JAR;
+    public final ZipFile ARCHIVE;
 
     public ModContainer(ModInfo info) {
         this(info, null);
@@ -27,7 +28,7 @@ public class ModContainer {
         NAME = info.DisplayName;
         ID = info.ModID;
         VERSION = info.ModVersion;
-        JAR = jar;
+        ARCHIVE = jar;
     }
 
     public <T> void invokeEntrypoint(String key, Class<T> type, Consumer<? super T> invoker) throws Exception {

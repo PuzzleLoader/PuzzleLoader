@@ -6,7 +6,6 @@ import finalforeach.cosmicreach.entities.player.Player;
 import finalforeach.cosmicreach.util.Identifier;
 import finalforeach.cosmicreach.world.Zone;
 import org.jetbrains.annotations.NotNull;
-import com.github.puzzle.core.util.Identifier;
 
 public class PuzzleEntityUtil {
 

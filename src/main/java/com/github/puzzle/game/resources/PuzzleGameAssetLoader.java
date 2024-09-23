@@ -1,11 +1,11 @@
-package com.github.puzzle.core.resources;
+package com.github.puzzle.game.resources;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.files.FileHandle;
+import com.github.puzzle.core.loader.util.AnsiColours;
 import com.github.puzzle.core.localization.files.LanguageFileVersion1;
-import com.github.puzzle.util.AnsiColours;
 import de.pottgames.tuningfork.SoundBuffer;
 import finalforeach.cosmicreach.io.SaveLocation;
 import finalforeach.cosmicreach.util.Identifier;

@@ -1,7 +1,7 @@
 package com.github.puzzle.game;
 
-import com.github.puzzle.core.Puzzle;
 import com.github.puzzle.core.localization.Language;
+import com.github.puzzle.game.common.Puzzle;
 import finalforeach.cosmicreach.rendering.IZoneRenderer;
 import finalforeach.cosmicreach.settings.BooleanSetting;
 import finalforeach.cosmicreach.settings.IntSetting;

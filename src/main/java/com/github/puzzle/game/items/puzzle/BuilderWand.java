@@ -1,7 +1,7 @@
 package com.github.puzzle.game.items.puzzle;
 
 import com.badlogic.gdx.math.Vector3;
-import com.github.puzzle.core.Puzzle;
+import com.github.puzzle.game.common.Puzzle;
 import com.github.puzzle.game.items.IModItem;
 import com.github.puzzle.game.items.data.DataTagManifest;
 import com.github.puzzle.game.worldgen.schematics.Schematic;

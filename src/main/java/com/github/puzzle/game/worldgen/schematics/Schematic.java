@@ -7,7 +7,6 @@ import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.util.Identifier;
 import finalforeach.cosmicreach.world.Chunk;
 import finalforeach.cosmicreach.world.Zone;
-import com.github.puzzle.core.util.Identifier;
 
 import java.io.*;
 import java.util.HashMap;

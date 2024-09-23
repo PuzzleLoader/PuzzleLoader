@@ -20,25 +20,23 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.github.puzzle.core.PuzzleRegistries;
-import com.github.puzzle.core.resources.PuzzleGameAssetLoader;
+import com.github.puzzle.core.loader.meta.ModInfo;
+import com.github.puzzle.core.loader.provider.mod.ModContainer;
+import com.github.puzzle.core.loader.util.ModLocator;
+import com.github.puzzle.game.PuzzleRegistries;
 import com.github.puzzle.game.events.OnRegisterModMenuTable;
+import com.github.puzzle.game.resources.PuzzleGameAssetLoader;
 import com.github.puzzle.game.ui.font.CosmicReachFont;
-import com.github.puzzle.loader.mod.ModContainer;
-import com.github.puzzle.loader.mod.ModLocator;
-import com.github.puzzle.loader.mod.info.ModInfo;
-import finalforeach.cosmicreach.GameAssetLoader;
 import finalforeach.cosmicreach.gamestates.GameState;
 import finalforeach.cosmicreach.gamestates.MainMenu;
 import finalforeach.cosmicreach.gamestates.PauseMenu;
-import finalforeach.cosmicreach.io.SaveLocation;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 
 import java.util.HashMap;
 import java.util.Objects;
 
-import static com.github.puzzle.core.resources.PuzzleGameAssetLoader.LOADER;
+import static com.github.puzzle.game.resources.PuzzleGameAssetLoader.LOADER;
 import static com.github.puzzle.game.ui.font.CosmicReachFont.createCosmicReachFont;
 
 public class ModMenu extends GameState {
@@ -176,9 +174,6 @@ public class ModMenu extends GameState {
     private ClickListener getClickListener(ModContainer mod, Table table) {
         return new ClickListener(){
             public void clicked(InputEvent event, float x, float y){
-                //loadConfigButton(mod);
-
-
                 table.clear();
                 ModInfo info = mod.INFO;
                 ScrollPane bottomBar = customTables.get(mod.ID) == null ? new ScrollPane(getDefaultTable()) : new ScrollPane(customTables.get(mod.ID));

@@ -2,7 +2,7 @@ package com.github.puzzle.game.mixins.refactors.assets;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
-import com.github.puzzle.core.resources.PuzzleGameAssetLoader;
+import com.github.puzzle.game.resources.PuzzleGameAssetLoader;
 import de.pottgames.tuningfork.SoundBuffer;
 import finalforeach.cosmicreach.GameAssetLoader;
 import finalforeach.cosmicreach.GameSingletons;
@@ -38,7 +38,6 @@ public class AssetLoaderMixin {
     @Overwrite
     public static SoundBuffer getSound(String fileName) {
         return GameSingletons.soundManager.loadSound(PuzzleGameAssetLoader.locateAsset(fileName));
-//        return PuzzleGameAssetLoader.LOADER.loadSync(fileName, SoundBuffer.class);
     }
 
     /**
@@ -48,6 +47,5 @@ public class AssetLoaderMixin {
     @Overwrite
     public static Texture getTexture(String fileName) {
         return new Texture(PuzzleGameAssetLoader.locateAsset(fileName));
-//        return PuzzleGameAssetLoader.LOADER.loadSync(fileName, Texture.class);
     }
 }

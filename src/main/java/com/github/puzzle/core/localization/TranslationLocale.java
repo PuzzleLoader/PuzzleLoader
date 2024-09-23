@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Locale;
 import java.util.Objects;
 
-import static com.github.puzzle.core.Puzzle.MOD_ID;
+import static com.github.puzzle.game.common.Puzzle.MOD_ID;
 
 public class TranslationLocale {
 	public static @NotNull TranslationLocale fromLanguageTag(String languageTag) {

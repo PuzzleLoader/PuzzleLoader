@@ -1,9 +1,9 @@
 package com.github.puzzle.game.mixins.refactors.loot;
 
 import com.badlogic.gdx.utils.ObjectMap;
-import com.github.puzzle.core.PuzzleRegistries;
 import com.github.puzzle.core.registries.RegistryObject;
 import com.github.puzzle.core.registries.exception.NotReadableException;
+import com.github.puzzle.game.PuzzleRegistries;
 import com.github.puzzle.game.loot.PuppetLootClass;
 import com.github.puzzle.game.loot.PuzzleLootTable;
 import com.llamalad7.mixinextras.lib.apache.commons.tuple.Pair;

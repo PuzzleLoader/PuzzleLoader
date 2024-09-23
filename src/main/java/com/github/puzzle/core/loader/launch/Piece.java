@@ -53,7 +53,7 @@ public class Piece {
             OptionSpec<String> provider_option = parser.accepts("gameProvider").withOptionalArg().ofType(String.class);
             OptionSpec<String> modFolder_option = parser.accepts("modFolder").withOptionalArg().ofType(String.class);
 
-            ModLocator.setModFolder(new File(modFolder_option.value(options)));
+            if (options.has(modFolder_option)) ModLocator.setModFolder(new File(modFolder_option.value(options)));
             classLoader.addClassLoaderExclusion(DEFAULT_PROVIDER.substring(0, DEFAULT_PROVIDER.lastIndexOf('.')));
             classLoader.addClassLoaderExclusion("com.github.puzzle.core.loader.launch");
             classLoader.addClassLoaderExclusion("com.github.puzzle.game.common.excluded.");

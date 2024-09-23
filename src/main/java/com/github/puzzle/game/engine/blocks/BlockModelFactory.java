@@ -1,9 +1,9 @@
 package com.github.puzzle.game.engine.blocks;
 
 import com.badlogic.gdx.utils.Json;
-import com.github.puzzle.core.resources.PuzzleGameAssetLoader;
-import com.github.puzzle.core.resources.VanillaAssetLocations;
 import com.github.puzzle.game.engine.blocks.models.PuzzleBlockModel;
+import com.github.puzzle.game.resources.PuzzleGameAssetLoader;
+import com.github.puzzle.game.resources.VanillaAssetLocations;
 import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.rendering.blockmodels.BlockModel;
 import finalforeach.cosmicreach.rendering.blockmodels.IBlockModelInstantiator;

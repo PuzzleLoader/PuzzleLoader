@@ -1,7 +1,7 @@
 package com.github.puzzle.game.mixins.bugfixes;
 
 import com.badlogic.gdx.files.FileHandle;
-import com.github.puzzle.core.resources.PuzzleGameAssetLoader;
+import com.github.puzzle.game.resources.PuzzleGameAssetLoader;
 import finalforeach.cosmicreach.blocks.BlockStateGenerator;
 import finalforeach.cosmicreach.util.Identifier;
 import org.spongepowered.asm.mixin.Mixin;

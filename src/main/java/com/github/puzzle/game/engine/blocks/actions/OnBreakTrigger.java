@@ -1,6 +1,6 @@
 package com.github.puzzle.game.engine.blocks.actions;
 
-import com.github.puzzle.core.PuzzleRegistries;
+import com.github.puzzle.game.PuzzleRegistries;
 import com.github.puzzle.game.block.IModBlock;
 import finalforeach.cosmicreach.blockevents.BlockEventTrigger;
 import finalforeach.cosmicreach.blockevents.actions.ActionId;
