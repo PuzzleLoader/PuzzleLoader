@@ -1,5 +1,13 @@
 package com.github.puzzle.game.items.puzzle;
 
+import com.github.puzzle.core.Puzzle;
+import com.github.puzzle.game.items.IModItem;
+import com.github.puzzle.game.items.ITickingItem;
+import com.github.puzzle.game.items.data.DataTag;
+import com.github.puzzle.game.items.data.DataTagManifest;
+import com.github.puzzle.game.items.data.attributes.IntDataAttribute;
+import com.github.puzzle.game.items.data.attributes.ListDataAttribute;
+import com.github.puzzle.game.util.DataTagUtil;
 import finalforeach.cosmicreach.BlockSelection;
 import finalforeach.cosmicreach.blocks.BlockPosition;
 import finalforeach.cosmicreach.blocks.BlockState;
@@ -8,21 +16,12 @@ import finalforeach.cosmicreach.entities.player.Player;
 import finalforeach.cosmicreach.items.ItemSlot;
 import finalforeach.cosmicreach.items.ItemStack;
 import finalforeach.cosmicreach.rendering.items.ItemRenderer;
+import finalforeach.cosmicreach.util.Identifier;
 import finalforeach.cosmicreach.world.Zone;
-import com.github.puzzle.core.util.Identifier;
-import com.github.puzzle.core.util.ResourceLocation;
-import com.github.puzzle.game.common.Puzzle;
-import com.github.puzzle.game.items.IModItem;
-import com.github.puzzle.game.items.ITickingItem;
-import com.github.puzzle.game.items.data.DataTag;
-import com.github.puzzle.game.items.data.DataTagManifest;
-import com.github.puzzle.game.items.data.attributes.IntDataAttribute;
-import com.github.puzzle.game.items.data.attributes.ListDataAttribute;
-import com.github.puzzle.game.util.DataTagUtil;
 
 public class NullStick implements IModItem, ITickingItem {
 
-    Identifier id = new Identifier(Puzzle.MOD_ID, "null_stick");
+    Identifier id = Identifier.of(Puzzle.MOD_ID, "null_stick");
     DataTagManifest tagManifest = new DataTagManifest();
 
     int texture_count = 0;
@@ -32,28 +31,28 @@ public class NullStick implements IModItem, ITickingItem {
 
         addTexture(
             IModItem.MODEL_2_5D_ITEM,
-            new ResourceLocation(Puzzle.MOD_ID, "textures/items/null_stick.png"),
-            new ResourceLocation("base", "textures/items/axe_stone.png"),
-            new ResourceLocation("base", "textures/items/pickaxe_stone.png"),
-            new ResourceLocation("base", "textures/items/shovel_stone.png"),
-            new ResourceLocation("base", "textures/items/medkit.png"),
-            new ResourceLocation(Puzzle.MOD_ID, "textures/items/block_wrench.png"),
-            new ResourceLocation(Puzzle.MOD_ID, "textures/items/checker_board.png"),
-            new ResourceLocation(Puzzle.MOD_ID, "textures/items/checker_board1.png"),
-            new ResourceLocation(Puzzle.MOD_ID, "textures/items/checker_board2.png")
+            Identifier.of(Puzzle.MOD_ID, "null_stick.png"),
+            Identifier.of("base", "axe_stone.png"),
+            Identifier.of("base", "pickaxe_stone.png"),
+            Identifier.of("base", "shovel_stone.png"),
+            Identifier.of("base", "medkit.png"),
+            Identifier.of(Puzzle.MOD_ID, "block_wrench.png"),
+            Identifier.of(Puzzle.MOD_ID, "checker_board.png"),
+            Identifier.of(Puzzle.MOD_ID, "checker_board1.png"),
+            Identifier.of(Puzzle.MOD_ID, "checker_board2.png")
         );
 
         addTexture(
                 IModItem.MODEL_2D_ITEM,
-                new ResourceLocation(Puzzle.MOD_ID, "textures/items/null_stick.png"),
-                new ResourceLocation("base", "textures/items/axe_stone.png"),
-                new ResourceLocation("base", "textures/items/pickaxe_stone.png"),
-                new ResourceLocation("base", "textures/items/shovel_stone.png"),
-                new ResourceLocation("base", "textures/items/medkit.png"),
-                new ResourceLocation(Puzzle.MOD_ID, "textures/items/block_wrench.png"),
-                new ResourceLocation(Puzzle.MOD_ID, "textures/items/checker_board.png"),
-                new ResourceLocation(Puzzle.MOD_ID, "textures/items/checker_board1.png"),
-                new ResourceLocation(Puzzle.MOD_ID, "textures/items/checker_board2.png")
+                Identifier.of(Puzzle.MOD_ID, "null_stick.png"),
+                Identifier.of("base", "axe_stone.png"),
+                Identifier.of("base", "pickaxe_stone.png"),
+                Identifier.of("base", "shovel_stone.png"),
+                Identifier.of("base", "medkit.png"),
+                Identifier.of(Puzzle.MOD_ID, "block_wrench.png"),
+                Identifier.of(Puzzle.MOD_ID, "checker_board.png"),
+                Identifier.of(Puzzle.MOD_ID, "checker_board1.png"),
+                Identifier.of(Puzzle.MOD_ID, "checker_board2.png")
         );
 
         texture_count = ((ListDataAttribute) getTagManifest().getTag("textures").attribute).getValue().size() - 1;
@@ -132,4 +131,8 @@ public class NullStick implements IModItem, ITickingItem {
         DataTagUtil.setManifestOnStack(manifest, stack);
     }
 
+    @Override
+    public String getName() {
+        return "Null Stick";
+    }
 }

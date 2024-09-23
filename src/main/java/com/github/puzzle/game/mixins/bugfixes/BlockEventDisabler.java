@@ -15,7 +15,7 @@ public class BlockEventDisabler {
 
     @Shadow @Final public static HashMap<String, BlockEvents> INSTANCES;
 
-    @Inject(method = "initBlockEvents", at = @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/blockevents/BlockEvents;getInstance(Ljava/lang/String;)Lfinalforeach/cosmicreach/blockevents/BlockEvents;", shift = At.Shift.AFTER), cancellable = true)
+    @Inject(method = "initBlockEvents", at = @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/GameAssetLoader;forEachAsset(Ljava/lang/String;Ljava/lang/String;Ljava/util/function/BiConsumer;)V", shift = At.Shift.AFTER), cancellable = true)
     private static void initBlockEvents(CallbackInfo ci) {
         ci.cancel();
     }

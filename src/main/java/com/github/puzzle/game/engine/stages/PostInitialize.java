@@ -19,6 +19,7 @@ public class PostInitialize extends LoadStage {
     @Override
     public void doStage() {
         super.doStage();
+
         try {
             ModLocator.locatedMods.get(Puzzle.MOD_ID).invokeEntrypoint(PostModInitializer.ENTRYPOINT_KEY, PostModInitializer.class, PostModInitializer::onPostInit);
         } catch (Exception e) {

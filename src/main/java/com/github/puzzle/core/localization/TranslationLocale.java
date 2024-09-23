@@ -1,12 +1,12 @@
 package com.github.puzzle.core.localization;
 
+import finalforeach.cosmicreach.util.Identifier;
 import org.jetbrains.annotations.NotNull;
-import com.github.puzzle.core.util.Identifier;
 
 import java.util.Locale;
 import java.util.Objects;
 
-import static com.github.puzzle.game.common.Puzzle.MOD_ID;
+import static com.github.puzzle.core.Puzzle.MOD_ID;
 
 public class TranslationLocale {
 	public static @NotNull TranslationLocale fromLanguageTag(String languageTag) {
@@ -32,7 +32,7 @@ public class TranslationLocale {
 	}
 
 	public Identifier toIdentifier() {
-		return new Identifier(MOD_ID, toLanguageTag());
+		return Identifier.of(MOD_ID, toLanguageTag());
 	}
 
 	public String getDisplayName() {

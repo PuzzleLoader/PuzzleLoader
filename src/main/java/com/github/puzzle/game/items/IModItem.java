@@ -1,6 +1,15 @@
 package com.github.puzzle.game.items;
 
 import com.badlogic.gdx.utils.ObjectMap;
+import com.github.puzzle.core.Puzzle;
+import com.github.puzzle.game.engine.items.ExperimentalItemModel;
+import com.github.puzzle.game.items.data.DataTag;
+import com.github.puzzle.game.items.data.DataTagManifest;
+import com.github.puzzle.game.items.data.DataTagPreset;
+import com.github.puzzle.game.items.data.attributes.*;
+import com.github.puzzle.game.mixins.accessors.ItemRenderAccessor;
+import com.github.puzzle.game.util.DataTagUtil;
+import com.github.puzzle.game.util.Reflection;
 import finalforeach.cosmicreach.blockentities.BlockEntityFurnace;
 import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.entities.player.Player;
@@ -9,18 +18,7 @@ import finalforeach.cosmicreach.items.ItemSlot;
 import finalforeach.cosmicreach.items.ItemStack;
 import finalforeach.cosmicreach.rendering.items.ItemModel;
 import finalforeach.cosmicreach.rendering.items.ItemRenderer;
-import com.github.puzzle.core.util.Identifier;
-import com.github.puzzle.core.util.ResourceLocation;
-import com.github.puzzle.game.common.Puzzle;
-import com.github.puzzle.game.engine.items.ExperimentalItemModel;
-import com.github.puzzle.game.engine.items.model.IPuzzleItemModel;
-import com.github.puzzle.game.items.data.DataTag;
-import com.github.puzzle.game.items.data.DataTagManifest;
-import com.github.puzzle.game.items.data.DataTagPreset;
-import com.github.puzzle.game.items.data.attributes.*;
-import com.github.puzzle.game.mixins.accessors.ItemRenderAccessor;
-import com.github.puzzle.game.util.DataTagUtil;
-import com.github.puzzle.game.util.Reflection;
+import finalforeach.cosmicreach.util.Identifier;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -39,7 +37,7 @@ public interface IModItem extends Item {
 
     /**
      * A simple method to register your item with the vanilla game for rendering and referencing.
-     * @see IPuzzleItemModel
+     * @see com.github.puzzle.game.engine.items.model.IPuzzleItemModel
      * @see Item#allItems
      * @see finalforeach.cosmicreach.rendering.items.ItemRenderer#registerItemModelCreator
      */
@@ -57,36 +55,36 @@ public interface IModItem extends Item {
     }
 
     DataTagPreset<Identifier> MODEL_ID_PRESET = new DataTagPreset<>("model_id", new IdentifierDataAttribute(Identifier.of(Puzzle.MOD_ID, "2d_item_model")));
-    Identifier MODEL_2D_ITEM = new Identifier(Puzzle.MOD_ID, "2d_item_model");
-    Identifier MODEL_2_5D_ITEM = new Identifier(Puzzle.MOD_ID, "2.5d_item_model");
+    Identifier MODEL_2D_ITEM = Identifier.of(Puzzle.MOD_ID, "2d_item_model");
+    Identifier MODEL_2_5D_ITEM = Identifier.of(Puzzle.MOD_ID, "2.5d_item_model");
 
-    DataTagPreset<ResourceLocation> TEXTURE_LOCATION_PRESET = new DataTagPreset<>("texture_resource_location", new ResourceLocationDataAttribute(new ResourceLocation(Puzzle.MOD_ID, "textures/items/null_stick.png")));
+    DataTagPreset<Identifier> TEXTURE_LOCATION_PRESET = new DataTagPreset<>("texture_resource_location", new IdentifierDataAttribute(Identifier.of(Puzzle.MOD_ID, "textures/items/null_stick.png")));
 
     DataTagPreset<Boolean> IS_DEBUG_ATTRIBUTE = new DataTagPreset<>("is_item_debug", new BooleanDataAttribute(false));
 
-    default void addTexture(Identifier model, ResourceLocation texture) {
+    default void addTexture(Identifier model, Identifier texture) {
         if (getTagManifest().hasTag("textures")) {
-            ListDataAttribute<PairAttribute<IdentifierDataAttribute, ResourceLocationDataAttribute>> textures = (ListDataAttribute) getTagManifest().getTag("textures").attribute;
-            List<PairAttribute<IdentifierDataAttribute, ResourceLocationDataAttribute>> attributes = textures.getValue();
-            attributes.add(new PairAttribute<>(new IdentifierDataAttribute(model), new ResourceLocationDataAttribute(texture)));
+            ListDataAttribute<PairAttribute<IdentifierDataAttribute, IdentifierDataAttribute>> textures = (ListDataAttribute) getTagManifest().getTag("textures").attribute;
+            List<PairAttribute<IdentifierDataAttribute, IdentifierDataAttribute>> attributes = textures.getValue();
+            attributes.add(new PairAttribute<>(new IdentifierDataAttribute(model), new IdentifierDataAttribute(texture)));
             textures.setValue(attributes);
             getTagManifest().addTag(new DataTag<>("textures", textures));
         } else {
-            List<PairAttribute<IdentifierDataAttribute, ResourceLocationDataAttribute>> attributes = new ArrayList<>();
-            attributes.add(new PairAttribute<>(new IdentifierDataAttribute(model), new ResourceLocationDataAttribute(texture)));
+            List<PairAttribute<IdentifierDataAttribute, IdentifierDataAttribute>> attributes = new ArrayList<>();
+            attributes.add(new PairAttribute<>(new IdentifierDataAttribute(model), new IdentifierDataAttribute(texture)));
             getTagManifest().addTag(new DataTag<>("textures", new ListDataAttribute<>(attributes)));
         }
     }
 
-    default void addTexture(Identifier model, ResourceLocation... textures) {
-        for (ResourceLocation location : textures) {
+    default void addTexture(Identifier model, Identifier... textures) {
+        for (Identifier location : textures) {
             addTexture(model, location);
         }
     }
 
-    default List<PairAttribute<IdentifierDataAttribute, ResourceLocationDataAttribute>> getTextures() {
+    default List<PairAttribute<IdentifierDataAttribute, IdentifierDataAttribute>> getTextures() {
         if (getTagManifest().hasTag("textures")) {
-            ListDataAttribute<PairAttribute<IdentifierDataAttribute, ResourceLocationDataAttribute>> textures = (ListDataAttribute) getTagManifest().getTag("textures").attribute;
+            ListDataAttribute<PairAttribute<IdentifierDataAttribute, IdentifierDataAttribute>> textures = (ListDataAttribute) getTagManifest().getTag("textures").attribute;
             return textures.getValue();
         }
         return new ArrayList<>();
@@ -218,7 +216,7 @@ public interface IModItem extends Item {
 
     /**
      * This bool changes how the item is held in the "hand".
-     * @see IPuzzleItemModel
+     * @see com.github.puzzle.game.engine.items.model.IPuzzleItemModel
      */
     default boolean isTool() {
         return false;
@@ -227,7 +225,7 @@ public interface IModItem extends Item {
     /**
      * This related to custom data that you can attach to your item.
      * @see DataTag
-     * @see DataTag.DataTagAttribute
+     * @see com.github.puzzle.game.items.data.DataTag.DataTagAttribute
      */
     default DataTagManifest getTagManifest() {
         return new DataTagManifest();

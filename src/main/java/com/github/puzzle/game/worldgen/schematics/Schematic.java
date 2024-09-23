@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import finalforeach.cosmicreach.blocks.BlockPosition;
 import finalforeach.cosmicreach.blocks.BlockState;
+import finalforeach.cosmicreach.util.Identifier;
 import finalforeach.cosmicreach.world.Chunk;
 import finalforeach.cosmicreach.world.Zone;
 import com.github.puzzle.core.util.Identifier;
@@ -149,7 +150,7 @@ public class Schematic {
         File schematicFile = new File(path);
         DataInputStream stream = new DataInputStream(new FileInputStream(schematicFile));
         Schematic loadedSchematic = Schematic.read(stream);
-        Identifier identifier = new Identifier("Player", schematicFile.getName());
+        Identifier identifier = Identifier.of("Player", schematicFile.getName());
 
         if(schematic.get(identifier.toString()) != null) {
             schematic.replace(identifier.toString(), loadedSchematic);

@@ -4,6 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
+import com.github.puzzle.core.resources.PuzzleGameAssetLoader;
+import com.github.puzzle.game.engine.items.model.IPuzzleItemModel;
+import com.github.puzzle.game.engine.shaders.ItemShader;
+import com.github.puzzle.game.items.IModItem;
+import com.github.puzzle.game.items.data.DataTagManifest;
+import com.github.puzzle.game.items.data.attributes.IdentifierDataAttribute;
+import com.github.puzzle.game.items.data.attributes.PairAttribute;
+import com.github.puzzle.game.util.DataTagUtil;
 import com.llamalad7.mixinextras.lib.apache.commons.tuple.ImmutablePair;
 import com.llamalad7.mixinextras.lib.apache.commons.tuple.Pair;
 import finalforeach.cosmicreach.blocks.BlockPosition;
@@ -15,19 +23,9 @@ import finalforeach.cosmicreach.rendering.MeshData;
 import finalforeach.cosmicreach.rendering.RenderOrder;
 import finalforeach.cosmicreach.rendering.shaders.GameShader;
 import finalforeach.cosmicreach.ui.UI;
+import finalforeach.cosmicreach.util.Identifier;
 import finalforeach.cosmicreach.world.Sky;
 import finalforeach.cosmicreach.world.Zone;
-import com.github.puzzle.core.util.Identifier;
-import com.github.puzzle.core.util.ResourceLocation;
-import com.github.puzzle.game.engine.items.model.IPuzzleItemModel;
-import com.github.puzzle.game.engine.shaders.ItemShader;
-import com.github.puzzle.game.items.IModItem;
-import com.github.puzzle.game.items.data.DataTagManifest;
-import com.github.puzzle.game.items.data.attributes.IdentifierDataAttribute;
-import com.github.puzzle.game.items.data.attributes.PairAttribute;
-import com.github.puzzle.game.items.data.attributes.ResourceLocationDataAttribute;
-import com.github.puzzle.game.resources.PuzzleGameAssetLoader;
-import com.github.puzzle.game.util.DataTagUtil;
 
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
@@ -63,7 +61,8 @@ public class ExperimentalItemModel implements IPuzzleItemModel {
 
         boolean isOld = false;
         if (manifest.hasTag(IModItem.TEXTURE_LOCATION_PRESET) && manifest.hasTag(IModItem.MODEL_ID_PRESET)) {
-            ResourceLocation location = manifest.getTag(IModItem.TEXTURE_LOCATION_PRESET).getValue();
+            Identifier location = manifest.getTag(IModItem.TEXTURE_LOCATION_PRESET).getValue();
+            location = location.getName().startsWith("textures/items/") ? location : Identifier.of(location.getNamespace(), "textures/items/" + location.getName());
             Identifier modelId = manifest.getTag(IModItem.MODEL_ID_PRESET).getValue();
 
 
@@ -92,9 +91,10 @@ public class ExperimentalItemModel implements IPuzzleItemModel {
         }
 
         int index = isOld ? 1 : 0;
-        for (PairAttribute<IdentifierDataAttribute, ResourceLocationDataAttribute> pairAttribute : item.getTextures()) {
-            Pair<IdentifierDataAttribute, ResourceLocationDataAttribute> pair = pairAttribute.getValue();
-            ResourceLocation location = pair.getRight().getValue();
+        for (PairAttribute<IdentifierDataAttribute, IdentifierDataAttribute> pairAttribute : item.getTextures()) {
+            Pair<IdentifierDataAttribute, IdentifierDataAttribute> pair = pairAttribute.getValue();
+            Identifier location = pair.getRight().getValue();
+            location = location.getName().startsWith("textures/items/") ? location : Identifier.of(location.getNamespace(), "textures/items/" + location.getName());
             Identifier modelId = pair.getLeft().getValue();
 
             if (!ITEM_MESH_CACHE.containsKey(item.getID() + "_" + location + "_" + modelId + "_model")){

@@ -1,8 +1,14 @@
 package com.github.puzzle.game.mixins.refactors.loot;
 
 import com.badlogic.gdx.utils.ObjectMap;
+import com.github.puzzle.core.PuzzleRegistries;
+import com.github.puzzle.core.registries.RegistryObject;
+import com.github.puzzle.core.registries.exception.NotReadableException;
+import com.github.puzzle.game.loot.PuppetLootClass;
+import com.github.puzzle.game.loot.PuzzleLootTable;
 import com.llamalad7.mixinextras.lib.apache.commons.tuple.Pair;
 import finalforeach.cosmicreach.items.loot.Loot;
+import finalforeach.cosmicreach.util.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
@@ -10,12 +16,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import com.github.puzzle.core.registries.RegistryObject;
-import com.github.puzzle.core.registries.exception.NotReadableException;
-import com.github.puzzle.core.util.Identifier;
-import com.github.puzzle.game.PuzzleRegistries;
-import com.github.puzzle.game.loot.PuppetLootClass;
-import com.github.puzzle.game.loot.PuzzleLootTable;
 
 @Mixin(Loot.class)
 public class LootTableMixin {
@@ -38,7 +38,7 @@ public class LootTableMixin {
     @Overwrite
     public static Loot get(String lootId) {
         try {
-            Identifier id = Identifier.fromString(lootId);
+            Identifier id = Identifier.of(lootId);
             RegistryObject<PuzzleLootTable> table = new RegistryObject<>(PuzzleRegistries.LOOT_TABLES, id);
             return new PuppetLootClass(id, table.get());
         } catch (NotReadableException e) {

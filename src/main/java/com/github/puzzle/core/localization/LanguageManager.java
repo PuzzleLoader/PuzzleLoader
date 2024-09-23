@@ -4,24 +4,23 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
+import com.github.puzzle.core.PuzzleRegistries;
+import com.github.puzzle.core.localization.files.MergedLanguageFile;
+import com.github.puzzle.game.ui.font.TranslationParameters;
 import finalforeach.cosmicreach.lang.Lang;
 import finalforeach.cosmicreach.settings.Preferences;
+import finalforeach.cosmicreach.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.github.puzzle.core.localization.files.MergedLanguageFile;
-import com.github.puzzle.core.util.Identifier;
-import com.github.puzzle.game.PuzzleRegistries;
-import com.github.puzzle.game.ui.font.TranslationParameters;
 
 import java.util.List;
 
-import static com.github.puzzle.game.common.Puzzle.MOD_ID;
+import static com.github.puzzle.core.PuzzleRegistries.LANGUAGES;
 
 public class LanguageManager {
 	private static final Logger LOGGER = LoggerFactory.getLogger("Language Manager");
 	public static TranslationEntry UNDEFINED = new TranslationEntry();
-	public static final LanguageRegistry LANGUAGES = new LanguageRegistry(Identifier.of(MOD_ID, "languages"));
 	private static Language selectedLanguage;
 
 	public static boolean hasLanguageInstalled(@NotNull TranslationLocale locale) {
@@ -40,17 +39,17 @@ public class LanguageManager {
 		TranslationLocale locale = lang.locale();
 		Identifier localeIdentifier = locale.toIdentifier();
 
-		if (LANGUAGES.contains(localeIdentifier))
-			if (LANGUAGES.get(localeIdentifier).file() instanceof MergedLanguageFile merged) {
+		if (PuzzleRegistries.LANGUAGES.contains(localeIdentifier))
+			if (PuzzleRegistries.LANGUAGES.get(localeIdentifier).file() instanceof MergedLanguageFile merged) {
 				merged.addLanguageFile(lang);
 			} else {
 				MergedLanguageFile merged = new MergedLanguageFile(locale);
 				merged.addLanguageFile(lang);
-				LANGUAGES.register(merged);
+				PuzzleRegistries.LANGUAGES.register(merged);
 			}
 
-		if (!LANGUAGES.contains(localeIdentifier)) {
-			LANGUAGES.register(lang);
+		if (!PuzzleRegistries.LANGUAGES.contains(localeIdentifier)) {
+			PuzzleRegistries.LANGUAGES.register(lang);
 		}
 	}
 
@@ -72,7 +71,7 @@ public class LanguageManager {
 	}
 
 	public static void selectLanguage(@NotNull TranslationLocale locale) {
-		if (locale.toIdentifier().name.equals("und")) {
+		if (locale.toIdentifier().getName().equals("und")) {
 			LOGGER.error("Language not found {}", locale);
 			return;
 		}

@@ -3,6 +3,7 @@ package com.github.puzzle.game.util;
 import com.badlogic.gdx.utils.Array;
 import finalforeach.cosmicreach.entities.Entity;
 import finalforeach.cosmicreach.entities.player.Player;
+import finalforeach.cosmicreach.util.Identifier;
 import finalforeach.cosmicreach.world.Zone;
 import org.jetbrains.annotations.NotNull;
 import com.github.puzzle.core.util.Identifier;

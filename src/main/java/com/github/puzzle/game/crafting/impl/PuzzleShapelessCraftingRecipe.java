@@ -1,15 +1,15 @@
 package com.github.puzzle.game.crafting.impl;
 
-import finalforeach.cosmicreach.items.Item;
-import finalforeach.cosmicreach.items.ItemStack;
-import org.hjson.JsonObject;
-import org.hjson.JsonValue;
-import org.jetbrains.annotations.Nullable;
-import com.github.puzzle.core.util.Identifier;
 import com.github.puzzle.game.crafting.IPuzzleCraftingRecipe;
 import com.github.puzzle.game.crafting.IRecipeSerializer;
 import com.github.puzzle.game.crafting.RecipeInput;
 import com.github.puzzle.game.oredict.tags.Tag;
+import finalforeach.cosmicreach.items.Item;
+import finalforeach.cosmicreach.items.ItemStack;
+import finalforeach.cosmicreach.util.Identifier;
+import org.hjson.JsonObject;
+import org.hjson.JsonValue;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,7 +18,7 @@ import java.util.Map;
 
 public class PuzzleShapelessCraftingRecipe implements IPuzzleCraftingRecipe {
 
-    Identifier recipeType = new Identifier("base", "shaped_crafting");
+    Identifier recipeType = Identifier.of("base", "shaped_crafting");
 
     RecipeInput[] inputs;
     ItemStack result;
@@ -96,7 +96,7 @@ public class PuzzleShapelessCraftingRecipe implements IPuzzleCraftingRecipe {
         @Override
         public PuzzleShapelessCraftingRecipe readRecipe(JsonObject object) {
             PuzzleShapelessCraftingRecipe recipe = new PuzzleShapelessCraftingRecipe();
-            recipe.recipeType = Identifier.fromString(object.getString("type", "base:invalid_recipe"));
+            recipe.recipeType = Identifier.of(object.getString("type", "base:invalid_recipe"));
 
             List<RecipeInput> recipeInputs = new ArrayList<>();
             for (JsonValue ingredient : object.get("ingredients").asArray()) {

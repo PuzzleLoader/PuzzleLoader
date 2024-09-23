@@ -6,6 +6,7 @@ import finalforeach.cosmicreach.blockevents.BlockEventTrigger;
 import finalforeach.cosmicreach.blockevents.actions.IBlockAction;
 import finalforeach.cosmicreach.blocks.BlockPosition;
 import finalforeach.cosmicreach.blocks.BlockState;
+import finalforeach.cosmicreach.util.Identifier;
 import finalforeach.cosmicreach.world.Zone;
 import org.hjson.JsonObject;
 import com.github.puzzle.core.util.Identifier;
@@ -34,7 +35,7 @@ public abstract class PuzzleBlockAction implements IBlockAction {
     public void read(Json json, JsonValue jsonData) {
         // Fuck GdxJson
         JsonObject object = JsonObject.readHjson(jsonData.toString()).asObject();
-        actionId = Identifier.fromString(object.getString("actionId", ""));
+        actionId = Identifier.of(object.getString("actionId", ""));
 
         JsonObject params = object.get("parameters").asObject();
         for (String name : params.names()) {

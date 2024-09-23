@@ -5,20 +5,12 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
-import finalforeach.cosmicreach.blockentities.BlockEntityCreator;
-import finalforeach.cosmicreach.blockevents.BlockEvents;
-import finalforeach.cosmicreach.io.SaveLocation;
-import finalforeach.cosmicreach.items.ItemThing;
-import finalforeach.cosmicreach.items.loot.Loot;
-import finalforeach.cosmicreach.items.recipes.CraftingRecipes;
-import org.greenrobot.eventbus.Subscribe;
-import com.github.puzzle.core.loader.util.ModLocator;
+import com.github.puzzle.core.PuzzleRegistries;
 import com.github.puzzle.core.localization.LanguageManager;
 import com.github.puzzle.core.localization.TranslationKey;
-import com.github.puzzle.core.util.Identifier;
-import com.github.puzzle.core.util.ResourceLocation;
+import com.github.puzzle.core.resources.PuzzleGameAssetLoader;
+import com.github.puzzle.core.resources.VanillaAssetLocations;
 import com.github.puzzle.game.Globals;
-import com.github.puzzle.game.PuzzleRegistries;
 import com.github.puzzle.game.block.DataModBlock;
 import com.github.puzzle.game.block.IModBlock;
 import com.github.puzzle.game.engine.GameLoader;
@@ -29,8 +21,17 @@ import com.github.puzzle.game.engine.blocks.actions.OnInteractTrigger;
 import com.github.puzzle.game.engine.blocks.actions.OnPlaceTrigger;
 import com.github.puzzle.game.events.OnRegisterBlockEvent;
 import com.github.puzzle.game.factories.IFactory;
-import com.github.puzzle.game.resources.VanillaAssetLocations;
 import com.github.puzzle.game.util.Reflection;
+import com.github.puzzle.loader.mod.ModLocator;
+import finalforeach.cosmicreach.GameAssetLoader;
+import finalforeach.cosmicreach.blockentities.BlockEntityCreator;
+import finalforeach.cosmicreach.blockevents.BlockEvents;
+import finalforeach.cosmicreach.io.SaveLocation;
+import finalforeach.cosmicreach.items.ItemThing;
+import finalforeach.cosmicreach.items.loot.Loot;
+import finalforeach.cosmicreach.items.recipes.CraftingRecipes;
+import finalforeach.cosmicreach.util.Identifier;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,18 +49,15 @@ public class LoadingCosmicReach extends LoadStage {
 
     @Subscribe
     public void onEvent(OnRegisterBlockEvent event) {
-        List<String> blockNames = new ArrayList<>();
-        for(ResourceLocation internal : VanillaAssetLocations.getInternalFiles("blocks/", ".json")) {
-            blockNames.add(internal.name.replace("blocks/", "").replace(".json", ""));
-        }
+        List<Identifier> blockNames = new ArrayList<>(VanillaAssetLocations.getInternalFiles("blocks/", ".json"));
         if(Globals.EnabledVanillaMods.getValue()) {
-            for(ResourceLocation internal : VanillaAssetLocations.getVanillaModFiles("blocks/", ".json")) {
-                blockNames.add(internal.name.replace("blocks/", "").replace(".json", ""));
+            for (String space : GameAssetLoader.getAllNamespaces()) {
+                blockNames.addAll(VanillaAssetLocations.getVanillaModFiles(space, "blocks/", ".json"));
             }
         }
 
-        for(String blockName : blockNames) {
-            event.registerBlock(() -> new DataModBlock(blockName));
+        for(Identifier id : blockNames) {
+            event.registerBlock(() -> new DataModBlock(id));
         }
     }
 
@@ -94,11 +92,11 @@ public class LoadingCosmicReach extends LoadStage {
         super.doStage();
 
         // Load Block Event Actions
-//        BlockEvents.initBlockEvents();
+        BlockEvents.initBlockEvents();
 
         List<FileHandle> BlockEventLocations = new ArrayList<>();
-        for (ResourceLocation location : VanillaAssetLocations.getInternalFiles("block_events", ".json")) {
-            BlockEventLocations.add(location.locate());
+        for (Identifier location : VanillaAssetLocations.getInternalFiles("block_events", ".json")) {
+            BlockEventLocations.add(PuzzleGameAssetLoader.locateAsset(location));
         }
         BlockEventLocations.removeIf(handle -> handle.path().contains("example"));
         BlockEventLocations.addAll(List.of(Gdx.files.absolute(SaveLocation.getSaveFolderLocation() + "/mods/assets/block_events").list()));
@@ -145,7 +143,7 @@ public class LoadingCosmicReach extends LoadStage {
                 Identifier blockId = loader.blockLoader.loadBlock(block);
                 PuzzleRegistries.BLOCKS.store(blockId, block);
             } catch (BlockLoadException e) {
-                ModLocator.LOGGER.error("Cannot load block: \"{}\"", e.blockName, e);
+                ModLocator.LOGGER.error("Cannot load block: \"{}\"", e.blockId, e);
                 loader.blockLoader.errors.add(e);
             }
             progress++;

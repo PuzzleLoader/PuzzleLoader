@@ -1,6 +1,6 @@
 package com.github.puzzle.core.registries;
 
-import com.github.puzzle.core.util.Identifier;
+import finalforeach.cosmicreach.util.Identifier;
 
 import java.util.LinkedHashMap;
 

@@ -4,7 +4,7 @@ import com.github.puzzle.core.registries.exception.AlreadyFrozenException;
 import com.github.puzzle.core.registries.exception.MissingEntryException;
 import com.github.puzzle.core.registries.exception.NotReadableException;
 import com.github.puzzle.core.registries.exception.NotWritableException;
-import com.github.puzzle.core.util.Identifier;
+import finalforeach.cosmicreach.util.Identifier;
 
 import java.util.Set;
 

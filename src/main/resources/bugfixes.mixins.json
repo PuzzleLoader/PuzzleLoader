@@ -10,7 +10,8 @@
     "BlockStateGeneratorMixin",
     "ItemMixin",
     "ItemPickBlock",
-    "NullPlayer"
+    "NullPlayer",
+    "Point3DMapRewrite"
   ],
   "client": [],
   "server": [],

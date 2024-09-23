@@ -1,9 +1,9 @@
 package com.github.puzzle.game.items.data.attributes;
 
+import com.github.puzzle.game.items.data.DataTag;
 import finalforeach.cosmicreach.io.CRBinDeserializer;
 import finalforeach.cosmicreach.io.CRBinSerializer;
-import com.github.puzzle.core.util.Identifier;
-import com.github.puzzle.game.items.data.DataTag;
+import finalforeach.cosmicreach.util.Identifier;
 
 public class IdentifierDataAttribute implements DataTag.DataTagAttribute<Identifier> {
 
@@ -42,7 +42,7 @@ public class IdentifierDataAttribute implements DataTag.DataTagAttribute<Identif
 
     @Override
     public void read(CRBinDeserializer crBinDeserializer) {
-        this.value = Identifier.fromString(crBinDeserializer.readString("data_value"));
+        this.value = Identifier.of(crBinDeserializer.readString("data_value"));
     }
 
     @Override

@@ -2,17 +2,18 @@ package com.github.puzzle.game.engine.stages;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
-import de.pottgames.tuningfork.SoundBuffer;
-import org.greenrobot.eventbus.Subscribe;
+import com.github.puzzle.core.PuzzleRegistries;
 import com.github.puzzle.core.localization.TranslationKey;
-import com.github.puzzle.core.util.ResourceLocation;
-import com.github.puzzle.game.PuzzleRegistries;
+import com.github.puzzle.core.resources.PuzzleGameAssetLoader;
+import com.github.puzzle.core.resources.VanillaAssetLocations;
 import com.github.puzzle.game.engine.GameLoader;
 import com.github.puzzle.game.engine.LoadStage;
 import com.github.puzzle.game.events.OnLoadAssetsEvent;
 import com.github.puzzle.game.events.OnLoadAssetsFinishedEvent;
-import com.github.puzzle.game.resources.PuzzleGameAssetLoader;
-import com.github.puzzle.game.resources.VanillaAssetLocations;
+import de.pottgames.tuningfork.SoundBuffer;
+import finalforeach.cosmicreach.GameAssetLoader;
+import finalforeach.cosmicreach.util.Identifier;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +31,7 @@ public class LoadingAssets extends LoadStage {
 
     @Subscribe
     public void onEvent(OnLoadAssetsEvent event) {
-        List<ResourceLocation> textures = new ArrayList<>();
+        List<Identifier> textures = new ArrayList<>();
         textures.addAll(VanillaAssetLocations.getInternalFiles("textures/ui", ".png"));
         textures.addAll(VanillaAssetLocations.getInternalFiles("textures/items", ".png"));
         textures.addAll(VanillaAssetLocations.getInternalFiles("textures/entities", ".png"));
@@ -38,9 +39,10 @@ public class LoadingAssets extends LoadStage {
 
         textures.forEach( location -> PuzzleGameAssetLoader.LOADER.loadResource(location, Texture.class) );
 
-        List<ResourceLocation> sounds = new ArrayList<>();
-        sounds.addAll(VanillaAssetLocations.getInternalFiles("sounds/", ".ogg"));
-        sounds.addAll(VanillaAssetLocations.getVanillaModFiles("sounds/", ".ogg"));
+        List<Identifier> sounds = new ArrayList<>(VanillaAssetLocations.getInternalFiles("sounds/", ".ogg"));
+        for (String space : GameAssetLoader.getAllNamespaces()) {
+            sounds.addAll(VanillaAssetLocations.getVanillaModFiles(space, "sounds/", ".ogg"));
+        }
         sounds.forEach( location -> PuzzleGameAssetLoader.LOADER.loadResource(location, SoundBuffer.class) );
     }
 

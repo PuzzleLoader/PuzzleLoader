@@ -3,14 +3,13 @@ package com.github.puzzle.game.generators;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.OrderedMap;
-import finalforeach.cosmicreach.constants.Direction;
-import finalforeach.cosmicreach.rendering.blockmodels.BlockModelJsonTexture;
-import com.github.puzzle.core.util.Identifier;
-import com.github.puzzle.core.util.ResourceLocation;
 import com.github.puzzle.game.engine.blocks.BlockLoader;
 import com.github.puzzle.game.engine.blocks.models.PuzzleBlockModel;
 import com.github.puzzle.game.engine.blocks.models.PuzzleBlockModelCuboid;
 import com.github.puzzle.game.factories.IGenerator;
+import finalforeach.cosmicreach.constants.Direction;
+import finalforeach.cosmicreach.rendering.blockmodels.BlockModelJsonTexture;
+import finalforeach.cosmicreach.util.Identifier;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -113,7 +112,7 @@ public class BlockModelGenerator implements IGenerator {
     public Identifier blockId;
     public String modelName;
 
-    public Map<String, ResourceLocation> vanillaTextures = new HashMap<>();
+    public Map<String, Identifier> vanillaTextures = new HashMap<>();
     public Map<String, Pixmap> customTextures = new HashMap<>();
 
     public List<Cuboid> cuboids = new ArrayList<>();
@@ -131,7 +130,7 @@ public class BlockModelGenerator implements IGenerator {
         return getTextureName(blockId, modelName, textureName);
     }
 
-    public void createTexture(String textureName, ResourceLocation file) {
+    public void createTexture(String textureName, Identifier file) {
         vanillaTextures.put(textureName, file);
     }
 

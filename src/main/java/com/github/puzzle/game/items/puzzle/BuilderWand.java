@@ -1,6 +1,10 @@
 package com.github.puzzle.game.items.puzzle;
 
 import com.badlogic.gdx.math.Vector3;
+import com.github.puzzle.core.Puzzle;
+import com.github.puzzle.game.items.IModItem;
+import com.github.puzzle.game.items.data.DataTagManifest;
+import com.github.puzzle.game.worldgen.schematics.Schematic;
 import finalforeach.cosmicreach.BlockSelection;
 import finalforeach.cosmicreach.blocks.BlockPosition;
 import finalforeach.cosmicreach.chat.Chat;
@@ -8,17 +12,12 @@ import finalforeach.cosmicreach.entities.player.Player;
 import finalforeach.cosmicreach.gamestates.InGame;
 import finalforeach.cosmicreach.items.ItemSlot;
 import finalforeach.cosmicreach.settings.ControlSettings;
-import com.github.puzzle.core.util.Identifier;
-import com.github.puzzle.core.util.ResourceLocation;
-import com.github.puzzle.game.common.Puzzle;
-import com.github.puzzle.game.items.IModItem;
-import com.github.puzzle.game.items.data.DataTagManifest;
-import com.github.puzzle.game.worldgen.schematics.Schematic;
+import finalforeach.cosmicreach.util.Identifier;
 
 public class BuilderWand implements IModItem {
 
     WANDMODES wandmodes = WANDMODES.SELECTPOS;
-    Identifier id = new Identifier(Puzzle.MOD_ID, "builder_wand");
+    Identifier id = Identifier.of(Puzzle.MOD_ID, "builder_wand");
     DataTagManifest tagManifest = new DataTagManifest();
     public static Vector3 pos1 = null;
     public static Vector3 pos2 = null;
@@ -27,7 +26,7 @@ public class BuilderWand implements IModItem {
 
     public BuilderWand() {
         tagManifest.addTag(IModItem.MODEL_ID_PRESET.createTag(IModItem.MODEL_2_5D_ITEM));
-        tagManifest.addTag(IModItem.TEXTURE_LOCATION_PRESET.createTag(new ResourceLocation(Puzzle.MOD_ID, "textures/items/baby_wand.png")));
+        tagManifest.addTag(IModItem.TEXTURE_LOCATION_PRESET.createTag(Identifier.of(Puzzle.MOD_ID, "baby_wand.png")));
     }
 
     @Override
@@ -99,6 +98,11 @@ public class BuilderWand implements IModItem {
     @Override
     public DataTagManifest getTagManifest() {
         return tagManifest;
+    }
+
+    @Override
+    public String getName() {
+        return "Schematic Wand";
     }
 
     public enum WANDMODES {
