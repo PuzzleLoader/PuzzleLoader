@@ -1,0 +1,21 @@
+buildscript {
+    repositories {
+        maven {
+            name "JitPack"
+            url "https://jitpack.io"
+        }
+        mavenCentral()
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath "com.github.johnrengelman:shadow:8.1.1"
+//        classpath "com.github.PuzzleLoader:CRPuzzleGradle:$puzzle_gradle_version"
+        classpath fileTree("./lib")
+    }
+}
+
+rootProject.name = 'PuzzleLoader'
+
+include 'common'
+include 'client'
+include 'server'

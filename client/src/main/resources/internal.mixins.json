@@ -1,0 +1,36 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.github.puzzle.game.mixins.refactors",
+  "plugin": "com.github.puzzle.core.loader.provider.mixin.extras.MixinExtrasConfigPlugin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "assets.BlockModelJsonMixin",
+    "assets.ChunkShaderPathFixer",
+    "assets.GameShaderPathFixer",
+    "assets.Sound2DBlockActionPlayerPathFixer",
+    "chat.ChatMixin",
+    "chat.CommandMixin",
+    "entrypoint.GameSingletonsMixin",
+    "entrypoint.LoadInitModsMixin",
+    "entrypoint.PreGameLaunchInit",
+    "items.InGameMixin",
+    "items.ItemCatalogMixin",
+    "items.ItemStackMixin",
+    "items.rendering.EntityMixin",
+    "items.rendering.ItemRendererMixin",
+    "items.rendering.ItemSlotWidgetMixin",
+    "items.ticking.ItemEntityMixin",
+    "loot.LootTableMixin",
+    "networking.ClientNetworkManagerMixin",
+    "ui.MainMenuMixin",
+    "ui.OptionsMixin",
+    "window.IconMixin",
+    "window.TitleMixin"
+  ],
+  "client": [],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

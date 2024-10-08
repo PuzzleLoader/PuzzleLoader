@@ -1,0 +1,45 @@
+{
+    "language_tag": "en-US",
+    "major_version": 1,
+    "minor_version": 0,
+    "ids": [
+        "puzzle-loader"
+    ],
+    "puzzle-loader": {
+        "priority": 1000,
+        "format_templates": {
+            "loading_menu": {
+                "ram_usage": [
+                    "usage",
+                    "total"
+                ],
+                "loading_assets": ["n", "total"],
+                "creating_blocks": ["n", "total"],
+                "creating_block_events": ["n", "total"]
+            }
+        },
+        "strings": {
+            "menu": {
+                "on": "On",
+                "off": "Off",
+                "cancel": "Cancel",
+                "back": "Back",
+                "save": "Save",
+                "ok": "Ok",
+                "done": "Done",
+                "return_to_main_menu": "Return to Main Menu",
+                "return_to_game": "Return to Game",
+                "mods": "Mods"
+            },
+            "loading_menu": {
+                "ram_usage": "Memory Used/Total: {usage}MB/{total}MB",
+                "loading_assets": "Loading Assets: {n}/{total}",
+                "loading_cosmic_reach": "Loading Cosmic Reach",
+                "creating_blocks": "Creating Blocks: {n}/{total}",
+                "creating_block_events": "Creating Block Events: {n}/{total}",
+                "registering_assets": "Registering Assets",
+                "initializing": "Initializing Puzzle Mods"
+            }
+        }
+    }
+}

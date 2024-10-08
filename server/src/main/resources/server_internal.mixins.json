@@ -1,0 +1,20 @@
+{
+  "required": false,
+  "minVersion": "0.8",
+  "package": "com.github.puzzle.game.server_mixins.refactors",
+  "plugin": "com.github.puzzle.core.loader.provider.mixin.extras.MixinExtrasConfigPlugin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "assets.AssetLoaderMixin",
+    "blockentities.BlockEntityFurnaceMixin",
+    "blockentities.BlockEntityItemContainerMixin",
+    "networking.GamePacketMixin",
+    "networking.PacketInterceptorMixin",
+    "networking.ServerIdentityMixin"
+  ],
+  "client": [],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.github.puzzle.game.mixins.bugfixes",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "BlockEventDisabler",
+    "BlockRegisterer",
+    "BlockStateGeneratorCopyFixer",
+    "BlockStateGeneratorMixin",
+    "ItemMixin",
+    "ItemPickBlock",
+    "NullPlayer",
+    "Point3DMapRewrite"
+  ],
+  "client": [],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

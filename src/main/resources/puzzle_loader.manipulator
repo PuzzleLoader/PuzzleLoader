@@ -1,0 +1,36 @@
+public field finalforeach/cosmicreach/entities/Entity sightRange
+
+public field finalforeach/cosmicreach/ui/debug/DebugInfo items
+
+public method finalforeach/cosmicreach/rendering/BatchCoords blockX ()I
+public method finalforeach/cosmicreach/rendering/BatchCoords blockY ()I
+public method finalforeach/cosmicreach/rendering/BatchCoords blockZ ()I
+
+public field finalforeach/cosmicreach/rendering/MeshData shader
+public field finalforeach/cosmicreach/rendering/MeshData vertices
+public field finalforeach/cosmicreach/rendering/MeshData renderOrder
+
+public field finalforeach/cosmicreach/rendering/BatchMaterial batchCoords
+public field finalforeach/cosmicreach/rendering/BatchMaterial shader
+public field finalforeach/cosmicreach/rendering/BatchMaterial renderOrder
+
+public field finalforeach/cosmicreach/rendering/ChunkBatch seen
+public field finalforeach/cosmicreach/rendering/ChunkBatch chunkMeshGroups
+public field finalforeach/cosmicreach/rendering/ChunkBatch disposed
+public field finalforeach/cosmicreach/rendering/ChunkBatch boundingBox
+
+public field finalforeach/cosmicreach/items/loot/Loot lootId
+public field finalforeach/cosmicreach/items/loot/Loot options
+public field finalforeach/cosmicreach/items/loot/LootOption lootStacks
+public field finalforeach/cosmicreach/items/loot/LootOption weight
+public field finalforeach/cosmicreach/items/loot/LootStack item
+public field finalforeach/cosmicreach/items/loot/LootStack minAmount
+public field finalforeach/cosmicreach/items/loot/LootStack maxAmount
+
+public field finalforeach/cosmicreach/io/CRBinDeserializer altSchemas
+public field finalforeach/cosmicreach/io/CRBinDeserializer strings
+public method finalforeach/cosmicreach/io/CRBinDeserializer readDataFromSchema (Lfinalforeach/cosmicreach/savelib/crbin/CRBinSchema;Ljava/nio/ByteBuffer;)V
+public field finalforeach/cosmicreach/io/CRBinDeserializer classDeserializers
+public field finalforeach/cosmicreach/io/CRBinDeserializer defaultClassDeserializers
+public field finalforeach/cosmicreach/gamestates/GameState previousState
+public field finalforeach/cosmicreach/gamestates/PauseMenu cursorCaught

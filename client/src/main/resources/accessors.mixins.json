@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.github.puzzle.game.mixins.accessors",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "ChunkShaderAccessor",
+    "ItemRenderAccessor"
+  ],
+  "client": [],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

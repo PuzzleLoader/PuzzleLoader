@@ -1,0 +1,147 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+    id 'cr_puzzle_gradle'
+    id 'com.github.johnrengelman.shadow'
+}
+
+group = 'com.github'
+version = '69.69.69'
+
+repositories {
+    mavenCentral()
+}
+
+puzzle_loader {
+    accessManipulatorPath = file("src/main/resources/puzzle_loader.manipulator")
+}
+
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'cr_puzzle_gradle'
+    apply plugin: 'com.github.johnrengelman.shadow'
+
+    dependencies {
+        compileOnly('org.jetbrains:annotations:24.0.0')
+
+        bundle(annotationProcessor("io.github.llamalad7:mixinextras-common:$mixinExtrasVersion"))
+
+        bundle("com.google.guava:guava:$guavaVersion")
+        bundle("com.google.code.gson:gson:$gsonVersion")
+
+        bundle("org.hjson:hjson:$hjsonVersion")
+
+        bundle("com.mojang:brigadier:1.0.18")
+
+        bundle("org.apache.logging.log4j:log4j-api:$log4jVersion")
+        bundle("org.apache.logging.log4j:log4j-core:$log4jVersion")
+        bundle("org.apache.logging.log4j:log4j-slf4j2-impl:$log4jVersion")
+
+        bundle("net.sf.jopt-simple:jopt-simple:$joptSimpleVersion")
+
+        bundle("org.reflections:reflections:$reflectionsVersion")
+
+        bundle("dev.dewy:nbt:$nbtVersion")
+
+        bundle("org.greenrobot:eventbus:$eventbusVersion")
+    }
+
+    processResources {
+        def resourceTargets = ["assets/puzzle-loader/version.txt"]
+
+        String ver = version
+        if (!ver.contains(".")) {
+            ver = "69.69.69"
+        } else ver = (version + "").replaceAll((version + "").replaceAll("[\\d\\.]", ""), "")
+
+        def replaceProperties = [
+                "version"     : ver,
+        ]
+
+
+        inputs.properties replaceProperties
+        replaceProperties.put "project", project
+        filesMatching(resourceTargets) {
+            expand replaceProperties
+        }
+    }
+}
+
+afterEvaluate {
+    configurations.configureEach { configuration ->
+        System.out.println(configuration)
+        configuration.attributes {
+            attribute(Attribute.of("manipulated", Boolean.class), true)
+            attribute(Attribute.of("artifactType", String.class), "jar")
+        }
+    }
+}
+
+dependencies {
+    compileOnly('org.jetbrains:annotations:24.0.0')
+
+    bundle(annotationProcessor("io.github.llamalad7:mixinextras-common:$mixinExtrasVersion"))
+
+    bundle("com.google.guava:guava:$guavaVersion")
+    bundle("com.google.code.gson:gson:$gsonVersion")
+
+    bundle("org.hjson:hjson:$hjsonVersion")
+
+    bundle("com.mojang:brigadier:1.0.18")
+
+    bundle("org.apache.logging.log4j:log4j-api:$log4jVersion")
+    bundle("org.apache.logging.log4j:log4j-core:$log4jVersion")
+    bundle("org.apache.logging.log4j:log4j-slf4j2-impl:$log4jVersion")
+
+    bundle("net.sf.jopt-simple:jopt-simple:$joptSimpleVersion")
+
+    bundle("org.reflections:reflections:$reflectionsVersion")
+
+    bundle("dev.dewy:nbt:$nbtVersion")
+
+    bundle("org.greenrobot:eventbus:$eventbusVersion")
+
+    compileOnly("finalforeach:cosmicreach:$cosmic_reach_client_version:client")
+//    compileOnly("finalforeach:cosmicreach:$cosmic_reach_server_version:server")
+
+    bundle(project(":common"))
+    bundle(project(":server"))
+    bundle(project(":client"))
+}
+
+processResources {
+    def resourceTargets = ["assets/puzzle-loader/version.txt"]
+
+    String ver = version
+    if (!ver.contains(".")) {
+        ver = "69.69.69"
+    } else ver = (version + "").replaceAll((version + "").replaceAll("[\\d\\.]", ""), "")
+
+    def replaceProperties = [
+            "version"     : ver,
+    ]
+
+
+    inputs.properties replaceProperties
+    replaceProperties.put "project", project
+    filesMatching(resourceTargets) {
+        expand replaceProperties
+    }
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = group
+            artifactId = id
+
+            artifact source: buildBundleJar, classifier: '', extension: 'jar'
+            artifact source: buildSourcesJar, classifier: 'source', extension: 'jar'
+        }
+    }
+}
+
+wrapper {
+    gradleVersion = "8.5"
+    distributionType = Wrapper.DistributionType.ALL
+}
