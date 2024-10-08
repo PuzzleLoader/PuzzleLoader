@@ -20,7 +20,7 @@ public class CTSModlistPacket extends GamePacket {
 
     Pair<String, String>[] modList;
 
-    private CTSModlistPacket() {}
+    public CTSModlistPacket() {}
 
     public CTSModlistPacket(Pair<String, String>[] modList) {
         this.modList = modList;
