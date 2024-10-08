@@ -2,8 +2,10 @@ package com.github.puzzle.game.networking;
 
 import com.github.puzzle.core.loader.provider.mod.ModContainer;
 import com.github.puzzle.core.loader.util.ModLocator;
+import com.github.puzzle.game.ServerGlobals;
 import com.llamalad7.mixinextras.lib.apache.commons.tuple.ImmutablePair;
 import com.llamalad7.mixinextras.lib.apache.commons.tuple.Pair;
+import finalforeach.cosmicreach.accounts.Account;
 import finalforeach.cosmicreach.networking.common.NetworkIdentity;
 import finalforeach.cosmicreach.networking.common.NetworkSide;
 import finalforeach.cosmicreach.networking.netty.GamePacket;
@@ -72,7 +74,10 @@ public class CTSModlistPacket extends GamePacket {
             }
 
             if (!hasAllMods) {
-                identity.send(new DisconnectPacket(ServerSingletons.getAccount(identity)));
+                Account account = ServerSingletons.getAccount(identity);
+
+                ServerGlobals.SERVER_LOGGER.info("Disconnecting player ID: \"{}\", Name: \"{}\" due to modlist not being the same.", account.getUniqueId(), account.getDisplayName());
+                ServerSingletons.server.broadcastAsServerExcept(new DisconnectPacket(account), identity);
             }
         }
     }
