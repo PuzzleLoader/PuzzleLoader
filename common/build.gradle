@@ -1,0 +1,13 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.github'
+version = '69.69.69'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+}
