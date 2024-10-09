@@ -3,10 +3,14 @@ package com.github.puzzle.game.engine.stages;
 import com.github.puzzle.core.loader.provider.mod.ModContainer;
 import com.github.puzzle.core.loader.provider.mod.entrypoint.impls.ModInitializer;
 import com.github.puzzle.core.loader.util.ModLocator;
+import com.github.puzzle.core.terminal.PPLTerminalConsole;
 import com.github.puzzle.game.PuzzleRegistries;
 import com.github.puzzle.game.engine.ServerGameLoader;
 import com.github.puzzle.game.engine.ServerLoadStage;
 import com.github.puzzle.game.events.OnRegisterLanguageEvent;
+import finalforeach.cosmicreach.networking.server.ServerSingletons;
+
+import java.io.IOException;
 
 import static com.github.puzzle.core.Constants.MOD_ID;
 
@@ -43,7 +47,6 @@ public class Initialize extends ServerLoadStage {
                 throw new RuntimeException(e);
             }
         });
-
         PuzzleRegistries.EVENT_BUS.post(new OnRegisterLanguageEvent());
     }
 }

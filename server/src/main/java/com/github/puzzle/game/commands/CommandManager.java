@@ -6,6 +6,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 
 public class CommandManager {
+    public static CommandDispatcher<CommandSource> consoledispatcher = new CommandDispatcher<>();
 
     public static CommandDispatcher<PuzzleCommandSource> dispatcher = new CommandDispatcher<>();
 
