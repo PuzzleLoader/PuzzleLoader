@@ -2,6 +2,7 @@ package com.github.puzzle.core;
 
 import com.github.puzzle.core.loader.launch.PuzzleClassLoader;
 import com.github.puzzle.core.loader.meta.Environment;
+import org.spongepowered.asm.mixin.MixinEnvironment;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,6 +18,8 @@ public class Constants {
         }
         return Environment.CLIENT;
     }).get();
+
+    public static final MixinEnvironment.CompatibilityLevel MIXIN_COMPAT_LEVEL = MixinEnvironment.CompatibilityLevel.JAVA_17;
 
     public static InputStream getFile(String file) {
         InputStream input = Constants.class.getResourceAsStream(file);

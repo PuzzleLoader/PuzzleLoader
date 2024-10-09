@@ -1,6 +1,5 @@
 package com.github.puzzle.game.networking;
 
-import com.github.puzzle.core.loader.provider.mod.ModContainer;
 import com.github.puzzle.core.loader.util.ModLocator;
 import com.github.puzzle.game.ServerGlobals;
 import com.llamalad7.mixinextras.lib.apache.commons.tuple.ImmutablePair;
@@ -14,9 +13,7 @@ import finalforeach.cosmicreach.networking.server.ServerSingletons;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 
-import java.util.Collection;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public class CTSModlistPacket extends GamePacket {
 
@@ -57,23 +54,20 @@ public class CTSModlistPacket extends GamePacket {
         if (identity.getSide() == NetworkSide.SERVER) {
             Set<String> values = ModLocator.locatedMods.keySet();
 
-            boolean hasAllMods = true;
+            List<Pair<String, String>> missingMods = new ArrayList<>();
             if (identity.getSide() == NetworkSide.SERVER) {
                 for (Pair<String, String> modPair : modList) {
                     String modId = modPair.getLeft();
                     String modVersion = modPair.getRight();
 
-                    if (!values.contains(modId)) {
-                        hasAllMods = false;
-                        break;
-                    } else if (values.contains(modId) && !Objects.equals(ModLocator.locatedMods.get(modId).VERSION.toString(), modVersion)) {
-                        hasAllMods = false;
-                        break;
-                    }
+                    if (!values.contains(modId))
+                        missingMods.add(modPair);
+                    else if (values.contains(modId) && !Objects.equals(ModLocator.locatedMods.get(modId).VERSION.toString(), modVersion))
+                        missingMods.add(modPair);
                 }
             }
 
-            if (!hasAllMods) {
+            if (!missingMods.isEmpty()) {
                 Account account = ServerSingletons.getAccount(identity);
 
                 ServerGlobals.SERVER_LOGGER.info("Disconnecting player ID: \"{}\", Name: \"{}\" due to modlist not being the same.", account.getUniqueId(), account.getDisplayName());

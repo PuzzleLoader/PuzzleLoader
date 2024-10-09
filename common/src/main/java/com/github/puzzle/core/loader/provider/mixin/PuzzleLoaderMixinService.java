@@ -32,6 +32,8 @@ import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.tree.ClassNode;
+import org.spongepowered.asm.launch.platform.IMixinPlatformAgent;
+import org.spongepowered.asm.launch.platform.IMixinPlatformServiceAgent;
 import org.spongepowered.asm.launch.platform.MainAttributes;
 import org.spongepowered.asm.launch.platform.container.ContainerHandleURI;
 import org.spongepowered.asm.launch.platform.container.ContainerHandleVirtual;
@@ -45,6 +47,7 @@ import org.spongepowered.asm.service.modlauncher.LoggerAdapterLog4j2;
 import org.spongepowered.asm.transformers.MixinClassReader;
 import org.spongepowered.asm.util.Constants;
 import org.spongepowered.asm.util.Files;
+import org.spongepowered.asm.util.ReEntranceLock;
 import org.spongepowered.asm.util.perf.Profiler;
 import org.spongepowered.asm.util.perf.Profiler.Section;
 import org.spongepowered.include.com.google.common.collect.ImmutableList;
@@ -64,9 +67,18 @@ import java.util.*;
 /**
  * Mixin service for launchwrapper
  */
-public class PuzzleLoaderMixinService extends MixinServiceAbstract implements IClassProvider, IClassBytecodeProvider, ITransformerProvider {
-    private static final String MIXIN_TWEAKER_CLASS = MixinServiceAbstract.LAUNCH_PACKAGE + "MixinTweaker";
-    private static final String TRANSFORMER_PROXY_CLASS = MixinServiceAbstract.MIXIN_PACKAGE + "transformer.Proxy";
+public class PuzzleLoaderMixinService implements IMixinService, IClassProvider, IClassBytecodeProvider, ITransformerProvider {
+    protected static final String LAUNCH_PACKAGE = "org.spongepowered.asm.launch.";
+    protected static final String MIXIN_PACKAGE = "org.spongepowered.asm.mixin.";
+    protected static final String SERVICE_PACKAGE = "org.spongepowered.asm.service.";
+    private static final String MIXIN_TWEAKER_CLASS = LAUNCH_PACKAGE + "MixinTweaker";
+    private static final String TRANSFORMER_PROXY_CLASS = MIXIN_PACKAGE + "transformer.Proxy";
+    private static final Map<String, ILogger> loggers = new HashMap();
+    protected final ReEntranceLock lock = new ReEntranceLock(1);
+    private final Map<Class<IMixinInternal>, IMixinInternal> internals = new HashMap();
+    private List<IMixinPlatformServiceAgent> serviceAgents;
+    private String sideName;
+
 
     /**
      * Known re-entrant transformers, other re-entrant transformers will
@@ -99,7 +111,7 @@ public class PuzzleLoaderMixinService extends MixinServiceAbstract implements IC
 
     public PuzzleLoaderMixinService() {
 //        try {
-//            Field f = MixinServiceAbstract.class.getSuperclass().getDeclaredField("sideName");
+//            Field f = class.getSuperclass().getDeclaredField("sideName");
 //            f.setAccessible(true);
 //            f.set(this, com.github.puzzle.core.Constants.SIDE.name);
 //        } catch (NoSuchFieldException | IllegalAccessException e) {
@@ -133,7 +145,7 @@ public class PuzzleLoaderMixinService extends MixinServiceAbstract implements IC
     @Override
     public void prepare() {
         // Only needed in dev, in production this would be handled by the tweaker
-        Piece.classLoader.addClassLoaderExclusion(MixinServiceAbstract.LAUNCH_PACKAGE);
+        Piece.classLoader.addClassLoaderExclusion(LAUNCH_PACKAGE);
     }
 
     /* (non-Javadoc)
@@ -152,6 +164,11 @@ public class PuzzleLoaderMixinService extends MixinServiceAbstract implements IC
         return Phase.PREINIT;
     }
 
+    @Override
+    public void offer(IMixinInternal iMixinInternal) {
+
+    }
+
     /* (non-Javadoc)
      * @see org.spongepowered.asm.service.IMixinService
      *      #getMaxCompatibilityLevel()
@@ -162,20 +179,48 @@ public class PuzzleLoaderMixinService extends MixinServiceAbstract implements IC
     }
 
     @Override
-    protected ILogger createLogger(String name) {
-        return new LoggerAdapterLog4j2(name);
+    public ILogger getLogger(String s) {
+        return new LoggerAdapterLog4j2(getName());
     }
 
-    /* (non-Javadoc)
-     * @see org.spongepowered.asm.service.IMixinService#init()
-     */
+    private List<IMixinPlatformServiceAgent> getServiceAgents() {
+        if (this.serviceAgents != null) {
+            return this.serviceAgents;
+        } else {
+            this.serviceAgents = new ArrayList();
+            Iterator var1 = this.getPlatformAgents().iterator();
+
+            while(var1.hasNext()) {
+                String agentClassName = (String)var1.next();
+
+                try {
+                    Class<IMixinPlatformAgent> agentClass = (Class<IMixinPlatformAgent>) this.getClassProvider().findClass(agentClassName, false);
+                    IMixinPlatformAgent agent = agentClass.getDeclaredConstructor().newInstance();
+                    if (agent instanceof IMixinPlatformServiceAgent) {
+                        this.serviceAgents.add((IMixinPlatformServiceAgent)agent);
+                    }
+                } catch (Exception var5) {
+                    Exception ex = var5;
+                    ex.printStackTrace();
+                }
+            }
+
+            return this.serviceAgents;
+        }
+    }
+
     @Override
     public void init() {
 //        if (PuzzleLoaderMixinService.findInStackTrace("dev.crmodders.puzzle.core.loader.launch.Piece", "launch") < 4) {
 //            logger.error("MixinBootstrap.doInit() called during a tweak constructor!");
 //        }
 
-        super.init();
+        Iterator var1 = this.getServiceAgents().iterator();
+
+        while(var1.hasNext()) {
+            IMixinPlatformServiceAgent agent = (IMixinPlatformServiceAgent)var1.next();
+            agent.init();
+        }
     }
 
     /* (non-Javadoc)
@@ -198,6 +243,19 @@ public class PuzzleLoaderMixinService extends MixinServiceAbstract implements IC
             ex.printStackTrace();
         }
         return new ContainerHandleVirtual(this.getName());
+    }
+
+    protected final void getContainersFromAgents(ImmutableList.Builder<IContainerHandle> list) {
+        Iterator var2 = this.getServiceAgents().iterator();
+
+        while(var2.hasNext()) {
+            IMixinPlatformServiceAgent agent = (IMixinPlatformServiceAgent)var2.next();
+            Collection<IContainerHandle> containers = agent.getMixinContainers();
+            if (containers != null) {
+                list.addAll(containers);
+            }
+        }
+
     }
 
     @Override
@@ -318,6 +376,11 @@ public class PuzzleLoaderMixinService extends MixinServiceAbstract implements IC
         }
     }
 
+    @Override
+    public ReEntranceLock getReEntranceLock() {
+        return lock;
+    }
+
     /* (non-Javadoc)
      * @see org.spongepowered.asm.service.IMixinService#getResourceAsStream(
      *      java.lang.String)
@@ -325,6 +388,16 @@ public class PuzzleLoaderMixinService extends MixinServiceAbstract implements IC
     @Override
     public InputStream getResourceAsStream(String name) {
         return Piece.classLoader.getResourceAsStream(name);
+    }
+
+    @Override
+    public String getSideName() {
+        return com.github.puzzle.core.Constants.SIDE.name;
+    }
+
+    @Override
+    public CompatibilityLevel getMinCompatibilityLevel() {
+        return com.github.puzzle.core.Constants.MIXIN_COMPAT_LEVEL;
     }
 
     /* (non-Javadoc)

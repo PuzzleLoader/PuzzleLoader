@@ -67,16 +67,6 @@ allprojects {
     }
 }
 
-afterEvaluate {
-    configurations.configureEach { configuration ->
-        System.out.println(configuration)
-        configuration.attributes {
-            attribute(Attribute.of("manipulated", Boolean.class), true)
-            attribute(Attribute.of("artifactType", String.class), "jar")
-        }
-    }
-}
-
 dependencies {
     compileOnly('org.jetbrains:annotations:24.0.0')
 
@@ -104,9 +94,13 @@ dependencies {
     compileOnly("finalforeach:cosmicreach:$cosmic_reach_client_version:client")
 //    compileOnly("finalforeach:cosmicreach:$cosmic_reach_server_version:server")
 
-    bundle(project(":common"))
-    bundle(project(":server"))
-    bundle(project(":client"))
+    implementation(project(":common"))
+    implementation(project(":server"))
+    implementation(project(":client"))
+}
+
+configurations.configureEach {
+        System.out.println(it)
 }
 
 processResources {

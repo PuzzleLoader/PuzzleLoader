@@ -4,7 +4,7 @@
   "package": "com.github.puzzle.game.mixins.refactors",
   "plugin": "com.github.puzzle.core.loader.provider.mixin.extras.MixinExtrasConfigPlugin",
   "compatibilityLevel": "JAVA_17",
-  "mixins": [
+  "client": [
     "assets.BlockModelJsonMixin",
     "assets.ChunkShaderPathFixer",
     "assets.GameShaderPathFixer",
@@ -28,7 +28,6 @@
     "window.IconMixin",
     "window.TitleMixin"
   ],
-  "client": [],
   "server": [],
   "injectors": {
     "defaultRequire": 1
