@@ -78,7 +78,6 @@ public class CTSModlistPacket extends GamePacket {
 
                 ServerGlobals.SERVER_LOGGER.info("Disconnecting player ID: \"{}\", Name: \"{}\" due to modlist not being the same.", account.getUniqueId(), account.getDisplayName());
                 ServerSingletons.server.broadcastAsServerExcept(new DisconnectPacket(account), identity);
-                ctx.disconnect();
                 ctx.close();
             }
         }
