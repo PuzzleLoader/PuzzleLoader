@@ -4,18 +4,19 @@ buildscript {
             name "JitPack"
             url "https://jitpack.io"
         }
+        maven {
+            name = 'Fabric'
+            url = 'https://maven.fabricmc.net/'
+        }
         mavenCentral()
         gradlePluginPortal()
+        mavenLocal()
     }
     dependencies {
         classpath "com.github.johnrengelman:shadow:8.1.1"
+        classpath "net.fabricmc:jigsaw:1.8-SNAPSHOT"
 //        classpath "com.github.PuzzleLoader:CRPuzzleGradle:$puzzle_gradle_version"
-        classpath fileTree("./lib")
     }
 }
 
 rootProject.name = 'PuzzleLoader'
-
-include 'common'
-include 'client'
-include 'server'

@@ -1,7 +1,8 @@
 plugins {
     id 'java'
     id 'maven-publish'
-    id 'cr_puzzle_gradle'
+    id 'jigsaw'
+//    id 'cr_puzzle_gradle'
     id 'com.github.johnrengelman.shadow'
 }
 
@@ -10,40 +11,52 @@ version = '69.69.69'
 
 repositories {
     mavenCentral()
+    maven { url "https://libraries.minecraft.net" }
+    maven {
+        url = "https://jitpack.io"
+    }
 }
 
-puzzle_loader {
-    accessManipulatorPath = file("src/main/resources/puzzle_loader.manipulator")
-}
+//sourceSets {
+//    main {
+//        java {
+//            srcDirs "src/main/java"
+//        }
+//        resources {
+//            srcDirs "src/main/resources"
+//        }
+//    }
+//    client {
+//        java {
+//            srcDirs "src/main/java"
+//        }
+//        resources {
+//            srcDirs "src/main/resources"
+//        }
+//    }
+//    server {
+//        java {
+//            srcDirs "src/main/java"
+//        }
+//        resources {
+//            srcDirs "src/main/resources"
+//        }
+//
+//    }
+//
+//}
+
+//puzzle_loader {
+//    accessManipulatorPath = file("src/main/resources/puzzle_loader.manipulator")
+//}
 
 allprojects {
     apply plugin: 'java'
-    apply plugin: 'cr_puzzle_gradle'
+//    apply plugin: 'cr_puzzle_gradle'
     apply plugin: 'com.github.johnrengelman.shadow'
 
     dependencies {
-        compileOnly('org.jetbrains:annotations:24.0.0')
 
-        bundle(annotationProcessor("io.github.llamalad7:mixinextras-common:$mixinExtrasVersion"))
-
-        bundle("com.google.guava:guava:$guavaVersion")
-        bundle("com.google.code.gson:gson:$gsonVersion")
-
-        bundle("org.hjson:hjson:$hjsonVersion")
-
-        bundle("com.mojang:brigadier:1.0.18")
-
-        bundle("org.apache.logging.log4j:log4j-api:$log4jVersion")
-        bundle("org.apache.logging.log4j:log4j-core:$log4jVersion")
-        bundle("org.apache.logging.log4j:log4j-slf4j2-impl:$log4jVersion")
-
-        bundle("net.sf.jopt-simple:jopt-simple:$joptSimpleVersion")
-
-        bundle("org.reflections:reflections:$reflectionsVersion")
-
-        bundle("dev.dewy:nbt:$nbtVersion")
-
-        bundle("org.greenrobot:eventbus:$eventbusVersion")
     }
 
     processResources {
@@ -67,9 +80,23 @@ allprojects {
     }
 }
 
+loom {
+    splitEnvironmentSourceSets()
+    accessWidenerPath = file("src/main/resources/puzzle_loader.manipulator")
+
+    mods {
+        "puzzle-loader" {
+            sourceSet sourceSets.main
+//            sourceSet sourceSets.client
+        }
+    }
+
+}
+
 dependencies {
     compileOnly('org.jetbrains:annotations:24.0.0')
 
+    cosmicReach("finalforeach:cosmicreach:${cosmic_reach_client_version}")
     bundle(annotationProcessor("io.github.llamalad7:mixinextras-common:$mixinExtrasVersion"))
 
     bundle("com.google.guava:guava:$guavaVersion")
@@ -91,16 +118,13 @@ dependencies {
 
     bundle("org.greenrobot:eventbus:$eventbusVersion")
 
-    compileOnly("finalforeach:cosmicreach:$cosmic_reach_client_version:client")
-//    compileOnly("finalforeach:cosmicreach:$cosmic_reach_server_version:server")
+//    serverImplementation(files(sourceSets.main.java.classesDirectory, sourceSets.main.resources.srcDirs))
+//    clientImplementation(files(sourceSets.main.java.classesDirectory, sourceSets.main.resources.srcDirs, sourceSets.server.java.srcDirs, sourceSets.server.resources.srcDirs))
+//    implementation(files(sourceSets.client.java.srcDirs, sourceSets.client.resources.srcDirs, sourceSets.server.java.srcDirs, sourceSets.server.resources.srcDirs))
+//    clientImplementation("finalforeach:cosmicreach:$cosmic_reach_client_version:client")
+//    serverImplementation("finalforeach:cosmicreach:$cosmic_reach_server_version:server")
+//    compileOnly("finalforeach:cosmicreach:$cosmic_reach_server_version:client")
 
-    implementation(project(":common"))
-    implementation(project(":server"))
-    implementation(project(":client"))
-}
-
-configurations.configureEach {
-        System.out.println(it)
 }
 
 processResources {
@@ -129,8 +153,8 @@ publishing {
             groupId = group
             artifactId = id
 
-            artifact source: buildBundleJar, classifier: '', extension: 'jar'
-            artifact source: buildSourcesJar, classifier: 'source', extension: 'jar'
+//            artifact source: buildBundleJar, classifier: '', extension: 'jar'
+//            artifact source: buildSourcesJar, classifier: 'source', extension: 'jar'
         }
     }
 }
