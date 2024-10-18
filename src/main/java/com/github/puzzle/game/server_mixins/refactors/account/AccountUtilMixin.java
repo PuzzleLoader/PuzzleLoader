@@ -22,7 +22,7 @@ public abstract class AccountUtilMixin implements AccountUtil {
      * @reason getRawUsername
      */
     @Overwrite
-    protected final void setUsername(String username) {
+    public final void setUsername(String username) {
         String var10001 = this.getPrefix();
         this.username = var10001 + ":" + username;
         this.puzzleLoader$rawUsername = username;
