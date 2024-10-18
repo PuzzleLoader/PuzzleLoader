@@ -20,9 +20,9 @@ public abstract class GamePacketMixin {
 
     @Inject(method = "registerPackets", at = @At("TAIL"))
     private static void clinit(CallbackInfo ci) {
-        registerPacket("identification-packet", 9000, CTSIdentificationPacket.class);
-        registerPacket("modlist-request-packet", 9001, STCModlistRequestPacket.class);
-        registerPacket("modlist-send-packet", 9002, CTSModlistPacket.class);
+        PacketInterceptor.registerReservedPacket("identification-packet", 9000, CTSIdentificationPacket.class);
+        PacketInterceptor.registerReservedPacket("modlist-request-packet", 9001, STCModlistRequestPacket.class);
+        PacketInterceptor.registerReservedPacket("modlist-send-packet", 9002, CTSModlistPacket.class);
 
         PacketInterceptor.init();
     }

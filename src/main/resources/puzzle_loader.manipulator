@@ -34,3 +34,8 @@ public field finalforeach/cosmicreach/io/CRBinDeserializer classDeserializers
 public field finalforeach/cosmicreach/io/CRBinDeserializer defaultClassDeserializers
 public field finalforeach/cosmicreach/gamestates/GameState previousState
 public field finalforeach/cosmicreach/gamestates/PauseMenu cursorCaught
+
+public field finalforeach/cosmicreach/networking/netty/GamePacket idsToPackets
+public field finalforeach/cosmicreach/networking/netty/GamePacket packetsToIntIds
+public field finalforeach/cosmicreach/networking/netty/GamePacket packetNamesToIntIds
+public field finalforeach/cosmicreach/networking/netty/GamePacket packetNamesToClasses

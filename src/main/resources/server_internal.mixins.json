@@ -12,6 +12,7 @@
     "blockentities.BlockEntityItemContainerMixin",
     "networking.GamePacketMixin",
     "networking.PacketInterceptorMixin",
+    "networking.ProtocolSyncPacketMixin",
     "networking.ServerIdentityMixin"
   ],
   "client": [],

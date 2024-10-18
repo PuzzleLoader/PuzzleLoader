@@ -3,8 +3,14 @@ package com.github.puzzle.game.util;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.Vector4;
+import com.github.puzzle.core.Constants;
+import com.github.puzzle.core.loader.meta.EnvType;
+import com.github.puzzle.game.networking.api.IServerIdentity;
 import finalforeach.cosmicreach.blocks.BlockPosition;
 import finalforeach.cosmicreach.blocks.BlockState;
+import finalforeach.cosmicreach.networking.netty.packets.blocks.BlockReplacePacket;
+import finalforeach.cosmicreach.networking.netty.packets.blocks.BreakBlockPacket;
+import finalforeach.cosmicreach.networking.netty.packets.blocks.PlaceBlockPacket;
 import finalforeach.cosmicreach.world.BlockSetter;
 import finalforeach.cosmicreach.world.Chunk;
 import finalforeach.cosmicreach.world.Zone;
@@ -12,15 +18,20 @@ import finalforeach.cosmicreach.world.Zone;
 public class BlockUtil {
 
     public static void setBlockAt(Zone zone, BlockState state, BlockPosition vector3) {
+        if (IClientNetworkManager.isConnected()) {
+            IClientNetworkManager.sendAsClient(new BreakBlockPacket(zone, vector3, state));
+            IClientNetworkManager.sendAsClient(new PlaceBlockPacket(zone, vector3, state));
+        }
         BlockSetter.get().replaceBlock(zone, state, vector3);
+
     }
 
     public static void setBlockAt(Zone zone, BlockState state, Vector3 vector3) {
-        BlockSetter.get().replaceBlock(zone, state, getBlockPosAtVec(zone, vector3));
+        setBlockAt(zone, state, (int) vector3.x, (int) vector3.y, (int) vector3.z);
     }
 
     public static void setBlockAt(Zone zone, BlockState state, int x, int y, int z) {
-        BlockSetter.get().replaceBlock(zone, state, x, y ,z);
+        setBlockAt(zone, state, getBlockPosAtVec(zone, x, y, z));
     }
 
     public static Chunk getChunkAtVec(Zone zone, int x, int y, int z) {

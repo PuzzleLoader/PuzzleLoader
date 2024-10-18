@@ -2,6 +2,7 @@ package com.github.puzzle.game.worldgen.schematics;
 
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
+import com.github.puzzle.game.util.BlockUtil;
 import finalforeach.cosmicreach.blocks.BlockPosition;
 import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.util.Identifier;
@@ -78,7 +79,8 @@ public class Schematic {
 
                         BlockState blockState = this.getBlockState(x, y, z);
                         if(blockState == null) continue;
-                        adjacentChunk.setBlockState(blockState, bx, by, bz);
+                        BlockUtil.setBlockAt(adjacentChunk.region.zone, blockState, new BlockPosition(adjacentChunk, bx, by, bz));
+//                        adjacentChunk.setBlockState(blockState, bx, by, bz);
                         adjacentChunk.flagForRemeshing(false);
                         continue;
                     }
@@ -87,7 +89,7 @@ public class Schematic {
 
 
 
-                    chunk.setBlockState(blockState, calX, calY, calZ);
+                    BlockUtil.setBlockAt(chunk.region.zone, blockState, new BlockPosition(chunk, calX, calY, calZ));
                     chunk.flagForRemeshing(false);
                 }
             }

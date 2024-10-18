@@ -28,6 +28,7 @@ public class BuilderWand implements IModItem {
     public BuilderWand() {
         tagManifest.addTag(IModItem.MODEL_ID_PRESET.createTag(IModItem.MODEL_2_5D_ITEM));
         tagManifest.addTag(IModItem.TEXTURE_LOCATION_PRESET.createTag(Identifier.of(MOD_ID, "baby_wand.png")));
+        tagManifest.addTag(IModItem.IS_DEBUG_ATTRIBUTE.createTag(true));
     }
 
     @Override
