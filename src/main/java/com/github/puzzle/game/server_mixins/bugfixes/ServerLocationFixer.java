@@ -15,20 +15,20 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
 
-@Mixin(ServerLauncher.class)
+@Mixin(value = ServerLauncher.class)
 public class ServerLocationFixer {
 
-    @Redirect(method = "main", at = @At(value = "INVOKE", target = "Ljava/net/URL;toURI()Ljava/net/URI;"))
+    @Redirect(require = 0, method = "main", at = @At(value = "INVOKE", target = "Ljava/net/URL;toURI()Ljava/net/URI;"))
     private static URI toURI(URL instance) {
         return ServerGlobals.SERVER_LOCATION.toURI();
     }
 
-    @Redirect(method = "main", at = @At(value = "INVOKE", target = "Ljava/io/File;getParentFile()Ljava/io/File;"))
+    @Redirect(require = 0, method = "main", at = @At(value = "INVOKE", target = "Ljava/io/File;getParentFile()Ljava/io/File;"))
     private static File getParentFile(File instance) {
         return instance;
     }
 
-    @Inject(method = "main", at = @At(value = "FIELD", target = "Lfinalforeach/cosmicreach/networking/server/ServerSingletons;server:Lfinalforeach/cosmicreach/networking/netty/NettyServer;", shift = At.Shift.AFTER))
+    @Inject(require = 0, method = "main", at = @At(value = "FIELD", target = "Lfinalforeach/cosmicreach/networking/server/ServerSingletons;server:Lfinalforeach/cosmicreach/networking/netty/NettyServer;", shift = At.Shift.AFTER))
     private static void consoleListener(String[] args, CallbackInfo ci) {
         ServerGlobals.isRunning = true;
         Thread thread = new Thread("Console Handler") {
@@ -48,7 +48,7 @@ public class ServerLocationFixer {
         thread.start();
     }
 
-    @Inject(method = "main", at = @At("TAIL"))
+    @Inject(require = 0, method = "main", at = @At("TAIL"))
     private static void setIsRunning(String[] args, CallbackInfo ci) {
         ServerGlobals.isRunning = false;
     }
