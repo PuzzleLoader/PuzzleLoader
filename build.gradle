@@ -118,6 +118,11 @@ dependencies {
 
     bundle("org.greenrobot:eventbus:$eventbusVersion")
 
+    bundle("org.jline:jline:3.25.0")
+    bundle("org.apache.commons:commons-lang3:3.17.0")
+    bundle("org.fusesource.jansi:jansi:2.2.0"){
+        exclude(group: "org.apache.commons", module: "commons-lang3") // use higher version above for paradox compat
+    }
 //    serverImplementation(files(sourceSets.main.java.classesDirectory, sourceSets.main.resources.srcDirs))
 //    clientImplementation(files(sourceSets.main.java.classesDirectory, sourceSets.main.resources.srcDirs, sourceSets.server.java.srcDirs, sourceSets.server.resources.srcDirs))
 //    implementation(files(sourceSets.client.java.srcDirs, sourceSets.client.resources.srcDirs, sourceSets.server.java.srcDirs, sourceSets.server.resources.srcDirs))

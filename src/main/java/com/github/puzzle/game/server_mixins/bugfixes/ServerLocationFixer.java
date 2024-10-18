@@ -1,6 +1,6 @@
 package com.github.puzzle.game.server_mixins.bugfixes;
 
-//import com.github.puzzle.core.terminal.PPLTerminalConsole;
+import com.github.puzzle.core.terminal.PPLTerminalConsole;
 import com.github.puzzle.game.ServerGlobals;
 import finalforeach.cosmicreach.networking.server.ServerSingletons;
 import finalforeach.cosmicreach.server.ServerLauncher;
@@ -14,6 +14,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
+
+import static com.github.puzzle.game.common.excluded.ServerCosmicReachProvider.isParadoxServer;
 
 @Mixin(value = ServerLauncher.class)
 public class ServerLocationFixer {
@@ -31,21 +33,22 @@ public class ServerLocationFixer {
     @Inject(require = 0, method = "main", at = @At(value = "FIELD", target = "Lfinalforeach/cosmicreach/networking/server/ServerSingletons;server:Lfinalforeach/cosmicreach/networking/netty/NettyServer;", shift = At.Shift.AFTER))
     private static void consoleListener(String[] args, CallbackInfo ci) {
         ServerGlobals.isRunning = true;
-        Thread thread = new Thread("Console Handler") {
-            public void run() {
-                try {
-                    System.in.available();
-                } catch (IOException e) {
-                    throw  new RuntimeException(e.getMessage());
-//                    return;
+        if(!isParadoxServer) {
+            Thread thread = new Thread("Console Handler") {
+                public void run() {
+                    try {
+                        System.in.available();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e.getMessage());
+                    }
+                    new PPLTerminalConsole(ServerSingletons.server).start();
+
                 }
-//                new PPLTerminalConsole(ServerSingletons.server).start();
 
-            }
-
-        };
-        thread.setDaemon(true);
-        thread.start();
+            };
+            thread.setDaemon(true);
+            thread.start();
+        }
     }
 
     @Inject(require = 0, method = "main", at = @At("TAIL"))

@@ -2,6 +2,8 @@ package com.github.puzzle.game.common.excluded;
 
 import com.github.puzzle.core.Constants;
 import com.github.puzzle.core.loader.launch.PuzzleClassLoader;
+import com.github.puzzle.core.loader.meta.Env;
+import com.github.puzzle.core.loader.meta.EnvType;
 import com.github.puzzle.core.loader.meta.ModInfo;
 import com.github.puzzle.core.loader.meta.Version;
 import com.github.puzzle.core.loader.provider.IGameProvider;
@@ -33,10 +35,14 @@ public class ServerCosmicReachProvider implements IGameProvider {
     final static String MIXIN_INJECT = "inject";
     final static String MIXIN_GOTO_PHASE = "gotoPhase";
 
-    public boolean useParadox = false;
 
+    /*
+     * Only use on paradox server
+     */
+    @Env(EnvType.SERVER)
+    public static boolean isParadoxServer = false;
     public ServerCosmicReachProvider() {
-        if(System.getProperty("puzzle.useParadox") != null) useParadox = true;
+        if(System.getProperty("puzzle.useParadox") != null) isParadoxServer = true;
         MethodUtil.runStaticMethod(Reflection.getMethod(MixinBootstrap.class, MIXIN_START));
     }
 
@@ -66,7 +72,7 @@ public class ServerCosmicReachProvider implements IGameProvider {
 
     @Override
     public String getEntrypoint() {
-        if(useParadox)
+        if(isParadoxServer)
             return "com.github.puzzle.paradox.loader.launch.Piece";
         else
             return ServerLauncher.class.getName();
