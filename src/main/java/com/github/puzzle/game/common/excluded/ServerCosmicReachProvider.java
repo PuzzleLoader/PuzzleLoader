@@ -33,7 +33,10 @@ public class ServerCosmicReachProvider implements IGameProvider {
     final static String MIXIN_INJECT = "inject";
     final static String MIXIN_GOTO_PHASE = "gotoPhase";
 
+    public boolean useParadox = false;
+
     public ServerCosmicReachProvider() {
+        if(System.getProperty("puzzle.useParadox") != null) useParadox = true;
         MethodUtil.runStaticMethod(Reflection.getMethod(MixinBootstrap.class, MIXIN_START));
     }
 
@@ -63,7 +66,10 @@ public class ServerCosmicReachProvider implements IGameProvider {
 
     @Override
     public String getEntrypoint() {
-        return ServerLauncher.class.getName();
+        if(useParadox)
+            return "com.github.puzzle.paradox.loader.launch.Piece";
+        else
+            return ServerLauncher.class.getName();
     }
 
     @Override
