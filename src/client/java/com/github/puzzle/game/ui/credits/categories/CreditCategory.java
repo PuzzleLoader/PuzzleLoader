@@ -5,19 +5,19 @@ import java.util.List;
 
 public class CreditCategory implements ICreditElement {
 
-    String name;
+    String title;
     List<String> names;
 
     public CreditCategory(String name) {
-        this.name = name;
+        this.title = name;
         this.names = new ArrayList<>();
     }
 
-    public String getCategoryName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
-    public void setCategoryName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public void addName(String name) {

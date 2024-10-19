@@ -1,12 +1,11 @@
 package com.github.puzzle.game.ui.credits;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.github.puzzle.game.engine.rendering.text.FormatText;
-import com.github.puzzle.game.engine.rendering.text.TextRenderer;
+import com.github.puzzle.game.engine.rendering.text.FormattedTextRenderer;
 import com.github.puzzle.game.resources.PuzzleGameAssetLoader;
 import com.github.puzzle.game.ui.credits.categories.CreditCategory;
 import com.github.puzzle.game.ui.credits.categories.ICreditElement;
@@ -19,12 +18,10 @@ import finalforeach.cosmicreach.settings.Controls;
 import finalforeach.cosmicreach.ui.HorizontalAnchor;
 import finalforeach.cosmicreach.ui.UIElement;
 import finalforeach.cosmicreach.ui.VerticalAnchor;
-import finalforeach.cosmicreach.util.Identifier;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.github.puzzle.game.resources.PuzzleGameAssetLoader.LOADER;
 import static finalforeach.cosmicreach.ui.FontRenderer.getTextDimensions;
 
 public class PuzzleCreditsMenu extends GameState {
@@ -108,14 +105,16 @@ public class PuzzleCreditsMenu extends GameState {
                     y += texHeight - (texHeight / 4f);
                 }
                 if (creditElement instanceof CreditCategory category) {
-                    String categoryTitle = "§0---- " + category.getCategoryName() + " §0----";
+                    String categoryTitle = "§0---- " + category.getTitle() + " §0----";
 
                     getTextDimensions(uiViewport, FormatText.FORMAT_PATTER.matcher(categoryTitle).replaceAll(""), v2);
-                    TextRenderer.drawText(categoryTitle, batch, uiViewport, null, -v2.x / 2, y, null, null);
+                    FormattedTextRenderer.drawText(batch, uiViewport, categoryTitle,  -v2.x / 2, y);
+//                    TextRenderer.drawText(categoryTitle, batch, uiViewport, null, -v2.x / 2, y, null, null);
                     y += lineHeight * 1.5f;
                     for (String name : category.getNames()) {
                         getTextDimensions(uiViewport, FormatText.FORMAT_PATTER.matcher(name).replaceAll(""), v2);
-                        TextRenderer.drawText(name, batch, uiViewport, Color.WHITE.cpy(), -v2.x / 2, y, null, null);
+                        FormattedTextRenderer.drawText(batch, uiViewport, name,  -v2.x / 2, y);
+//                        TextRenderer.drawText(name, batch, uiViewport, Color.WHITE.cpy(), -v2.x / 2, y, null, null);
                         y += lineHeight;
                     }
                 }

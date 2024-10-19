@@ -1,29 +1,111 @@
 package com.github.puzzle.game.engine.rendering.text;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.viewport.Viewport;
+import finalforeach.cosmicreach.ui.FontRenderer;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.MatchResult;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-// TODO: REWRITE
 public class FormatText {
     public static final String FORMAT_KEY = "§";
-
-//    public static final Pattern FORMAT_PATTER = Pattern.compile("(?i)"+FORMAT_KEY+"[0-9A-FR]");
     public static final Pattern FORMAT_PATTER = Pattern.compile("(?i)("+FORMAT_KEY+"\\[[0-9A-FR]{6}]|"+FORMAT_KEY+"[0-9A-FR])");
+    public static final Pattern FORMAT_VALUE = Pattern.compile("(?i)("+FORMAT_KEY+"\\[[0-9A-FR]{6}][^"+FORMAT_KEY+"]+|"+FORMAT_KEY+"[0-9A-FR][^"+FORMAT_KEY+"]+)");
 
-    public static FormatText of(String text){
-        return new FormatText(text).parse();
-    }
-    public FormatText(String text){
-        this.text = text;
+    final String text;
+    final String rawText;
+    final List<TextPart> parts;
+
+    FormatText(@NonNull String text, @NonNull List<TextPart> parts) {
+        this.text = FORMAT_PATTER.matcher(text).replaceAll("");
+        this.rawText = text;
+        this.parts = parts;
     }
 
-    public Color toColor(String c){
+    public static FormatText of(String text) {
+        return of(text, Color.WHITE.cpy());
+    }
+
+    public static FormatText of(String text, Color resetColor) {
+        List<TextPart> parts = new ArrayList<>();
+
+        // Repair String if it's encoded in a broken charset
+        text = new String(text.getBytes(StandardCharsets.UTF_8));
+        if (!text.startsWith(FORMAT_KEY))
+            text = FORMAT_KEY + "r" + text;
+
+        if (text.contains(FORMAT_KEY)) {
+            List<MatchResult> resultList = FORMAT_VALUE.matcher(text).results().toList();
+
+            for (MatchResult result : resultList) {
+                char[] chars = new char[result.end() - result.start()];
+                text.getChars(result.start(), result.end(), chars, 0);
+
+                String segment = new String(chars);
+                Matcher m = FORMAT_PATTER.matcher(segment);
+
+                String segmentText = m.replaceAll("");
+                String colourFormatter = segment.replace(segmentText, "");
+
+                parts.add(new TextPart(segmentText, toColor(colourFormatter, resetColor)));
+            }
+        }
+
+        return new FormatText(text, parts);
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public String getRawText() {
+        return rawText;
+    }
+
+    public List<TextPart> getParts() {
+        return parts;
+    }
+
+    public String strip() {
+        return getText().strip();
+    }
+
+    @Override
+    public String toString() {
+        return getText();
+    }
+
+    public record TextPart(String text, Color color) {
+        public Vector2 getDimensions(Viewport vp) {
+            return FontRenderer.getTextDimensions(vp, text, new Vector2());
+        }
+
+        public float getWidth(Viewport vp) {
+            return getDimensions(vp).x;
+        }
+
+        public float getHeight(Viewport vp) {
+            return getDimensions(vp).y;
+        }
+
+    }
+
+    public static Color toColor(String c) {
+        return toColor(c, Color.WHITE.cpy());
+    }
+
+    public static Color toColor(String c, Color resetColor){
+        c = c.replaceFirst(FORMAT_KEY, "");
+
         return switch (c) {
-            case "0", "com" -> Color.WHITE.cpy();
+            case "r" -> resetColor.cpy();
+            case "0" -> Color.WHITE.cpy();
             case "1" -> Color.BLACK.cpy();
             case "2" -> Color.BLUE.cpy();
             case "3" -> Color.RED.cpy();
@@ -35,42 +117,11 @@ public class FormatText {
                 if (c.startsWith("[") && c.endsWith("]")) {
                     c = c.replaceAll("\\[", "").replaceAll("]", "");
                     yield Color.valueOf("#" + c);
-                } else yield null;
+                } else {
+                    yield null;
+                }
             }
         };
-    }
-
-    public FormatText parse() {
-        String fixedText = new String(text.getBytes(StandardCharsets.UTF_8));
-        if (!hasParsed) {
-            if (fixedText.contains(FORMAT_KEY)) {
-                var matcher = FORMAT_PATTER.matcher(fixedText);
-                var split = FORMAT_PATTER.split(fixedText);
-                if (split.length > 1) {
-                    while (matcher.find()) {
-                        var s = matcher.group(0);
-                        parseIndex.put(split[parseIndex.size()+1], toColor(s.replaceAll(FORMAT_KEY,"")));
-                    }
-
-                }
-                if(!split[0].isBlank() || !split[0].isEmpty())
-                    parseIndex.put(split[0], Color.WHITE);
-            }
-            hasParsed = true;
-        }
-        return this;
-    }
-    public String strip(){
-        return text == null ? null : FORMAT_PATTER.matcher(text).replaceAll("");
-    }
-
-    private final String text;
-    private  boolean hasParsed = false;
-    public final Map<String, Color> parseIndex = new HashMap<>();
-
-
-    public String toString(){
-        return text;
     }
 
 }

@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Supplier;
 
 public class ServerGlobals {
@@ -21,39 +22,24 @@ public class ServerGlobals {
     @Env(EnvType.SERVER)
     public static boolean isRunning = false;
 
+    static final AtomicReference<Boolean> paradoxExist = new AtomicReference<>();
+
     @Env(EnvType.SERVER)
     public static boolean isRunningOnParadox = ((Supplier<Boolean>) () -> {
-        if (System.getProperty("puzzle.useParadox") != null) return true;
+        if (paradoxExist.get() != null) return paradoxExist.get();
+        if (System.getProperty("puzzle.useParadox") != null) {
+            paradoxExist.set(true);
+            return true;
+        }
 
-        ModLocator.forEachEntryOnClasspath(Piece.classLoader.getSources(), entry -> {
-            if (entry.isArchive() || entry.isDirectory()) {
-                try {
-                    for (ClassPathFileEntry entry1 : entry.listAllFiles()) {
-                        if (entry1.getName().contains("jarIdentity.txt")) {
-                            String s = new String(entry1.getContents());
-                            if (s.contains("Puzzle-Paradox-Plugin-Loader")) {
-                                System.setProperty("puzzle.useParadox", "true");
-                            }
-                            break;
-                        }
-                    }
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            } else if (entry.file().getName().contains("jarIdentity.txt")) {
-                String s;
-                try {
-                    s = new String(entry.getContents());
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                if (s.contains("Puzzle-Paradox-Plugin-Loader")) {
-                    System.setProperty("puzzle.useParadox", "true");
-                }
-            }
-        });
-
-        return System.getProperty("puzzle.useParadox") != null;
+        try {
+            Class.forName(ModLocator.PARADOX_SERVER_ENTRYPOINT, false, Piece.classLoader);
+            paradoxExist.set(true);
+            return true;
+        } catch (ClassNotFoundException ignore) {
+            paradoxExist.set(false);
+            return false;
+        }
     }).get();
 
     public static boolean GameLoaderHasLoaded;
