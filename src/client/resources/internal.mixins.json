@@ -33,6 +33,8 @@
     "defaultRequire": 1
   },
   "mixins": [
-    "networking.PacketInterceptorMixin"
+    "networking.PacketInterceptorMixin",
+    "ui.CreditsButtonMixin",
+    "ui.CreditsScreenMixin"
   ]
 }

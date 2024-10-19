@@ -7,10 +7,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+// TODO: REWRITE
 public class FormatText {
     public static final String FORMAT_KEY = "§";
 
-    public static final Pattern FORMAT_PATTER = Pattern.compile("(?i)"+FORMAT_KEY+"[0-9A-FR]");
+//    public static final Pattern FORMAT_PATTER = Pattern.compile("(?i)"+FORMAT_KEY+"[0-9A-FR]");
+    public static final Pattern FORMAT_PATTER = Pattern.compile("(?i)("+FORMAT_KEY+"\\[[0-9A-FR]{6}]|"+FORMAT_KEY+"[0-9A-FR])");
 
     public static FormatText of(String text){
         return new FormatText(text).parse();
@@ -28,7 +30,13 @@ public class FormatText {
             case "4" -> Color.YELLOW.cpy();
             case "5" -> Color.GREEN.cpy();
             case "6" -> Color.PINK.cpy();
-            default -> null;
+            default -> {
+                c = c.strip();
+                if (c.startsWith("[") && c.endsWith("]")) {
+                    c = c.replaceAll("\\[", "").replaceAll("]", "");
+                    yield Color.valueOf("#" + c);
+                } else yield null;
+            }
         };
     }
 
@@ -41,12 +49,12 @@ public class FormatText {
                 if (split.length > 1) {
                     while (matcher.find()) {
                         var s = matcher.group(0);
-                        parseIndex.put(split[parseIndex.size()+1], toColor( s.replaceAll(FORMAT_KEY,"")));
+                        parseIndex.put(split[parseIndex.size()+1], toColor(s.replaceAll(FORMAT_KEY,"")));
                     }
 
                 }
                 if(!split[0].isBlank() || !split[0].isEmpty())
-                    parseIndex.put(split[0],null);
+                    parseIndex.put(split[0], Color.WHITE);
             }
             hasParsed = true;
         }

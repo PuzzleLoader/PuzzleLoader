@@ -29,11 +29,12 @@ public class ServerGlobals {
             if (entry.isArchive() || entry.isDirectory()) {
                 try {
                     for (ClassPathFileEntry entry1 : entry.listAllFiles()) {
-                        if (entry1.entry.getName().contains("jarIdentity.txt")) {
+                        if (entry1.getName().contains("jarIdentity.txt")) {
                             String s = new String(entry1.getContents());
                             if (s.contains("Puzzle-Paradox-Plugin-Loader")) {
                                 System.setProperty("puzzle.useParadox", "true");
                             }
+                            break;
                         }
                     }
                 } catch (IOException e) {
