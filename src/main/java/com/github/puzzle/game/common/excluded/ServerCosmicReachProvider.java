@@ -8,10 +8,11 @@ import com.github.puzzle.core.loader.meta.ModInfo;
 import com.github.puzzle.core.loader.meta.Version;
 import com.github.puzzle.core.loader.provider.IGameProvider;
 import com.github.puzzle.core.loader.provider.mod.ModContainer;
-import com.github.puzzle.core.loader.provider.mod.entrypoint.impls.TransformerInitializer;
+import com.github.puzzle.core.loader.provider.mod.entrypoint.impls.CommonTransformerInitializer;
 import com.github.puzzle.core.loader.util.MethodUtil;
 import com.github.puzzle.core.loader.util.ModLocator;
 import com.github.puzzle.core.loader.util.Reflection;
+import com.github.puzzle.game.ServerGlobals;
 import finalforeach.cosmicreach.GameAssetLoader;
 import finalforeach.cosmicreach.server.ServerLauncher;
 import org.hjson.JsonObject;
@@ -36,13 +37,7 @@ public class ServerCosmicReachProvider implements IGameProvider {
     final static String MIXIN_GOTO_PHASE = "gotoPhase";
 
 
-    /*
-     * Only use on paradox server
-     */
-    @Env(EnvType.SERVER)
-    public static boolean isParadoxServer = false;
     public ServerCosmicReachProvider() {
-        if(System.getProperty("puzzle.useParadox") != null) isParadoxServer = true;
         MethodUtil.runStaticMethod(Reflection.getMethod(MixinBootstrap.class, MIXIN_START));
     }
 
@@ -72,7 +67,7 @@ public class ServerCosmicReachProvider implements IGameProvider {
 
     @Override
     public String getEntrypoint() {
-        if(isParadoxServer)
+        if(ServerGlobals.isRunningOnParadox)
             return "com.github.puzzle.paradox.loader.launch.Piece";
         else
             return ServerLauncher.class.getName();
@@ -89,7 +84,7 @@ public class ServerCosmicReachProvider implements IGameProvider {
         ModLocator.getMods(List.of(classLoader.getURLs()));
         addBuiltinMods();
 
-        TransformerInitializer.invokeTransformers(classLoader);
+        CommonTransformerInitializer.invokeTransformers(classLoader);
     }
 
     @Override

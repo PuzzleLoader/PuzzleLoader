@@ -1,15 +1,13 @@
 package com.github.puzzle.game.engine.stages;
 
 import com.github.puzzle.core.loader.provider.mod.ModContainer;
-import com.github.puzzle.core.loader.provider.mod.entrypoint.impls.ModInitializer;
+import com.github.puzzle.core.loader.launch.provider.mod.entrypoint.impls.ClientModInitializer;
 import com.github.puzzle.core.loader.util.ModLocator;
 import com.github.puzzle.core.localization.TranslationKey;
 import com.github.puzzle.game.PuzzleRegistries;
 import com.github.puzzle.game.engine.GameLoader;
 import com.github.puzzle.game.engine.LoadStage;
-import com.github.puzzle.game.engine.ServerGameLoader;
 import com.github.puzzle.game.events.OnRegisterLanguageEvent;
-import com.github.puzzle.game.networking.packet.PacketInterceptor;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -33,7 +31,7 @@ public class Initialize extends LoadStage {
         AtomicInteger progress = new AtomicInteger();
         loader.setupProgressBar(loader.progressBar2, ModLocator.locatedMods.size(), "Initializing Mods: Init");
         try {
-            ModLocator.locatedMods.get(MOD_ID).invokeEntrypoint(ModInitializer.ENTRYPOINT_KEY, ModInitializer.class, ModInitializer::onInit);
+            ModLocator.locatedMods.get(MOD_ID).invokeEntrypoint(ClientModInitializer.ENTRYPOINT_KEY, ClientModInitializer.class, ClientModInitializer::onInit);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -48,7 +46,7 @@ public class Initialize extends LoadStage {
                         loader.progressBar2.setValue(progress.get());
                         counter = 0;
                     } else counter++;
-                    container.invokeEntrypoint(ModInitializer.ENTRYPOINT_KEY, ModInitializer.class, ModInitializer::onInit);
+                    container.invokeEntrypoint(ClientModInitializer.ENTRYPOINT_KEY, ClientModInitializer.class, ClientModInitializer::onInit);
                 } else counter++;
             } catch (Exception e) {
                 throw new RuntimeException(e);

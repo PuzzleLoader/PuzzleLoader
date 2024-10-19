@@ -1,7 +1,7 @@
 package com.github.puzzle.game.mixins.refactors.entrypoint;
 
 import com.github.puzzle.core.loader.launch.Piece;
-import com.github.puzzle.core.loader.provider.mod.entrypoint.impls.PreModInitializer;
+import com.github.puzzle.core.loader.launch.provider.mod.entrypoint.impls.ClientPreModInitializer;
 import com.github.puzzle.game.ClientGlobals;
 import finalforeach.cosmicreach.lwjgl3.Lwjgl3Launcher;
 import org.spongepowered.asm.mixin.Mixin;
@@ -15,6 +15,6 @@ public class PreGameLaunchInit {
     private static void loadPreLaunch(String[] args, CallbackInfo ci) {
         Piece.provider.addBuiltinMods();
         ClientGlobals.initRenderers();
-        PreModInitializer.invokeEntrypoint();
+        ClientPreModInitializer.invokeEntrypoint();
     }
 }

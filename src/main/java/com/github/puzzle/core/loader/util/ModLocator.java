@@ -1,5 +1,7 @@
 package com.github.puzzle.core.loader.util;
 
+import com.github.puzzle.core.loader.meta.Env;
+import com.github.puzzle.core.loader.meta.EnvType;
 import com.github.puzzle.core.loader.meta.ModInfo;
 import com.github.puzzle.core.loader.meta.parser.ModJson;
 import com.github.puzzle.core.loader.provider.mod.ModContainer;
@@ -10,12 +12,11 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.net.URLDecoder;
+import java.net.*;
 import java.nio.charset.Charset;
 import java.util.*;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -23,8 +24,9 @@ import static com.github.puzzle.core.loader.meta.parser.VersionParser.hasDepende
 
 @SuppressWarnings("UrlHashCode")
 public class ModLocator {
+
     public static final String COSMIC_REACH_SERVER_ENTRYPOINT = "finalforeach.cosmicreach.server.ServerLauncher";
-    public static final String COSMIC_REACH_CLIENT_ENTRYPOINT = "finalforeach.cosmicreach.server.ServerLauncher";
+    public static final String COSMIC_REACH_CLIENT_ENTRYPOINT = "finalforeach.cosmicreach.lwjgl3.Lwjgl3Launcher";
 
     public static Logger LOGGER = LogManager.getLogger("Puzzle | ModLocator");
     public static File MOD_FOLDER = new File("pmods");
@@ -40,6 +42,80 @@ public class ModLocator {
         MOD_FOLDER = file;
     }
 
+    static HashSet<File> getFilesRecursive(File parent) {
+        HashSet<File> hashSet = new HashSet<>();
+
+        if (!parent.isDirectory()) hashSet.add(parent);
+        else for (File file : Objects.requireNonNull(parent.listFiles())) {
+            if (file.isDirectory()) hashSet.addAll(getFilesRecursive(file));
+            else hashSet.add(file);
+        }
+
+        return hashSet;
+    }
+
+    static HashSet<File> getFiles(File parent) {
+        HashSet<File> hashSet = new HashSet<>();
+
+        if (!parent.isDirectory()) hashSet.add(parent);
+        hashSet.addAll(Arrays.asList(Objects.requireNonNull(parent.listFiles())));
+
+        return hashSet;
+    }
+
+    public static List<ClassPathEntry> getEntriesOnClasspath(Collection<URL> urlz) {
+        Collection<URL> urls = getUrlsOnClasspath(urlz);
+        List<ClassPathEntry> entries = new ArrayList<>();
+
+        for (URL url : urls) {
+            try {
+                File file = new File(url.toURI());
+
+                entries.add(new ClassPathEntry(
+                        file,
+                        ((Supplier<Boolean>) () -> {
+                            try {
+                                new ZipFile(file);
+                                System.gc();
+                                return true;
+                            } catch (IOException e) {
+                                return false;
+                            }
+                        }).get(),
+                        file.isDirectory()
+                ));
+            } catch (URISyntaxException e) {
+            }
+        }
+
+        return entries;
+    }
+
+    public static @NotNull void forEachEntryOnClasspath(Collection<URL> urlz, Consumer<ClassPathEntry> consumer) {
+        Collection<URL> urls = getUrlsOnClasspath(urlz);
+
+        for (URL url : urls) {
+            try {
+                File file = new File(url.toURI());
+
+                consumer.accept(new ClassPathEntry(
+                        file,
+                        ((Supplier<Boolean>) () -> {
+                            try {
+                                new ZipFile(file);
+                                System.gc();
+                                return true;
+                            } catch (IOException e) {
+                                return false;
+                            }
+                        }).get(),
+                        file.isDirectory()
+                ));
+            } catch (URISyntaxException e) {
+            }
+        }
+    }
+
     public static @NotNull Collection<URL> getUrlsOnClasspath() {
         return getUrlsOnClasspath(new ArrayList<>());
     }
@@ -47,8 +123,6 @@ public class ModLocator {
     @SuppressWarnings("CallToPrintStackTrace")
     public static @NotNull Collection<URL> getUrlsOnClasspath(Collection<URL> urlz) {
         Set<URL> urls = new HashSet<>(urlz);
-        // 'urls' may contain URL objects
-        // i hope it does
 
         if (ModLocator.class.getClassLoader() instanceof URLClassLoader loader) {
             Collections.addAll(urls, loader.getURLs());

@@ -6,7 +6,7 @@ import com.github.puzzle.core.loader.meta.ModInfo;
 import com.github.puzzle.core.loader.meta.Version;
 import com.github.puzzle.core.loader.provider.IGameProvider;
 import com.github.puzzle.core.loader.provider.mod.ModContainer;
-import com.github.puzzle.core.loader.provider.mod.entrypoint.impls.TransformerInitializer;
+import com.github.puzzle.core.loader.provider.mod.entrypoint.impls.CommonTransformerInitializer;
 import com.github.puzzle.core.loader.util.MethodUtil;
 import com.github.puzzle.core.loader.util.ModLocator;
 import com.github.puzzle.core.loader.util.Reflection;
@@ -79,7 +79,7 @@ public class ClientCosmicReachProvider implements IGameProvider {
         ModLocator.getMods(List.of(classLoader.getURLs()));
         addBuiltinMods();
 
-        TransformerInitializer.invokeTransformers(classLoader);
+        CommonTransformerInitializer.invokeTransformers(classLoader);
     }
 
     @Override
@@ -136,9 +136,9 @@ public class ClientCosmicReachProvider implements IGameProvider {
 
             puzzleLoaderInfo.setVersion(Constants.getVersion());
             puzzleLoaderInfo.setAccessManipulator("puzzle_loader.manipulator");
-            puzzleLoaderInfo.addEntrypoint("preInit", Puzzle.class.getName());
-            puzzleLoaderInfo.addEntrypoint("init", Puzzle.class.getName());
-            puzzleLoaderInfo.addEntrypoint("postInit", Puzzle.class.getName());
+            puzzleLoaderInfo.addEntrypoint("client_preInit", Puzzle.class.getName());
+            puzzleLoaderInfo.addEntrypoint("client_init", Puzzle.class.getName());
+            puzzleLoaderInfo.addEntrypoint("client_postInit", Puzzle.class.getName());
 
             ModLocator.locatedMods.put("puzzle-loader", puzzleLoaderInfo.build().getOrCreateModContainer());
         }

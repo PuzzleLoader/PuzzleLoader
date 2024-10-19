@@ -1,11 +1,10 @@
 package com.github.puzzle.game.common;
 
 import com.github.puzzle.core.Constants;
-import com.github.puzzle.core.loader.launch.PuzzleClassLoader;
 import com.github.puzzle.core.loader.provider.mod.AdapterPathPair;
-import com.github.puzzle.core.loader.provider.mod.entrypoint.impls.ModInitializer;
-import com.github.puzzle.core.loader.provider.mod.entrypoint.impls.PostModInitializer;
-import com.github.puzzle.core.loader.provider.mod.entrypoint.impls.PreModInitializer;
+import com.github.puzzle.core.loader.launch.provider.mod.entrypoint.impls.ClientModInitializer;
+import com.github.puzzle.core.loader.launch.provider.mod.entrypoint.impls.ClientPostModInitializer;
+import com.github.puzzle.core.loader.launch.provider.mod.entrypoint.impls.ClientPreModInitializer;
 import com.github.puzzle.core.loader.util.ModLocator;
 import com.github.puzzle.core.loader.util.PuzzleEntrypointUtil;
 import com.github.puzzle.core.localization.ILanguageFile;
@@ -14,7 +13,6 @@ import com.github.puzzle.core.localization.files.LanguageFileVersion1;
 import com.github.puzzle.game.ClientGlobals;
 import com.github.puzzle.game.PuzzleRegistries;
 import com.github.puzzle.game.engine.shaders.ItemShader;
-import com.github.puzzle.game.events.OnPacketIntercept;
 import com.github.puzzle.game.events.OnPreLoadAssetsEvent;
 import com.github.puzzle.game.items.IModItem;
 import com.github.puzzle.game.items.ITickingItem;
@@ -30,14 +28,13 @@ import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.Threads;
 import finalforeach.cosmicreach.gamestates.InGame;
 import finalforeach.cosmicreach.items.ItemSlot;
-import finalforeach.cosmicreach.networking.netty.packets.PlayerPositionPacket;
 import finalforeach.cosmicreach.ui.UI;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.IOException;
 import java.util.Objects;
 
-public class Puzzle implements PreModInitializer, ModInitializer, PostModInitializer {
+public class Puzzle implements ClientPreModInitializer, ClientModInitializer, ClientPostModInitializer {
     public static final String VERSION = Constants.getVersion();
 
     public Puzzle() {

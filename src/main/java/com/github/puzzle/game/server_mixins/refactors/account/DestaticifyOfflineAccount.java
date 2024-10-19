@@ -34,7 +34,7 @@ public class DestaticifyOfflineAccount extends Account {
     public String getDisplayName() {
         return puzzleLoader$self.getRawUserName();
     }
-//
+
 //    @Inject(method = "<init>", at = @At("TAIL"))
 //    private void init(CallbackInfo ci) {
 //        fakeItchAccount = new FakeItchAccount();
