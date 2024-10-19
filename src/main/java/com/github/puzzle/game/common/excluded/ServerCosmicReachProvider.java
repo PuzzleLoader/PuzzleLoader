@@ -67,10 +67,7 @@ public class ServerCosmicReachProvider implements IGameProvider {
 
     @Override
     public String getEntrypoint() {
-        if(ServerGlobals.isRunningOnParadox)
-            return "com.github.puzzle.paradox.loader.launch.Piece";
-        else
-            return ServerLauncher.class.getName();
+        return ServerGlobals.isRunningOnParadox ? ModLocator.PARADOX_SERVER_ENTRYPOINT : ServerLauncher.class.getName();
     }
 
     @Override
