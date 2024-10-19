@@ -1,5 +1,7 @@
 package com.github.puzzle.game.common;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.github.puzzle.core.Constants;
 import com.github.puzzle.core.loader.provider.mod.AdapterPathPair;
 import com.github.puzzle.core.loader.launch.provider.mod.entrypoint.impls.ClientModInitializer;
@@ -21,11 +23,17 @@ import com.github.puzzle.game.items.puzzle.BuilderWand;
 import com.github.puzzle.game.items.puzzle.CheckBoard;
 import com.github.puzzle.game.items.puzzle.NullStick;
 import com.github.puzzle.game.resources.PuzzleGameAssetLoader;
+import com.github.puzzle.game.ui.credits.CreditFile;
+import com.github.puzzle.game.ui.credits.PuzzleCreditsMenu;
+import com.github.puzzle.game.ui.credits.categories.ListCredit;
+import com.github.puzzle.game.ui.credits.categories.ICreditElement;
+import com.github.puzzle.game.ui.credits.categories.ImageCredit;
 import com.github.puzzle.game.ui.modmenu.ConfigScreenFactory;
 import com.github.puzzle.game.ui.modmenu.ModMenu;
 import com.google.common.collect.ImmutableCollection;
 import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.Threads;
+import finalforeach.cosmicreach.gamestates.CreditsMenu;
 import finalforeach.cosmicreach.gamestates.InGame;
 import finalforeach.cosmicreach.items.ItemSlot;
 import finalforeach.cosmicreach.ui.UI;
@@ -57,6 +65,9 @@ public class Puzzle implements ClientPreModInitializer, ClientModInitializer, Cl
 
     @Override
     public void onInit() {
+        ICreditElement.TYPE_TO_ELEMENT.put("image", ImageCredit.class);
+        ICreditElement.TYPE_TO_ELEMENT.put("list", ListCredit.class);
+
         Threads.runOnMainThread(ItemShader::initItemShader);
         PuzzleEntrypointUtil.invoke("modmenu", ConfigScreenFactory.class, (configScreen) -> {
             ModLocator.locatedMods.values().forEach(modContainer -> {
@@ -137,6 +148,10 @@ public class Puzzle implements ClientPreModInitializer, ClientModInitializer, Cl
                     }
                 }
             }
+        });
+
+        Threads.runOnMainThread(() -> {
+            PuzzleCreditsMenu.addFile(CreditFile.fromJson(PuzzleGameAssetLoader.locateAsset("puzzle-loader:credits/credits.json").readString()));
         });
     }
 

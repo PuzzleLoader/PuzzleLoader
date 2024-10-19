@@ -23,6 +23,8 @@ public class Constants {
         return input;
     }
 
+    public static final boolean isDev = getVersion().equals("69.69.69");
+
     public static String getVersion() {
             try {
                 InputStream stream = getFile("/assets/puzzle-loader/version.txt");

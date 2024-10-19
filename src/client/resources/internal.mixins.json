@@ -35,6 +35,6 @@
   "mixins": [
     "networking.PacketInterceptorMixin",
     "ui.CreditsButtonMixin",
-    "ui.CreditsScreenMixin"
+    "ui.CreditsMenuMixin"
   ]
 }

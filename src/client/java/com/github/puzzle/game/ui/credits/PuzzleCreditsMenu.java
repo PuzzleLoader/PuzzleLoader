@@ -2,14 +2,11 @@ package com.github.puzzle.game.ui.credits;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.github.puzzle.game.engine.rendering.text.FormatText;
-import com.github.puzzle.game.engine.rendering.text.FormattedTextRenderer;
 import com.github.puzzle.game.resources.PuzzleGameAssetLoader;
-import com.github.puzzle.game.ui.credits.categories.CreditCategory;
 import com.github.puzzle.game.ui.credits.categories.ICreditElement;
-import com.github.puzzle.game.ui.credits.categories.TextureCreditElement;
+import com.github.puzzle.game.ui.credits.categories.ImageCredit;
+import finalforeach.cosmicreach.gamestates.CreditsMenu;
 import finalforeach.cosmicreach.gamestates.GameState;
 import finalforeach.cosmicreach.gamestates.LanguagesMenu;
 import finalforeach.cosmicreach.gamestates.MainMenu;
@@ -21,21 +18,19 @@ import finalforeach.cosmicreach.ui.VerticalAnchor;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static finalforeach.cosmicreach.ui.FontRenderer.getTextDimensions;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class PuzzleCreditsMenu extends GameState {
 
     public static final List<ICreditElement> categories = new ArrayList<>();
-    private static final Vector2 v2 = new Vector2();
 
     public PuzzleCreditsMenu() {}
 
-    public void addCategory(ICreditElement category) {
+    public static void addCategory(ICreditElement category) {
         categories.add(category);
     }
 
-    public void addFile(CreditFile file) {
+    public static void addFile(CreditFile file) {
         categories.addAll(file.categories);
     }
 
@@ -43,13 +38,13 @@ public class PuzzleCreditsMenu extends GameState {
     public void create() {
         super.create();
 
-        categories.add(new TextureCreditElement(MainMenu.textLogo));
-//        categories.add(new TextureCreditElement(LOADER.loadSync("puzzle-loader:icons/PuzzleLoaderIconx160.png", Texture.class)));
+        ImageCredit image = new ImageCredit(PuzzleGameAssetLoader.LOADER.loadSync("base:textures/text-logo-hd.png", Texture.class));
+        image.setScale(0.5f);
+        PuzzleCreditsMenu.addCategory(image);
+        new CreditsMenu().create();
+        PuzzleCreditsMenu.addFile(CreditFile.fromVanilla(Gdx.files.classpath("post_build/Cosmic-Reach-Localization/CREDITS.txt").readString()));
 
-        addFile(CreditFile.fromJson(PuzzleGameAssetLoader.locateAsset("puzzle-loader:credits.json").readString()));
-        addFile(CreditFile.fromVanilla(Gdx.files.classpath("post_build/Cosmic-Reach-Localization/CREDITS.txt").readString()));
-
-        UIElement returnButton = new UIElement(16.0F, -16.0F, 250.0F, 50.0F) {
+        UIElement returnButton = new UIElement(-16.0F, -16.0F, 250.0F, 50.0F) {
             public void onClick() {
                 super.onClick();
                 GameState.switchToGameState(new MainMenu());
@@ -64,7 +59,6 @@ public class PuzzleCreditsMenu extends GameState {
     }
 
     float animationTime;
-    float sizeY;
 
     @Override
     public void render() {
@@ -86,45 +80,18 @@ public class PuzzleCreditsMenu extends GameState {
             Gdx.gl.glCullFace(1029);
             Gdx.gl.glEnable(3042);
             Gdx.gl.glBlendFunc(770, 771);
-            Texture textLogo = MainMenu.textLogo;
             batch.setProjectionMatrix(this.uiCamera.combined);
             batch.begin();
-            float y = -this.uiViewport.getWorldHeight() / 2.0F + 16.0F + yOff;
-            float lineHeight = 24.0F;
+            AtomicReference<Float> y = new AtomicReference<>(-this.uiViewport.getWorldHeight() / 2.0F + 16.0F + yOff);
 
             for (ICreditElement creditElement : categories) {
-
-                if (creditElement instanceof TextureCreditElement category) {
-                    float texScale = 1;
-
-                    int texHeight = category.getTexture().getHeight();
-                    int texWidth = category.getTexture().getWidth();
-
-                    batch.draw(category.getTexture(), -texScale * texWidth / 2, y, 0, 0, texWidth / texScale, texHeight / texScale, texScale, texScale, 0, 0, 0, texWidth, texHeight, false, true);
-
-                    y += texHeight - (texHeight / 4f);
-                }
-                if (creditElement instanceof CreditCategory category) {
-                    String categoryTitle = "§0---- " + category.getTitle() + " §0----";
-
-                    getTextDimensions(uiViewport, FormatText.FORMAT_PATTER.matcher(categoryTitle).replaceAll(""), v2);
-                    FormattedTextRenderer.drawText(batch, uiViewport, categoryTitle,  -v2.x / 2, y);
-//                    TextRenderer.drawText(categoryTitle, batch, uiViewport, null, -v2.x / 2, y, null, null);
-                    y += lineHeight * 1.5f;
-                    for (String name : category.getNames()) {
-                        getTextDimensions(uiViewport, FormatText.FORMAT_PATTER.matcher(name).replaceAll(""), v2);
-                        FormattedTextRenderer.drawText(batch, uiViewport, name,  -v2.x / 2, y);
-//                        TextRenderer.drawText(name, batch, uiViewport, Color.WHITE.cpy(), -v2.x / 2, y, null, null);
-                        y += lineHeight;
-                    }
-                }
-
-                y += lineHeight * 2.5f;
-
+                y.updateAndGet(v -> v + creditElement.getTopPadding());
+                creditElement.render(batch, uiViewport, (p) -> y.updateAndGet(v -> v + p));
+                y.updateAndGet(v -> v + creditElement.getBottomPadding() + creditElement.getHeight());
             }
 
             this.animationTime += Gdx.graphics.getDeltaTime() * scrollSpeed;
-            if (y < -this.uiViewport.getWorldHeight() / 2.0F) {
+            if (y.get() < -this.uiViewport.getWorldHeight() / 2.0F) {
                 this.animationTime = -this.uiViewport.getWorldHeight();
             }
 

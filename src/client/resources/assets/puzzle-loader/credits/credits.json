@@ -1,0 +1,33 @@
+{
+  "categories": [
+    {
+      "type": "image",
+      "src": "puzzle-loader:textures/logos/credits_logo.png",
+      "scale": 1,
+      "rotation": 0,
+      "padding": {
+        "top": 200,
+        "bottom": 70
+      }
+    },
+    {
+      "type": "list",
+      "title": "§[00FF00]Puzzle §[008800]Development §[004200]Team",
+      "names": [
+        "Mr-Zombii",
+        "repletsin5",
+        "SinfullySoul"
+      ]
+    },
+    {
+      "type": "list",
+      "title": "§[6DFF63]Puzzle §[20C123]Contributors",
+      "names": [
+        "tympanicblock61",
+        "Shfloop",
+        "Nanobass",
+        "M4ximumPizza"
+      ]
+    }
+  ]
+}

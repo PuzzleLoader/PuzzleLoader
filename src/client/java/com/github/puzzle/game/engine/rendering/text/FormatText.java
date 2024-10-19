@@ -13,8 +13,9 @@ import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.github.puzzle.game.engine.rendering.text.FormatColors.FORMAT_KEY;
+
 public class FormatText {
-    public static final String FORMAT_KEY = "§";
     public static final Pattern FORMAT_PATTER = Pattern.compile("(?i)("+FORMAT_KEY+"\\[[0-9A-FR]{6}]|"+FORMAT_KEY+"[0-9A-FR])");
     public static final Pattern FORMAT_VALUE = Pattern.compile("(?i)("+FORMAT_KEY+"\\[[0-9A-FR]{6}][^"+FORMAT_KEY+"]+|"+FORMAT_KEY+"[0-9A-FR][^"+FORMAT_KEY+"]+)");
 
@@ -53,7 +54,7 @@ public class FormatText {
                 String segmentText = m.replaceAll("");
                 String colourFormatter = segment.replace(segmentText, "");
 
-                parts.add(new TextPart(segmentText, toColor(colourFormatter, resetColor)));
+                parts.add(new TextPart(segmentText, FormatColors.toColor(colourFormatter, resetColor)));
             }
         }
 
@@ -93,35 +94,6 @@ public class FormatText {
         public float getHeight(Viewport vp) {
             return getDimensions(vp).y;
         }
-
-    }
-
-    public static Color toColor(String c) {
-        return toColor(c, Color.WHITE.cpy());
-    }
-
-    public static Color toColor(String c, Color resetColor){
-        c = c.replaceFirst(FORMAT_KEY, "");
-
-        return switch (c) {
-            case "r" -> resetColor.cpy();
-            case "0" -> Color.WHITE.cpy();
-            case "1" -> Color.BLACK.cpy();
-            case "2" -> Color.BLUE.cpy();
-            case "3" -> Color.RED.cpy();
-            case "4" -> Color.YELLOW.cpy();
-            case "5" -> Color.GREEN.cpy();
-            case "6" -> Color.PINK.cpy();
-            default -> {
-                c = c.strip();
-                if (c.startsWith("[") && c.endsWith("]")) {
-                    c = c.replaceAll("\\[", "").replaceAll("]", "");
-                    yield Color.valueOf("#" + c);
-                } else {
-                    yield null;
-                }
-            }
-        };
     }
 
 }

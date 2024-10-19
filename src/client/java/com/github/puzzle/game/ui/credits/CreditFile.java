@@ -1,6 +1,7 @@
 package com.github.puzzle.game.ui.credits;
 
-import com.github.puzzle.game.ui.credits.categories.CreditCategory;
+import com.github.puzzle.game.ui.credits.categories.ICreditElement;
+import com.github.puzzle.game.ui.credits.categories.ListCredit;
 import org.hjson.JsonArray;
 import org.hjson.JsonObject;
 import org.hjson.JsonValue;
@@ -12,16 +13,16 @@ import java.util.regex.Pattern;
 
 public class CreditFile {
 
-    final Collection<CreditCategory> categories;
+    final Collection<? extends ICreditElement> categories;
 
-    CreditFile(final Collection<CreditCategory> categories) {
+    CreditFile(final Collection<? extends ICreditElement> categories) {
         this.categories = categories;
     }
 
     final static Pattern VANILLA_CATEGORY = Pattern.compile("(?i)==.+==");
 
     public static CreditFile fromVanilla(String txt) {
-        List<CreditCategory> categories = new ArrayList<>();
+        List<ListCredit> categories = new ArrayList<>();
 
         int categoryIndex = -1;
         for (String line : txt.split("\n")) {
@@ -29,7 +30,7 @@ public class CreditFile {
 
             if (VANILLA_CATEGORY.matcher(line).matches()) {
                 categoryIndex = categories.size();
-                categories.add(new CreditCategory(line.replaceAll("(?i)(\\s{0}==|==\\s{0})", "").strip()));
+                categories.add(new ListCredit(line.replaceAll("(?i)(\\s{0}==|==\\s{0})", "").strip()));
             } else if (line.startsWith("* ") && categoryIndex != -1) {
                 categories.get(categoryIndex).addName(line.replaceAll("\\*\\s", ""));
             }
@@ -39,21 +40,22 @@ public class CreditFile {
     }
 
     public static CreditFile fromJson(String json) {
-        List<CreditCategory> categories = new ArrayList<>();
+        List<ICreditElement> categories = new ArrayList<>();
 
         JsonObject object = JsonObject.readHjson(json).asObject();
 
-        JsonObject categoriesBlock = object.get("categories").asObject();
-        List<String> categoryNames = categoriesBlock.names();
+        JsonArray categoriesBlock = object.get("categories").asArray();
 
-        for (String categoryName : categoryNames) {
-            categories.add(new CreditCategory(categoryName));
+        for (JsonValue value : categoriesBlock) {
+            JsonObject obj = value.asObject();
 
-            JsonArray names = categoriesBlock.get(categoryName).asArray();
-
-            for (JsonValue jsonValue : names) {
-                String name = jsonValue.asString();
-                categories.get(categories.size() - 1).addName(name);
+            Class<? extends ICreditElement> clazz = ICreditElement.TYPE_TO_ELEMENT.get(obj.getString("type", "list"));
+            try {
+                ICreditElement element = clazz.newInstance();
+                element.fromJson(obj);
+                categories.add(element);
+            } catch (InstantiationException | IllegalAccessException e) {
+                throw new RuntimeException(e);
             }
         }
 

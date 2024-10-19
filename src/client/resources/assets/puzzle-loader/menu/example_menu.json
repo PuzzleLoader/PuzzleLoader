@@ -1,0 +1,33 @@
+{
+  "id": "puzzle-loader:example_gui",
+  "width": 250,
+  "height": 200,
+  "layout": [
+    {
+      "type": "label",
+      "text": "§[0b8d00]Puzzle §[0fc000]Development §[11da00]Team",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "type": "table",
+      "rows": [
+        [],
+        [],
+        [],
+        []
+      ]
+    },
+    {
+      "type": "item_slot",
+      "slotId": 0,
+      "isOutput": true,
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    }
+  ]
+}
