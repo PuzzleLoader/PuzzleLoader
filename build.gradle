@@ -2,7 +2,6 @@ plugins {
     id 'java'
     id 'maven-publish'
     id 'jigsaw'
-//    id 'cr_puzzle_gradle'
     id 'com.github.johnrengelman.shadow'
 }
 
@@ -16,39 +15,6 @@ repositories {
         url = "https://jitpack.io"
     }
 }
-
-//sourceSets {
-//    main {
-//        java {
-//            srcDirs "src/main/java"
-//        }
-//        resources {
-//            srcDirs "src/main/resources"
-//        }
-//    }
-//    client {
-//        java {
-//            srcDirs "src/main/java"
-//        }
-//        resources {
-//            srcDirs "src/main/resources"
-//        }
-//    }
-//    server {
-//        java {
-//            srcDirs "src/main/java"
-//        }
-//        resources {
-//            srcDirs "src/main/resources"
-//        }
-//
-//    }
-//
-//}
-
-//puzzle_loader {
-//    accessManipulatorPath = file("src/main/resources/puzzle_loader.manipulator")
-//}
 
 allprojects {
     apply plugin: 'java'
@@ -158,8 +124,8 @@ publishing {
             groupId = group
             artifactId = id
 
-//            artifact source: buildBundleJar, classifier: '', extension: 'jar'
-//            artifact source: buildSourcesJar, classifier: 'source', extension: 'jar'
+            artifact source: buildBundleJar, classifier: '', extension: 'jar'
+            artifact source: buildSourcesJar, classifier: 'source', extension: 'jar'
         }
     }
 }

@@ -13,16 +13,14 @@ import com.github.puzzle.game.PuzzleRegistries;
 import com.github.puzzle.game.ServerGlobals;
 import com.github.puzzle.game.block.DataModBlock;
 import com.github.puzzle.game.block.IModBlock;
-import com.github.puzzle.game.engine.GameLoader;
+import com.github.puzzle.game.engine.ClientGameLoader;
 import com.github.puzzle.game.engine.LoadStage;
-import com.github.puzzle.game.engine.ServerGameLoader;
 import com.github.puzzle.game.engine.blocks.BlockLoadException;
 import com.github.puzzle.game.engine.blocks.actions.OnBreakTrigger;
 import com.github.puzzle.game.engine.blocks.actions.OnInteractTrigger;
 import com.github.puzzle.game.engine.blocks.actions.OnPlaceTrigger;
 import com.github.puzzle.game.events.OnRegisterBlockEvent;
 import com.github.puzzle.game.factories.IFactory;
-import com.github.puzzle.game.networking.packet.PacketInterceptor;
 import com.github.puzzle.game.resources.PuzzleGameAssetLoader;
 import com.github.puzzle.game.resources.VanillaAssetLocations;
 import finalforeach.cosmicreach.GameAssetLoader;
@@ -44,7 +42,7 @@ import static finalforeach.cosmicreach.blockevents.BlockEvents.INSTANCES;
 public class LoadingCosmicReach extends LoadStage {
 
     @Override
-    public void initialize(GameLoader loader) {
+    public void initialize(ClientGameLoader loader) {
         super.initialize(loader);
         title = new TranslationKey("puzzle-loader:loading_menu.loading_cosmic_reach");
     }

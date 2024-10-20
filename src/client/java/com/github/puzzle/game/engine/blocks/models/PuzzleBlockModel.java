@@ -3,7 +3,7 @@ package com.github.puzzle.game.engine.blocks.models;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.collision.BoundingBox;
 import com.badlogic.gdx.utils.*;
-import com.github.puzzle.game.engine.GameLoader;
+import com.github.puzzle.game.engine.ClientGameLoader;
 import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.RuntimeInfo;
 import finalforeach.cosmicreach.rendering.IMeshData;
@@ -82,7 +82,7 @@ public class PuzzleBlockModel extends BlockModel {
 
             if(!parent.initialized) {
                 parent.initialize();
-                GameLoader.LOGGER.warn("parent '{}' was not initialized, initializing now", this.parent);
+                ClientGameLoader.LOGGER.warn("parent '{}' was not initialized, initializing now", this.parent);
             }
 
             Json json = new Json();

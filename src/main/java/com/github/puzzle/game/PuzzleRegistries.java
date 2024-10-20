@@ -5,7 +5,6 @@ import com.github.puzzle.core.registries.GenericRegistry;
 import com.github.puzzle.core.registries.IRegistry;
 import com.github.puzzle.game.block.IModBlock;
 import com.github.puzzle.game.block.PuzzleBlockAction;
-import com.github.puzzle.game.block.generators.model.IBlockModelGenerator;
 import com.github.puzzle.game.factories.IFactory;
 import com.github.puzzle.game.loot.PuzzleLootTable;
 import finalforeach.cosmicreach.util.Identifier;
@@ -13,7 +12,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
 import java.util.logging.Level;
 
 import static com.github.puzzle.core.Constants.MOD_ID;

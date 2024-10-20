@@ -3,7 +3,7 @@ package com.github.puzzle.game.block.generators;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.OrderedMap;
-import com.github.puzzle.game.engine.blocks.BlockLoader;
+import com.github.puzzle.game.engine.blocks.IBlockLoader;
 import com.github.puzzle.game.factories.IGenerator;
 import finalforeach.cosmicreach.util.Identifier;
 
@@ -65,7 +65,7 @@ public class BlockEventGenerator implements IGenerator {
     }
 
     @Override
-    public void register(BlockLoader loader) {}
+    public void register(IBlockLoader loader) {}
 
     @Override
     public String generateJson() {

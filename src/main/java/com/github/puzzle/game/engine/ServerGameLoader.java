@@ -3,7 +3,7 @@ package com.github.puzzle.game.engine;
 import com.github.puzzle.game.ServerGlobals;
 import com.github.puzzle.game.block.DataModBlock;
 import com.github.puzzle.game.engine.blocks.BlockLoadException;
-import com.github.puzzle.game.engine.blocks.BlockLoader;
+import com.github.puzzle.game.engine.blocks.ServerBlockLoader;
 import com.github.puzzle.game.engine.server_stages.Initialize;
 import com.github.puzzle.game.engine.server_stages.LoadingAssets;
 import com.github.puzzle.game.engine.server_stages.LoadingCosmicReach;
@@ -36,7 +36,7 @@ public class ServerGameLoader {
     private final Queue<ServerLoadStage> stages = new LinkedList<>();
     private final Queue<Runnable> glQueue = new LinkedList<>();
 
-    public BlockLoader blockLoader;
+    public ServerBlockLoader blockLoader;
 
     public ServerGameLoader() {
         INSTANCE = this;
@@ -45,7 +45,7 @@ public class ServerGameLoader {
     public void create() {
 
         // create singletons
-        blockLoader = new BlockLoader();
+        blockLoader = new ServerBlockLoader();
         GameSingletons.blockModelInstantiator = new IBlockModelInstantiator() {
             public BlockModel getInstance(String modelName, int rotXZ) {
                 return DummyBlockModel.getInstance(modelName, rotXZ);

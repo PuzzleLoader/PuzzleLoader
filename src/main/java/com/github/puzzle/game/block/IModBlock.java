@@ -1,9 +1,6 @@
 package com.github.puzzle.game.block;
 
 import com.github.puzzle.core.Constants;
-import com.github.puzzle.core.loader.meta.EnvType;
-import com.github.puzzle.game.block.generators.model.IBlockModelGenerator;
-import com.github.puzzle.game.engine.blocks.BlockLoader;
 import com.github.puzzle.game.block.generators.BlockEventGenerator;
 import com.github.puzzle.game.block.generators.BlockGenerator;
 import com.github.puzzle.game.util.BlockEventActionFactory;
@@ -60,26 +57,10 @@ public interface IModBlock {
     default BlockGenerator getBlockGenerator() {
         Identifier identifier = getIdentifier();
         BlockGenerator generator = new BlockGenerator(identifier);
-        BlockGenerator.State state = generator.createBlockState("default", "model", true);
+        BlockGenerator.State state = generator.createBlockState("default", "model", true, Identifier.of(Constants.MOD_ID, "base_block_model_generator"));
         state.dropId = identifier.getNamespace() + ":" + identifier.getName() + "[default]";
         state.blockEventsId = "base:block_events_default";
         return generator;
-    }
-
-    /**
-     * Used by Puzzle Loader for generating any custom block models associated
-     * with this block
-     * @param blockId the blockId that has been extracted from getBlockGenerator()
-     * @return a List of BlockModelGenerator used by this block
-     */
-    default List<IBlockModelGenerator> getBlockModelGenerators(Identifier blockId) {
-        if (Constants.SIDE == EnvType.CLIENT) {
-            IBlockModelGenerator generator = IBlockModelGenerator.NEW(blockId, "model");
-            generator.createTexture("all", Identifier.of("puzzle-loader", "textures/blocks/example_block.png"));
-            generator.createCuboid(0, 0, 0, 16, 16, 16, "all");
-            return List.of(generator);
-        }
-        return List.of();
     }
 
     /**
@@ -90,5 +71,4 @@ public interface IModBlock {
      * @return a List of BlockEventGenerator used by this block
      */
     default List<BlockEventGenerator> getBlockEventGenerators(Identifier blockId) { return Collections.emptyList(); }
-
 }

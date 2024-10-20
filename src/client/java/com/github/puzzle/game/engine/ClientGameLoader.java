@@ -22,7 +22,7 @@ import com.github.puzzle.core.util.LanguageUtil;
 import com.github.puzzle.game.ClientGlobals;
 import com.github.puzzle.game.ServerGlobals;
 import com.github.puzzle.game.common.Puzzle;
-import com.github.puzzle.game.engine.blocks.BlockLoader;
+import com.github.puzzle.game.engine.blocks.ClientBlockLoader;
 import com.github.puzzle.game.engine.stages.Initialize;
 import com.github.puzzle.game.engine.stages.LoadingAssets;
 import com.github.puzzle.game.engine.stages.LoadingCosmicReach;
@@ -51,7 +51,7 @@ import java.util.concurrent.CountDownLatch;
 import static com.github.puzzle.game.PuzzleRegistries.EVENT_BUS;
 import static com.github.puzzle.game.resources.PuzzleGameAssetLoader.LOADER;
 
-public class GameLoader extends GameState {
+public class ClientGameLoader extends GameState {
 
     static long startTime = System.currentTimeMillis();
 
@@ -83,7 +83,7 @@ public class GameLoader extends GameState {
     private final Queue<LoadStage> stages = new LinkedList<>();
     private final Queue<Runnable> glQueue = new LinkedList<>();
 
-    public BlockLoader blockLoader;
+    public ClientBlockLoader blockLoader;
 
     @Subscribe
     public void onEvent(OnPreLoadAssetsEvent event) {
@@ -111,7 +111,7 @@ public class GameLoader extends GameState {
         gdxStageViewport.apply(false);
 
         // create singletons
-        blockLoader = new BlockLoader();
+        blockLoader = new ClientBlockLoader();
         GameSingletons.blockModelInstantiator = blockLoader.factory;
 
         // register to eventbus

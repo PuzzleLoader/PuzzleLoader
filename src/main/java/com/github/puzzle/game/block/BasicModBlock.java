@@ -1,10 +1,9 @@
 package com.github.puzzle.game.block;
 
 import com.badlogic.gdx.graphics.Pixmap;
+import com.github.puzzle.core.Constants;
 import com.github.puzzle.game.block.generators.BlockGenerator;
-import com.github.puzzle.game.block.generators.model.BasicCubeModelGenerator;
-import com.github.puzzle.game.block.generators.model.BlockModelGenerator;
-import com.github.puzzle.game.block.generators.model.IBlockModelGenerator;
+import com.github.puzzle.game.engine.blocks.model.IBlockModelGenerator;
 import finalforeach.cosmicreach.util.Identifier;
 
 import java.util.List;
@@ -34,14 +33,8 @@ public class BasicModBlock implements IModBlock {
     @Override
     public BlockGenerator getBlockGenerator() {
         BlockGenerator generator = new BlockGenerator(blockId);
-        generator.createBlockState("default", "model", true);
+        generator.createBlockState("default", "model", true, Identifier.of(Constants.MOD_ID, "base_block_model_generator"));
         return generator;
-    }
-
-    @Override
-    public List<IBlockModelGenerator> getBlockModelGenerators(Identifier blockId) {
-        BlockModelGenerator generator = new BasicCubeModelGenerator(blockId, "model", true, top, bottom, side);
-        return List.of(generator);
     }
 
 }

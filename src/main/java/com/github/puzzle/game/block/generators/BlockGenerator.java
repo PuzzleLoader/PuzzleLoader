@@ -1,8 +1,7 @@
 package com.github.puzzle.game.block.generators;
 
 import com.badlogic.gdx.utils.*;
-import com.github.puzzle.game.block.generators.model.IBlockModelGenerator;
-import com.github.puzzle.game.engine.blocks.BlockLoader;
+import com.github.puzzle.game.engine.blocks.IBlockLoader;
 import com.github.puzzle.game.factories.IGenerator;
 import com.github.puzzle.game.oredict.tags.Tag;
 import finalforeach.cosmicreach.blocks.BlockPlaceCheck;
@@ -62,6 +61,8 @@ public class BlockGenerator implements IGenerator {
         int rotXZ = 0;
         public OrderedMap<String, ?> dropParams;
         ObjectIntMap<String> intProperties = new ObjectIntMap();
+
+        public Identifier blockModelGeneratorFunctionId;
 
         public State() {}
 
@@ -164,24 +165,26 @@ public class BlockGenerator implements IGenerator {
         this.blockEntityParams = parameters;
     }
 
-    public State createBlockState(String id, String modelName, boolean usingBlockModelGenerator) {
+    public State createBlockState(String id, String modelName, boolean usingBlockModelGenerator, Identifier blockModelGeneratorFunctionId) {
         State state = new State();
-        state.modelName = usingBlockModelGenerator ? IBlockModelGenerator.getModelName(blockId, modelName) : modelName;
+        state.modelName = usingBlockModelGenerator ? blockId.toString() + "_" + modelName : modelName;
         state.blockEventsId = BlockEventGenerator.getEventName(blockId, "puzzle_default");
+        state.blockModelGeneratorFunctionId = blockModelGeneratorFunctionId;
         blockStates.put(id, state);
         return state;
     }
     
-    public State createBlockState(String id, String modelName, boolean usingBlockModelGenerator, String eventName, boolean usingBlockEventGenerator) {
+    public State createBlockState(String id, String modelName, boolean usingBlockModelGenerator, Identifier blockModelGeneratorFunctionId, String eventName, boolean usingBlockEventGenerator) {
         State state = new State();
-        state.modelName = usingBlockModelGenerator ? IBlockModelGenerator.getModelName(blockId, modelName) : modelName;
+        state.modelName = usingBlockModelGenerator ? blockId.toString() + "_" + modelName : modelName;
         state.blockEventsId = usingBlockEventGenerator ? BlockEventGenerator.getEventName(blockId, eventName) : eventName;
+        state.blockModelGeneratorFunctionId = blockModelGeneratorFunctionId;
         blockStates.put(id, state);
         return state;
     }
 
     @Override
-    public void register(BlockLoader loader) {}
+    public void register(IBlockLoader loader) {}
 
     public void addTags(Tag ...itemTag) {
         itemTags.addAll(List.of(itemTag));

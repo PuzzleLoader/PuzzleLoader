@@ -5,7 +5,7 @@ import com.github.puzzle.core.loader.launch.provider.mod.entrypoint.impls.Client
 import com.github.puzzle.core.loader.util.ModLocator;
 import com.github.puzzle.core.localization.TranslationKey;
 import com.github.puzzle.game.PuzzleRegistries;
-import com.github.puzzle.game.engine.GameLoader;
+import com.github.puzzle.game.engine.ClientGameLoader;
 import com.github.puzzle.game.engine.LoadStage;
 import com.github.puzzle.game.events.OnRegisterLanguageEvent;
 
@@ -16,7 +16,7 @@ import static com.github.puzzle.core.Constants.MOD_ID;
 public class Initialize extends LoadStage {
 
     @Override
-    public void initialize(GameLoader loader) {
+    public void initialize(ClientGameLoader loader) {
         super.initialize(loader);
         title = new TranslationKey("puzzle-loader:loading_menu.initializing");
     }

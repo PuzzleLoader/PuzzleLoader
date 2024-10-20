@@ -1,6 +1,6 @@
 package com.github.puzzle.game.mixins.refactors.entrypoint;
 
-import com.github.puzzle.game.engine.GameLoader;
+import com.github.puzzle.game.engine.ClientGameLoader;
 import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.gamestates.GameState;
 import org.spongepowered.asm.mixin.Mixin;
@@ -15,7 +15,7 @@ public class GameSingletonsMixin {
      */
     @Overwrite
     public static void postCreate() {
-        GameState.switchToGameState(new GameLoader());
+        GameState.switchToGameState(new ClientGameLoader());
     }
 
 }

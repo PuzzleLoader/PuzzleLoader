@@ -12,7 +12,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.puzzle.game.block.DataModBlock;
 import com.github.puzzle.game.engine.blocks.BlockLoadException;
-import com.github.puzzle.game.engine.blocks.BlockLoader;
+import com.github.puzzle.game.engine.blocks.ClientBlockLoader;
 import com.github.puzzle.game.resources.PuzzleGameAssetLoader;
 import com.github.puzzle.game.ui.font.CosmicReachFont;
 import finalforeach.cosmicreach.gamestates.GameState;
@@ -31,12 +31,12 @@ public class BlockErrorScreen extends GameState {
     public Viewport gdxStageViewport;
     protected Color background = Color.BLACK;
 
-    private final BlockLoader blockLoader;
+    private final ClientBlockLoader blockLoader;
     private final GameState next;
 
     private ScrollPane scrollPane;
 
-    public BlockErrorScreen(BlockLoader blockLoader, GameState next) {
+    public BlockErrorScreen(ClientBlockLoader blockLoader, GameState next) {
         this.blockLoader = blockLoader;
         this.next = next;
     }

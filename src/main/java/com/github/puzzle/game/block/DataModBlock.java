@@ -2,7 +2,7 @@ package com.github.puzzle.game.block;
 
 import com.badlogic.gdx.utils.Json;
 import com.github.puzzle.game.block.generators.BlockGenerator;
-import com.github.puzzle.game.block.generators.model.IBlockModelGenerator;
+import com.github.puzzle.game.engine.blocks.model.IBlockModelGenerator;
 import com.github.puzzle.game.resources.PuzzleGameAssetLoader;
 import finalforeach.cosmicreach.util.Identifier;
 
@@ -55,8 +55,4 @@ public class DataModBlock implements IModBlock {
         return generator;
     }
 
-    @Override
-    public List<IBlockModelGenerator> getBlockModelGenerators(Identifier blockId) {
-        return List.of();
-    }
 }

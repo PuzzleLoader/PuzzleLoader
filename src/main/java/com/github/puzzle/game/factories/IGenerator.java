@@ -1,8 +1,8 @@
 package com.github.puzzle.game.factories;
 
-import com.github.puzzle.game.engine.blocks.BlockLoader;
+import com.github.puzzle.game.engine.blocks.IBlockLoader;
 
 public interface IGenerator {
-    void register(BlockLoader loader);
+    void register(IBlockLoader loader);
     String generateJson();
 }

@@ -4,7 +4,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.github.puzzle.core.localization.TranslationKey;
 import com.github.puzzle.game.PuzzleRegistries;
-import com.github.puzzle.game.engine.GameLoader;
+import com.github.puzzle.game.engine.ClientGameLoader;
 import com.github.puzzle.game.engine.LoadStage;
 import com.github.puzzle.game.events.OnLoadAssetsEvent;
 import com.github.puzzle.game.events.OnLoadAssetsFinishedEvent;
@@ -24,7 +24,7 @@ public class LoadingAssets extends LoadStage {
     private static final TranslationKey TEXT_LOADING_ASSETS = new TranslationKey("puzzle-loader:loading_menu.loading_assets");
 
     @Override
-    public void initialize(GameLoader loader) {
+    public void initialize(ClientGameLoader loader) {
         super.initialize(loader);
         title = TEXT_TITLE;
     }

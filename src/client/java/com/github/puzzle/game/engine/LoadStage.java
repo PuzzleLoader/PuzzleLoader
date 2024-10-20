@@ -8,10 +8,10 @@ import java.util.List;
 
 public class LoadStage {
 
-    public GameLoader loader;
+    public ClientGameLoader loader;
     public TranslationKey title;
 
-    public void initialize(GameLoader loader) {
+    public void initialize(ClientGameLoader loader) {
         this.loader = loader;
         try {
             PuzzleRegistries.EVENT_BUS.register(this);

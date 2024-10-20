@@ -5,10 +5,13 @@ import com.badlogic.gdx.utils.Json;
 import com.github.puzzle.core.Constants;
 import com.github.puzzle.core.loader.meta.EnvType;
 import com.github.puzzle.core.loader.util.Reflection;
+import com.github.puzzle.game.ClientPuzzleRegistries;
 import com.github.puzzle.game.PuzzleRegistries;
 import com.github.puzzle.game.block.IModBlock;
 import com.github.puzzle.game.block.PuzzleBlockAction;
-import com.github.puzzle.game.block.generators.model.IBlockModelGenerator;
+import com.github.puzzle.game.block.generators.model.BlockModelGenerator;
+import com.github.puzzle.game.engine.blocks.model.IBlockModelGenerator;
+import com.github.puzzle.game.engine.blocks.models.PuzzleBlockModel;
 import com.github.puzzle.game.factories.IFactory;
 import com.github.puzzle.game.block.generators.BlockEventGenerator;
 import com.github.puzzle.game.block.generators.BlockGenerator;
@@ -24,15 +27,17 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
+import java.util.function.Function;
 
-public class BlockLoader {
+public class ClientBlockLoader implements IBlockLoader {
 
     public IBlockModelFactory factory;
 
-    public BlockLoader() {
+    public ClientBlockLoader() {
         if (Constants.SIDE == EnvType.CLIENT) {
             factory = (IBlockModelFactory) Reflection.newInstance("com.github.puzzle.game.engine.blocks.BlockModelFactory");
         } else factory = new IBlockModelFactory() {
@@ -146,13 +151,17 @@ public class BlockLoader {
         }
 
         try {
-            if (Constants.SIDE == EnvType.CLIENT) {
-                for(IBlockModelGenerator modelGenerator : modBlock.getBlockModelGenerators(blockGenerator.blockId)) {
-                    modelGenerator.register(this);
-                    String modelName = modelGenerator.getModelName();
-                    int rotXZ = 0;
-                    String modelJson = modelGenerator.generateJson();
-                    registerBlockModel(modelName, rotXZ, modelJson);
+            for (BlockGenerator.State state : blockGenerator.blockStates.values()) {
+                if (state.blockModelGeneratorFunctionId != null) {
+                    Function<Identifier, Collection<? extends BlockModelGenerator>> genFunc = ClientPuzzleRegistries.BLOCK_MODEL_GENERATOR_FUNCTIONS.get(state.blockModelGeneratorFunctionId);
+                    Collection<? extends BlockModelGenerator> gens = genFunc.apply(blockGenerator.blockId);
+                    for(IBlockModelGenerator modelGenerator : gens) {
+                        modelGenerator.register(this);
+                        String modelName = modelGenerator.getModelName();
+                        int rotXZ = 0;
+                        String modelJson = modelGenerator.generateJson();
+                        registerBlockModel(modelName, rotXZ, modelJson);
+                    }
                 }
             }
 
@@ -194,18 +203,8 @@ public class BlockLoader {
         // initialize models, fewer parents first order
         // it's very critical that registries are run in order here
         for (BlockModel model : factory.sort()) {
-            try {
-                if (model.getClass().isAssignableFrom(Class.forName("com.github.puzzle.game.engine.blocks.models.PuzzleBlockModel"))) {
-                    PuzzleRegistries.BLOCK_MODEL_FINALIZERS.store(Identifier.of(Reflection.getFieldContents(model, "modelName") + "_" + Reflection.getFieldContents(model, "rotXZ")), () -> {
-                        try {
-                            Method method = model.getClass().getMethod("initialize");
-                            method.invoke(model);
-                        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-                            throw new RuntimeException(e);
-                        }
-                    });
-                }
-            } catch (ClassNotFoundException e) {
+            if (model instanceof PuzzleBlockModel m) {
+                PuzzleRegistries.BLOCK_MODEL_FINALIZERS.store(Identifier.of(m.modelName + "_" + m.rotXZ), m::initialize);
             }
         }
         PuzzleRegistries.BLOCK_MODEL_FINALIZERS.freeze();
@@ -214,11 +213,9 @@ public class BlockLoader {
         for(Block block : Block.allBlocks) {
             for(BlockState blockState : block.blockStates.values()) {
                 try {
-                    if (blockState.getModel().getClass().isAssignableFrom(Class.forName("com.github.puzzle.game.engine.blocks.models.PuzzleBlockModel"))) {
-                        BlockModel model = blockState.getModel();
+                    if (blockState.getModel() instanceof PuzzleBlockModel model) {
                         String blockStateId = block.getStringId() + "[" + blockState.stringId + "]";
-                        if (Constants.SIDE != EnvType.SERVER)
-                            PuzzleRegistries.BLOCK_FINALIZERS.store(Identifier.of(blockStateId), () -> blockState.setBlockModel(Reflection.getFieldContents(model, "modelName")));
+                        PuzzleRegistries.BLOCK_FINALIZERS.store(Identifier.of(blockStateId), () -> blockState.setBlockModel(model.modelName));
                     }
                 } catch (Exception ignored) {}
             }

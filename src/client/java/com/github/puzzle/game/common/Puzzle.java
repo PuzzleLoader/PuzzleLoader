@@ -13,7 +13,9 @@ import com.github.puzzle.core.localization.ILanguageFile;
 import com.github.puzzle.core.localization.LanguageManager;
 import com.github.puzzle.core.localization.files.LanguageFileVersion1;
 import com.github.puzzle.game.ClientGlobals;
+import com.github.puzzle.game.ClientPuzzleRegistries;
 import com.github.puzzle.game.PuzzleRegistries;
+import com.github.puzzle.game.block.generators.model.BlockModelGenerator;
 import com.github.puzzle.game.engine.shaders.ItemShader;
 import com.github.puzzle.game.events.OnPreLoadAssetsEvent;
 import com.github.puzzle.game.items.IModItem;
@@ -37,9 +39,11 @@ import finalforeach.cosmicreach.gamestates.CreditsMenu;
 import finalforeach.cosmicreach.gamestates.InGame;
 import finalforeach.cosmicreach.items.ItemSlot;
 import finalforeach.cosmicreach.ui.UI;
+import finalforeach.cosmicreach.util.Identifier;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 public class Puzzle implements ClientPreModInitializer, ClientModInitializer, ClientPostModInitializer {
@@ -93,6 +97,15 @@ public class Puzzle implements ClientPreModInitializer, ClientModInitializer, Cl
 
     @Override
     public void onPostInit() {
+        Threads.runOnMainThread(() -> {
+            ClientPuzzleRegistries.BLOCK_MODEL_GENERATOR_FUNCTIONS.store(Identifier.of(Constants.MOD_ID, "base_block_model_generator"), (blockId) -> {
+                BlockModelGenerator generator = new BlockModelGenerator(blockId, "model");
+                generator.createTexture("all", Identifier.of("puzzle-loader", "textures/blocks/example_block.png"));
+                generator.createCuboid(0, 0, 0, 16, 16, 16, "all");
+                return List.of(generator);
+            });
+        });
+
 //        BuiltInTags.ore.add(Block.getInstance("base:ore_gold"));
 //        BuiltInTags.ore.add(Block.getInstance("base:ore_bauxite"));
 //        BuiltInTags.ore.add(Block.getInstance("base:ore_iron"));
