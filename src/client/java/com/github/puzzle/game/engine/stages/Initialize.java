@@ -2,6 +2,8 @@ package com.github.puzzle.game.engine.stages;
 
 import com.github.puzzle.core.loader.launch.provider.mod.entrypoint.impls.ClientModInitializer;
 import com.github.puzzle.core.loader.provider.mod.ModContainer;
+import com.github.puzzle.core.loader.provider.mod.entrypoint.impls.ModInitializer;
+import com.github.puzzle.core.loader.provider.mod.entrypoint.impls.PostModInitializer;
 import com.github.puzzle.core.loader.util.ModLocator;
 import com.github.puzzle.core.localization.TranslationKey;
 import com.github.puzzle.game.PuzzleRegistries;
@@ -31,10 +33,25 @@ public class Initialize extends LoadStage {
         AtomicInteger progress = new AtomicInteger();
         loader.setupProgressBar(loader.progressBar2, ModLocator.locatedMods.size(), "Initializing Mods: Init");
         try {
+            try {
+                ModLocator.locatedMods.get(MOD_ID).invokeEntrypoint(ModInitializer.ENTRYPOINT_KEY, ModInitializer.class, ModInitializer::onInit);
+            } catch (Exception e) {}
             ModLocator.locatedMods.get(MOD_ID).invokeEntrypoint(ClientModInitializer.ENTRYPOINT_KEY, ClientModInitializer.class, ClientModInitializer::onInit);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
+        ModLocator.locatedMods.keySet().forEach(containerID -> {
+            ModContainer container = ModLocator.locatedMods.get(containerID);
+            try {
+                if (!container.ID.equals(MOD_ID)) {
+                    container.invokeEntrypoint(ModInitializer.ENTRYPOINT_KEY, ModInitializer.class, ModInitializer::onInit);
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+
         ModLocator.locatedMods.keySet().forEach(containerID -> {
             ModContainer container = ModLocator.locatedMods.get(containerID);
             int counterLimiter = ModLocator.locatedMods.size() >= 100 ? 10 : 1;

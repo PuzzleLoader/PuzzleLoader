@@ -2,6 +2,7 @@ package com.github.puzzle.game.engine.stages;
 
 import com.github.puzzle.core.loader.launch.provider.mod.entrypoint.impls.ClientPostModInitializer;
 import com.github.puzzle.core.loader.provider.mod.ModContainer;
+import com.github.puzzle.core.loader.provider.mod.entrypoint.impls.PostModInitializer;
 import com.github.puzzle.core.loader.util.ModLocator;
 import com.github.puzzle.core.localization.TranslationKey;
 import com.github.puzzle.game.engine.ClientGameLoader;
@@ -22,10 +23,23 @@ public class PostInitialize extends LoadStage {
         super.doStage();
 
         try {
+            try {
+                ModLocator.locatedMods.get(MOD_ID).invokeEntrypoint(PostModInitializer.ENTRYPOINT_KEY, PostModInitializer.class, PostModInitializer::onPostInit);
+            } catch (Exception e) {}
             ModLocator.locatedMods.get(MOD_ID).invokeEntrypoint(ClientPostModInitializer.ENTRYPOINT_KEY, ClientPostModInitializer.class, ClientPostModInitializer::onPostInit);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+        ModLocator.locatedMods.keySet().forEach(containerID -> {
+            ModContainer container = ModLocator.locatedMods.get(containerID);
+            try {
+                if (!container.ID.equals(MOD_ID)) {
+                    container.invokeEntrypoint(PostModInitializer.ENTRYPOINT_KEY, PostModInitializer.class, PostModInitializer::onPostInit);
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
         ModLocator.locatedMods.keySet().forEach(containerID -> {
             ModContainer container = ModLocator.locatedMods.get(containerID);
             try {

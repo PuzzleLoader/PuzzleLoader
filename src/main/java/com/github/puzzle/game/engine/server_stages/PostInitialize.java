@@ -1,7 +1,7 @@
 package com.github.puzzle.game.engine.server_stages;
 
 import com.github.puzzle.core.loader.provider.mod.ModContainer;
-import com.github.puzzle.core.loader.provider.mod.entrypoint.impls.ServerPostModInitializer;
+import com.github.puzzle.core.loader.provider.mod.entrypoint.impls.PostModInitializer;
 import com.github.puzzle.core.loader.util.ModLocator;
 import com.github.puzzle.game.engine.ServerGameLoader;
 import com.github.puzzle.game.engine.ServerLoadStage;
@@ -20,7 +20,7 @@ public class PostInitialize extends ServerLoadStage {
         super.doStage();
 
         try {
-            ModLocator.locatedMods.get(MOD_ID).invokeEntrypoint(ServerPostModInitializer.ENTRYPOINT_KEY, ServerPostModInitializer.class, ServerPostModInitializer::onPostInit);
+            ModLocator.locatedMods.get(MOD_ID).invokeEntrypoint(PostModInitializer.ENTRYPOINT_KEY, PostModInitializer.class, PostModInitializer::onPostInit);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -28,7 +28,7 @@ public class PostInitialize extends ServerLoadStage {
             ModContainer container = ModLocator.locatedMods.get(containerID);
             try {
                 if (!container.ID.equals(MOD_ID)) {
-                    container.invokeEntrypoint(ServerPostModInitializer.ENTRYPOINT_KEY, ServerPostModInitializer.class, ServerPostModInitializer::onPostInit);
+                    container.invokeEntrypoint(PostModInitializer.ENTRYPOINT_KEY, PostModInitializer.class, PostModInitializer::onPostInit);
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);

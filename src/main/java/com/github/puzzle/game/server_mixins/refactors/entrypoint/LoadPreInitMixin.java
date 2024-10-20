@@ -1,7 +1,7 @@
 package com.github.puzzle.game.server_mixins.refactors.entrypoint;
 
 import com.github.puzzle.core.loader.launch.Piece;
-import com.github.puzzle.core.loader.provider.mod.entrypoint.impls.ServerPreModInitializer;
+import com.github.puzzle.core.loader.provider.mod.entrypoint.impls.PreModInitializer;
 import finalforeach.cosmicreach.server.ServerLauncher;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -14,7 +14,7 @@ public class LoadPreInitMixin {
     @Inject(method = "main", at = @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/networking/server/ServerSingletons;create()V", shift = At.Shift.BEFORE))
     private static void preInit(String[] args, CallbackInfo ci) {
         Piece.provider.addBuiltinMods();
-        ServerPreModInitializer.invokeEntrypoint();
+        PreModInitializer.invokeEntrypoint();
     }
 
 }
