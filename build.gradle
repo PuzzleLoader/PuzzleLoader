@@ -124,8 +124,8 @@ publishing {
             groupId = group
             artifactId = id
 
-            artifact source: buildBundleJar, classifier: '', extension: 'jar'
-            artifact source: buildSourcesJar, classifier: 'source', extension: 'jar'
+            artifact source: buildMergedBundleJar, classifier: 'client', extension: 'jar'
+            artifact source: buildServerBundleJar, classifier: 'server', extension: 'jar'
         }
     }
 }
