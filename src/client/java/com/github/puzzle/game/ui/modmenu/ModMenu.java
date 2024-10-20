@@ -1,6 +1,5 @@
 package com.github.puzzle.game.ui.modmenu;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.files.FileHandle;
@@ -34,7 +33,6 @@ import finalforeach.cosmicreach.gamestates.PauseMenu;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 
-import java.sql.Ref;
 import java.util.HashMap;
 import java.util.Objects;
 

@@ -2,8 +2,6 @@ package com.github.puzzle.game.common.excluded;
 
 import com.github.puzzle.core.Constants;
 import com.github.puzzle.core.loader.launch.PuzzleClassLoader;
-import com.github.puzzle.core.loader.meta.Env;
-import com.github.puzzle.core.loader.meta.EnvType;
 import com.github.puzzle.core.loader.meta.ModInfo;
 import com.github.puzzle.core.loader.meta.Version;
 import com.github.puzzle.core.loader.provider.IGameProvider;

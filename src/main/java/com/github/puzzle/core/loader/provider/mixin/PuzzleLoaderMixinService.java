@@ -57,7 +57,6 @@ import org.spongepowered.include.com.google.common.io.Closeables;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Field;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;

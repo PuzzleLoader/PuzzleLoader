@@ -3,8 +3,6 @@ package com.github.puzzle.game.engine.account;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
 
-import java.util.HashMap;
-
 public class FakeItchProfileMe implements Json.Serializable {
     public String username;
     public String display_name;

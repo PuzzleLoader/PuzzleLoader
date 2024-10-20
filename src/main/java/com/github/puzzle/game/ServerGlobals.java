@@ -3,14 +3,12 @@ package com.github.puzzle.game;
 import com.github.puzzle.core.loader.launch.Piece;
 import com.github.puzzle.core.loader.meta.Env;
 import com.github.puzzle.core.loader.meta.EnvType;
-import com.github.puzzle.core.loader.util.ClassPathFileEntry;
 import com.github.puzzle.core.loader.util.ModLocator;
 import finalforeach.cosmicreach.settings.BooleanSetting;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Supplier;
 

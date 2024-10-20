@@ -6,7 +6,6 @@ import com.github.puzzle.game.items.IModItem;
 import com.github.puzzle.game.mixins.accessors.ItemRenderAccessor;
 import finalforeach.cosmicreach.items.Item;
 import finalforeach.cosmicreach.rendering.items.ItemRenderer;
-import finalforeach.cosmicreach.settings.ControlSettings;
 
 import java.lang.ref.WeakReference;
 import java.util.function.Function;

@@ -11,7 +11,6 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import finalforeach.cosmicreach.chat.Chat;
 import finalforeach.cosmicreach.networking.netty.NettyServer;
 import net.minecrell.terminalconsole.SimpleTerminalConsole;
-import net.minecrell.terminalconsole.TerminalConsoleAppender;
 import org.jline.reader.LineReader;
 import org.jline.reader.LineReaderBuilder;
 

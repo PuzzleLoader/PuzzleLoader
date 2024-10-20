@@ -5,9 +5,7 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
 import com.github.puzzle.game.util.AccountUtil;
 import finalforeach.cosmicreach.accounts.Account;
-import io.netty.util.internal.MathUtil;
 
-import java.io.IOException;
 import java.time.Instant;
 
 public class FakeItchAccount extends Account {

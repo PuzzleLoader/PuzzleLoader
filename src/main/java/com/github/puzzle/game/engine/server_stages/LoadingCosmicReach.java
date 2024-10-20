@@ -7,8 +7,6 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
 import com.github.puzzle.core.loader.util.ModLocator;
 import com.github.puzzle.core.loader.util.Reflection;
-import com.github.puzzle.core.localization.LanguageManager;
-import com.github.puzzle.core.localization.TranslationKey;
 import com.github.puzzle.game.PuzzleRegistries;
 import com.github.puzzle.game.ServerGlobals;
 import com.github.puzzle.game.block.DataModBlock;

@@ -13,7 +13,10 @@ import finalforeach.cosmicreach.networking.server.ServerSingletons;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 public class CTSModlistPacket extends GamePacket {
 

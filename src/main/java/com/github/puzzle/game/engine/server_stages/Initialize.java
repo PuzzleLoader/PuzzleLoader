@@ -3,7 +3,6 @@ package com.github.puzzle.game.engine.server_stages;
 import com.github.puzzle.core.loader.provider.mod.ModContainer;
 import com.github.puzzle.core.loader.provider.mod.entrypoint.impls.ServerModInitializer;
 import com.github.puzzle.core.loader.util.ModLocator;
-//import com.github.puzzle.core.terminal.PPLTerminalConsole;
 import com.github.puzzle.game.PuzzleRegistries;
 import com.github.puzzle.game.engine.ServerGameLoader;
 import com.github.puzzle.game.engine.ServerLoadStage;

@@ -10,7 +10,6 @@ import com.github.puzzle.game.block.IModBlock;
 import com.github.puzzle.game.block.PuzzleBlockAction;
 import com.github.puzzle.game.block.generators.BlockEventGenerator;
 import com.github.puzzle.game.block.generators.BlockGenerator;
-import com.github.puzzle.game.engine.blocks.model.IBlockModelGenerator;
 import com.github.puzzle.game.factories.IFactory;
 import com.github.puzzle.game.resources.PuzzleGameAssetLoader;
 import finalforeach.cosmicreach.blockevents.BlockEvents;
@@ -21,8 +20,6 @@ import finalforeach.cosmicreach.util.Identifier;
 import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

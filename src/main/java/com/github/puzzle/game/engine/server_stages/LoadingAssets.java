@@ -1,21 +1,13 @@
 package com.github.puzzle.game.engine.server_stages;
 
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Texture;
-import com.github.puzzle.core.localization.TranslationKey;
 import com.github.puzzle.game.PuzzleRegistries;
 import com.github.puzzle.game.engine.ServerGameLoader;
 import com.github.puzzle.game.engine.ServerLoadStage;
 import com.github.puzzle.game.events.OnLoadAssetsEvent;
 import com.github.puzzle.game.events.OnLoadAssetsFinishedEvent;
 import com.github.puzzle.game.resources.PuzzleGameAssetLoader;
-import com.github.puzzle.game.resources.VanillaAssetLocations;
-import de.pottgames.tuningfork.SoundBuffer;
-import finalforeach.cosmicreach.GameAssetLoader;
-import finalforeach.cosmicreach.util.Identifier;
-import org.greenrobot.eventbus.Subscribe;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class LoadingAssets extends ServerLoadStage {

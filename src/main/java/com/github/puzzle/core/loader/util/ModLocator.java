@@ -1,7 +1,5 @@
 package com.github.puzzle.core.loader.util;
 
-import com.github.puzzle.core.loader.meta.Env;
-import com.github.puzzle.core.loader.meta.EnvType;
 import com.github.puzzle.core.loader.meta.ModInfo;
 import com.github.puzzle.core.loader.meta.parser.ModJson;
 import com.github.puzzle.core.loader.provider.mod.ModContainer;

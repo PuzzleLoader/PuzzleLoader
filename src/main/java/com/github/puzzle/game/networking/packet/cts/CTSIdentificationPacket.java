@@ -1,8 +1,8 @@
 package com.github.puzzle.game.networking.packet.cts;
 
 import com.github.puzzle.game.ServerGlobals;
-import com.github.puzzle.game.networking.packet.stc.STCModlistRequestPacket;
 import com.github.puzzle.game.networking.api.IServerIdentity;
+import com.github.puzzle.game.networking.packet.stc.STCModlistRequestPacket;
 import finalforeach.cosmicreach.accounts.Account;
 import finalforeach.cosmicreach.networking.common.NetworkIdentity;
 import finalforeach.cosmicreach.networking.common.NetworkSide;

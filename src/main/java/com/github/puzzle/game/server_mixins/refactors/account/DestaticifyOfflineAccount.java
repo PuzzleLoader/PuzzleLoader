@@ -1,20 +1,10 @@
 package com.github.puzzle.game.server_mixins.refactors.account;
 
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonValue;
-import com.github.puzzle.core.loader.util.Reflection;
-import com.github.puzzle.game.engine.account.FakeItchAccount;
-import com.github.puzzle.game.engine.account.FakeItchProfileMe;
 import com.github.puzzle.game.util.AccountUtil;
 import finalforeach.cosmicreach.accounts.Account;
 import finalforeach.cosmicreach.accounts.AccountOffline;
-import finalforeach.cosmicreach.networking.netty.packets.meta.LoginPacket;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(AccountOffline.class)
 public class DestaticifyOfflineAccount extends Account {

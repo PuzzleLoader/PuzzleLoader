@@ -1,8 +1,6 @@
 package com.github.puzzle.game;
 
-import com.github.puzzle.game.common.Puzzle;
 import finalforeach.cosmicreach.rendering.IZoneRenderer;
-import finalforeach.cosmicreach.settings.BooleanSetting;
 import finalforeach.cosmicreach.settings.IntSetting;
 import finalforeach.cosmicreach.util.Identifier;
 import org.intellij.lang.annotations.Language;

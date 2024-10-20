@@ -2,12 +2,10 @@ package com.github.puzzle.game.block;
 
 import com.badlogic.gdx.utils.Json;
 import com.github.puzzle.game.block.generators.BlockGenerator;
-import com.github.puzzle.game.engine.blocks.model.IBlockModelGenerator;
 import com.github.puzzle.game.resources.PuzzleGameAssetLoader;
 import finalforeach.cosmicreach.util.Identifier;
 
 import java.util.LinkedHashMap;
-import java.util.List;
 
 /**
  * @see IModBlock

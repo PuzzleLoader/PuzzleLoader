@@ -3,17 +3,11 @@ package com.github.puzzle.game.block;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
 import finalforeach.cosmicreach.blockevents.BlockEventArgs;
-import finalforeach.cosmicreach.blockevents.BlockEventTrigger;
 import finalforeach.cosmicreach.blockevents.actions.IBlockAction;
-import finalforeach.cosmicreach.blocks.BlockPosition;
-import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.util.Identifier;
-import finalforeach.cosmicreach.world.Zone;
 import org.hjson.JsonObject;
 
-import javax.annotation.Nullable;
 import java.util.HashMap;
-import java.util.Map;
 
 public abstract class PuzzleBlockAction implements IBlockAction {
 
