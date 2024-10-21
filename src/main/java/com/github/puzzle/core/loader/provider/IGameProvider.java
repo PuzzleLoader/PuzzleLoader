@@ -11,8 +11,10 @@ public interface IGameProvider {
     String getName();
 
     // Game Version
-    Version getGameVersion();
     String getRawVersion();
+    default Version getGameVersion() {
+        return Version.parseVersion(getRawVersion());
+    }
 
     // Extra Data
     String getEntrypoint();
