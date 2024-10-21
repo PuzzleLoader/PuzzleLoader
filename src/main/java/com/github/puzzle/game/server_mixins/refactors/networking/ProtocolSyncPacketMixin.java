@@ -1,15 +1,24 @@
 package com.github.puzzle.game.server_mixins.refactors.networking;
 
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectIntMap;
 import com.github.puzzle.game.networking.packet.PacketInterceptor;
-import finalforeach.cosmicreach.networking.common.NetworkIdentity;
-import finalforeach.cosmicreach.networking.netty.GamePacket;
-import finalforeach.cosmicreach.networking.netty.packets.meta.ProtocolSyncPacket;
+import finalforeach.cosmicreach.RuntimeInfo;
+import finalforeach.cosmicreach.networking.NetworkIdentity;
+import finalforeach.cosmicreach.networking.GamePacket;
+import finalforeach.cosmicreach.networking.NetworkSide;
+import finalforeach.cosmicreach.networking.packets.meta.ProtocolSyncPacket;
+import finalforeach.cosmicreach.util.logging.Logger;
 import io.netty.channel.ChannelHandlerContext;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(ProtocolSyncPacket.class)
 public abstract class ProtocolSyncPacketMixin extends GamePacket {
+
+    @Shadow public String gameVersion;
+
+    @Shadow public static Runnable onConnect;
 
     public void write() {
         PacketInterceptor.init();
@@ -23,10 +32,16 @@ public abstract class ProtocolSyncPacketMixin extends GamePacket {
             }
         }
 
+        this.writeString(this.gameVersion);
     }
 
     @Override
-    protected void handle(NetworkIdentity networkIdentity, ChannelHandlerContext channelHandlerContext) {
-
+    public void handle(NetworkIdentity identity, ChannelHandlerContext channelHandlerContext) {
+        String var10000 = this.getClass().getSimpleName();
+        Logger.info("Got " + var10000 + " with game version: " + this.gameVersion);
+        if (identity.getSide() != NetworkSide.SERVER) {
+            identity.send(new ProtocolSyncPacket(RuntimeInfo.version));
+            onConnect.run();
+        }
     }
 }

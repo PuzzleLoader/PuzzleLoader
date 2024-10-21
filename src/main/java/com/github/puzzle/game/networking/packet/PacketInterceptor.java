@@ -4,8 +4,8 @@ import com.badlogic.gdx.utils.Array;
 import com.github.puzzle.game.PuzzleRegistries;
 import com.github.puzzle.game.events.OnPacketBucketIntercept;
 import com.github.puzzle.game.events.OnPacketIntercept;
-import finalforeach.cosmicreach.networking.netty.GamePacket;
-import finalforeach.cosmicreach.networking.netty.packets.MessagePacket;
+import finalforeach.cosmicreach.networking.GamePacket;
+import finalforeach.cosmicreach.networking.packets.MessagePacket;
 import finalforeach.cosmicreach.util.logging.Logger;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -61,7 +61,7 @@ public class PacketInterceptor {
         String packetClassName = packet.getClass().getName();
 
         switch (packetClassName) {
-            case "finalforeach.cosmicreach.networking.netty.packets.MessagePacket":
+            case "finalforeach.cosmicreach.networking.packets.MessagePacket":
                 MessagePacket messagePacket = (MessagePacket) packet;
                 System.out.println("Recived Msg: " + messagePacket.message + "from: " + messagePacket.playerUniqueId);
                 break;

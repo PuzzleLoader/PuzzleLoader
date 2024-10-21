@@ -3,7 +3,7 @@ package com.github.puzzle.game.util;
 import com.github.puzzle.core.Constants;
 import com.github.puzzle.core.loader.meta.EnvType;
 import com.github.puzzle.core.loader.util.Reflection;
-import finalforeach.cosmicreach.networking.netty.GamePacket;
+import finalforeach.cosmicreach.networking.GamePacket;
 
 public interface IClientNetworkManager {
 

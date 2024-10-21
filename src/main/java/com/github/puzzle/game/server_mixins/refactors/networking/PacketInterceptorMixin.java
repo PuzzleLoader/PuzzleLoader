@@ -5,7 +5,7 @@ import com.github.puzzle.game.PuzzleRegistries;
 import com.github.puzzle.game.events.OnPacketBucketIntercept;
 import com.github.puzzle.game.events.OnPacketIntercept;
 import com.llamalad7.mixinextras.sugar.Local;
-import finalforeach.cosmicreach.networking.netty.GamePacket;
+import finalforeach.cosmicreach.networking.GamePacket;
 import finalforeach.cosmicreach.networking.netty.NettyPacketHandler;
 import io.netty.channel.ChannelHandlerContext;
 import org.spongepowered.asm.mixin.Mixin;
@@ -19,7 +19,7 @@ public class PacketInterceptorMixin {
 
     @Shadow private Array<GamePacket> bundledPackets;
 
-    @Inject(method = "channelRead", at = @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/networking/netty/GamePacket;handle(Lfinalforeach/cosmicreach/networking/common/NetworkIdentity;Lio/netty/channel/ChannelHandlerContext;)V", ordinal = 0, shift = At.Shift.BEFORE))
+    @Inject(method = "channelRead", at = @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/networking/GamePacket;handle(Lfinalforeach/cosmicreach/networking/NetworkIdentity;Lio/netty/channel/ChannelHandlerContext;)V", ordinal = 0, shift = At.Shift.BEFORE))
     private void channelRead0(ChannelHandlerContext ctx, Object msg, CallbackInfo ci, @Local GamePacket packet) {
         OnPacketIntercept intercept = new OnPacketIntercept();
         intercept.setPacket(packet);

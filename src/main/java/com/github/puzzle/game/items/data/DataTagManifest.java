@@ -1,8 +1,8 @@
 package com.github.puzzle.game.items.data;
 
-import finalforeach.cosmicreach.io.CRBinDeserializer;
-import finalforeach.cosmicreach.io.CRBinSerializer;
-import finalforeach.cosmicreach.io.ICRBinSerializable;
+import finalforeach.cosmicreach.savelib.crbin.CRBinDeserializer;
+import finalforeach.cosmicreach.savelib.crbin.CRBinSerializer;
+import finalforeach.cosmicreach.savelib.crbin.ICRBinSerializable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

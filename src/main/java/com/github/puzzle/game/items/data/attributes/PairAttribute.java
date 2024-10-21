@@ -4,9 +4,9 @@ import com.github.puzzle.core.loader.launch.Piece;
 import com.github.puzzle.game.items.data.DataTag;
 import com.github.puzzle.util.MutablePair;
 import com.llamalad7.mixinextras.lib.apache.commons.tuple.Pair;
-import finalforeach.cosmicreach.io.CRBinDeserializer;
-import finalforeach.cosmicreach.io.CRBinSerializer;
-import finalforeach.cosmicreach.io.ICRBinSerializable;
+import finalforeach.cosmicreach.savelib.crbin.CRBinDeserializer;
+import finalforeach.cosmicreach.savelib.crbin.CRBinSerializer;
+import finalforeach.cosmicreach.savelib.crbin.ICRBinSerializable;
 
 public class PairAttribute<A extends ICRBinSerializable, B extends ICRBinSerializable> implements DataTag.DataTagAttribute<Pair<A, B>> {
 

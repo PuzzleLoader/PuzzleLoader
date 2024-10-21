@@ -5,9 +5,9 @@ import com.github.puzzle.core.loader.util.ModLocator;
 import com.github.puzzle.game.networking.packet.cts.CTSModlistPacket;
 import com.llamalad7.mixinextras.lib.apache.commons.tuple.ImmutablePair;
 import com.llamalad7.mixinextras.lib.apache.commons.tuple.Pair;
-import finalforeach.cosmicreach.networking.common.NetworkIdentity;
-import finalforeach.cosmicreach.networking.common.NetworkSide;
-import finalforeach.cosmicreach.networking.netty.GamePacket;
+import finalforeach.cosmicreach.networking.NetworkIdentity;
+import finalforeach.cosmicreach.networking.NetworkSide;
+import finalforeach.cosmicreach.networking.GamePacket;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 
@@ -25,7 +25,7 @@ public class STCModlistRequestPacket extends GamePacket {
     public void write() {}
 
     @Override
-    protected void handle(NetworkIdentity identity, ChannelHandlerContext channelHandlerContext) {
+    public void handle(NetworkIdentity identity, ChannelHandlerContext channelHandlerContext) {
         if (identity.getSide() == NetworkSide.CLIENT) {
             List<Pair<String, String>> mods = new ArrayList<>();
             for (ModContainer container : ModLocator.locatedMods.values()) {

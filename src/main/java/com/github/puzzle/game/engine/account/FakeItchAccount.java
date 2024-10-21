@@ -31,8 +31,6 @@ public class FakeItchAccount extends Account {
 
         json.writeValue("profile", profile);
         json.writeValue("expiresAtEpochSecond", expiresAtEpochSecond);
-//        json.writeField(json, "profile");
-//        json.writeField(json, "expiresAtEpochSecond");
     }
 
     public FakeItchAccount(AccountUtil util) {

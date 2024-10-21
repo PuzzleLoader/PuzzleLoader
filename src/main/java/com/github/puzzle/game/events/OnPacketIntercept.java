@@ -1,6 +1,6 @@
 package com.github.puzzle.game.events;
 
-import finalforeach.cosmicreach.networking.netty.GamePacket;
+import finalforeach.cosmicreach.networking.GamePacket;
 
 public class OnPacketIntercept {
 

@@ -1,15 +1,21 @@
 package com.github.puzzle.game.server_mixins.refactors.account;
 
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
+import com.github.puzzle.game.engine.account.FakeItchAccount;
 import com.github.puzzle.game.util.AccountUtil;
 import finalforeach.cosmicreach.accounts.Account;
 import finalforeach.cosmicreach.accounts.AccountOffline;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(AccountOffline.class)
 public class DestaticifyOfflineAccount extends Account {
 
-//    AccountUtil util;
 //    FakeItchAccount fakeItchAccount;
 
     @Unique
@@ -29,8 +35,8 @@ public class DestaticifyOfflineAccount extends Account {
 //    private void init(CallbackInfo ci) {
 //        fakeItchAccount = new FakeItchAccount();
 //
-//        fakeItchAccount.profile.username = "test";
-//        fakeItchAccount.profile.display_name = "test";
+//        fakeItchAccount.profile.username = "puzzle_user_#" + MathUtils.random(Long.MAX_VALUE);
+//        fakeItchAccount.profile.display_name = "{ Puzzle } Human";
 //        fakeItchAccount.profile.cover_url = "";
 //        fakeItchAccount.profile.url = "";
 //        fakeItchAccount.profile.id = MathUtils.random(Long.MAX_VALUE);

@@ -2,8 +2,8 @@ package com.github.puzzle.game.mixins.refactors.items;
 
 import com.github.puzzle.game.items.data.DataTagManifest;
 import com.github.puzzle.game.items.stack.ITaggedStack;
-import finalforeach.cosmicreach.io.CRBinDeserializer;
-import finalforeach.cosmicreach.io.CRBinSerializer;
+import finalforeach.cosmicreach.savelib.crbin.CRBinDeserializer;
+import finalforeach.cosmicreach.savelib.crbin.CRBinSerializer;
 import finalforeach.cosmicreach.items.Item;
 import finalforeach.cosmicreach.items.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;

@@ -5,10 +5,10 @@ import com.github.puzzle.game.ServerGlobals;
 import com.llamalad7.mixinextras.lib.apache.commons.tuple.ImmutablePair;
 import com.llamalad7.mixinextras.lib.apache.commons.tuple.Pair;
 import finalforeach.cosmicreach.accounts.Account;
-import finalforeach.cosmicreach.networking.common.NetworkIdentity;
-import finalforeach.cosmicreach.networking.common.NetworkSide;
-import finalforeach.cosmicreach.networking.netty.GamePacket;
-import finalforeach.cosmicreach.networking.netty.packets.meta.DisconnectPacket;
+import finalforeach.cosmicreach.networking.NetworkIdentity;
+import finalforeach.cosmicreach.networking.NetworkSide;
+import finalforeach.cosmicreach.networking.GamePacket;
+import finalforeach.cosmicreach.networking.packets.meta.DisconnectPacket;
 import finalforeach.cosmicreach.networking.server.ServerSingletons;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -53,7 +53,7 @@ public class CTSModlistPacket extends GamePacket {
     }
 
     @Override
-    protected void handle(NetworkIdentity identity, ChannelHandlerContext ctx) {
+    public void handle(NetworkIdentity identity, ChannelHandlerContext ctx) {
         if (identity.getSide() == NetworkSide.SERVER) {
             Set<String> keys = ModLocator.locatedMods.keySet();
 
@@ -76,7 +76,7 @@ public class CTSModlistPacket extends GamePacket {
                 Account account = ServerSingletons.getAccount(identity);
 
                 ServerGlobals.SERVER_LOGGER.info("Disconnecting player ID: \"{}\", Name: \"{}\" due to modlist not being the same.", account.getUniqueId(), account.getDisplayName());
-                ServerSingletons.server.broadcastAsServerExcept(new DisconnectPacket(account), identity);
+                ServerSingletons.SERVER.broadcastAsServerExcept(new DisconnectPacket(account), identity);
                 ctx.close();
             }
         }

@@ -2,9 +2,9 @@ package com.github.puzzle.game.items.data.attributes;
 
 import com.github.puzzle.game.items.data.DataTag;
 import com.github.puzzle.util.MutablePair;
-import finalforeach.cosmicreach.io.CRBinDeserializer;
-import finalforeach.cosmicreach.io.CRBinSerializer;
-import finalforeach.cosmicreach.io.ICRBinSerializable;
+import finalforeach.cosmicreach.savelib.crbin.CRBinDeserializer;
+import finalforeach.cosmicreach.savelib.crbin.CRBinSerializer;
+import finalforeach.cosmicreach.savelib.crbin.ICRBinSerializable;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -28,7 +28,7 @@ public class ServerLocationFixer {
         return instance;
     }
 
-    @Inject(require = 0, method = "main", at = @At(value = "FIELD", target = "Lfinalforeach/cosmicreach/networking/server/ServerSingletons;server:Lfinalforeach/cosmicreach/networking/netty/NettyServer;", shift = At.Shift.AFTER))
+    @Inject(require = 0, method = "main", at = @At(value = "FIELD", target = "Lfinalforeach/cosmicreach/networking/server/ServerSingletons;SERVER:Lfinalforeach/cosmicreach/networking/netty/NettyServer;", shift = At.Shift.AFTER))
     private static void consoleListener(String[] args, CallbackInfo ci) {
         ServerGlobals.isRunning = true;
         if(!ServerGlobals.isRunningOnParadox) {
@@ -39,7 +39,7 @@ public class ServerLocationFixer {
                     } catch (IOException e) {
                         throw new RuntimeException(e.getMessage());
                     }
-                    new PPLTerminalConsole(ServerSingletons.server).start();
+                    new PPLTerminalConsole(ServerSingletons.SERVER).start();
 
                 }
 
