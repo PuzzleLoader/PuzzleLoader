@@ -40,9 +40,6 @@ public class ServerGlobals {
         }
     }).get();
 
-    public static boolean GameLoaderHasLoaded;
-    public static final BooleanSetting EnabledVanillaMods = new BooleanSetting("enableVanillaMods", true);
-
     @Env(EnvType.SERVER)
     public static final File SERVER_LOCATION = new File("./");
 

@@ -6,6 +6,7 @@ import com.github.puzzle.core.loader.provider.mod.ModContainer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,6 +16,7 @@ import java.nio.charset.Charset;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -225,5 +227,37 @@ public class ModLocator {
                 urls.add(modFile.toURI().toURL());
             } catch (Exception ignore) {}
         }
+    }
+
+    public static String DEFAULT_PACKAGE = "finalforeach.cosmicreach.lwjgl3";
+
+    public static File searchForCosmicReach() {
+        if (ClassLoader.getPlatformClassLoader().getDefinedPackage(DEFAULT_PACKAGE) == null) {File jarFile;
+            jarFile = lookForJarVariations(".");
+            if (jarFile != null) return toCrJar(jarFile);
+            jarFile = lookForJarVariations("../");
+            if (jarFile != null) return toCrJar(jarFile);
+        }
+        return null;
+    }
+
+    static @Nullable File lookForJarVariations(String offs) {
+        Pattern type1 = Pattern.compile("Cosmic Reach-\\d+\\.\\d+.\\d+\\.jar", Pattern.CASE_INSENSITIVE);
+        Pattern type2 = Pattern.compile("Cosmic_Reach-\\d+\\.\\d+.\\d+\\.jar", Pattern.CASE_INSENSITIVE);
+        Pattern type3 = Pattern.compile("CosmicReach-\\d+\\.\\d+.\\d+\\.jar", Pattern.CASE_INSENSITIVE);
+        for (File f : Objects.requireNonNull(new File(offs).listFiles())) {
+            if (type1.matcher(f.getName()).find()) return f;
+            if (type2.matcher(f.getName()).find()) return f;
+            if (type3.matcher(f.getName()).find()) return f;
+            if (f.getName().equals("cosmic_reach.jar")) return f;
+            if (f.getName().equals("cosmicreach.jar")) return f;
+            if (f.getName().equals("cosmicReach.jar")) return f;
+        }
+        return null;
+    }
+
+    static @Nullable File toCrJar(@NotNull File f) {
+        if (!f.exists()) return null;
+        return f;
     }
 }

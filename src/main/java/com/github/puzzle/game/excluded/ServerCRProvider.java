@@ -8,10 +8,9 @@ import com.github.puzzle.core.loader.provider.IGameProvider;
 import com.github.puzzle.core.loader.provider.mod.ModContainer;
 import com.github.puzzle.core.loader.util.MixinUtil;
 import com.github.puzzle.core.loader.util.ModLocator;
-import com.github.puzzle.game.mod.Puzzle;
+import com.github.puzzle.game.ServerGlobals;
 import finalforeach.cosmicreach.GameAssetLoader;
-import org.hjson.JsonObject;
-import org.hjson.JsonValue;
+import finalforeach.cosmicreach.server.ServerLauncher;
 import org.spongepowered.asm.mixin.MixinEnvironment;
 import org.spongepowered.asm.mixin.Mixins;
 
@@ -20,12 +19,11 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 
-public class ClientCRProvider implements IGameProvider {
+public class ServerCRProvider implements IGameProvider {
 
-    public ClientCRProvider() {
+    public ServerCRProvider() {
         MixinUtil.start();
     }
 
@@ -55,7 +53,7 @@ public class ClientCRProvider implements IGameProvider {
 
     @Override
     public String getEntrypoint() {
-        return ModLocator.COSMIC_REACH_CLIENT_ENTRYPOINT;
+        return ServerGlobals.isRunningOnParadox ? ModLocator.PARADOX_SERVER_ENTRYPOINT : ServerLauncher.class.getName();
     }
 
     @Override
@@ -111,18 +109,12 @@ public class ClientCRProvider implements IGameProvider {
                     "puzzle.client.mixins.json",
                     "puzzle.common.mixins.json"
             );
-            HashMap<String, JsonValue> meta = new HashMap<>();
-            meta.put("icon", JsonObject.valueOf("puzzle-loader:icons/PuzzleLoaderIconx160.png"));
-            puzzleLoaderInfo.setMeta(meta);
             puzzleLoaderInfo.setAuthors(new String[]{
                     "Mr-Zombii", "repletsin5", "SinfullySoul", "tympanicblock61"
             });
 
             puzzleLoaderInfo.setVersion(Constants.getVersion());
             puzzleLoaderInfo.setAccessManipulator("puzzle_loader.manipulator");
-//            puzzleLoaderInfo.addEntrypoint("client_preInit", Puzzle.class.getName());
-            puzzleLoaderInfo.addEntrypoint("client_init", Puzzle.class.getName());
-            puzzleLoaderInfo.addEntrypoint("client_postInit", Puzzle.class.getName());
 
             ModLocator.locatedMods.put("puzzle-loader", puzzleLoaderInfo.build().getOrCreateModContainer());
         }
@@ -134,9 +126,6 @@ public class ClientCRProvider implements IGameProvider {
             cosmicReachInfo.setDesc("The base game");
             cosmicReachInfo.addAuthor("FinalForEach");
             cosmicReachInfo.setVersion(getGameVersion());
-            HashMap<String, JsonValue> meta = new HashMap<>();
-            meta.put("icon", JsonObject.valueOf("icons/logox256.png"));
-            cosmicReachInfo.setMeta(meta);
             ModLocator.locatedMods.put(getId(), cosmicReachInfo.build().getOrCreateModContainer());
         }
     }
