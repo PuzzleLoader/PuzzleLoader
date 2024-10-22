@@ -1,16 +1,14 @@
-package com.github.puzzle.core.loader.meta;
+package com.github.puzzle.core.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-
 /**
- * This class may signify that whatever method, field, constructor, package, or even type is available only on the value() environment side.
- */
+ * Defines a class as an unstable/experimental feature
+*/
 @Retention(RetentionPolicy.CLASS)
 @Target({ElementType.TYPE, ElementType.METHOD, ElementType.FIELD, ElementType.CONSTRUCTOR, ElementType.PACKAGE})
-public @interface Env {
-    EnvType value();
+public @interface Experimental {
 }

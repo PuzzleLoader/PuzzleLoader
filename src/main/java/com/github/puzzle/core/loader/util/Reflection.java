@@ -10,6 +10,17 @@ import java.lang.reflect.Method;
 
 public class Reflection {
 
+    public static String getCallerClassName() {
+        StackTraceElement[] stElements = Thread.currentThread().getStackTrace();
+        for (int i=1; i<stElements.length; i++) {
+            StackTraceElement ste = stElements[i];
+            if (!ste.getClassName().equals(Reflection.class.getName()) && ste.getClassName().indexOf("java.lang.Thread")!=0) {
+                return ste.getClassName();
+            }
+        }
+        return null;
+    }
+
     public static Object newInstance(String name) {
         try {
             return newInstance(Class.forName(name, false, Piece.classLoader));

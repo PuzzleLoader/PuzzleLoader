@@ -1,14 +1,17 @@
 package com.github.puzzle.game.excluded;
 
 import com.github.puzzle.core.Constants;
+import com.github.puzzle.core.annotation.Internal;
 import com.github.puzzle.core.loader.launch.PuzzleClassLoader;
+import com.github.puzzle.core.loader.meta.Env;
+import com.github.puzzle.core.loader.meta.EnvType;
 import com.github.puzzle.core.loader.meta.ModInfo;
 import com.github.puzzle.core.loader.meta.Version;
 import com.github.puzzle.core.loader.provider.IGameProvider;
 import com.github.puzzle.core.loader.provider.mod.ModContainer;
 import com.github.puzzle.core.loader.util.MixinUtil;
 import com.github.puzzle.core.loader.util.ModLocator;
-import com.github.puzzle.game.mod.Puzzle;
+import com.github.puzzle.game.mod.ClientPuzzle;
 import finalforeach.cosmicreach.GameAssetLoader;
 import org.hjson.JsonObject;
 import org.hjson.JsonValue;
@@ -23,6 +26,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+@Internal
+@Env(EnvType.CLIENT)
 public class ClientCRProvider implements IGameProvider {
 
     public ClientCRProvider() {
@@ -121,8 +126,8 @@ public class ClientCRProvider implements IGameProvider {
             puzzleLoaderInfo.setVersion(Constants.getVersion());
             puzzleLoaderInfo.setAccessManipulator("puzzle_loader.manipulator");
 //            puzzleLoaderInfo.addEntrypoint("client_preInit", Puzzle.class.getName());
-            puzzleLoaderInfo.addEntrypoint("client_init", Puzzle.class.getName());
-            puzzleLoaderInfo.addEntrypoint("client_postInit", Puzzle.class.getName());
+            puzzleLoaderInfo.addEntrypoint("client_init", ClientPuzzle.class.getName());
+            puzzleLoaderInfo.addEntrypoint("client_postInit", ClientPuzzle.class.getName());
 
             ModLocator.locatedMods.put("puzzle-loader", puzzleLoaderInfo.build().getOrCreateModContainer());
         }

@@ -4,26 +4,23 @@ import com.github.puzzle.core.loader.launch.Piece;
 import com.github.puzzle.core.loader.meta.Env;
 import com.github.puzzle.core.loader.meta.EnvType;
 import com.github.puzzle.core.loader.util.ModLocator;
-import finalforeach.cosmicreach.settings.BooleanSetting;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.github.puzzle.game.engine.ILoadingEngine;
 
 import java.io.File;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Supplier;
 
 public class ServerGlobals {
 
-    @Env(EnvType.SERVER)
-    public static final Logger SERVER_LOGGER = LoggerFactory.getLogger("Puzzle | Server");
+    public static ILoadingEngine ENGINE;
 
     @Env(EnvType.SERVER)
     public static boolean isRunning = false;
 
+    @Env(EnvType.SERVER)
     static final AtomicReference<Boolean> paradoxExist = new AtomicReference<>();
 
     @Env(EnvType.SERVER)
-    public static boolean isRunningOnParadox = ((Supplier<Boolean>) () -> {
+    public static boolean isRunningOnParadox() {
         if (paradoxExist.get() != null) return paradoxExist.get();
         if (System.getProperty("puzzle.useParadox") != null) {
             paradoxExist.set(true);
@@ -38,7 +35,7 @@ public class ServerGlobals {
             paradoxExist.set(false);
             return false;
         }
-    }).get();
+    }
 
     @Env(EnvType.SERVER)
     public static final File SERVER_LOCATION = new File("./");

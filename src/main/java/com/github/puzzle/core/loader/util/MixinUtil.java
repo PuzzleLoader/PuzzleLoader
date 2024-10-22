@@ -34,7 +34,7 @@ public class MixinUtil {
     }
 
     public static void goToPhase(MixinEnvironment.Phase phase) {
-        MethodUtil.runStaticMethod(Reflection.getMethod(MixinBootstrap.class, MIXIN_GOTO_PHASE, MixinEnvironment.Phase.class), phase);
+        MethodUtil.runStaticMethod(Reflection.getMethod(MixinEnvironment.class, MIXIN_GOTO_PHASE, MixinEnvironment.Phase.class), phase);
     }
 
 }

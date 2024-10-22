@@ -6,6 +6,7 @@ import com.github.puzzle.core.loader.meta.ModInfo;
 import com.github.puzzle.core.loader.meta.Version;
 import com.github.puzzle.core.loader.provider.IGameProvider;
 import com.github.puzzle.core.loader.provider.mod.ModContainer;
+import com.github.puzzle.core.loader.provider.mod.entrypoint.impls.CommonTransformerInitializer;
 import com.github.puzzle.core.loader.util.MixinUtil;
 import com.github.puzzle.core.loader.util.ModLocator;
 import com.github.puzzle.game.ServerGlobals;
@@ -53,7 +54,7 @@ public class ServerCRProvider implements IGameProvider {
 
     @Override
     public String getEntrypoint() {
-        return ServerGlobals.isRunningOnParadox ? ModLocator.PARADOX_SERVER_ENTRYPOINT : ServerLauncher.class.getName();
+        return ServerGlobals.isRunningOnParadox() ? ModLocator.PARADOX_SERVER_ENTRYPOINT : ServerLauncher.class.getName();
     }
 
     @Override
@@ -64,7 +65,10 @@ public class ServerCRProvider implements IGameProvider {
 
     @Override
     public void registerTransformers(PuzzleClassLoader classLoader) {
+        ModLocator.getMods(List.of(classLoader.getURLs()));
+        addBuiltinMods();
 
+        CommonTransformerInitializer.invokeTransformers(classLoader);
     }
 
     @Override
@@ -106,7 +110,7 @@ public class ServerCRProvider implements IGameProvider {
             puzzleLoaderInfo.addEntrypoint("transformers", PuzzleTransformers.class.getName());
             puzzleLoaderInfo.addDependency("cosmic-reach", getGameVersion());
             puzzleLoaderInfo.addMixinConfigs(
-                    "puzzle.client.mixins.json",
+                    "puzzle.server.mixins.json",
                     "puzzle.common.mixins.json"
             );
             puzzleLoaderInfo.setAuthors(new String[]{

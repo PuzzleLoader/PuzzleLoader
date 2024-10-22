@@ -84,7 +84,7 @@ public class Piece {
             if (options.has(modFolder_option)) ModLocator.setModFolder(new File(modFolder_option.value(options)));
             classLoader.addClassLoaderExclusion(DEFAULT_PROVIDER.substring(0, DEFAULT_PROVIDER.lastIndexOf('.')));
             classLoader.addClassLoaderExclusion("com.github.puzzle.core.loader.launch");
-            classLoader.addClassLoaderExclusion("com.github.puzzle.game.common.excluded.");
+            classLoader.addClassLoaderExclusion("com.github.puzzle.game.excluded.");
             classLoader.addClassLoaderExclusion("com.github.puzzle.core.loader.meta");
             classLoader.addClassLoaderExclusion("com.github.puzzle.core.loader.provider");
             classLoader.addClassLoaderExclusion("com.github.puzzle.core.loader.transformers");
