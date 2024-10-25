@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "com.github.puzzle.game.mixins.client",
+  "package": "com.github.puzzle.game.mixins.common",
   "plugin": "com.github.puzzle.core.loader.provider.mixin.extras.MixinExtrasConfigPlugin",
   "compatibilityLevel": "JAVA_17",
   "client": [
@@ -9,5 +9,8 @@
   "server": [],
   "injectors": {
     "defaultRequire": 1
-  }
+  },
+  "mixins": [
+    "AssetLoaderMixin"
+  ]
 }

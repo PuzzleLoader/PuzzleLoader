@@ -5,6 +5,7 @@
   "plugin": "com.github.puzzle.core.loader.provider.mixin.extras.MixinExtrasConfigPlugin",
   "compatibilityLevel": "JAVA_17",
   "client": [
+    "gui.MenuRedesignMixin"
   ],
   "server": [],
   "injectors": {

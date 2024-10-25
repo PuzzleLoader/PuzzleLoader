@@ -9,6 +9,7 @@ import com.github.puzzle.core.loader.meta.ModInfo;
 import com.github.puzzle.core.loader.meta.Version;
 import com.github.puzzle.core.loader.provider.IGameProvider;
 import com.github.puzzle.core.loader.provider.mod.ModContainer;
+import com.github.puzzle.core.loader.provider.mod.entrypoint.impls.CommonTransformerInitializer;
 import com.github.puzzle.core.loader.util.MixinUtil;
 import com.github.puzzle.core.loader.util.ModLocator;
 import com.github.puzzle.game.mod.ClientPuzzle;
@@ -71,7 +72,10 @@ public class ClientCRProvider implements IGameProvider {
 
     @Override
     public void registerTransformers(PuzzleClassLoader classLoader) {
+        ModLocator.getMods(List.of(classLoader.getURLs()));
+        addBuiltinMods();
 
+        CommonTransformerInitializer.invokeTransformers(classLoader);
     }
 
     @Override
