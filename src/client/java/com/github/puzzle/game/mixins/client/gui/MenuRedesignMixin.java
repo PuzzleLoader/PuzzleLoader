@@ -297,6 +297,8 @@ public class MenuRedesignMixin extends GameState implements IGDXGameState {
             Gdx.gl.glDisable(GL20.GL_CULL_FACE);
             Gdx.gl.glClearColor(bgColor.r, bgColor.g, bgColor.b, bgColor.a);
             Gdx.gl.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
+
+            // TODO: find a way to fix cube map stretch in main menu
             envCubemap.render(rawWorldCamera);
             gdxStage.getViewport().apply(false);
             gdxStage.act();
