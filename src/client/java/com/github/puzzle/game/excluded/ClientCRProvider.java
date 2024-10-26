@@ -1,5 +1,7 @@
 package com.github.puzzle.game.excluded;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.github.puzzle.core.Constants;
 import com.github.puzzle.core.annotation.Internal;
 import com.github.puzzle.core.loader.launch.PuzzleClassLoader;
@@ -14,6 +16,7 @@ import com.github.puzzle.core.loader.util.MixinUtil;
 import com.github.puzzle.core.loader.util.ModLocator;
 import com.github.puzzle.game.mod.ClientPuzzle;
 import finalforeach.cosmicreach.GameAssetLoader;
+import finalforeach.cosmicreach.settings.Keybind;
 import org.hjson.JsonObject;
 import org.hjson.JsonValue;
 import org.spongepowered.asm.mixin.MixinEnvironment;

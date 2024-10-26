@@ -89,6 +89,7 @@ public class CosmicReachDefaultFont {
                 data.setGlyph(unicode, glyph);
             }
         }
+        data.lineHeight = 16;
         data.down = -data.getGlyph('\n').height;
         BitmapFont.Glyph space = data.getGlyph(' ');
         space.width /= 4;

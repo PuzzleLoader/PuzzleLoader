@@ -11,6 +11,8 @@
     "defaultRequire": 1
   },
   "mixins": [
-    "AssetLoaderMixin"
+    "assets.AssetLoaderMixin",
+    "account.AccountUtilMixin",
+    "account.DestaticifyOfflineAccount"
   ]
 }

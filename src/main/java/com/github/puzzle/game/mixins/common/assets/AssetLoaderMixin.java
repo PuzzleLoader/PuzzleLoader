@@ -1,4 +1,4 @@
-package com.github.puzzle.game.mixins.common;
+package com.github.puzzle.game.mixins.common.assets;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;

@@ -1,6 +1,7 @@
 package com.github.puzzle.game.ui;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -55,4 +56,30 @@ public abstract class GDXGameState extends GameState implements IGDXGameState {
     @Override
     @Deprecated
     public void drawUIElements() {}
+
+    @Override
+    public void resize(int width, int height) {
+        super.resize(width, height);
+        gdxViewport.update(width, height, false);
+    }
+
+    @Override
+    public void switchAwayTo(GameState gameState) {
+        Gdx.input.setInputProcessor(null);
+    }
+
+    @Override
+    public Stage getStage() {
+        return gdxStage;
+    }
+
+    @Override
+    public Viewport getViewport() {
+        return gdxViewport;
+    }
+
+    @Override
+    public Camera getCamera() {
+        return gdxCamera;
+    }
 }

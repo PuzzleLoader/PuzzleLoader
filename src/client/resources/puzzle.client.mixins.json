@@ -10,5 +10,10 @@
   "server": [],
   "injectors": {
     "defaultRequire": 1
-  }
+  },
+  "mixins": [
+    "PANORAMA",
+    "gui.CreditsButtonMixin",
+    "gui.CreditsMenuMixin"
+  ]
 }
