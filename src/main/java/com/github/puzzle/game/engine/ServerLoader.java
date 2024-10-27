@@ -10,8 +10,7 @@ public class ServerLoader implements ILoadingEngine<ServerLoader> {
 
     public static final Logger LOGGER = ILoadingEngine.getLogger(ServerLoader.class);
 
-    private final Queue<Runnable> GL_TASKS = new LinkedList<>();
-    private final Queue<ILoadingEngine<ServerLoader>> STAGES = new LinkedList<>();
+    private final Queue<ILoadingStage<ServerLoader>> STAGES = new LinkedList<>();
 
     public ServerLoader() {
         ServerGlobals.ENGINE = this;
@@ -19,6 +18,12 @@ public class ServerLoader implements ILoadingEngine<ServerLoader> {
 
     @Override
     public <STAGE_TYPE extends ILoadingStage<ServerLoader>> void addStage(STAGE_TYPE stage) {
+        stage.init(this);
+        STAGES.add(stage);
+    }
+
+    @Override
+    public void init() {
 
     }
 }

@@ -170,7 +170,7 @@ public class EnvironmentCubemap implements Disposable {
     }
 
     public Mesh createQuad(){
-        Mesh mesh = new Mesh(true, 4, 6, VertexAttribute.Position(), VertexAttribute.  ColorUnpacked(), VertexAttribute.TexCoords(0));
+        Mesh mesh = new Mesh(true, 4, 6, VertexAttribute.Position(), VertexAttribute.ColorUnpacked(), VertexAttribute.TexCoords(0));
             mesh.setVertices(new float[]
             {-1f, -1f, 0, 1, 1, 1, 1, 0, 1,
             1f, -1f, 0, 1, 1, 1, 1, 1, 1,
