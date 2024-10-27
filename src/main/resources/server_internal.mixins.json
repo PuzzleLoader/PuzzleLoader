@@ -6,7 +6,6 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "account.AccountUtilMixin",
-    "account.DestaticifyOfflineAccount",
     "assets.AssetLoaderMixin",
     "blockentities.BlockEntityFurnaceMixin",
     "blockentities.BlockEntityItemContainerMixin",

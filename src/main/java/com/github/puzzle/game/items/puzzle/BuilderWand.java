@@ -59,7 +59,7 @@ public class BuilderWand implements IModItem {
         }
         BlockPosition blockPosition = BlockSelectionUtil.getBlockPositionLookingAt();
         if(blockPosition == null) return;
-        Schematic.genSchematicStructureAtGlobal(clipBoard, player.getZone(GameSingletons.world), player.getChunk(GameSingletons.world), blockPosition.getGlobalX(), blockPosition.getGlobalY(), blockPosition.getGlobalZ());
+        Schematic.genSchematicStructureAtGlobal(clipBoard, player.getZone(), player.getChunk(GameSingletons.world), blockPosition.getGlobalX(), blockPosition.getGlobalY(), blockPosition.getGlobalZ());
     }
 
     private void setBlockPos(Player player) {

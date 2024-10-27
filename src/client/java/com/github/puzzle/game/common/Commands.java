@@ -25,7 +25,7 @@ public class Commands {
         LiteralArgumentBuilder<PuzzleCommandSource> genSchmatic = CommandManager.literal("gs");
         genSchmatic.executes(context -> {
             if(BuilderWand.pos1 == null || BuilderWand.pos2 == null) return 0;
-            BuilderWand.clipBoard = Schematic.generateASchematic(BuilderWand.pos1, BuilderWand.pos2, InGame.getLocalPlayer().getZone(GameSingletons.world));
+            BuilderWand.clipBoard = Schematic.generateASchematic(BuilderWand.pos1, BuilderWand.pos2, InGame.getLocalPlayer().getZone());
             return 0;
         });
         CommandManager.dispatcher.register(genSchmatic);

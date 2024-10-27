@@ -152,7 +152,7 @@ public class ExperimentalItemModel implements IPuzzleItemModel {
         if (isSlot) {
             tintColor.set(Color.WHITE);
         } else {
-            Zone zone = InGame.getLocalPlayer().getZone(GameSingletons.world);
+            Zone zone = InGame.getLocalPlayer().getZone();
             try {
                 Entity.setLightingColor(zone, pos, Sky.currentSky.currentAmbientColor, tintColor, tmpBlockPos, tmpBlockPos);
             } catch (Exception e) {
