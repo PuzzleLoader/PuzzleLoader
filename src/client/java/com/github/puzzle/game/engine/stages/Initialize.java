@@ -38,7 +38,6 @@ public class Initialize extends LoadStage {
             } catch (Exception e) {}
             ModLocator.locatedMods.get(MOD_ID).invokeEntrypoint(ClientModInitializer.ENTRYPOINT_KEY, ClientModInitializer.class, ClientModInitializer::onInit);
         } catch (Exception e) {
-            throw new RuntimeException(e);
         }
 
         ModLocator.locatedMods.keySet().forEach(containerID -> {

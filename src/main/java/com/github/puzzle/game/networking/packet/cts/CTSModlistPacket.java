@@ -1,5 +1,7 @@
 package com.github.puzzle.game.networking.packet.cts;
 
+import com.github.puzzle.core.loader.meta.Version;
+import com.github.puzzle.core.loader.provider.mod.ModContainer;
 import com.github.puzzle.core.loader.util.ModLocator;
 import com.github.puzzle.game.ServerGlobals;
 import com.llamalad7.mixinextras.lib.apache.commons.tuple.ImmutablePair;
@@ -13,14 +15,12 @@ import finalforeach.cosmicreach.networking.server.ServerSingletons;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public class CTSModlistPacket extends GamePacket {
 
     Pair<String, String>[] modList;
+    Map<String, Version> listOfMods;
 
     public CTSModlistPacket() {}
 
@@ -32,13 +32,13 @@ public class CTSModlistPacket extends GamePacket {
     public void receive(ByteBuf in) {
         int listLength = readInt(in);
 
-        modList = new Pair[listLength];
+        listOfMods = new HashMap();
 
         for (int i = 0; i < listLength; i++) {
             String modId = readString(in);
-            String modName = readString(in);
+            String modVersion = readString(in);
 
-            modList[i] = new ImmutablePair<>(modName, modId);
+            listOfMods.put(modId, Version.parseVersion(modVersion));
         }
 
     }
@@ -55,19 +55,18 @@ public class CTSModlistPacket extends GamePacket {
     @Override
     public void handle(NetworkIdentity identity, ChannelHandlerContext ctx) {
         if (identity.getSide() == NetworkSide.SERVER) {
-            Set<String> keys = ModLocator.locatedMods.keySet();
 
-            List<Pair<String, String>> missingMods = new ArrayList<>();
-            if (identity.getSide() == NetworkSide.SERVER) {
-                for (Pair<String, String> modPair : modList) {
-                    String modId = modPair.getRight();
-                    String modVersion = modPair.getLeft();
+            List<ModContainer> missingMods = new ArrayList<>();
+            Set<String> clientsMods = listOfMods.keySet();
+            for (ModContainer mod : ModLocator.locatedMods.values()) {
+                String modId = mod.ID;
+                Version modVersion = mod.VERSION;
 
-                    if (!keys.contains(modId)) {
-                        missingMods.add(modPair);
-                    }
-                    else if (keys.contains(modId) && !Objects.equals(ModLocator.locatedMods.get(modId).VERSION.toString(), modVersion)) {
-                        missingMods.add(modPair);
+                if (!clientsMods.contains(modId)) {
+                    missingMods.add(mod);
+                } else {
+                    switch (modVersion.otherIs(modVersion)) {
+                        case LARGER, SMALLER -> missingMods.add(mod);
                     }
                 }
             }
@@ -75,8 +74,24 @@ public class CTSModlistPacket extends GamePacket {
             if (!missingMods.isEmpty()) {
                 Account account = ServerSingletons.getAccount(identity);
 
+                StringBuilder missingModsTxt = new StringBuilder();
+                String errTxt = "These mods either don't exist or are the wrong version:";
+                missingModsTxt.append(errTxt).append("\n");
+                for (ModContainer mod : missingMods) {
+                    StringBuilder modErrString = new StringBuilder();
+                    modErrString.append(mod.NAME).append(": ").append(mod.VERSION);
+
+                    modErrString.insert(0, "> ");
+                    for (int i = 0; i < (errTxt.length() - 2) - modErrString.length(); i++) {
+                        modErrString.insert(0, "-");
+                    }
+
+
+                    missingModsTxt.append(modErrString).append("\n");
+                }
+
                 ServerGlobals.SERVER_LOGGER.info("Disconnecting player ID: \"{}\", Name: \"{}\" due to modlist not being the same.", account.getUniqueId(), account.getDisplayName());
-                ServerSingletons.SERVER.broadcastAsServerExcept(new DisconnectPacket(account), identity);
+                ServerSingletons.SERVER.kick(missingModsTxt.toString(), identity);
                 ctx.close();
             }
         }

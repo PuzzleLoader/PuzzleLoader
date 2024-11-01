@@ -28,7 +28,6 @@ public class PostInitialize extends LoadStage {
             } catch (Exception e) {}
             ModLocator.locatedMods.get(MOD_ID).invokeEntrypoint(ClientPostModInitializer.ENTRYPOINT_KEY, ClientPostModInitializer.class, ClientPostModInitializer::onPostInit);
         } catch (Exception e) {
-            throw new RuntimeException(e);
         }
         ModLocator.locatedMods.keySet().forEach(containerID -> {
             ModContainer container = ModLocator.locatedMods.get(containerID);

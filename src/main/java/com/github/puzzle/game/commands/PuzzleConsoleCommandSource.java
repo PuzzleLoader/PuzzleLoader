@@ -2,16 +2,17 @@ package com.github.puzzle.game.commands;
 
 import finalforeach.cosmicreach.accounts.Account;
 import finalforeach.cosmicreach.chat.Chat;
+import finalforeach.cosmicreach.chat.IChat;
 import finalforeach.cosmicreach.entities.player.Player;
 import finalforeach.cosmicreach.world.World;
 //Do not use puzzle specific things in this file, shared with paradox
 public class PuzzleConsoleCommandSource implements CommandSource {
 
     final World world;
-    final Chat chat;
+    final IChat chat;
 
 
-    public PuzzleConsoleCommandSource(Chat chat, World world) {
+    public PuzzleConsoleCommandSource(IChat chat, World world) {
         this.world = world;
         this.chat = chat;
     }
@@ -22,7 +23,7 @@ public class PuzzleConsoleCommandSource implements CommandSource {
     }
 
     @Override
-    public Chat getChat() {
+    public IChat getChat() {
         return chat;
     }
 

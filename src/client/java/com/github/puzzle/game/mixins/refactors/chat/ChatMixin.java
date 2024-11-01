@@ -3,6 +3,7 @@ package com.github.puzzle.game.mixins.refactors.chat;
 import com.github.puzzle.game.commands.CommandManager;
 import com.github.puzzle.game.commands.PuzzleCommandSource;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.accounts.Account;
 import finalforeach.cosmicreach.chat.Chat;
 import finalforeach.cosmicreach.chat.ChatMessage;
@@ -23,8 +24,9 @@ public abstract class ChatMixin {
      * @reason Add Proper Command Support
      */
     @Overwrite
-    public static void sendMessageOrCommand(Chat chat, World world, Player player, Account account, String messageText) {
+    public static void sendMessageOrCommand(Chat chat, Account account, String messageText) {
         if (messageText != null && !messageText.isEmpty()) {
+            Player player = GameSingletons.getPlayerFromAccount(account);
             if (messageText.charAt(0) == '/' && account != null) {
                 // Force Command.java load the <clinit> block
                 Command.registerCommand(() -> new Command() {
@@ -37,16 +39,16 @@ public abstract class ChatMixin {
                 ChatMessage message = new ChatMessage(account, messageText, System.currentTimeMillis());
                 chat.addToMessageQueue(message);
                 try {
-                    CommandManager.dispatcher.execute(messageText.substring(1), new PuzzleCommandSource(account, chat, world, player));
+                    CommandManager.dispatcher.execute(messageText.substring(1), new PuzzleCommandSource(account, chat, GameSingletons.world, player));
                 } catch (CommandSyntaxException e) {
-                    chat.addMessage(world, player, null, messageText);
+                    chat.addMessage(account, messageText);
                     e.printStackTrace();
                 } catch (IllegalArgumentException e) {
-                    chat.addMessage(world, player, null, messageText);
+                    chat.addMessage(account, messageText);
                     e.printStackTrace();
                 }
             } else {
-                chat.addMessage(world, player, account, messageText);
+                chat.addMessage(account, messageText);
                 if (ClientNetworkManager.isConnected()) {
                     ClientNetworkManager.sendAsClient(new MessagePacket(messageText));
                 }

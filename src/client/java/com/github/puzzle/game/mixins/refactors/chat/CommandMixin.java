@@ -6,6 +6,7 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import finalforeach.cosmicreach.accounts.Account;
 import finalforeach.cosmicreach.chat.Chat;
+import finalforeach.cosmicreach.chat.IChat;
 import finalforeach.cosmicreach.chat.commands.Command;
 import finalforeach.cosmicreach.entities.player.Player;
 import finalforeach.cosmicreach.util.exceptions.ChatCommandException;
@@ -23,10 +24,10 @@ import java.util.List;
 import java.util.function.Supplier;
 
 @Mixin(Command.class)
-public class CommandMixin {
+public abstract class CommandMixin {
 
     @Shadow
-    private static void printHelp(World world, Player player) {
+    protected static void printHelp(IChat chat) {
     }
 
     @Inject(method = "registerCommand", at = @At("HEAD"), cancellable = true)
@@ -50,8 +51,6 @@ public class CommandMixin {
             com.mojang.brigadier.Command<PuzzleCommandSource> command2 = (commandContext -> {
                 final Account account = commandContext.getSource().getAccount();
                 final Chat chat = commandContext.getSource().getChat();
-                final World world = commandContext.getSource().getWorld();
-                final Player player = commandContext.getSource().getPlayer();
 
                 String[] args = commandContext.getInput().substring(1).split(" ");
                 String commandStr = args[0];
@@ -59,22 +58,22 @@ public class CommandMixin {
                     if (commandSupplier != null) {
                         try {
                             Command command = commandSupplier.get();
-                            command.setup(account, world, player);
-                            command.run(chat, args);
+                            command.setup(account, args);
+                            command.run(chat);
                         } catch (ChatCommandException var8) {
                             ChatCommandException cce = var8;
-                            chat.addMessage(world, player, null, "ERROR: " + cce.getMessage());
+                            chat.addMessage(null, "ERROR: " + cce.getMessage());
                         } catch (Exception var9) {
                             Exception ex = var9;
                             ex.printStackTrace();
-                            chat.addMessage(world, player, null, "ERROR: An exception occured running the command: " + String.join(" ", args));
+                            chat.addMessage(null, "ERROR: An exception occured running the command: " + String.join(" ", args));
                         }
 
                     } else {
-                        chat.addMessage(world, player, null, "Unknown command: " + commandStr);
+                        chat.addMessage(null, "Unknown command: " + commandStr);
                     }
                 } else {
-                    printHelp(world, player);
+                    printHelp(chat);
                 }
                 return 0;
             });

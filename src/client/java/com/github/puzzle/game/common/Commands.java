@@ -1,5 +1,7 @@
 package com.github.puzzle.game.common;
 
+import com.github.puzzle.core.Constants;
+import com.github.puzzle.core.loader.meta.EnvType;
 import com.github.puzzle.game.commands.CommandManager;
 import com.github.puzzle.game.commands.PuzzleCommandSource;
 import com.github.puzzle.game.items.IModItem;
@@ -68,7 +70,8 @@ public class Commands {
 
             File schematicFile = new File(SaveLocation.getSaveFolderLocation() + "/schematic/" + filename + ".schematic");
             if(!schematicFile.exists()) {
-                Chat.MAIN_CHAT.addMessage(GameSingletons.world, InGame.getLocalPlayer(), null,"Can not load schematic: " + filename);
+                if (Constants.SIDE == EnvType.CLIENT)
+                    Chat.MAIN_CLIENT_CHAT.addMessage(null,"Can not load schematic: " + filename);
                 return 0;
             }
 
@@ -91,7 +94,8 @@ public class Commands {
                                         ItemSlot slot = UI.hotbar.getSelectedSlot();
                                         if (slot.itemStack == null) return 0;
                                         DataTagManifest manifest = DataTagUtil.getManifestFromStack(slot.itemStack);
-                                        Chat.MAIN_CHAT.addMessage(GameSingletons.world, InGame.getLocalPlayer(), null, String.valueOf(manifest.getTag(attr)));
+                                        if (Constants.SIDE == EnvType.CLIENT)
+                                            Chat.MAIN_CLIENT_CHAT.addMessage(null, String.valueOf(manifest.getTag(attr)));
                                     }
                                     return 0;
                                 }))
@@ -100,7 +104,8 @@ public class Commands {
                                 ItemSlot slot = UI.hotbar.getSelectedSlot();
                                 if (slot.itemStack == null) return 0;
                                 DataTagManifest manifest = DataTagUtil.getManifestFromStack(slot.itemStack);
-                                Chat.MAIN_CHAT.addMessage(GameSingletons.world, InGame.getLocalPlayer(), null, String.valueOf(manifest));
+                                if (Constants.SIDE == EnvType.CLIENT)
+                                    Chat.MAIN_CLIENT_CHAT.addMessage(null, String.valueOf(manifest));
                             }
                             return 0;
                         }))
@@ -113,10 +118,12 @@ public class Commands {
                                         ItemSlot slot = UI.hotbar.getSelectedSlot();
                                         if (slot.itemStack == null) return 0;
                                         if (slot.itemStack.getItem() instanceof IModItem item) {
-                                            Chat.MAIN_CHAT.addMessage(GameSingletons.world, InGame.getLocalPlayer(), null, String.valueOf(item.getTagManifest().getTag(attr)));
+                                            if (Constants.SIDE == EnvType.CLIENT)
+                                                Chat.MAIN_CLIENT_CHAT.addMessage(null, String.valueOf(item.getTagManifest().getTag(attr)));
                                             return 0;
                                         }
-                                        Chat.MAIN_CHAT.addMessage(GameSingletons.world, InGame.getLocalPlayer(), null, "Not a ModItem");
+                                        if (Constants.SIDE == EnvType.CLIENT)
+                                            Chat.MAIN_CLIENT_CHAT.addMessage(null, "Not a ModItem");
                                     }
                                     return 0;
                                 }))
@@ -125,10 +132,12 @@ public class Commands {
                                 ItemSlot slot = UI.hotbar.getSelectedSlot();
                                 if (slot.itemStack == null) return 0;
                                 if (slot.itemStack.getItem() instanceof IModItem item) {
-                                    Chat.MAIN_CHAT.addMessage(GameSingletons.world, InGame.getLocalPlayer(), null, String.valueOf(item.getTagManifest()));
+                                    if (Constants.SIDE == EnvType.CLIENT)
+                                        Chat.MAIN_CLIENT_CHAT.addMessage(null, String.valueOf(item.getTagManifest()));
                                     return 0;
                                 }
-                                Chat.MAIN_CHAT.addMessage(GameSingletons.world, InGame.getLocalPlayer(), null, "Not a ModItem");
+                                if (Constants.SIDE == EnvType.CLIENT)
+                                    Chat.MAIN_CLIENT_CHAT.addMessage(null, "Not a ModItem");
                             }
                             return 0;
                         }))

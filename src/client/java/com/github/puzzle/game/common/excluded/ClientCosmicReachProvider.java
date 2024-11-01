@@ -117,6 +117,7 @@ public class ClientCosmicReachProvider implements IGameProvider {
         ModInfo.Builder puzzleLoaderInfo = ModInfo.Builder.New();
         {
             puzzleLoaderInfo.setName("Puzzle Loader");
+            puzzleLoaderInfo.setId(Constants.MOD_ID);
             puzzleLoaderInfo.setDesc("A new dedicated modloader for Cosmic Reach");
             puzzleLoaderInfo.addEntrypoint("transformers", PuzzleTransformers.class.getName());
             puzzleLoaderInfo.addDependency("cosmic-reach", getGameVersion());
@@ -140,20 +141,21 @@ public class ClientCosmicReachProvider implements IGameProvider {
             puzzleLoaderInfo.addEntrypoint("client_init", Puzzle.class.getName());
             puzzleLoaderInfo.addEntrypoint("client_postInit", Puzzle.class.getName());
 
-            ModLocator.locatedMods.put("puzzle-loader", puzzleLoaderInfo.build().getOrCreateModContainer());
+            ModLocator.addMod(puzzleLoaderInfo.build().getOrCreateModContainer());
         }
 
         /* Cosmic Reach as a mod */
         ModInfo.Builder cosmicReachInfo = ModInfo.Builder.New();
         {
             cosmicReachInfo.setName(getName());
+            puzzleLoaderInfo.setId("cosmic-reach");
             cosmicReachInfo.setDesc("The base Game");
             cosmicReachInfo.addAuthor("FinalForEach");
             cosmicReachInfo.setVersion(getGameVersion());
             HashMap<String, JsonValue> meta = new HashMap<>();
             meta.put("icon", JsonObject.valueOf("icons/logox256.png"));
             cosmicReachInfo.setMeta(meta);
-            ModLocator.locatedMods.put(getId(), cosmicReachInfo.build().getOrCreateModContainer());
+            ModLocator.addMod(cosmicReachInfo.build().getOrCreateModContainer());
         }
 
     }

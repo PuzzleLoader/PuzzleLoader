@@ -33,6 +33,10 @@ public class ModLocator {
 
     public static Map<String, ModContainer> locatedMods = new HashMap<>();
 
+    public static void addMod(ModContainer container) {
+        ModLocator.locatedMods.put(container.ID, container);
+    }
+
     @SuppressWarnings("unused")
     public static boolean isModLoaded(String modId) {
         return locatedMods.get(modId) != null;

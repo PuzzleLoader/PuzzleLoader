@@ -1,6 +1,8 @@
 package com.github.puzzle.game.items.puzzle;
 
 import com.badlogic.gdx.math.Vector3;
+import com.github.puzzle.core.Constants;
+import com.github.puzzle.core.loader.meta.EnvType;
 import com.github.puzzle.game.items.IModItem;
 import com.github.puzzle.game.items.data.DataTagManifest;
 import com.github.puzzle.game.keybindings.PuzzleControlSettings;
@@ -39,7 +41,8 @@ public class BuilderWand implements IModItem {
             int size = WANDMODES.values().length;
             if(wandmodes.ordinal() == size - 1) wandmodes = WANDMODES.SELECTPOS;
             else wandmodes = WANDMODES.values()[wandmodes.ordinal()+1];
-            Chat.MAIN_CHAT.addMessage(GameSingletons.world, player, null, "Mode: "+ wandmodes.mode);
+            if (Constants.SIDE == EnvType.CLIENT)
+                Chat.MAIN_CLIENT_CHAT.addMessage(null, "Mode: "+ wandmodes.mode);
             return;
         }
         switch (wandmodes) {
@@ -54,7 +57,8 @@ public class BuilderWand implements IModItem {
 
     private void pasteClipBoard(Player player) {
         if(clipBoard == null) {
-            Chat.MAIN_CHAT.addMessage(GameSingletons.world, player, null, "clipBoard is null, run /gs");
+            if (Constants.SIDE == EnvType.CLIENT)
+                Chat.MAIN_CLIENT_CHAT.addMessage(null, "clipBoard is null, run /gs");
             return;
         }
         BlockPosition blockPosition = BlockSelectionUtil.getBlockPositionLookingAt();
@@ -69,11 +73,13 @@ public class BuilderWand implements IModItem {
         if(nextPos) {
             pos1 = vector3;
             nextPos = false;
-            Chat.MAIN_CHAT.addMessage(GameSingletons.world, player, null, "Pos1: "+ pos1);
+            if (Constants.SIDE == EnvType.CLIENT)
+                Chat.MAIN_CLIENT_CHAT.addMessage(null, "Pos1: "+ pos1);
         } else {
             pos2 = vector3;
             nextPos = true;
-            Chat.MAIN_CHAT.addMessage(GameSingletons.world, player, null, "Pos2:" + pos2);
+            if (Constants.SIDE == EnvType.CLIENT)
+                Chat.MAIN_CLIENT_CHAT.addMessage(null, "Pos2:" + pos2);
         }
     }
 
