@@ -1,0 +1,64 @@
+{
+  "version": 1,
+  "name": "Example Mod",
+  "id": "example-mod",
+  "description": "This is an example mod",
+  "authors": [ "YOU :D" ],
+  "meta": {
+    "icon": "example-mod:icons/icon.png",
+    "languageAdapters": {
+      "groovy": "com.example.mod.providers.lang.GroovyLanguageAdapter"
+    }
+  },
+  "entrypoints": {
+    "client_preInit": [
+      "com.example.mod.ClientExampleModPreInit"
+    ],
+    "client_init": [
+      "com.example.mod.ClientExampleMod"
+    ],
+    "client_postInit": [
+      "com.example.mod.ClientExampleModPostInit"
+    ],
+    "preInit": [
+      "com.example.mod.ExampleModPreInit"
+    ],
+    "init": [
+      "com.example.mod.ExampleMod"
+    ],
+    "postInit": [
+      "com.example.mod.ExampleModPostInit"
+    ]
+  },
+  "depends": {
+    "cosmic-reach": ">=0.3.2",
+    "puzzle-loader": ">=2.0.0",
+    "example-dep1": {
+      "ver": "1.0.0...2.0.0", "isRequired": false
+    },
+    "example-dep2": {
+      "ver": ">=1.0.0", "isRequired": false
+    },
+    "example-dep3": {
+      "ver": ">1.0.0", "isRequired": false
+    },
+    "example-dep4": {
+      "ver": "1.0.0", "isRequired": false
+    },
+    "example-dep5": {
+      "ver": "*", "isRequired": false
+    }
+  },
+  "mixins": [
+    "example-mod.mixins.json",
+    {
+      "config": "example-mod.client-mixins.json",
+      "environment": "client"
+    }
+  ],
+  "accessTransformers": [
+    "example-mod.manipulator",
+    "example-mod.cfg",
+    "example-mod.widener"
+  ]
+}

@@ -14,12 +14,12 @@ public abstract class ModJson {
 
     public static ModJson fromString(String string) {
         JsonObject obj = (JsonObject) JsonValue.readHjson(string);
-        int schemaVersion = obj.getInt("schemaVersion", 0);
+        int version = obj.getInt("version", 0);
 
-        return switch (schemaVersion) {
+        return switch (version) {
             case 0 -> ModJsonV0.fromString(string);
             case 1 -> ModJsonV1.fromString(string);
-            default -> throw new RuntimeException("Invalid ModJson SchemaVersion $" + schemaVersion);
+            default -> throw new RuntimeException("Invalid ModJson Version $" + version);
         };
 
     }

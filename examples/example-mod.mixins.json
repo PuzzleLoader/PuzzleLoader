@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.example.mod.mixins",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "CommonMixin"
+  ],
+  "server": [
+    "ServerLauncherMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
