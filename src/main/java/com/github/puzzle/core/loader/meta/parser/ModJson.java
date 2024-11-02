@@ -14,7 +14,7 @@ public abstract class ModJson {
 
     public static ModJson fromString(String string) {
         JsonObject obj = (JsonObject) JsonValue.readHjson(string);
-        int version = obj.getInt("version", 0);
+        int version = obj.getInt("formatVersion", 0);
 
         return switch (version) {
             case 0 -> ModJsonV0.fromString(string);
