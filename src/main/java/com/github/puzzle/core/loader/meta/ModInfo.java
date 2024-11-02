@@ -1,11 +1,14 @@
 package com.github.puzzle.core.loader.meta;
 
 import com.github.puzzle.core.loader.meta.parser.ModJson;
+import com.github.puzzle.core.loader.meta.parser.mod.ModJsonV0;
 import com.github.puzzle.core.loader.provider.mod.AdapterPathPair;
 import com.github.puzzle.core.loader.provider.mod.ModContainer;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.llamalad7.mixinextras.lib.apache.commons.tuple.ImmutablePair;
+import com.llamalad7.mixinextras.lib.apache.commons.tuple.Pair;
 import org.hjson.JsonValue;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -24,16 +27,13 @@ public class ModInfo {
 
     // Entrypoints & Mixins
     public final ImmutableMap<String, ImmutableCollection<AdapterPathPair>> Entrypoints;
-    public final ImmutableCollection<String> MixinConfigs;
+    public final List<Pair<EnvType, String>> MixinConfigs;
 
     // Dependencies
-    public final ImmutableMap<String, Version> RequiredDependencies;
-    public final ImmutableMap<String, Version> OptionalDependencies;
+    public final ImmutableMap<String, Pair<Version, Boolean>> Dependencies;
 
     // Access Transformers
-    public final String AccessTransformer;
-    public final String AccessWidener;
-    public final String AccessManipulator;
+    public final String[] AccessTransformers;
 
     // Extra Info
     public final ModJson JSON;
@@ -64,31 +64,22 @@ public class ModInfo {
         Entrypoints = EntrypointsBuilder.build();
 
         if (JSON.mixins() != null)
-            MixinConfigs = ImmutableList.copyOf(JSON.mixins());
-        else MixinConfigs = ImmutableList.of();
+            MixinConfigs = Arrays.stream(JSON.mixins()).toList();
+        else MixinConfigs = new ArrayList<>();
 
         if (JSON.dependencies() != null) {
-            var RequiredDependenciesBuilder = ImmutableMap.<String, Version>builder();
+            var DependenciesBuilder = ImmutableMap.<String, Pair<Version, Boolean>>builder();
             for (String key : JSON.dependencies().keySet()) {
-                RequiredDependenciesBuilder.put(key, Version.parseVersion(JSON.dependencies().get(key).replaceAll("[^\\d.]", "")));
+                DependenciesBuilder.put(key, new ImmutablePair<>(
+                        Version.parseVersion(JSON.dependencies().get(key).getLeft().replaceAll("[^\\d.]", "")),
+                        JSON.dependencies().get(key).getRight()
+                ));
             }
-            RequiredDependencies = RequiredDependenciesBuilder.build();
-        } else RequiredDependencies = ImmutableMap.of();
+            Dependencies = DependenciesBuilder.build();
+        } else Dependencies = ImmutableMap.of();
 
-        if (JSON.optional() != null) {
-            var OptionalDependenciesBuilder = ImmutableMap.<String, Version>builder();
-            for (String key : JSON.optional().keySet()) {
-                OptionalDependenciesBuilder.put(key, Version.parseVersion(JSON.optional().get(key).replaceAll("[^\\d.]", "")));
-            }
-            OptionalDependencies = OptionalDependenciesBuilder.build();
-        } else OptionalDependencies = ImmutableMap.of();
-
-        if (JSON.accessManipulator() != null) AccessManipulator = JSON.accessManipulator();
-        else AccessManipulator = null;
-        if (JSON.accessTransformer() != null) AccessTransformer = JSON.accessTransformer();
-        else AccessTransformer = null;
-        if (JSON.accessWidener() != null) AccessWidener = JSON.accessWidener();
-        else AccessWidener = null;
+        if (JSON.accessTransformers() != null) AccessTransformers = JSON.accessTransformers();
+        else AccessTransformers = new String[0];
     }
 
     @Contract("_ -> new")
@@ -278,8 +269,7 @@ public class ModInfo {
         }
 
         public ModInfo build() {
-            return new ModInfo(new ModJson(
-                    0,
+            return new ModInfo(new ModJsonV0(
                     makeId(),
                     version != null ? version.toString() : "1.0.0",
                     makeName(),

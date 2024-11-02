@@ -2,6 +2,7 @@ package com.github.puzzle.game.common.excluded;
 
 import com.github.puzzle.core.Constants;
 import com.github.puzzle.core.loader.launch.PuzzleClassLoader;
+import com.github.puzzle.core.loader.meta.EnvType;
 import com.github.puzzle.core.loader.meta.ModInfo;
 import com.github.puzzle.core.loader.meta.Version;
 import com.github.puzzle.core.loader.provider.IGameProvider;
@@ -11,6 +12,7 @@ import com.github.puzzle.core.loader.util.MethodUtil;
 import com.github.puzzle.core.loader.util.ModLocator;
 import com.github.puzzle.core.loader.util.Reflection;
 import com.github.puzzle.game.ServerGlobals;
+import com.llamalad7.mixinextras.lib.apache.commons.tuple.Pair;
 import finalforeach.cosmicreach.GameAssetLoader;
 import finalforeach.cosmicreach.server.ServerLauncher;
 import org.hjson.JsonObject;
@@ -101,13 +103,16 @@ public class ServerCosmicReachProvider implements IGameProvider {
         }
 
         // Load Mixins
-        List<String> mixinConfigs = new ArrayList<>();
+        List<Pair<EnvType, String>> mixinConfigs = new ArrayList<>();
 
         for (ModContainer mod : ModLocator.locatedMods.values()) {
-            mixinConfigs.addAll(mod.INFO.MixinConfigs);
+            if (!mod.INFO.MixinConfigs.isEmpty()) mixinConfigs.addAll(mod.INFO.MixinConfigs);
         }
 
-        mixinConfigs.forEach(Mixins::addConfiguration);
+        mixinConfigs.forEach((e) -> {
+            if (e.getLeft() != EnvType.CLIENT)
+                Mixins.addConfiguration(e.getRight());
+        });
         MethodUtil.runStaticMethod(Reflection.getMethod(MixinBootstrap.class, MIXIN_INJECT));
     }
 
@@ -117,7 +122,7 @@ public class ServerCosmicReachProvider implements IGameProvider {
         ModInfo.Builder puzzleLoaderInfo = ModInfo.Builder.New();
         {
             puzzleLoaderInfo.setName("Puzzle Loader");
-            puzzleLoaderInfo.setDesc("A new dedicated modloader for Cosmic Reach");
+            puzzleLoaderInfo.setDesc("A new dedicated mod loader for Cosmic Reach");
             puzzleLoaderInfo.addEntrypoint("transformers", PuzzleTransformers.class.getName());
             puzzleLoaderInfo.addDependency("cosmic-reach", getGameVersion());
             puzzleLoaderInfo.addMixinConfigs(

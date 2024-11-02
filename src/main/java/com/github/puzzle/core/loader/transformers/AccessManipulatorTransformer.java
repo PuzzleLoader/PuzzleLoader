@@ -54,16 +54,10 @@ public class AccessManipulatorTransformer implements IClassTransformer {
 
     public void readAccessManipulators() {
         for (ModContainer container : ModLocator.locatedMods.values()) {
-            if (container.ARCHIVE != null) {
-                doPath0(container.ARCHIVE, container.INFO.AccessWidener);
-                doPath0(container.ARCHIVE, container.INFO.AccessManipulator);
-                doPath0(container.ARCHIVE, container.INFO.AccessTransformer);
-            } else {
-                doPath1(container.INFO.AccessWidener);
-                doPath1(container.INFO.AccessManipulator);
-                doPath1(container.INFO.AccessTransformer);
-            }
-
+            for (String a : container.INFO.AccessTransformers)
+                if (container.ARCHIVE != null)
+                    doPath0(container.ARCHIVE, a);
+                else doPath1(a);
         }
     }
 

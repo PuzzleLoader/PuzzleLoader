@@ -2,6 +2,7 @@ package com.github.puzzle.game.common.excluded;
 
 import com.github.puzzle.core.Constants;
 import com.github.puzzle.core.loader.launch.PuzzleClassLoader;
+import com.github.puzzle.core.loader.meta.EnvType;
 import com.github.puzzle.core.loader.meta.ModInfo;
 import com.github.puzzle.core.loader.meta.Version;
 import com.github.puzzle.core.loader.provider.IGameProvider;
@@ -11,6 +12,7 @@ import com.github.puzzle.core.loader.util.MethodUtil;
 import com.github.puzzle.core.loader.util.ModLocator;
 import com.github.puzzle.core.loader.util.Reflection;
 import com.github.puzzle.game.common.Puzzle;
+import com.llamalad7.mixinextras.lib.apache.commons.tuple.Pair;
 import finalforeach.cosmicreach.GameAssetLoader;
 import finalforeach.cosmicreach.lwjgl3.Lwjgl3Launcher;
 import org.hjson.JsonObject;
@@ -101,13 +103,15 @@ public class ClientCosmicReachProvider implements IGameProvider {
         }
 
         // Load Mixins
-        List<String> mixinConfigs = new ArrayList<>();
+        List<Pair<EnvType, String>> mixinConfigs = new ArrayList<>();
 
         for (ModContainer mod : ModLocator.locatedMods.values()) {
-            mixinConfigs.addAll(mod.INFO.MixinConfigs);
+            if (!mod.INFO.MixinConfigs.isEmpty()) mixinConfigs.addAll(mod.INFO.MixinConfigs);
         }
 
-        mixinConfigs.forEach(Mixins::addConfiguration);
+        mixinConfigs.forEach((e) -> {
+            Mixins.addConfiguration(e.getRight());
+        });
         MethodUtil.runStaticMethod(Reflection.getMethod(MixinBootstrap.class, MIXIN_INJECT));
     }
 

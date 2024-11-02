@@ -3,6 +3,7 @@ package com.github.puzzle.core.loader.util;
 import com.github.puzzle.core.loader.meta.ModInfo;
 import com.github.puzzle.core.loader.meta.parser.ModJson;
 import com.github.puzzle.core.loader.provider.mod.ModContainer;
+import com.llamalad7.mixinextras.lib.apache.commons.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -203,14 +204,16 @@ public class ModLocator {
             if (mod.INFO.JSON.dependencies() == null) continue;
             if (mod.INFO.JSON.dependencies().isEmpty()) continue;
             LOGGER.info("Mod deps for {}", mod.ID);
-            for (Map.Entry<String, String> entry : mod.INFO.JSON.dependencies().entrySet()) {
+            for (Map.Entry<String, Pair<String, Boolean>> entry : mod.INFO.JSON.dependencies().entrySet()) {
                 LOGGER.info("\t{}: {}", entry.getKey(), entry.getValue());
-                var modDep = locatedMods.get(entry.getKey());
-                if (modDep == null) {
-                    throw new RuntimeException(String.format("can not find mod dependency: %s for mod id: %s", entry.getKey(), mod.ID));
-                } else {
-                    if (!hasDependencyVersion(modDep.VERSION, entry.getValue())) {
-                        throw new RuntimeException(String.format("Mod id: %s, requires: %s version of %s, got: %s", mod.ID, entry.getValue(), modDep.ID, modDep.VERSION));
+                if (entry.getValue().getRight()) {
+                    var modDep = locatedMods.get(entry.getKey());
+                    if (modDep == null) {
+                        throw new RuntimeException(String.format("can not find mod dependency: %s for mod id: %s", entry.getKey(), mod.ID));
+                    } else {
+                        if (!hasDependencyVersion(modDep.VERSION, entry.getValue().getLeft())) {
+                            throw new RuntimeException(String.format("Mod id: %s, requires: %s version of %s, got: %s", mod.ID, entry.getValue(), modDep.ID, modDep.VERSION));
+                        }
                     }
                 }
             }
