@@ -85,14 +85,14 @@ public class Puzzle implements ClientPreModInitializer, ClientModInitializer, Cl
 
     @Override
     public void onPostInit() {
-        Threads.runOnMainThread(() -> {
-            ClientPuzzleRegistries.BLOCK_MODEL_GENERATOR_FUNCTIONS.store(Identifier.of(Constants.MOD_ID, "base_block_model_generator"), (blockId) -> {
-                BlockModelGenerator generator = new BlockModelGenerator(blockId, "model");
-                generator.createTexture("all", Identifier.of("puzzle-loader", "textures/blocks/example_block.png"));
-                generator.createCuboid(0, 0, 0, 16, 16, 16, "all");
-                return List.of(generator);
-            });
-        });
+//        Threads.runOnMainThread(() -> {
+//            ClientPuzzleRegistries.BLOCK_MODEL_GENERATOR_FUNCTIONS.store(Identifier.of(Constants.MOD_ID, "base_block_model_generator"), (blockId) -> {
+//                BlockModelGenerator generator = new BlockModelGenerator(blockId, "model");
+//                generator.createTexture("all", Identifier.of("puzzle-loader", "textures/blocks/example_block.png"));
+//                generator.createCuboid(0, 0, 0, 16, 16, 16, "all");
+//                return List.of(generator);
+//            });
+//        });
 
 //        BuiltInTags.ore.add(Block.getInstance("base:ore_gold"));
 //        BuiltInTags.ore.add(Block.getInstance("base:ore_bauxite"));

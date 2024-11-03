@@ -12,9 +12,10 @@ public class BasePuzzleScreen extends BaseItemScreen {
         super(parent);
     }
 
-    public static void registerScreen(Identifier identifier, BasePuzzleScreen screen){
-        GameSingletons.blockEntityScreenOpeners.put(identifier.toString(), screen::OnOpen);
-    }
+//    public static void registerScreen(Identifier identifier, BasePuzzleScreen screen){
+//        GameSingletons.registerBlockEntityScreenOpener(identifier.toString(), screen::OnOpen);
+//        GameSingletons.blockEntityScreenOpeners.put(identifier.toString(), screen::OnOpen);
+//    }
 
     public void OnOpen(BlockEntityScreenInfo info) {}
 }

@@ -79,7 +79,8 @@ public class DummyBlockModelFactory implements IBlockModelFactory {
             String modelJson;
             modelJson = "{\"parent\": \"" + parentModelName + "\" }";
 
-            DummyBlockModel model = DummyBlockModel.getInstanceFromJsonStr(modelJson, modelName, rotXZ);
+
+            DummyBlockModel model = DummyBlockModel.getInstanceFromJsonStr(modelName, modelJson, rotXZ);
             models.put(key, model);
         } else {
             LOGGER.error("can't create generated instances for '{}'", parentModel.getClass().getSimpleName());

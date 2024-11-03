@@ -17,7 +17,7 @@ public class ServerPuzzle implements ModInitializer {
     public static IModItem BlockWrench;
 
     public ServerPuzzle() {
-        PuzzleRegistries.EVENT_BUS.register(this);
+//        PuzzleRegistries.EVENT_BUS.register(this);
     }
 
     @Override

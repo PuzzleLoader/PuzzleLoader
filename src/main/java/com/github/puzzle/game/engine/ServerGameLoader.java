@@ -46,20 +46,7 @@ public class ServerGameLoader {
 
         // create singletons
         blockLoader = new ServerBlockLoader();
-        GameSingletons.blockModelInstantiator = new IBlockModelInstantiator() {
-            public BlockModel getInstance(String modelName, int rotXZ) {
-                return DummyBlockModel.getInstance(modelName, rotXZ);
-            }
-
-            public void createGeneratedModelInstance(BlockState blockState, BlockModel parentModel, String parentModelName, String modelName, int rotXZ) {
-                String modelJson = "{\"parent\": \"" + parentModelName + "\"";
-                modelJson = modelJson + "}";
-                DummyBlockModel genModel = DummyBlockModel.getInstanceFromJsonStr(modelName, modelJson, rotXZ);
-                genModel.cullsSelf = parentModel.cullsSelf;
-                genModel.isTransparent = parentModel.isTransparent;
-            }
-        };;
-
+        GameSingletons.blockModelInstantiator = blockLoader.factory;
         // setup loading stages
         addStage(new LoadingAssets());
         addStage(new Initialize());
