@@ -3,6 +3,7 @@ package com.github.puzzle.game.block.generators.model;
 import com.badlogic.gdx.graphics.Pixmap;
 import finalforeach.cosmicreach.util.Identifier;
 
+@Deprecated(forRemoval = true)
 public class BasicCubeModelGenerator extends BlockModelGenerator {
 
     public BasicCubeModelGenerator(Identifier blockId, String modelName, boolean ambientOcclusion, Pixmap side, Pixmap front) {

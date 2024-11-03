@@ -3,6 +3,7 @@ package com.github.puzzle.game.block;
 import com.github.puzzle.core.Constants;
 import com.github.puzzle.game.block.generators.BlockEventGenerator;
 import com.github.puzzle.game.block.generators.BlockGenerator;
+import com.github.puzzle.game.engine.blocks.model.IBlockModelGenerator;
 import com.github.puzzle.game.util.BlockEventActionFactory;
 import finalforeach.cosmicreach.blockevents.BlockEventArgs;
 import finalforeach.cosmicreach.blockevents.actions.BlockActionItemDrop;
@@ -71,4 +72,8 @@ public interface IModBlock {
      * @return a List of BlockEventGenerator used by this block
      */
     default List<BlockEventGenerator> getBlockEventGenerators(Identifier blockId) { return Collections.emptyList(); }
+
+    default List<BlockModelGenerator> getBlockModelGenerators() {
+        return List.of();
+    }
 }

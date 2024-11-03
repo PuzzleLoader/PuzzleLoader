@@ -3,23 +3,24 @@ package com.github.puzzle.game.engine.blocks.models;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.collision.BoundingBox;
 import com.badlogic.gdx.utils.*;
+import com.github.puzzle.game.block.generators.model.BlockModelGenerator;
 import com.github.puzzle.game.engine.ClientGameLoader;
+import com.github.puzzle.game.engine.blocks.model.IPuzzleBlockModel;
 import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.RuntimeInfo;
 import finalforeach.cosmicreach.rendering.IMeshData;
 import finalforeach.cosmicreach.rendering.blockmodels.BlockModel;
 import finalforeach.cosmicreach.rendering.blockmodels.BlockModelJsonTexture;
 import finalforeach.cosmicreach.rendering.shaders.ChunkShader;
+import finalforeach.cosmicreach.util.Identifier;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @see finalforeach.cosmicreach.blockentities.BlockEntity
  *
  */
-public class PuzzleBlockModel extends BlockModel {
+public class PuzzleBlockModel extends BlockModel implements IPuzzleBlockModel {
 
     public static PuzzleBlockModel fromJson(String modelJson, String modelName, int rotXZ) {
         Json json = new Json();
@@ -399,5 +400,39 @@ public class PuzzleBlockModel extends BlockModel {
             bb.update();
             boundingBoxes.add(bb);
         }
+    }
+
+    public void registerVanillaTextures(Map<String, Identifier> vanillaTextures) {
+        for(String vanillaTextureName : vanillaTextures.keySet()) {
+            BlockModelJsonTexture texture = new BlockModelJsonTexture();
+            texture.fileName = vanillaTextures.get(vanillaTextureName).toString();
+            this.textures.put(vanillaTextureName, texture);
+        }
+    }
+
+    @Override
+    public void fromModelGenerator(BlockModelGenerator gen) {
+        this.cuboids = new PuzzleBlockModelCuboid[gen.cuboids.size()];
+        for(int i = 0; i < gen.cuboids.size(); i++) {
+            BlockModelGenerator.Cuboid cuboid = gen.cuboids.get(i);
+            PuzzleBlockModelCuboid cuboid1 = new PuzzleBlockModelCuboid();
+            cuboid1.localBounds = new float[] { cuboid.x1, cuboid.y1, cuboid.z1, cuboid.x2, cuboid.y2, cuboid.z2 };
+            cuboid1.faces = new OrderedMap<>();
+            for(BlockModelGenerator.Cuboid.Face face : cuboid.faces) {
+                PuzzleBlockModelCuboid.Face face1 = new PuzzleBlockModelCuboid.Face();
+                face1.texture = face.texture;
+                face1.uv = new float[] { face.u1, face.v1, face.u2, face.v2 };
+                face1.uvRotation = face.uvRotation;
+                face1.cullFace = face.cullFace;
+                face1.ambientocclusion = face.ambientOcclusion;
+                cuboid1.faces.put(face.id, face1);
+            }
+            this.cuboids[i] = cuboid1;
+        }
+    }
+
+    @Override
+    public void initTextures() {
+        this.textures = new OrderedMap<>();
     }
 }

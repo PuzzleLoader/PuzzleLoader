@@ -2,8 +2,8 @@ package com.github.puzzle.game.networking.packet;
 
 import com.badlogic.gdx.utils.Array;
 import com.github.puzzle.game.PuzzleRegistries;
-import com.github.puzzle.game.events.OnPacketBucketIntercept;
-import com.github.puzzle.game.events.OnPacketIntercept;
+import com.github.puzzle.game.events.OnPacketBucketRecieveIntercept;
+import com.github.puzzle.game.events.OnPacketRecieveIntercept;
 import finalforeach.cosmicreach.networking.GamePacket;
 import finalforeach.cosmicreach.networking.packets.MessagePacket;
 import finalforeach.cosmicreach.util.logging.Logger;
@@ -72,12 +72,12 @@ public class PacketInterceptor {
     }
 
     @Subscribe
-    public void onEvent(OnPacketIntercept packetSingle) {
+    public void onEvent(OnPacketRecieveIntercept packetSingle) {
         modifyPacket(packetSingle.getPacket());
     }
 
     @Subscribe
-    public void onEvent(OnPacketBucketIntercept packetBucket) {
+    public void onEvent(OnPacketBucketRecieveIntercept packetBucket) {
         Array<GamePacket> bucket = packetBucket.getPacketBucket();
         for (int i = 0; i < bucket.size; i++) {
             modifyPacket(bucket.get(i));

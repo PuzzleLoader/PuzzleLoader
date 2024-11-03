@@ -15,13 +15,9 @@ import com.github.puzzle.game.ClientPuzzleRegistries;
 import com.github.puzzle.game.PuzzleRegistries;
 import com.github.puzzle.game.block.generators.model.BlockModelGenerator;
 import com.github.puzzle.game.engine.shaders.ItemShader;
+import com.github.puzzle.game.events.OnPacketRecieveIntercept;
 import com.github.puzzle.game.events.OnPreLoadAssetsEvent;
-import com.github.puzzle.game.items.IModItem;
 import com.github.puzzle.game.items.ITickingItem;
-import com.github.puzzle.game.items.puzzle.BlockWrench;
-import com.github.puzzle.game.items.puzzle.BuilderWand;
-import com.github.puzzle.game.items.puzzle.CheckBoard;
-import com.github.puzzle.game.items.puzzle.NullStick;
 import com.github.puzzle.game.resources.PuzzleGameAssetLoader;
 import com.github.puzzle.game.ui.credits.CreditFile;
 import com.github.puzzle.game.ui.credits.PuzzleCreditsMenu;
@@ -33,8 +29,12 @@ import com.github.puzzle.game.ui.modmenu.ModMenu;
 import com.google.common.collect.ImmutableCollection;
 import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.Threads;
+import finalforeach.cosmicreach.accounts.AccountItch;
+import finalforeach.cosmicreach.entities.player.Player;
 import finalforeach.cosmicreach.gamestates.InGame;
 import finalforeach.cosmicreach.items.ItemSlot;
+import finalforeach.cosmicreach.networking.GamePacket;
+import finalforeach.cosmicreach.networking.packets.MessagePacket;
 import finalforeach.cosmicreach.ui.UI;
 import finalforeach.cosmicreach.util.Identifier;
 import org.greenrobot.eventbus.Subscribe;
@@ -60,10 +60,6 @@ public class Puzzle implements ClientPreModInitializer, ClientModInitializer, Cl
         }
     }
 
-    public static IModItem DebugStick;
-    public static IModItem CheckerBoard;
-    public static IModItem BlockWrench;
-
     @Override
     public void onInit() {
         ICreditElement.TYPE_TO_ELEMENT.put("image", ImageCredit.class);
@@ -85,11 +81,6 @@ public class Puzzle implements ClientPreModInitializer, ClientModInitializer, Cl
 
         Commands.register();
 
-        DebugStick = IModItem.registerItem(new NullStick());
-        CheckerBoard = IModItem.registerItem(new CheckBoard());
-        BlockWrench = IModItem.registerItem(new BlockWrench());
-
-        IModItem.registerItem(new BuilderWand());
     }
 
     @Override

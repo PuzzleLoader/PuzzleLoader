@@ -2,9 +2,6 @@ package com.github.puzzle.game.engine.blocks;
 
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.utils.Json;
-import com.github.puzzle.core.Constants;
-import com.github.puzzle.core.loader.meta.EnvType;
-import com.github.puzzle.core.loader.util.Reflection;
 import com.github.puzzle.game.ClientPuzzleRegistries;
 import com.github.puzzle.game.PuzzleRegistries;
 import com.github.puzzle.game.block.IModBlock;
@@ -36,29 +33,7 @@ public class ClientBlockLoader implements IBlockLoader {
     public IBlockModelFactory factory;
 
     public ClientBlockLoader() {
-        if (Constants.SIDE == EnvType.CLIENT) {
-            factory = (IBlockModelFactory) Reflection.newInstance("com.github.puzzle.game.engine.blocks.BlockModelFactory");
-        } else factory = new IBlockModelFactory() {
-            @Override
-            public BlockModel createFromJson(String modelName, int rotXZ, String modelJson) {
-                return null;
-            }
-
-            @Override
-            public List<BlockModel> sort() {
-                return List.of();
-            }
-
-            @Override
-            public BlockModel getInstance(String s, int i) {
-                return null;
-            }
-
-            @Override
-            public void createGeneratedModelInstance(BlockState blockState, BlockModel blockModel, String s, String s1, int i) {
-
-            }
-        };
+        factory = new BlockModelFactory();
     }
 
     public Json json = new Json();

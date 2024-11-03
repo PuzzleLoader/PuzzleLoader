@@ -62,8 +62,6 @@ public class BlockGenerator implements IGenerator {
         public OrderedMap<String, ?> dropParams;
         ObjectIntMap<String> intProperties = new ObjectIntMap();
 
-        public Identifier blockModelGeneratorFunctionId;
-
         public State() {}
 
         public void read(Json json, JsonValue jsonData) {
@@ -165,20 +163,18 @@ public class BlockGenerator implements IGenerator {
         this.blockEntityParams = parameters;
     }
 
-    public State createBlockState(String id, String modelName, boolean usingBlockModelGenerator, Identifier blockModelGeneratorFunctionId) {
+    public State createBlockState(String id, String modelName, boolean usingBlockModelGenerator) {
         State state = new State();
         state.modelName = usingBlockModelGenerator ? blockId.toString() + "_" + modelName : modelName;
         state.blockEventsId = BlockEventGenerator.getEventName(blockId, "puzzle_default");
-        state.blockModelGeneratorFunctionId = blockModelGeneratorFunctionId;
         blockStates.put(id, state);
         return state;
     }
     
-    public State createBlockState(String id, String modelName, boolean usingBlockModelGenerator, Identifier blockModelGeneratorFunctionId, String eventName, boolean usingBlockEventGenerator) {
+    public State createBlockState(String id, String modelName, boolean usingBlockModelGenerator, String eventName, boolean usingBlockEventGenerator) {
         State state = new State();
         state.modelName = usingBlockModelGenerator ? blockId.toString() + "_" + modelName : modelName;
         state.blockEventsId = usingBlockEventGenerator ? BlockEventGenerator.getEventName(blockId, eventName) : eventName;
-        state.blockModelGeneratorFunctionId = blockModelGeneratorFunctionId;
         blockStates.put(id, state);
         return state;
     }

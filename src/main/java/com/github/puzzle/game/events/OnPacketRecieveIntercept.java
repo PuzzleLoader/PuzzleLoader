@@ -2,7 +2,7 @@ package com.github.puzzle.game.events;
 
 import finalforeach.cosmicreach.networking.GamePacket;
 
-public class OnPacketIntercept {
+public class OnPacketRecieveIntercept {
 
     private GamePacket packet;
 

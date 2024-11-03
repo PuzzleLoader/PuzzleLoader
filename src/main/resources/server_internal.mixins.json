@@ -11,6 +11,7 @@
     "blockentities.BlockEntityItemContainerMixin",
     "networking.GamePacketMixin",
     "networking.PacketInterceptorMixin",
+    "networking.PacketSendInterceptorMixin",
     "networking.ProtocolSyncPacketMixin",
     "networking.ServerIdentityMixin"
   ],

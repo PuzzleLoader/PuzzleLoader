@@ -3,7 +3,7 @@ package com.github.puzzle.game.events;
 import com.badlogic.gdx.utils.Array;
 import finalforeach.cosmicreach.networking.GamePacket;
 
-public class OnPacketBucketIntercept {
+public class OnPacketBucketRecieveIntercept {
 
     private Array<GamePacket> bucket;
 

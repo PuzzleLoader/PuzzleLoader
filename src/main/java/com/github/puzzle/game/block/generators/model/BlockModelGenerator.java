@@ -3,8 +3,11 @@ package com.github.puzzle.game.block.generators.model;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.OrderedMap;
+import com.github.puzzle.core.Constants;
+import com.github.puzzle.core.loader.meta.EnvType;
 import com.github.puzzle.game.engine.blocks.IBlockLoader;
 import com.github.puzzle.game.engine.blocks.model.IBlockModelGenerator;
+import com.github.puzzle.game.engine.blocks.model.IPuzzleBlockModel;
 import com.github.puzzle.game.engine.blocks.models.PuzzleBlockModel;
 import com.github.puzzle.game.engine.blocks.models.PuzzleBlockModelCuboid;
 import finalforeach.cosmicreach.constants.Direction;
@@ -113,7 +116,7 @@ public class BlockModelGenerator implements IBlockModelGenerator {
     public String modelName;
 
     public Map<String, Identifier> vanillaTextures = new HashMap<>();
-    public Map<String, Pixmap> customTextures = new HashMap<>();
+//    public Map<String, Pixmap> customTextures = new HashMap<>();
 
     public List<Cuboid> cuboids = new ArrayList<>();
 
@@ -131,7 +134,7 @@ public class BlockModelGenerator implements IBlockModelGenerator {
     }
 
     public void createTexture(String textureName, Pixmap texture) {
-        customTextures.put(textureName, texture);
+//        customTextures.put(textureName, texture);
     }
 
     public Cuboid createCuboid(float x1, float y1, float z1, float x2, float y2, float z2) {
@@ -190,9 +193,9 @@ public class BlockModelGenerator implements IBlockModelGenerator {
 
     @Override
     public void register(IBlockLoader loader) {
-        for(String customTextureName : customTextures.keySet()) {
-            loader.registerTexture(getModelTextureName(customTextureName), customTextures.get(customTextureName));
-        }
+//        for(String customTextureName : customTextures.keySet()) {
+//            loader.registerTexture(getModelTextureName(customTextureName), customTextures.get(customTextureName));
+//        }
         for(String vanillaTextureName : vanillaTextures.keySet()) {
             loader.registerTexture(vanillaTextures.get(vanillaTextureName));
         }
@@ -205,38 +208,18 @@ public class BlockModelGenerator implements IBlockModelGenerator {
 
     @Override
     public String generateJson() {
-        PuzzleBlockModel model = new PuzzleBlockModel();
-        model.textures = new OrderedMap<>();
+        IPuzzleBlockModel model = Constants.SIDE == EnvType.SERVER ? IPuzzleBlockModel.newDummy() : IPuzzleBlockModel.newReal();
+        model.initTextures();
 
-        for(String customTextureName : customTextures.keySet()) {
-            BlockModelJsonTexture texture = new BlockModelJsonTexture();
-            texture.fileName = getModelTextureName(customTextureName);
-            model.textures.put(customTextureName, texture);
-        }
+//        for(String customTextureName : customTextures.keySet()) {
+//            BlockModelJsonTexture texture = new BlockModelJsonTexture();
+//            texture.fileName = getModelTextureName(customTextureName);
+//            model.textures.put(customTextureName, texture);
+//        }
 
-        for(String vanillaTextureName : vanillaTextures.keySet()) {
-            BlockModelJsonTexture texture = new BlockModelJsonTexture();
-            texture.fileName = vanillaTextures.get(vanillaTextureName).toString();
-            model.textures.put(vanillaTextureName, texture);
-        }
+        model.registerVanillaTextures(vanillaTextures);
 
-        model.cuboids = new PuzzleBlockModelCuboid[cuboids.size()];
-        for(int i = 0; i < cuboids.size(); i++) {
-            Cuboid cuboid = cuboids.get(i);
-            PuzzleBlockModelCuboid cuboid1 = new PuzzleBlockModelCuboid();
-            cuboid1.localBounds = new float[] { cuboid.x1, cuboid.y1, cuboid.z1, cuboid.x2, cuboid.y2, cuboid.z2 };
-            cuboid1.faces = new OrderedMap<>();
-            for(Cuboid.Face face : cuboid.faces) {
-                PuzzleBlockModelCuboid.Face face1 = new PuzzleBlockModelCuboid.Face();
-                face1.texture = face.texture;
-                face1.uv = new float[] { face.u1, face.v1, face.u2, face.v2 };
-                face1.uvRotation = face.uvRotation;
-                face1.cullFace = face.cullFace;
-                face1.ambientocclusion = face.ambientOcclusion;
-                cuboid1.faces.put(face.id, face1);
-            }
-            model.cuboids[i] = cuboid1;
-        }
+        model.fromModelGenerator(this);
 
         Json json = new Json();
         json.setTypeName(null);

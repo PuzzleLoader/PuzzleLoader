@@ -21,7 +21,6 @@ public abstract class ModJson {
             case 1 -> ModJsonV1.fromString(string);
             default -> throw new RuntimeException("Invalid ModJson Version $" + version);
         };
-
     }
 
     public abstract String id();
