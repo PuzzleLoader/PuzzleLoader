@@ -1,5 +1,5 @@
 {
-  "format": 0,
+  "formatVersion": 0,
   "name": "Example Mod",
   "id": "example-mod",
   "description": "This is an example mod",
