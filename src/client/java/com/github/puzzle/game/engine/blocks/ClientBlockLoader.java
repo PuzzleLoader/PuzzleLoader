@@ -124,19 +124,26 @@ public class ClientBlockLoader implements IBlockLoader {
         }
 
         try {
-            for (BlockGenerator.State state : blockGenerator.blockStates.values()) {
-                if (state.blockModelGeneratorFunctionId != null) {
-                    Function<Identifier, Collection<? extends BlockModelGenerator>> genFunc = ClientPuzzleRegistries.BLOCK_MODEL_GENERATOR_FUNCTIONS.get(state.blockModelGeneratorFunctionId);
-                    Collection<? extends BlockModelGenerator> gens = genFunc.apply(blockGenerator.blockId);
-                    for(IBlockModelGenerator modelGenerator : gens) {
-                        modelGenerator.register(this);
-                        String modelName = modelGenerator.getModelName();
-                        int rotXZ = 0;
-                        String modelJson = modelGenerator.generateJson();
-                        registerBlockModel(modelName, rotXZ, modelJson);
-                    }
-                }
+            for(BlockModelGenerator modelGenerator : modBlock.getBlockModelGenerators(blockGenerator.blockId)) {
+                modelGenerator.register(this);
+                String modelName = modelGenerator.getModelName();
+                int rotXZ = 0;
+                String modelJson = modelGenerator.generateJson();
+                registerBlockModel(modelName, rotXZ, modelJson);
             }
+//            for (BlockGenerator.State state : blockGenerator.blockStates.values()) {
+//                if (state.blockModelGeneratorFunctionId != null) {
+//                    Function<Identifier, Collection<? extends BlockModelGenerator>> genFunc = ClientPuzzleRegistries.BLOCK_MODEL_GENERATOR_FUNCTIONS.get(state.blockModelGeneratorFunctionId);
+//                    Collection<? extends BlockModelGenerator> gens = genFunc.apply(blockGenerator.blockId);
+//                    for(IBlockModelGenerator modelGenerator : gens) {
+//                        modelGenerator.register(this);
+//                        String modelName = modelGenerator.getModelName();
+//                        int rotXZ = 0;
+//                        String modelJson = modelGenerator.generateJson();
+//                        registerBlockModel(modelName, rotXZ, modelJson);
+//                    }
+//                }
+//            }
 
             List<BlockEventGenerator> eventGenerators = modBlock.getBlockEventGenerators(blockGenerator.blockId);
             if(eventGenerators.isEmpty()) {

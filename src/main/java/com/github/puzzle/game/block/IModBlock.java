@@ -1,9 +1,8 @@
 package com.github.puzzle.game.block;
 
-import com.github.puzzle.core.Constants;
 import com.github.puzzle.game.block.generators.BlockEventGenerator;
 import com.github.puzzle.game.block.generators.BlockGenerator;
-import com.github.puzzle.game.engine.blocks.model.IBlockModelGenerator;
+import com.github.puzzle.game.block.generators.model.BlockModelGenerator;
 import com.github.puzzle.game.util.BlockEventActionFactory;
 import finalforeach.cosmicreach.blockevents.BlockEventArgs;
 import finalforeach.cosmicreach.blockevents.actions.BlockActionItemDrop;
@@ -58,7 +57,7 @@ public interface IModBlock {
     default BlockGenerator getBlockGenerator() {
         Identifier identifier = getIdentifier();
         BlockGenerator generator = new BlockGenerator(identifier);
-        BlockGenerator.State state = generator.createBlockState("default", "model", true, Identifier.of(Constants.MOD_ID, "base_block_model_generator"));
+        BlockGenerator.State state = generator.createBlockState("default", "model", true);
         state.dropId = identifier.getNamespace() + ":" + identifier.getName() + "[default]";
         state.blockEventsId = "base:block_events_default";
         return generator;
@@ -73,7 +72,7 @@ public interface IModBlock {
      */
     default List<BlockEventGenerator> getBlockEventGenerators(Identifier blockId) { return Collections.emptyList(); }
 
-    default List<BlockModelGenerator> getBlockModelGenerators() {
+    default List<BlockModelGenerator> getBlockModelGenerators(Identifier blockId) {
         return List.of();
     }
 }

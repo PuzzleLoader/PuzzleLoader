@@ -30,7 +30,7 @@ public class BasicModBlock implements IModBlock {
     @Override
     public BlockGenerator getBlockGenerator() {
         BlockGenerator generator = new BlockGenerator(blockId);
-        generator.createBlockState("default", "model", true, Identifier.of(Constants.MOD_ID, "base_block_model_generator"));
+        generator.createBlockState("default", "model", true);
         return generator;
     }
 

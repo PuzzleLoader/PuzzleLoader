@@ -10,6 +10,7 @@ import com.github.puzzle.game.block.IModBlock;
 import com.github.puzzle.game.block.PuzzleBlockAction;
 import com.github.puzzle.game.block.generators.BlockEventGenerator;
 import com.github.puzzle.game.block.generators.BlockGenerator;
+import com.github.puzzle.game.block.generators.model.BlockModelGenerator;
 import com.github.puzzle.game.engine.blocks.model.IBlockModelGenerator;
 import com.github.puzzle.game.factories.IFactory;
 import com.github.puzzle.game.resources.PuzzleGameAssetLoader;
@@ -124,19 +125,27 @@ public class ServerBlockLoader implements IBlockLoader {
         }
 
         try {
-            for (BlockGenerator.State state : blockGenerator.blockStates.values()) {
-                if (state.blockModelGeneratorFunctionId != null) {
-                    Function<Identifier, Collection<? extends IBlockModelGenerator>> genFunc = ClientPuzzleRegistries.BLOCK_MODEL_GENERATOR_FUNCTIONS.get(state.blockModelGeneratorFunctionId);
-                    Collection<? extends IBlockModelGenerator> gens = genFunc.apply(blockGenerator.blockId);
-                    for(IBlockModelGenerator modelGenerator : gens) {
-                        modelGenerator.register(this);
-                        String modelName = modelGenerator.getModelName();
-                        int rotXZ = 0;
-                        String modelJson = modelGenerator.generateJson();
-                        registerBlockModel(modelName, rotXZ, modelJson);
-                    }
-                }
+            for(BlockModelGenerator modelGenerator : modBlock.getBlockModelGenerators(blockGenerator.blockId)) {
+                modelGenerator.register(this);
+                String modelName = modelGenerator.getModelName();
+                int rotXZ = 0;
+                String modelJson = modelGenerator.generateJson();
+                registerBlockModel(modelName, rotXZ, modelJson);
             }
+
+//            for (BlockGenerator.State state : blockGenerator.blockStates.values()) {
+//                if (state.blockModelGeneratorFunctionId != null) {
+//                    Function<Identifier, Collection<? extends IBlockModelGenerator>> genFunc = ClientPuzzleRegistries.BLOCK_MODEL_GENERATOR_FUNCTIONS.get(state.blockModelGeneratorFunctionId);
+//                    Collection<? extends IBlockModelGenerator> gens = genFunc.apply(blockGenerator.blockId);
+//                    for(IBlockModelGenerator modelGenerator : gens) {
+//                        modelGenerator.register(this);
+//                        String modelName = modelGenerator.getModelName();
+//                        int rotXZ = 0;
+//                        String modelJson = modelGenerator.generateJson();
+//                        registerBlockModel(modelName, rotXZ, modelJson);
+//                    }
+//                }
+//            }
 
             List<BlockEventGenerator> eventGenerators = modBlock.getBlockEventGenerators(blockGenerator.blockId);
             if(eventGenerators.isEmpty()) {
