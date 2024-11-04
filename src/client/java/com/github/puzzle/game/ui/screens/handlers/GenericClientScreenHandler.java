@@ -4,6 +4,7 @@ import com.github.puzzle.core.Constants;
 import com.github.puzzle.core.loader.meta.EnvType;
 import finalforeach.cosmicreach.BlockEntityScreenInfo;
 import finalforeach.cosmicreach.GameSingletons;
+import finalforeach.cosmicreach.Threads;
 import finalforeach.cosmicreach.items.containers.SlotContainer;
 import finalforeach.cosmicreach.items.screens.BaseItemScreen;
 import finalforeach.cosmicreach.ui.UI;
@@ -15,17 +16,21 @@ import java.util.function.Function;
 public class GenericClientScreenHandler implements Consumer<BlockEntityScreenInfo> {
 
     public static void register(Identifier blockEntityId, Function<BlockEntityScreenInfo, BaseItemScreen> screenSupplier) {
-        GameSingletons.registerBlockEntityScreenOpener(
-                blockEntityId.toString(),
-                Constants.SIDE == EnvType.SERVER ? new GenericServerScreenHandler() : new GenericClientScreenHandler(new SlotContainer(0), screenSupplier)
-        );
+        Threads.runOnMainThread(() -> {
+            GameSingletons.registerBlockEntityScreenOpener(
+                    blockEntityId.toString(),
+                    Constants.SIDE == EnvType.SERVER ? new GenericServerScreenHandler() : new GenericClientScreenHandler(new SlotContainer(0), screenSupplier)
+            );
+        });
     }
 
     public static void register(Identifier blockEntityId, SlotContainer container, Function<BlockEntityScreenInfo, BaseItemScreen> screenSupplier) {
-        GameSingletons.registerBlockEntityScreenOpener(
-                blockEntityId.toString(),
-                Constants.SIDE == EnvType.SERVER ? new GenericServerScreenHandler() : new GenericClientScreenHandler(container, screenSupplier)
-        );
+        Threads.runOnMainThread(() -> {
+            GameSingletons.registerBlockEntityScreenOpener(
+                    blockEntityId.toString(),
+                    Constants.SIDE == EnvType.SERVER ? new GenericServerScreenHandler() : new GenericClientScreenHandler(container, screenSupplier)
+            );
+        });
     }
 
     SlotContainer container;

@@ -4,6 +4,7 @@ import com.github.puzzle.core.Constants;
 import com.github.puzzle.core.loader.meta.EnvType;
 import finalforeach.cosmicreach.BlockEntityScreenInfo;
 import finalforeach.cosmicreach.GameSingletons;
+import finalforeach.cosmicreach.Threads;
 import finalforeach.cosmicreach.blockentities.BlockEntity;
 import finalforeach.cosmicreach.networking.packets.blocks.BlockEntityDataPacket;
 import finalforeach.cosmicreach.networking.packets.blocks.BlockEntityScreenPacket;
@@ -17,7 +18,9 @@ public class GenericServerScreenHandler implements Consumer<BlockEntityScreenInf
 
     public static void register(Identifier blockEntityId) {
         if (Constants.SIDE == EnvType.CLIENT) throw new RuntimeException("Cannot Register Server-Sided Screen Handler On Client");
-        GameSingletons.registerBlockEntityScreenOpener(blockEntityId.toString(), new GenericServerScreenHandler());
+        Threads.runOnMainThread(() -> {
+            GameSingletons.registerBlockEntityScreenOpener(blockEntityId.toString(), new GenericServerScreenHandler());
+        });
     }
 
     @Override
