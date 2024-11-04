@@ -16,21 +16,11 @@ import java.util.function.Function;
 public class GenericClientScreenHandler implements Consumer<BlockEntityScreenInfo> {
 
     public static void register(Identifier blockEntityId, Function<BlockEntityScreenInfo, BaseItemScreen> screenSupplier) {
-        Threads.runOnMainThread(() -> {
-            GameSingletons.registerBlockEntityScreenOpener(
-                    blockEntityId.toString(),
-                    Constants.SIDE == EnvType.SERVER ? new GenericServerScreenHandler() : new GenericClientScreenHandler(new SlotContainer(0), screenSupplier)
-            );
-        });
+            GameSingletons.registerBlockEntityScreenOpener(blockEntityId.toString(), Constants.SIDE == EnvType.SERVER ? new GenericServerScreenHandler() : new GenericClientScreenHandler(new SlotContainer(0), screenSupplier));
     }
 
     public static void register(Identifier blockEntityId, SlotContainer container, Function<BlockEntityScreenInfo, BaseItemScreen> screenSupplier) {
-        Threads.runOnMainThread(() -> {
-            GameSingletons.registerBlockEntityScreenOpener(
-                    blockEntityId.toString(),
-                    Constants.SIDE == EnvType.SERVER ? new GenericServerScreenHandler() : new GenericClientScreenHandler(container, screenSupplier)
-            );
-        });
+            GameSingletons.registerBlockEntityScreenOpener(blockEntityId.toString(), Constants.SIDE == EnvType.SERVER ? new GenericServerScreenHandler() : new GenericClientScreenHandler(container, screenSupplier));
     }
 
     SlotContainer container;
@@ -43,7 +33,8 @@ public class GenericClientScreenHandler implements Consumer<BlockEntityScreenInf
 
     @Override
     public void accept(BlockEntityScreenInfo info) {
-        UI.addOpenBaseItemScreen(container, screenSupplier.apply(info));
+        Threads.runOnMainThread(() -> {
+            UI.addOpenBaseItemScreen(container, screenSupplier.apply(info));
+        });
     }
-
 }

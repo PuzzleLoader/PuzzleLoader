@@ -18,9 +18,7 @@ public class GenericServerScreenHandler implements Consumer<BlockEntityScreenInf
 
     public static void register(Identifier blockEntityId) {
         if (Constants.SIDE == EnvType.CLIENT) throw new RuntimeException("Cannot Register Server-Sided Screen Handler On Client");
-        Threads.runOnMainThread(() -> {
-            GameSingletons.registerBlockEntityScreenOpener(blockEntityId.toString(), new GenericServerScreenHandler());
-        });
+        GameSingletons.registerBlockEntityScreenOpener(blockEntityId.toString(), new GenericServerScreenHandler());
     }
 
     @Override
