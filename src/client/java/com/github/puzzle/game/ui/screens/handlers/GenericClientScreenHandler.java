@@ -2,6 +2,7 @@ package com.github.puzzle.game.ui.screens.handlers;
 
 import com.github.puzzle.core.Constants;
 import com.github.puzzle.core.loader.meta.EnvType;
+import com.github.puzzle.game.ui.screens.BasePuzzleScreen;
 import finalforeach.cosmicreach.BlockEntityScreenInfo;
 import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.Threads;
@@ -34,7 +35,8 @@ public class GenericClientScreenHandler implements Consumer<BlockEntityScreenInf
     @Override
     public void accept(BlockEntityScreenInfo info) {
         Threads.runOnMainThread(() -> {
-            UI.addOpenBaseItemScreen(container, screenSupplier.apply(info));
+            BaseItemScreen screen = screenSupplier.apply(info);
+            UI.addOpenBaseItemScreen(container, screen);
         });
     }
 }

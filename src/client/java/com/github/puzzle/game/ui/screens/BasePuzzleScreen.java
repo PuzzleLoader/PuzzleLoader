@@ -1,10 +1,7 @@
 package com.github.puzzle.game.ui.screens;
 
-import finalforeach.cosmicreach.BlockEntityScreenInfo;
-import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.items.ISlotContainerParent;
 import finalforeach.cosmicreach.items.screens.BaseItemScreen;
-import finalforeach.cosmicreach.util.Identifier;
 
 public class BasePuzzleScreen extends BaseItemScreen {
 
@@ -12,10 +9,13 @@ public class BasePuzzleScreen extends BaseItemScreen {
         super(parent);
     }
 
-//    public static void registerScreen(Identifier identifier, BasePuzzleScreen screen){
-//        GameSingletons.registerBlockEntityScreenOpener(identifier.toString(), screen::OnOpen);
-//        GameSingletons.blockEntityScreenOpeners.put(identifier.toString(), screen::OnOpen);
-//    }
+    @Override
+    public void drawItems() {
+        onRender();
+        super.drawItems();
+    }
 
-    public void OnOpen(BlockEntityScreenInfo info) {}
+    public void onRender() {
+    }
+
 }
