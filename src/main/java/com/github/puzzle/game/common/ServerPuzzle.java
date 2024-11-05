@@ -19,6 +19,7 @@ public class ServerPuzzle implements ModInitializer {
 
     @Override
     public void onInit() {
+        System.out.println("PPPPPPPP");
         DebugStick = IModItem.registerItem(new NullStick());
         CheckerBoard = IModItem.registerItem(new CheckBoard());
         BlockWrench = IModItem.registerItem(new BlockWrench());

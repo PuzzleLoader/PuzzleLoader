@@ -12,6 +12,7 @@ import com.github.puzzle.core.loader.util.MethodUtil;
 import com.github.puzzle.core.loader.util.ModLocator;
 import com.github.puzzle.core.loader.util.Reflection;
 import com.github.puzzle.game.common.Puzzle;
+import com.github.puzzle.game.common.ServerPuzzle;
 import com.llamalad7.mixinextras.lib.apache.commons.tuple.Pair;
 import finalforeach.cosmicreach.GameAssetLoader;
 import finalforeach.cosmicreach.lwjgl3.Lwjgl3Launcher;
@@ -144,6 +145,7 @@ public class ClientCosmicReachProvider implements IGameProvider {
             puzzleLoaderInfo.addEntrypoint("client_preInit", Puzzle.class.getName());
             puzzleLoaderInfo.addEntrypoint("client_init", Puzzle.class.getName());
             puzzleLoaderInfo.addEntrypoint("client_postInit", Puzzle.class.getName());
+            puzzleLoaderInfo.addEntrypoint("init", ServerPuzzle.class.getName());
 
             ModLocator.addMod(puzzleLoaderInfo.build().getOrCreateModContainer());
         }

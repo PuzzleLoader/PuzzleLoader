@@ -219,6 +219,8 @@ public class BlockModelGenerator implements IBlockModelGenerator {
 
         Json json = new Json();
         json.setTypeName(null);
-        return json.toJson(model);
+        String str = json.toJson(model);
+        System.out.print(str);
+        return str;
     }
 }

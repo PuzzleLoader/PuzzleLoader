@@ -1,6 +1,8 @@
 package com.github.puzzle.game.engine.blocks;
 
 import com.badlogic.gdx.utils.Json;
+import com.github.puzzle.game.engine.blocks.model.IPuzzleBlockModel;
+import com.github.puzzle.game.engine.blocks.models.ServerPuzzleBlockModel;
 import com.github.puzzle.game.resources.PuzzleGameAssetLoader;
 import com.github.puzzle.game.resources.VanillaAssetLocations;
 import finalforeach.cosmicreach.blocks.BlockState;
@@ -20,7 +22,7 @@ public class DummyBlockModelFactory implements IBlockModelFactory {
 
     public final Map<InstanceKey, BlockModel> models = new LinkedHashMap<>();
 
-    private static final Logger LOGGER = LoggerFactory.getLogger("Puzzle | DummyBlockModelFactory");
+    private static final Logger LOGGER = LoggerFactory.getLogger("Puzzle | BlockModelFactory");
 
     private static String getNotShitModelName(String modelName){
         if(modelName.startsWith("gen_model::")) {
@@ -45,7 +47,11 @@ public class DummyBlockModelFactory implements IBlockModelFactory {
             return models.get(key);
         }
 
-        DummyBlockModel model = DummyBlockModel.getInstanceFromJsonStr(modelJson, modelName, rotXZ);
+        ServerPuzzleBlockModel model = (ServerPuzzleBlockModel) ServerPuzzleBlockModel.fromJson(modelJson, modelName, rotXZ);
+        if (model.parent != null) {
+            getInstance(model.parent, rotXZ);
+        }
+
         models.put(key, model);
         return model;
     }
@@ -59,7 +65,11 @@ public class DummyBlockModelFactory implements IBlockModelFactory {
         }
 
         String modelJson = PuzzleGameAssetLoader.locateAsset(VanillaAssetLocations.getBlockModel(modelName)).readString();
-        DummyBlockModel model = DummyBlockModel.getInstanceFromJsonStr(modelJson, modelName, rotXZ);
+        ServerPuzzleBlockModel model = (ServerPuzzleBlockModel) ServerPuzzleBlockModel.fromJson(modelJson, modelName, rotXZ);
+        if (model.parent != null) {
+            getInstance(model.parent, rotXZ);
+        }
+
         models.put(key, model);
         return model;
     }
@@ -72,23 +82,55 @@ public class DummyBlockModelFactory implements IBlockModelFactory {
             return;
         }
 
-        if (parentModel instanceof DummyBlockModel) {
+        if (parentModel instanceof ServerPuzzleBlockModel fluxParent) {
             Json json = new Json();
             json.setTypeName(null);
 
             String modelJson;
             modelJson = "{\"parent\": \"" + parentModelName + "\" }";
 
-
-            DummyBlockModel model = DummyBlockModel.getInstanceFromJsonStr(modelName, modelJson, rotXZ);
+            ServerPuzzleBlockModel model = (ServerPuzzleBlockModel) ServerPuzzleBlockModel.fromJson(modelJson, modelName, rotXZ);
+            if (model.parent != null) {
+                getInstance(model.parent, rotXZ);
+            }
             models.put(key, model);
         } else {
             LOGGER.error("can't create generated instances for '{}'", parentModel.getClass().getSimpleName());
         }
     }
 
+    private int getNumberOfParents(IPuzzleBlockModel model) {
+        int n = 0;
+        String parent = model.getParent();
+        while (parent != null) {
+            IPuzzleBlockModel parentModel = null;
+
+            InstanceKey parentKey;
+            if (models.containsKey(parentKey = new InstanceKey(parent, 0)))
+                parentModel = (IPuzzleBlockModel) models.get(parentKey);
+            else if (models.containsKey(parentKey = new InstanceKey(parent, 90)))
+                parentModel = (IPuzzleBlockModel) models.get(parentKey);
+            else if (models.containsKey(parentKey = new InstanceKey(parent, 180)))
+                parentModel = (IPuzzleBlockModel) models.get(parentKey);
+            else if (models.containsKey(parentKey = new InstanceKey(parent, 270)))
+                parentModel = (IPuzzleBlockModel) models.get(parentKey);
+
+            parent = parentModel == null ? null : parentModel.getParent();
+            n++;
+        }
+        return n;
+    }
+
+    public int compare(BlockModel o1, BlockModel o2) {
+        if (o1 instanceof IPuzzleBlockModel f1 && o2 instanceof IPuzzleBlockModel f2) {
+            return Integer.compare(getNumberOfParents(f1), getNumberOfParents(f2));
+        }
+        return 0;
+    }
+
     public List<BlockModel> sort() {
         List<BlockModel> models = new ArrayList<>(this.models.values());
+        models.sort(this::compare);
         return models;
     }
 

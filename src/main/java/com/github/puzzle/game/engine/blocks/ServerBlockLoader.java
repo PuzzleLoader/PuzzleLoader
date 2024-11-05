@@ -12,6 +12,7 @@ import com.github.puzzle.game.block.generators.BlockEventGenerator;
 import com.github.puzzle.game.block.generators.BlockGenerator;
 import com.github.puzzle.game.block.generators.model.BlockModelGenerator;
 import com.github.puzzle.game.engine.blocks.model.IBlockModelGenerator;
+import com.github.puzzle.game.engine.blocks.model.IPuzzleBlockModel;
 import com.github.puzzle.game.factories.IFactory;
 import com.github.puzzle.game.resources.PuzzleGameAssetLoader;
 import finalforeach.cosmicreach.blockevents.BlockEvents;
@@ -132,7 +133,6 @@ public class ServerBlockLoader implements IBlockLoader {
                 String modelJson = modelGenerator.generateJson();
                 registerBlockModel(modelName, rotXZ, modelJson);
             }
-
 //            for (BlockGenerator.State state : blockGenerator.blockStates.values()) {
 //                if (state.blockModelGeneratorFunctionId != null) {
 //                    Function<Identifier, Collection<? extends IBlockModelGenerator>> genFunc = ClientPuzzleRegistries.BLOCK_MODEL_GENERATOR_FUNCTIONS.get(state.blockModelGeneratorFunctionId);
@@ -181,6 +181,15 @@ public class ServerBlockLoader implements IBlockLoader {
     }
 
     public void registerFinalizers() {
+
+        // initialize models, fewer parents first order
+        // it's very critical that registries are run in order here
+        for (BlockModel model : factory.sort()) {
+            if (model instanceof IPuzzleBlockModel m) {
+                PuzzleRegistries.BLOCK_MODEL_FINALIZERS.store(Identifier.of(m.getModelName() + "_" + m.getXZRotation()), m::initialize);
+            }
+        }
+        PuzzleRegistries.BLOCK_MODEL_FINALIZERS.freeze();
 
         // fix culling flags
         for(Block block : Block.allBlocks) {
