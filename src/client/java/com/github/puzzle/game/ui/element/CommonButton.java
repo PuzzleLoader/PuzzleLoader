@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
-import com.github.puzzle.game.ui.font.CosmicReachDefaultFont;
+import com.github.puzzle.game.ui.font.CosmicReachFont;
 import de.pottgames.tuningfork.SoundBuffer;
 import finalforeach.cosmicreach.GameAssetLoader;
 
@@ -28,7 +28,7 @@ public class CommonButton extends GDXButton {
             float x, float y, float w, float h, String text
     ) {
         super(text, new GDXButtonStyle((s) -> {
-            s.font = CosmicReachDefaultFont.FONT;
+            s.font = CosmicReachFont.FONT;
             s.fontColor = Color.WHITE.cpy();
             return s;
         }));
