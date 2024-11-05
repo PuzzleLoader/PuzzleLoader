@@ -15,7 +15,6 @@ public class BlockUtil {
 
     public static void setBlockAt(Zone zone, BlockState state, BlockPosition vector3) {
         if (IClientNetworkManager.isConnected()) {
-            IClientNetworkManager.sendAsClient(new BreakBlockPacket(zone, vector3, state));
             IClientNetworkManager.sendAsClient(new PlaceBlockPacket(zone, vector3, state));
         }
         BlockSetter.get().replaceBlock(zone, state, vector3);
