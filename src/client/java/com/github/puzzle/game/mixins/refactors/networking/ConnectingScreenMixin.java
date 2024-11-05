@@ -2,8 +2,6 @@ package com.github.puzzle.game.mixins.refactors.networking;
 
 import com.github.puzzle.game.networking.packet.cts.CTSIdentificationPacket;
 import finalforeach.cosmicreach.accounts.AccountItch;
-import finalforeach.cosmicreach.gamestates.ConnectingScreen;
-import finalforeach.cosmicreach.networking.packets.meta.ItchSessionTokenPacket;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

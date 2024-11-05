@@ -55,8 +55,6 @@ import static com.github.puzzle.game.resources.PuzzleGameAssetLoader.LOADER;
 
 public class ClientGameLoader extends GameState {
 
-    static long startTime = System.currentTimeMillis();
-
     public static final Logger LOGGER = LoggerFactory.getLogger("Puzzle | GameLoader");
 
     public static final TranslationKey TEXT_RAM_USAGE = new TranslationKey("puzzle-loader:loading_menu.ram_usage");

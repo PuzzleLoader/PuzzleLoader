@@ -2,14 +2,12 @@ package com.github.puzzle.game.engine.blocks;
 
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.utils.Json;
-import com.github.puzzle.game.ClientPuzzleRegistries;
 import com.github.puzzle.game.PuzzleRegistries;
 import com.github.puzzle.game.block.IModBlock;
 import com.github.puzzle.game.block.PuzzleBlockAction;
 import com.github.puzzle.game.block.generators.BlockEventGenerator;
 import com.github.puzzle.game.block.generators.BlockGenerator;
 import com.github.puzzle.game.block.generators.model.BlockModelGenerator;
-import com.github.puzzle.game.engine.blocks.model.IBlockModelGenerator;
 import com.github.puzzle.game.engine.blocks.models.PuzzleBlockModel;
 import com.github.puzzle.game.factories.IFactory;
 import com.github.puzzle.game.resources.PuzzleGameAssetLoader;
@@ -22,11 +20,9 @@ import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
-import java.util.function.Function;
 
 public class ClientBlockLoader implements IBlockLoader {
 

@@ -7,7 +7,6 @@ import com.badlogic.gdx.math.Vector3;
 import com.github.puzzle.game.engine.items.model.IPuzzleItemModel;
 import com.github.puzzle.game.engine.shaders.ItemShader;
 import com.github.puzzle.game.resources.PuzzleGameAssetLoader;
-import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.blocks.BlockPosition;
 import finalforeach.cosmicreach.entities.Entity;
 import finalforeach.cosmicreach.gamestates.InGame;

@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-import static com.github.puzzle.core.Constants.MOD_ID;
 import static com.github.puzzle.game.PuzzleRegistries.LANGUAGES;
 
 public class LanguageManager {

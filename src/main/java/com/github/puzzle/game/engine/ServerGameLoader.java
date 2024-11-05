@@ -12,10 +12,6 @@ import com.github.puzzle.game.engine.server_stages.PostInitialize;
 import com.github.puzzle.game.resources.PuzzleGameAssetLoader;
 import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.Threads;
-import finalforeach.cosmicreach.blocks.BlockState;
-import finalforeach.cosmicreach.rendering.blockmodels.BlockModel;
-import finalforeach.cosmicreach.rendering.blockmodels.DummyBlockModel;
-import finalforeach.cosmicreach.rendering.blockmodels.IBlockModelInstantiator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,8 +28,6 @@ import static com.github.puzzle.game.PuzzleRegistries.EVENT_BUS;
 public class ServerGameLoader {
 
     public static ServerGameLoader INSTANCE;
-
-    static long startTime = System.currentTimeMillis();
 
     public static final Logger LOGGER = LoggerFactory.getLogger("Puzzle | ServerGameLoader");
 

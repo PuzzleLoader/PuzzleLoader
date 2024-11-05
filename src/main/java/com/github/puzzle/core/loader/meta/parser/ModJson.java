@@ -8,7 +8,8 @@ import com.llamalad7.mixinextras.lib.apache.commons.tuple.Pair;
 import org.hjson.JsonObject;
 import org.hjson.JsonValue;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Map;
 
 public abstract class ModJson {
 

@@ -1,6 +1,5 @@
 package com.github.puzzle.game.engine.blocks.model;
 
-import com.badlogic.gdx.utils.OrderedMap;
 import com.github.puzzle.core.loader.util.Reflection;
 import com.github.puzzle.game.block.generators.model.BlockModelGenerator;
 import com.github.puzzle.game.engine.blocks.models.ServerPuzzleBlockModel;

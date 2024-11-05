@@ -11,7 +11,6 @@ import com.github.puzzle.game.util.DataTagUtil;
 import com.github.puzzle.game.worldgen.schematics.Schematic;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.chat.Chat;
 import finalforeach.cosmicreach.gamestates.InGame;
 import finalforeach.cosmicreach.io.SaveLocation;

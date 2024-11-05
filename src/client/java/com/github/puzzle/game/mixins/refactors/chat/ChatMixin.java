@@ -12,7 +12,6 @@ import finalforeach.cosmicreach.entities.player.Player;
 import finalforeach.cosmicreach.networking.client.ChatSender;
 import finalforeach.cosmicreach.networking.client.ClientNetworkManager;
 import finalforeach.cosmicreach.networking.packets.MessagePacket;
-import finalforeach.cosmicreach.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 

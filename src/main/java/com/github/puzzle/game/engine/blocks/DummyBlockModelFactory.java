@@ -7,7 +7,6 @@ import com.github.puzzle.game.resources.PuzzleGameAssetLoader;
 import com.github.puzzle.game.resources.VanillaAssetLocations;
 import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.rendering.blockmodels.BlockModel;
-import finalforeach.cosmicreach.rendering.blockmodels.DummyBlockModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

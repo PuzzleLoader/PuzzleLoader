@@ -53,10 +53,7 @@ dependencies {
 
     bundle("org.reflections:reflections:$reflectionsVersion")
 
-    bundle("dev.dewy:nbt:$nbtVersion")
-
     bundle("meteordevelopment:orbit:$eventbusVersion")
-    //bundle("org.greenrobot:eventbus:$eventbusVersion")
 
     bundle("org.jline:jline:3.25.0")
     bundle("org.apache.commons:commons-lang3:3.17.0")

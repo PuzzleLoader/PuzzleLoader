@@ -5,9 +5,9 @@ import com.github.puzzle.core.loader.util.ModLocator;
 import com.github.puzzle.game.networking.packet.cts.CTSModlistPacket;
 import com.llamalad7.mixinextras.lib.apache.commons.tuple.ImmutablePair;
 import com.llamalad7.mixinextras.lib.apache.commons.tuple.Pair;
+import finalforeach.cosmicreach.networking.GamePacket;
 import finalforeach.cosmicreach.networking.NetworkIdentity;
 import finalforeach.cosmicreach.networking.NetworkSide;
-import finalforeach.cosmicreach.networking.GamePacket;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 

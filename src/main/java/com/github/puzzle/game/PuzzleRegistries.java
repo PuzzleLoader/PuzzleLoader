@@ -10,10 +10,8 @@ import com.github.puzzle.game.loot.PuzzleLootTable;
 import finalforeach.cosmicreach.util.Identifier;
 import meteordevelopment.orbit.EventBus;
 import meteordevelopment.orbit.IEventBus;
-import org.slf4j.LoggerFactory;
 
 import java.lang.invoke.MethodHandles;
-import java.util.logging.Level;
 
 import static com.github.puzzle.core.Constants.MOD_ID;
 

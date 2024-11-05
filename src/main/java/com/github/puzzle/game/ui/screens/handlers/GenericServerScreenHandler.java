@@ -4,7 +4,6 @@ import com.github.puzzle.core.Constants;
 import com.github.puzzle.core.loader.meta.EnvType;
 import finalforeach.cosmicreach.BlockEntityScreenInfo;
 import finalforeach.cosmicreach.GameSingletons;
-import finalforeach.cosmicreach.Threads;
 import finalforeach.cosmicreach.blockentities.BlockEntity;
 import finalforeach.cosmicreach.networking.packets.blocks.BlockEntityDataPacket;
 import finalforeach.cosmicreach.networking.packets.blocks.BlockEntityScreenPacket;
