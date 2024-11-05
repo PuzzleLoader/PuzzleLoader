@@ -10,5 +10,13 @@
   "client": [],
   "injectors": {
     "defaultRequire": 0
-  }
+  },
+  "mixins": [
+    "BlockEventDisabler",
+    "BlockStateGeneratorCopyFixer",
+    "BlockStateGeneratorMixin",
+    "ItemMixin",
+    "ItemPickBlock",
+    "Point3DMapRewrite"
+  ]
 }

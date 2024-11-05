@@ -3,6 +3,8 @@ package com.github.puzzle.core.localization;
 
 import java.util.List;
 
+import static com.github.puzzle.game.PuzzleRegistries.LANGUAGES;
+
 public record Language(ILanguageFile file) {
 
 	public TranslationEntry entry(TranslationKey key) {
@@ -10,7 +12,7 @@ public record Language(ILanguageFile file) {
 			return file.get(key);
 		}
 		for (TranslationLocale fallback : file.fallbacks()) {
-			Language language = LanguageManager.LANGUAGES.get(fallback.toIdentifier());
+			Language language = LANGUAGES.get(fallback.toIdentifier());
 			if (language != null) {
 				return language.entry(key);
 			}

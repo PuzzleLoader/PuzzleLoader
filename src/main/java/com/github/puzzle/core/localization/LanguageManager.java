@@ -11,13 +11,12 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 import static com.github.puzzle.core.Constants.MOD_ID;
+import static com.github.puzzle.game.PuzzleRegistries.LANGUAGES;
 
 public class LanguageManager {
 	private static final Logger LOGGER = LoggerFactory.getLogger("Language Manager");
 	public static TranslationEntry UNDEFINED = new TranslationEntry();
 	private static Language selectedLanguage;
-
-	public static final LanguageRegistry LANGUAGES = new LanguageRegistry(Identifier.of(MOD_ID, "languages"));
 
 	public static boolean hasLanguageInstalled(@NotNull TranslationLocale locale) {
 		return LANGUAGES.contains(locale.toIdentifier());
@@ -27,17 +26,17 @@ public class LanguageManager {
 		TranslationLocale locale = lang.locale();
 		Identifier localeIdentifier = locale.toIdentifier();
 
-		if (LanguageManager.LANGUAGES.contains(localeIdentifier))
-			if (LanguageManager.LANGUAGES.get(localeIdentifier).file() instanceof MergedLanguageFile merged) {
+		if (LANGUAGES.contains(localeIdentifier))
+			if (LANGUAGES.get(localeIdentifier).file() instanceof MergedLanguageFile merged) {
 				merged.addLanguageFile(lang);
 			} else {
 				MergedLanguageFile merged = new MergedLanguageFile(locale);
 				merged.addLanguageFile(lang);
-				LanguageManager.LANGUAGES.register(merged);
+				LANGUAGES.register(merged);
 			}
 
-		if (!LanguageManager.LANGUAGES.contains(localeIdentifier)) {
-			LanguageManager.LANGUAGES.register(lang);
+		if (!LANGUAGES.contains(localeIdentifier)) {
+			LANGUAGES.register(lang);
 		}
 	}
 

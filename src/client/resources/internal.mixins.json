@@ -16,12 +16,9 @@
     "entrypoint.PreGameLaunchInit",
     "items.InGameMixin",
     "items.ItemCatalogMixin",
-    "items.ItemStackMixin",
     "items.rendering.EntityMixin",
     "items.rendering.ItemRendererMixin",
     "items.rendering.ItemSlotWidgetMixin",
-    "items.ticking.ItemEntityMixin",
-    "loot.LootTableMixin",
     "networking.ClientNetworkManagerMixin",
     "ui.MainMenuMixin",
     "ui.OptionsMixin",
@@ -34,7 +31,6 @@
   },
   "mixins": [
     "networking.ConnectingScreenMixin",
-    "networking.PacketInterceptorMixin",
     "ui.CreditsButtonMixin",
     "ui.CreditsMenuMixin"
   ]

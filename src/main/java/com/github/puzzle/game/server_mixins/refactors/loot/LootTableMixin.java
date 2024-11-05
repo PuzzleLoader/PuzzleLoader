@@ -1,4 +1,4 @@
-package com.github.puzzle.game.mixins.refactors.loot;
+package com.github.puzzle.game.server_mixins.refactors.loot;
 
 import com.badlogic.gdx.utils.ObjectMap;
 import com.github.puzzle.core.loader.util.Reflection;

@@ -1,4 +1,4 @@
-package com.github.puzzle.game.mixins.refactors.items.ticking;
+package com.github.puzzle.game.server_mixins.refactors.items.ticking;
 
 import com.github.puzzle.game.items.ITickingItem;
 import finalforeach.cosmicreach.entities.ItemEntity;

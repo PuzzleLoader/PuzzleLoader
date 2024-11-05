@@ -9,10 +9,12 @@
     "assets.AssetLoaderMixin",
     "blockentities.BlockEntityFurnaceMixin",
     "blockentities.BlockEntityItemContainerMixin",
+    "loot.LootTableMixin",
     "networking.GamePacketMixin",
     "networking.PacketInterceptorMixin",
     "networking.ProtocolSyncPacketMixin",
-    "networking.ServerIdentityMixin"
+    "networking.ServerIdentityMixin",
+    "zones.ZoneGeneratorMixin"
   ],
   "client": [],
   "server": [

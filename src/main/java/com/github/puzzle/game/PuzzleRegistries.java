@@ -23,7 +23,6 @@ import static com.github.puzzle.core.Constants.MOD_ID;
  */
 public class PuzzleRegistries {
 
-    //public static final EventBus EVENT_BUS = EventBus.builder().sendNoSubscriberEvent(false).logNoSubscriberMessages(false).logger(new SLF4JEventBusLogger()).build();
     public static final IEventBus EVENT_BUS = new EventBus();
     public static final IRegistry<PuzzleLootTable> LOOT_TABLES = new GenericRegistry<>(Identifier.of(MOD_ID, "loot_tables"));
     public static final LanguageRegistry LANGUAGES = new LanguageRegistry(Identifier.of(MOD_ID, "languages"));
@@ -37,31 +36,5 @@ public class PuzzleRegistries {
     static {
         EVENT_BUS.registerLambdaFactory("com.github.puzzle", (lookupInMethod, klass) -> (MethodHandles.Lookup) lookupInMethod.invoke(null, klass, MethodHandles.lookup()));
     }
-
-    /*private static class SLF4JEventBusLogger implements Logger {
-        private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger("Puzzle | EventBus");
-
-        @Override
-        public void log(Level level, String s) {
-            if(level == Level.INFO) {
-                LOGGER.info(s);
-            } else if(level == Level.WARNING) {
-                LOGGER.warn(s);
-            } else if(level == Level.SEVERE) {
-                LOGGER.error(s);
-            }
-        }
-
-        @Override
-        public void log(Level level, String s, Throwable t) {
-            if(level == Level.INFO) {
-                LOGGER.info(s, t);
-            } else if(level == Level.WARNING) {
-                LOGGER.warn(s, t);
-            } else if(level == Level.SEVERE) {
-                LOGGER.error(s, t);
-            }
-        }
-    }*/
 
 }

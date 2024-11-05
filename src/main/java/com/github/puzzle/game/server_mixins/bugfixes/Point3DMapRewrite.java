@@ -1,4 +1,4 @@
-package com.github.puzzle.game.mixins.bugfixes;
+package com.github.puzzle.game.server_mixins.bugfixes;
 
 import com.github.puzzle.game.util.Point3DKey;
 import finalforeach.cosmicreach.util.IPoint3DMap;

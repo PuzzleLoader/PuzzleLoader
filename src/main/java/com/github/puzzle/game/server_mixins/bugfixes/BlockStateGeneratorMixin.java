@@ -1,4 +1,4 @@
-package com.github.puzzle.game.mixins.bugfixes;
+package com.github.puzzle.game.server_mixins.bugfixes;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.github.puzzle.game.resources.PuzzleGameAssetLoader;

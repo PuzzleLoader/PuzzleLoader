@@ -1,4 +1,4 @@
-package com.github.puzzle.game.mixins.bugfixes;
+package com.github.puzzle.game.server_mixins.bugfixes;
 
 import finalforeach.cosmicreach.items.Item;
 import finalforeach.cosmicreach.util.exceptions.DuplicateIDException;

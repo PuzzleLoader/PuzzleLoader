@@ -130,7 +130,6 @@ public class ClientCosmicReachProvider implements IGameProvider {
                     "server_internal.mixins.json",
                     "internal.mixins.json",
                     "accessors.mixins.json",
-                    "bugfixes.mixins.json",
                     "logging.mixins.json"
             );
             HashMap<String, JsonValue> meta = new HashMap<>();

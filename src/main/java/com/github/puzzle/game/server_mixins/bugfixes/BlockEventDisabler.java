@@ -1,4 +1,4 @@
-package com.github.puzzle.game.mixins.bugfixes;
+package com.github.puzzle.game.server_mixins.bugfixes;
 
 import finalforeach.cosmicreach.blockevents.BlockEvents;
 import org.spongepowered.asm.mixin.Final;

@@ -1,4 +1,4 @@
-package com.github.puzzle.game.mixins.refactors.zones;
+package com.github.puzzle.game.server_mixins.refactors.zones;
 
 import com.github.puzzle.game.PuzzleRegistries;
 import com.github.puzzle.game.events.OnRegisterZoneGenerators;
