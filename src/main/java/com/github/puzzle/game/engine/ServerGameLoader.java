@@ -1,5 +1,6 @@
 package com.github.puzzle.game.engine;
 
+import com.github.puzzle.core.loader.util.ModLocator;
 import com.github.puzzle.game.ServerGlobals;
 import com.github.puzzle.game.block.DataModBlock;
 import com.github.puzzle.game.engine.blocks.BlockLoadException;
@@ -20,10 +21,13 @@ import org.slf4j.LoggerFactory;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.lang.invoke.MethodHandles;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.CountDownLatch;
+
+import static com.github.puzzle.game.PuzzleRegistries.EVENT_BUS;
 
 public class ServerGameLoader {
 
@@ -43,6 +47,12 @@ public class ServerGameLoader {
     }
 
     public void create() {
+        ModLocator.locatedMods.values().forEach((modContainer -> modContainer.INFO.Entrypoints.values().forEach(adapterPathPairs -> {
+            adapterPathPairs.forEach(adapterPathPair -> {
+                EVENT_BUS.registerLambdaFactory(adapterPathPair.getValue().substring(0, adapterPathPair.getValue().lastIndexOf(".")), (lookupInMethod, klass) -> (MethodHandles.Lookup) lookupInMethod.invoke(null, klass, MethodHandles.lookup()));
+            });
+        })));
+
 
         // create singletons
         blockLoader = new ServerBlockLoader();
