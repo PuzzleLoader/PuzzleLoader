@@ -19,8 +19,7 @@ public class ItemCatalogMixin extends SlotContainer {
     @Redirect(method = "<init>", at = @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/items/ItemCatalog;addItemStack(Lfinalforeach/cosmicreach/items/ItemStack;)Z"))
     private boolean nuhUh(ItemCatalog instance, ItemStack itemStack) {
         if (itemStack.getItem() instanceof IModItem item) {
-            boolean isDebug = item.getTagManifest().hasTag(NullStick.IS_DEBUG_ATTRIBUTE) ? item.getTagManifest().getTag(NullStick.IS_DEBUG_ATTRIBUTE).attribute.getValue() : false;
-            if (!isDebug) addItemStack(itemStack);
+            if (!item.isDebug()) addItemStack(item.getDefaultItemStack());
         } else addItemStack(itemStack);
         return false;
     }

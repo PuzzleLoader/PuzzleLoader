@@ -281,4 +281,8 @@ public interface IModItem extends Item {
     default boolean hasTag(String s) {
         return false;
     }
+
+    default boolean isDebug() {
+        return getTagManifest().hasTag(IS_DEBUG_ATTRIBUTE) ? getTagManifest().getTag(IS_DEBUG_ATTRIBUTE).getValue() : false;
+    }
 }
