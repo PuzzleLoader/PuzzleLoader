@@ -11,11 +11,8 @@ import com.github.puzzle.core.localization.ILanguageFile;
 import com.github.puzzle.core.localization.LanguageManager;
 import com.github.puzzle.core.localization.files.LanguageFileVersion1;
 import com.github.puzzle.game.ClientGlobals;
-import com.github.puzzle.game.ClientPuzzleRegistries;
 import com.github.puzzle.game.PuzzleRegistries;
-import com.github.puzzle.game.block.generators.model.BlockModelGenerator;
 import com.github.puzzle.game.engine.shaders.ItemShader;
-import com.github.puzzle.game.events.OnPacketRecieveIntercept;
 import com.github.puzzle.game.events.OnPreLoadAssetsEvent;
 import com.github.puzzle.game.items.ITickingItem;
 import com.github.puzzle.game.resources.PuzzleGameAssetLoader;
@@ -29,28 +26,22 @@ import com.github.puzzle.game.ui.modmenu.ModMenu;
 import com.google.common.collect.ImmutableCollection;
 import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.Threads;
-import finalforeach.cosmicreach.accounts.AccountItch;
-import finalforeach.cosmicreach.entities.player.Player;
 import finalforeach.cosmicreach.gamestates.InGame;
 import finalforeach.cosmicreach.items.ItemSlot;
-import finalforeach.cosmicreach.networking.GamePacket;
-import finalforeach.cosmicreach.networking.packets.MessagePacket;
 import finalforeach.cosmicreach.ui.UI;
-import finalforeach.cosmicreach.util.Identifier;
-import org.greenrobot.eventbus.Subscribe;
+import meteordevelopment.orbit.EventHandler;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Objects;
 
 public class Puzzle implements ClientPreModInitializer, ClientModInitializer, ClientPostModInitializer {
     public static final String VERSION = Constants.getVersion();
 
     public Puzzle() {
-        PuzzleRegistries.EVENT_BUS.register(this);
+        PuzzleRegistries.EVENT_BUS.subscribe(this);
     }
 
-    @Subscribe
+    @EventHandler
     public void onEvent(OnPreLoadAssetsEvent event) {
         try {
             ILanguageFile lang = LanguageFileVersion1.loadLanguageFile(Objects.requireNonNull(PuzzleGameAssetLoader.locateAsset(ClientGlobals.LanguageEnUs)));

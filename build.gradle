@@ -13,6 +13,10 @@ repositories {
     maven {
         url = "https://jitpack.io"
     }
+    maven {
+        name = "meteor-maven"
+        url = "https://maven.meteordev.org/releases"
+    }
 }
 
 loom {
@@ -51,7 +55,8 @@ dependencies {
 
     bundle("dev.dewy:nbt:$nbtVersion")
 
-    bundle("org.greenrobot:eventbus:$eventbusVersion")
+    bundle("meteordevelopment:orbit:$eventbusVersion")
+    //bundle("org.greenrobot:eventbus:$eventbusVersion")
 
     bundle("org.jline:jline:3.25.0")
     bundle("org.apache.commons:commons-lang3:3.17.0")

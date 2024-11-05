@@ -12,7 +12,7 @@ public class ServerLoadStage {
     public void initialize(ServerGameLoader loader) {
         this.loader = loader;
         try {
-            PuzzleRegistries.EVENT_BUS.register(this);
+            PuzzleRegistries.EVENT_BUS.subscribe(this);
         } catch (Exception ignored) {}
     }
 

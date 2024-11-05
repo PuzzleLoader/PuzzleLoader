@@ -13,8 +13,7 @@ import com.github.puzzle.game.resources.VanillaAssetLocations;
 import de.pottgames.tuningfork.SoundBuffer;
 import finalforeach.cosmicreach.GameAssetLoader;
 import finalforeach.cosmicreach.util.Identifier;
-import org.greenrobot.eventbus.Subscribe;
-
+import meteordevelopment.orbit.EventHandler;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +28,7 @@ public class LoadingAssets extends LoadStage {
         title = TEXT_TITLE;
     }
 
-    @Subscribe
+    @EventHandler
     public void onEvent(OnLoadAssetsEvent event) {
         List<Identifier> textures = new ArrayList<>();
         textures.addAll(VanillaAssetLocations.getInternalFiles("textures/ui", ".png"));

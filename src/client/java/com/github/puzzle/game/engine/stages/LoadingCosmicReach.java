@@ -31,7 +31,7 @@ import finalforeach.cosmicreach.items.ItemThing;
 import finalforeach.cosmicreach.items.loot.Loot;
 import finalforeach.cosmicreach.items.recipes.CraftingRecipes;
 import finalforeach.cosmicreach.util.Identifier;
-import org.greenrobot.eventbus.Subscribe;
+import meteordevelopment.orbit.EventHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +47,7 @@ public class LoadingCosmicReach extends LoadStage {
         title = new TranslationKey("puzzle-loader:loading_menu.loading_cosmic_reach");
     }
 
-    @Subscribe
+    @EventHandler
     public void onEvent(OnRegisterBlockEvent event) {
         List<Identifier> blockNames = new ArrayList<>(VanillaAssetLocations.getInternalFiles("blocks/", ".json"));
         if(ServerGlobals.EnabledVanillaMods.getValue()) {

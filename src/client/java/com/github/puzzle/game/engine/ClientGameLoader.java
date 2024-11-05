@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.github.puzzle.core.loader.util.ModLocator;
 import com.github.puzzle.core.loader.util.Reflection;
 import com.github.puzzle.core.localization.LanguageManager;
 import com.github.puzzle.core.localization.TranslationKey;
@@ -38,11 +39,12 @@ import finalforeach.cosmicreach.settings.Preferences;
 import finalforeach.cosmicreach.ui.debug.DebugInfo;
 import finalforeach.cosmicreach.ui.debug.DebugItem;
 import finalforeach.cosmicreach.ui.debug.DebugStringItem;
-import org.greenrobot.eventbus.Subscribe;
+import meteordevelopment.orbit.EventHandler;
 import org.lwjgl.opengl.GL11;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.invoke.MethodHandles;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -85,7 +87,9 @@ public class ClientGameLoader extends GameState {
 
     public ClientBlockLoader blockLoader;
 
-    @Subscribe
+    private boolean isSubscribed = false;
+
+    @EventHandler
     public void onEvent(OnPreLoadAssetsEvent event) {
         puzzleIcon = LOADER.loadSync("puzzle-loader:icons/Puzzle Loader x16 - Copy.png", Texture.class);
         textLogo = LOADER.loadSync("base:textures/text-logo-hd.png", Texture.class);
@@ -95,6 +99,12 @@ public class ClientGameLoader extends GameState {
     @Override
     public void create() {
         super.create();
+
+        ModLocator.locatedMods.values().forEach((modContainer -> modContainer.INFO.Entrypoints.values().forEach(adapterPathPairs -> {
+            adapterPathPairs.forEach(adapterPathPair -> {
+                EVENT_BUS.registerLambdaFactory(adapterPathPair.getValue().substring(0, adapterPathPair.getValue().lastIndexOf(".")), (lookupInMethod, klass) -> (MethodHandles.Lookup) lookupInMethod.invoke(null, klass, MethodHandles.lookup()));
+            });
+        })));
 
         Array<DebugItem> items = Reflection.getFieldContents(DebugInfo.class, "items");
         items.insert(1,new DebugStringItem(
@@ -115,8 +125,9 @@ public class ClientGameLoader extends GameState {
         GameSingletons.blockModelInstantiator = blockLoader.factory;
 
         // register to eventbus
-        if (!EVENT_BUS.isRegistered(this)) {
-            EVENT_BUS.register(this);
+        if (!isSubscribed) {
+            EVENT_BUS.subscribe(this);
+            isSubscribed = true;
         }
 
         // preload all resources

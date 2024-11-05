@@ -14,7 +14,7 @@ public class LoadStage {
     public void initialize(ClientGameLoader loader) {
         this.loader = loader;
         try {
-            PuzzleRegistries.EVENT_BUS.register(this);
+            PuzzleRegistries.EVENT_BUS.subscribe(this);
         } catch (Exception ignored) {}
     }
 

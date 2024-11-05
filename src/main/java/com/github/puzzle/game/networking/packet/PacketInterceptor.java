@@ -7,7 +7,7 @@ import com.github.puzzle.game.events.OnPacketRecieveIntercept;
 import finalforeach.cosmicreach.networking.GamePacket;
 import finalforeach.cosmicreach.networking.packets.MessagePacket;
 import finalforeach.cosmicreach.util.logging.Logger;
-import org.greenrobot.eventbus.Subscribe;
+import meteordevelopment.orbit.EventHandler;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -24,7 +24,7 @@ public class PacketInterceptor {
 
     public PacketInterceptor() {
         INSTANCE = this;
-        PuzzleRegistries.EVENT_BUS.register(this);
+        PuzzleRegistries.EVENT_BUS.subscribe(INSTANCE);
     }
 
     public static <T extends GamePacket> void registerReservedPacket(String strId, int numId, Class<T> packetClass) {
@@ -71,12 +71,12 @@ public class PacketInterceptor {
 
     }
 
-    @Subscribe
+    @EventHandler
     public void onEvent(OnPacketRecieveIntercept packetSingle) {
         modifyPacket(packetSingle.getPacket());
     }
 
-    @Subscribe
+    @EventHandler
     public void onEvent(OnPacketBucketRecieveIntercept packetBucket) {
         Array<GamePacket> bucket = packetBucket.getPacketBucket();
         for (int i = 0; i < bucket.size; i++) {
