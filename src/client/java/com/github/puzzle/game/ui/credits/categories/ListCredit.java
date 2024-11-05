@@ -9,6 +9,7 @@ import org.hjson.JsonArray;
 import org.hjson.JsonObject;
 import org.hjson.JsonValue;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,7 +25,7 @@ public class ListCredit implements ICreditElement {
     public ListCredit() {}
 
     public ListCredit(String name) {
-        this.title = name;
+        this.title = new String(name.getBytes(StandardCharsets.UTF_8));
         this.names = new ArrayList<>();
     }
 
@@ -56,7 +57,7 @@ public class ListCredit implements ICreditElement {
 
     @Override
     public void render(SpriteBatch batch, Viewport viewport, Function<Float, Float> posModulator) {
-        String categoryTitle = "§f---- " + getTitle() + " §f----";
+        String categoryTitle = new String(("§f---- " + getTitle() + " §f----").getBytes(StandardCharsets.UTF_8));
 
         getTextDimensions(viewport, FormatText.FORMAT_PATTER.matcher(categoryTitle).replaceAll(""), v2);
         FormattedTextRenderer.drawText(batch, viewport, categoryTitle,  -v2.x / 2, posModulator.apply(0f));

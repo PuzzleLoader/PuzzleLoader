@@ -33,9 +33,12 @@ public method finalforeach/cosmicreach/io/CRBinDeserializer readDataFromSchema (
 public field finalforeach/cosmicreach/io/CRBinDeserializer classDeserializers
 public field finalforeach/cosmicreach/io/CRBinDeserializer defaultClassDeserializers
 public field finalforeach/cosmicreach/gamestates/GameState previousState
+public field finalforeach/cosmicreach/gamestates/InGame ui
 public field finalforeach/cosmicreach/gamestates/PauseMenu cursorCaught
 
 public field finalforeach/cosmicreach/networking/GamePacket idsToPackets
 public field finalforeach/cosmicreach/networking/GamePacket packetsToIntIds
 public field finalforeach/cosmicreach/networking/GamePacket packetNamesToIntIds
 public field finalforeach/cosmicreach/networking/GamePacket packetNamesToClasses
+
+public field finalforeach/cosmicreach/ui/UI uiViewport

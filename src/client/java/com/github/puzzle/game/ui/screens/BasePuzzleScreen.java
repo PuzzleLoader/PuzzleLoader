@@ -15,7 +15,13 @@ public class BasePuzzleScreen extends BaseItemScreen {
         super.drawItems();
     }
 
-    public void onRender() {
+    public void onRender() {}
+
+    @Override
+    public void onRemove() {
+        onClose();
     }
 
+    public void onOpen() {}
+    public void onClose() {}
 }

@@ -37,6 +37,7 @@ public class GenericClientScreenHandler implements Consumer<BlockEntityScreenInf
         Threads.runOnMainThread(() -> {
             BaseItemScreen screen = screenSupplier.apply(info);
             UI.addOpenBaseItemScreen(container, screen);
+            if (screen instanceof BasePuzzleScreen) ((BasePuzzleScreen) screen).onOpen();
         });
     }
 }
