@@ -18,7 +18,6 @@ public class BlockUtil {
             IClientNetworkManager.sendAsClient(new PlaceBlockPacket(zone, vector3, state));
         }
         BlockSetter.get().replaceBlock(zone, state, vector3);
-
     }
 
     public static void setBlockAt(Zone zone, BlockState state, Vector3 vector3) {
