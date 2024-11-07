@@ -192,8 +192,11 @@ public class BlockModelGenerator implements IBlockModelGenerator {
 //        for(String customTextureName : customTextures.keySet()) {
 //            loader.registerTexture(getModelTextureName(customTextureName), customTextures.get(customTextureName));
 //        }
-        for(String vanillaTextureName : vanillaTextures.keySet()) {
-            loader.registerTexture(vanillaTextures.get(vanillaTextureName));
+
+        if(Constants.SIDE != EnvType.SERVER) {
+            for (String vanillaTextureName : vanillaTextures.keySet()) {
+                loader.registerTexture(vanillaTextures.get(vanillaTextureName));
+            }
         }
     }
 
