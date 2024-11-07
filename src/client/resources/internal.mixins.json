@@ -10,7 +10,6 @@
     "assets.GameShaderPathFixer",
     "assets.Sound2DBlockActionPlayerPathFixer",
     "chat.ChatMixin",
-    "chat.CommandMixin",
     "entrypoint.GameSingletonsMixin",
     "entrypoint.LoadInitModsMixin",
     "entrypoint.PreGameLaunchInit",

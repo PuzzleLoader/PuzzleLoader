@@ -3,7 +3,7 @@ package com.github.puzzle.game.common;
 import com.github.puzzle.core.Constants;
 import com.github.puzzle.core.loader.meta.EnvType;
 import com.github.puzzle.game.commands.CommandManager;
-import com.github.puzzle.game.commands.PuzzleCommandSource;
+import com.github.puzzle.game.commands.ServerCommandSource;
 import com.github.puzzle.game.items.IModItem;
 import com.github.puzzle.game.items.data.DataTagManifest;
 import com.github.puzzle.game.items.puzzle.BuilderWand;
@@ -23,15 +23,15 @@ public class Commands {
 
     public static void register() {
 
-        LiteralArgumentBuilder<PuzzleCommandSource> genSchmatic = CommandManager.literal("gs");
+        LiteralArgumentBuilder<ServerCommandSource> genSchmatic = CommandManager.literal("gs");
         genSchmatic.executes(context -> {
             if(BuilderWand.pos1 == null || BuilderWand.pos2 == null) return 0;
             BuilderWand.clipBoard = Schematic.generateASchematic(BuilderWand.pos1, BuilderWand.pos2, InGame.getLocalPlayer().getZone());
             return 0;
         });
-        CommandManager.dispatcher.register(genSchmatic);
+        CommandManager.DISPATCHER.register(genSchmatic);
 
-        LiteralArgumentBuilder<PuzzleCommandSource> saveSchmatic = CommandManager.literal("saveschematic");
+        LiteralArgumentBuilder<ServerCommandSource> saveSchmatic = CommandManager.literal("saveschematic");
         saveSchmatic.then(CommandManager.argument("filename", StringArgumentType.string())
                 .executes(commandContext -> {
                     String filename = StringArgumentType.getString(commandContext, "filename");
@@ -61,9 +61,9 @@ public class Commands {
                     return 0;
                 }));
 
-        CommandManager.dispatcher.register(saveSchmatic);
+        CommandManager.DISPATCHER.register(saveSchmatic);
 
-        LiteralArgumentBuilder<PuzzleCommandSource> loadSchmatic = CommandManager.literal("loadschematic");
+        LiteralArgumentBuilder<ServerCommandSource> loadSchmatic = CommandManager.literal("loadschematic");
         loadSchmatic.then(CommandManager.argument("filename", StringArgumentType.string()).executes( commandContext -> {
             String filename = StringArgumentType.getString(commandContext, "filename");
 
@@ -82,9 +82,9 @@ public class Commands {
 
             return 0;
         }));
-        CommandManager.dispatcher.register(loadSchmatic);
+        CommandManager.DISPATCHER.register(loadSchmatic);
 
-        LiteralArgumentBuilder<PuzzleCommandSource> getAttributes = CommandManager.literal("attributes");
+        LiteralArgumentBuilder<ServerCommandSource> getAttributes = CommandManager.literal("attributes");
         getAttributes.then(CommandManager.literal("stack")
                 .then(CommandManager.literal("get").then(CommandManager.argument("attrib", StringArgumentType.string())
                                 .executes(context -> {
@@ -141,7 +141,7 @@ public class Commands {
                             return 0;
                         }))
         );
-        CommandManager.dispatcher.register(getAttributes);
+        CommandManager.DISPATCHER.register(getAttributes);
     }
 
 }

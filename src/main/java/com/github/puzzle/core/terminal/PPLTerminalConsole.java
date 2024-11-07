@@ -3,8 +3,7 @@ package com.github.puzzle.core.terminal;
 import com.github.puzzle.core.loader.util.AnsiColours;
 import com.github.puzzle.game.ServerGlobals;
 import com.github.puzzle.game.commands.CommandManager;
-import com.github.puzzle.game.commands.CommandSource;
-import com.github.puzzle.game.commands.PuzzleConsoleCommandSource;
+import com.github.puzzle.game.commands.ConsoleCommandSource;
 import com.mojang.brigadier.ParseResults;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
@@ -36,7 +35,7 @@ public class PPLTerminalConsole extends SimpleTerminalConsole {
     @Override
     protected void runCommand(String command) {
         try {
-            ParseResults<CommandSource> results = CommandManager.consoledispatcher.parse(command,new PuzzleConsoleCommandSource(ServerSingletons.SERVER.systemChat, world));
+            ParseResults<ConsoleCommandSource> results = CommandManager.CONSOLE_DISPATCHER.parse(command,new ConsoleCommandSource(ServerSingletons.SERVER.systemChat, world));
             CommandSyntaxException e;
             if(results.getReader().canRead()) {
                 if(results.getExceptions().size() == 1)
@@ -45,7 +44,7 @@ public class PPLTerminalConsole extends SimpleTerminalConsole {
                     e = results.getContext().getRange().isEmpty() ? CommandSyntaxException.BUILT_IN_EXCEPTIONS.dispatcherUnknownCommand().createWithContext(results.getReader()) : CommandSyntaxException.BUILT_IN_EXCEPTIONS.dispatcherUnknownArgument().createWithContext(results.getReader());
                 throw e;
             }
-            CommandManager.consoledispatcher.execute(new StringReader(command), new PuzzleConsoleCommandSource(ServerSingletons.SERVER.systemChat, world));
+            CommandManager.CONSOLE_DISPATCHER.execute(new StringReader(command), new ConsoleCommandSource(ServerSingletons.SERVER.systemChat, world));
         } catch (CommandSyntaxException e) {
             System.out.print(e.getRawMessage().getString() + ": "+ AnsiColours.RED + command + AnsiColours.RESET + "\n");
 //            e.printStackTrace();
