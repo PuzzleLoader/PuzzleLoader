@@ -1,5 +1,6 @@
 package com.github.puzzle.game.block;
 
+import com.badlogic.gdx.math.Vector3;
 import com.github.puzzle.game.block.generators.BlockEventGenerator;
 import com.github.puzzle.game.block.generators.BlockGenerator;
 import com.github.puzzle.game.block.generators.model.BlockModelGenerator;
@@ -8,6 +9,7 @@ import finalforeach.cosmicreach.Threads;
 import finalforeach.cosmicreach.blockevents.BlockEventArgs;
 import finalforeach.cosmicreach.blockevents.actions.BlockActionItemDrop;
 import finalforeach.cosmicreach.blockevents.actions.BlockActionPlaySound2D;
+import finalforeach.cosmicreach.blockevents.actions.BlockActionPlaySound3D;
 import finalforeach.cosmicreach.blockevents.actions.BlockActionReplaceBlockState;
 import finalforeach.cosmicreach.util.Identifier;
 
@@ -34,8 +36,11 @@ public interface IModBlock {
     default void onPlace(BlockEventArgs args) {
         BlockActionReplaceBlockState replace = BlockEventActionFactory.createReplaceBlockEvent("self", 0 ,0, 0);
         replace.act(args);
-        BlockActionPlaySound2D sound2D = BlockEventActionFactory.createPlaySound2D("block-place.ogg", 1, 1, 0);
-        Threads.runOnMainThread(()-> sound2D.act(args));
+        BlockActionPlaySound3D sound3D = BlockEventActionFactory.createPlaySound3D(
+                "base:sounds/blocks/block-place.ogg", 1, 1,
+                new Vector3(args.blockPos.getGlobalX(), args.blockPos.getGlobalY(), args.blockPos.getGlobalZ())
+        );
+        Threads.runOnMainThread(()-> sound3D.act(args));
     }
 
     /**
@@ -45,8 +50,11 @@ public interface IModBlock {
     default void onBreak(BlockEventArgs args) {
         BlockActionReplaceBlockState replace = BlockEventActionFactory.createReplaceBlockEvent("base:air[default]", 0 ,0, 0);
         replace.act(args);
-        BlockActionPlaySound2D sound2D = BlockEventActionFactory.createPlaySound2D("block-break.ogg", 1, 1, 0);
-        Threads.runOnMainThread(()-> sound2D.act(args));
+        BlockActionPlaySound3D sound3D = BlockEventActionFactory.createPlaySound3D(
+                "base:sounds/blocks/block-break.ogg", 1, 1,
+                new Vector3(args.blockPos.getGlobalX(), args.blockPos.getGlobalY(), args.blockPos.getGlobalZ())
+        );
+        Threads.runOnMainThread(()-> sound3D.act(args));
         BlockActionItemDrop drop = new BlockActionItemDrop();
         drop.act(args);
     }
