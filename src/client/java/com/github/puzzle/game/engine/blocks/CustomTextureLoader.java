@@ -9,7 +9,7 @@ import finalforeach.cosmicreach.rendering.shaders.ChunkShader;
 
 import java.util.HashMap;
 
-public class CustomTextureLoader implements ICustomTextureLoader {
+public class CustomTextureLoader {
 
     /**
      * Updates the block texture atlas and puts the texture in the global
@@ -20,7 +20,7 @@ public class CustomTextureLoader implements ICustomTextureLoader {
      * @param blockPix a pixmap representing your texture, this has to follow the guidelines
      *                 from data modding, width and height have to be equal
      */
-    public void registerTexture(String textureName, Pixmap blockPix) {
+    public static void registerTex(String textureName, Pixmap blockPix) {
         if (blockPix.getWidth() != blockPix.getHeight()) {
             throw new RuntimeException("Width and height of " + textureName + " must be the same!");
         } else {
@@ -92,36 +92,4 @@ public class CustomTextureLoader implements ICustomTextureLoader {
         ChunkShader.faceTexBufFloats.add(tmpVertPos.z);
         return fIdx;
     }
-
-    public int createUBOFloatsIdx(final float u, final float v, Vector3 vecNormal, Vector3 faceNormal) {
-        for (int i = 0; i < ChunkShader.faceTexBufFloats.size; i += 11) {
-            if (ChunkShader.faceTexBufFloats.get(i) == u && ChunkShader.faceTexBufFloats.get(i + 1) == v
-                && ChunkShader.faceTexBufFloats.get(i + 2) == vecNormal.x
-                && ChunkShader.faceTexBufFloats.get(i + 3) == vecNormal.y
-                && ChunkShader.faceTexBufFloats.get(i + 4) == vecNormal.z
-                && ChunkShader.faceTexBufFloats.get(i + 5) == faceNormal.x
-                && ChunkShader.faceTexBufFloats.get(i + 6) == faceNormal.y
-                && ChunkShader.faceTexBufFloats.get(i + 7) == faceNormal.z
-                && ChunkShader.faceTexBufFloats.get(i + 8) == tmpVertPos.x
-                && ChunkShader.faceTexBufFloats.get(i + 9) == tmpVertPos.y
-                && ChunkShader.faceTexBufFloats.get(i + 10) == tmpVertPos.z
-            ) {
-                return i / 11;
-            }
-        }
-        final int fIdx = ChunkShader.faceTexBufFloats.size / 11;
-        ChunkShader.faceTexBufFloats.add(u);
-        ChunkShader.faceTexBufFloats.add(v);
-        ChunkShader.faceTexBufFloats.add(vecNormal.x);
-        ChunkShader.faceTexBufFloats.add(vecNormal.y);
-        ChunkShader.faceTexBufFloats.add(vecNormal.z);
-        ChunkShader.faceTexBufFloats.add(faceNormal.x);
-        ChunkShader.faceTexBufFloats.add(faceNormal.y);
-        ChunkShader.faceTexBufFloats.add(faceNormal.z);
-        ChunkShader.faceTexBufFloats.add(tmpVertPos.x);
-        ChunkShader.faceTexBufFloats.add(tmpVertPos.y);
-        ChunkShader.faceTexBufFloats.add(tmpVertPos.z);
-        return fIdx;
-    }
-
 }

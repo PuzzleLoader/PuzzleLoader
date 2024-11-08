@@ -15,8 +15,6 @@ buildscript {
     dependencies {
         classpath "com.github.johnrengelman:shadow:8.1.1"
         classpath "com.github.PuzzleLoader:jigsaw:$jigsaw_gradle_version"
-//        classpath "net.fabricmc:jigsaw:1.8-SNAPSHOT"
-//        classpath "com.github.PuzzleLoader:CRPuzzleGradle:$puzzle_gradle_version"
     }
 }
 

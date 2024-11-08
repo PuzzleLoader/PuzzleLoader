@@ -63,13 +63,9 @@ public class ServerBlockLoader implements IBlockLoader {
      *                Note: this method does not take ownership of the Pixmap
      */
     public void registerTexture(String textureName, Pixmap texture) {
-        ICustomTextureLoader.registerTex(textureName, texture);
     }
 
     public void registerTexture(Identifier texture) {
-        Pixmap pixmap = PuzzleGameAssetLoader.LOADER.loadResourceSync(texture, Pixmap.class);
-        ICustomTextureLoader.registerTex(texture.toString(), pixmap);
-        PuzzleGameAssetLoader.LOADER.unloadResource(texture);
     }
 
     /**
