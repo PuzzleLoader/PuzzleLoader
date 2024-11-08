@@ -30,8 +30,17 @@ public class CommandPacketMixin {
      */
     @Overwrite
     public void handle(final NetworkIdentity identity, ChannelHandlerContext ctx) {
+        // Force Command.java load the <clinit> block
+        Command.registerCommand(() -> new Command() {
+            @Override
+            public String getShortDescription() {
+                return "";
+            }
+        }, "asodfjoasdiofasdf");
+
         StringBuilder commandText = new StringBuilder();
         for (String s : this.commandArgs) commandText.append(" ").append(s);
+        commandText.deleteCharAt(0);
 
         if (!identity.isClient()) {
             Account acc = identity.getAccount();
@@ -41,7 +50,9 @@ public class CommandPacketMixin {
                     ((ServerIdentity)identity).sendChatMessage(messageText);
                 }));
             } catch (CommandSyntaxException e) {
-                ((ServerIdentity)identity).sendChatMessage("Could not execute command " + commandText);
+                ((ServerIdentity)identity).sendChatMessage("Could not execute command server-side -> " + commandText);
+                System.out.println("Player \"" + acc.getUsername() + "\" failed to execute command -> \"" + commandText + "\"");
+                e.printStackTrace();
             }
         }
     }

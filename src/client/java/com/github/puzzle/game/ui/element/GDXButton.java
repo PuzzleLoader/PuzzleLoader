@@ -245,7 +245,6 @@ public class GDXButton extends Table implements Disposable, IGDXElement {
 
     @Override
     public void onClick(InputEvent event, float mouseX, float mouseY) {
-        System.out.println("E");
     }
 
     @Override

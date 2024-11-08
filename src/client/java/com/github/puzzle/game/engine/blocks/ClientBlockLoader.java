@@ -78,6 +78,7 @@ public class ClientBlockLoader implements IBlockLoader {
     public void registerEvent(String eventName, String eventJson) {
         Json json = new Json();
         BlockEvents blockEvents = json.fromJson(BlockEvents.class, eventJson);
+        System.out.println("Registered Event " + eventName);
         BlockEvents.INSTANCES.put(eventName, blockEvents);
     }
 
@@ -127,25 +128,13 @@ public class ClientBlockLoader implements IBlockLoader {
                 String modelJson = modelGenerator.generateJson();
                 registerBlockModel(modelName, rotXZ, modelJson);
             }
-//            for (BlockGenerator.State state : blockGenerator.blockStates.values()) {
-//                if (state.blockModelGeneratorFunctionId != null) {
-//                    Function<Identifier, Collection<? extends BlockModelGenerator>> genFunc = ClientPuzzleRegistries.BLOCK_MODEL_GENERATOR_FUNCTIONS.get(state.blockModelGeneratorFunctionId);
-//                    Collection<? extends BlockModelGenerator> gens = genFunc.apply(blockGenerator.blockId);
-//                    for(IBlockModelGenerator modelGenerator : gens) {
-//                        modelGenerator.register(this);
-//                        String modelName = modelGenerator.getModelName();
-//                        int rotXZ = 0;
-//                        String modelJson = modelGenerator.generateJson();
-//                        registerBlockModel(modelName, rotXZ, modelJson);
-//                    }
-//                }
-//            }
 
             List<BlockEventGenerator> eventGenerators = modBlock.getBlockEventGenerators(blockGenerator.blockId);
             if(eventGenerators.isEmpty()) {
                 BlockEventGenerator eventGenerator = new BlockEventGenerator(blockGenerator.blockId, "puzzle_default");
                 eventGenerators = List.of(eventGenerator);
             }
+
             for(BlockEventGenerator eventGenerator : eventGenerators) {
                 eventGenerator.createTrigger("onInteract", Identifier.of("puzzle-loader:mod_block_interact"), Map.of("blockId", blockGenerator.blockId));
                 eventGenerator.createTrigger("onPlace", Identifier.of("puzzle-loader:mod_block_place"), Map.of("blockId", blockGenerator.blockId));
@@ -153,6 +142,9 @@ public class ClientBlockLoader implements IBlockLoader {
                 eventGenerator.register(this);
                 String eventName = eventGenerator.getEventName();
                 String eventJson = eventGenerator.generateJson();
+                try {
+                    System.out.println(blockGenerator.blockStates.get("default").blockEventsId);
+                } catch (Exception ignore) {}
                 registerEvent(eventName, eventJson);
             }
 

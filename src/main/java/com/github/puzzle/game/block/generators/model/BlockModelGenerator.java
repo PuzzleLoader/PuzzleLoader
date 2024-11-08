@@ -217,13 +217,10 @@ public class BlockModelGenerator implements IBlockModelGenerator {
 //        }
 
         model.registerVanillaTextures(vanillaTextures);
-
         model.fromModelGenerator(this);
 
         Json json = new Json();
         json.setTypeName(null);
-        String str = json.toJson(model);
-        System.out.print(str);
-        return str;
+        return json.toJson(model);
     }
 }
