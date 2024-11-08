@@ -29,6 +29,7 @@
     "defaultRequire": 1
   },
   "mixins": [
+    "blockevents.ClientBlockEventsMixin",
     "networking.ConnectingScreenMixin",
     "ui.CreditsButtonMixin",
     "ui.CreditsMenuMixin"
