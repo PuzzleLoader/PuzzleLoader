@@ -5,6 +5,7 @@
   "plugin": "com.github.puzzle.core.loader.provider.mixin.extras.MixinExtrasConfigPlugin",
   "compatibilityLevel": "JAVA_17",
   "client": [
+    "blockevents.ClientBlockEventsMixin",
     "assets.BlockModelJsonMixin",
     "assets.ChunkShaderPathFixer",
     "assets.GameShaderPathFixer",
@@ -29,7 +30,6 @@
     "defaultRequire": 1
   },
   "mixins": [
-    "blockevents.ClientBlockEventsMixin",
     "networking.ConnectingScreenMixin",
     "ui.CreditsButtonMixin",
     "ui.CreditsMenuMixin"
