@@ -1,6 +1,8 @@
 package com.github.puzzle.game.commands;
 
 import com.badlogic.gdx.utils.Null;
+import finalforeach.cosmicreach.ClientSingletons;
+import finalforeach.cosmicreach.accounts.Account;
 import finalforeach.cosmicreach.chat.IChat;
 import finalforeach.cosmicreach.entities.player.Player;
 import finalforeach.cosmicreach.networking.NetworkIdentity;
@@ -23,6 +25,11 @@ public class SinglePlayerServerCommandSource extends ServerCommandSource {
     @Override @Null
     public NetworkIdentity getIdentity() {
         return null;
+    }
+
+    @Override
+    public Account getAccount() {
+        return ClientSingletons.ACCOUNT;
     }
 
     @Override
