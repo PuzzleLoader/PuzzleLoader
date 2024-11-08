@@ -4,6 +4,7 @@ import com.github.puzzle.core.loader.launch.Piece;
 import com.github.puzzle.core.loader.meta.EnvType;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import finalforeach.cosmicreach.ClientBlockEvents;
+import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.blockevents.BlockEventArgs;
 import finalforeach.cosmicreach.blocks.BlockPosition;
 import finalforeach.cosmicreach.entities.player.Player;
@@ -28,7 +29,7 @@ public class ClientBlockEventsMixin {
 
                 @Override
                 public Player getPlayer() {
-                    return null;
+                    return GameSingletons.clientSingletons.getLocalPlayer();
                 }
             };
         }
@@ -44,7 +45,7 @@ public class ClientBlockEventsMixin {
 
                 @Override
                 public Player getPlayer() {
-                    return null;
+                    return GameSingletons.clientSingletons.getLocalPlayer();
                 }
             };
         }
@@ -60,7 +61,7 @@ public class ClientBlockEventsMixin {
 
                 @Override
                 public Player getPlayer() {
-                    return null;
+                    return GameSingletons.clientSingletons.getLocalPlayer();
                 }
             };
         }
