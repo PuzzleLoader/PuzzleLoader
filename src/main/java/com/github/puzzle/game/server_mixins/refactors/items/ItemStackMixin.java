@@ -1,5 +1,6 @@
 package com.github.puzzle.game.server_mixins.refactors.items;
 
+import com.github.puzzle.game.items.IModItem;
 import com.github.puzzle.game.items.data.DataTagManifest;
 import com.github.puzzle.game.items.stack.ITaggedStack;
 import finalforeach.cosmicreach.items.Item;
@@ -34,6 +35,15 @@ public class ItemStackMixin implements ITaggedStack {
     private void write(CRBinSerializer crbs, CallbackInfo ci) {
         crbs.writeBoolean("isModItem", isModItem);
         crbs.writeObj("dataTagManifest", manifest == null ? new DataTagManifest() : manifest);
+    }
+
+    @Inject(method = "damage(I)V", at = @At("HEAD"), cancellable = true)
+    private void canDamage(int damage, CallbackInfo ci){
+        if(item instanceof IModItem modItem){
+            DataTagManifest manifest = modItem.getTagManifest();
+            boolean disableDamage = (boolean) manifest.getTag("disableItemDamage").attribute.getValue();
+            if(disableDamage) ci.cancel();
+        }
     }
 
     @Override
