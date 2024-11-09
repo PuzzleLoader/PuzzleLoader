@@ -13,7 +13,6 @@ import com.github.puzzle.game.block.generators.BlockGenerator;
 import com.github.puzzle.game.block.generators.model.BlockModelGenerator;
 import com.github.puzzle.game.engine.blocks.model.IPuzzleBlockModel;
 import com.github.puzzle.game.factories.IFactory;
-import com.github.puzzle.game.resources.PuzzleGameAssetLoader;
 import finalforeach.cosmicreach.blockevents.BlockEvents;
 import finalforeach.cosmicreach.blocks.Block;
 import finalforeach.cosmicreach.blocks.BlockState;

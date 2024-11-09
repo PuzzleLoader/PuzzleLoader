@@ -5,7 +5,6 @@ import com.github.puzzle.game.commands.ServerCommandSource;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.accounts.Account;
-import finalforeach.cosmicreach.chat.commands.Command;
 import finalforeach.cosmicreach.networking.NetworkIdentity;
 import finalforeach.cosmicreach.networking.packets.CommandPacket;
 import finalforeach.cosmicreach.networking.server.ServerIdentity;

@@ -8,7 +8,6 @@ import com.github.puzzle.game.util.BlockEventActionFactory;
 import finalforeach.cosmicreach.Threads;
 import finalforeach.cosmicreach.blockevents.BlockEventArgs;
 import finalforeach.cosmicreach.blockevents.actions.BlockActionItemDrop;
-import finalforeach.cosmicreach.blockevents.actions.BlockActionPlaySound2D;
 import finalforeach.cosmicreach.blockevents.actions.BlockActionPlaySound3D;
 import finalforeach.cosmicreach.blockevents.actions.BlockActionReplaceBlockState;
 import finalforeach.cosmicreach.util.Identifier;

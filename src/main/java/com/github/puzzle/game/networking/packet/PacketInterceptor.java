@@ -5,7 +5,6 @@ import com.github.puzzle.game.PuzzleRegistries;
 import com.github.puzzle.game.events.OnPacketBucketRecieveIntercept;
 import com.github.puzzle.game.events.OnPacketRecieveIntercept;
 import finalforeach.cosmicreach.networking.GamePacket;
-import finalforeach.cosmicreach.networking.packets.MessagePacket;
 import finalforeach.cosmicreach.util.logging.Logger;
 import meteordevelopment.orbit.EventHandler;
 

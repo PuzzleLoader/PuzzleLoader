@@ -1,13 +1,14 @@
 package com.github.puzzle.game.mixins.refactors.chat;
 
-import com.github.puzzle.game.commands.*;
+import com.github.puzzle.game.commands.ClientCommandManager;
+import com.github.puzzle.game.commands.ClientCommandSource;
+import com.github.puzzle.game.commands.CommandManager;
+import com.github.puzzle.game.commands.SinglePlayerServerCommandSource;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.accounts.Account;
 import finalforeach.cosmicreach.chat.Chat;
 import finalforeach.cosmicreach.chat.ChatMessage;
-import finalforeach.cosmicreach.chat.commands.Command;
-import finalforeach.cosmicreach.entities.player.Player;
 import finalforeach.cosmicreach.networking.client.ChatSender;
 import finalforeach.cosmicreach.networking.client.ClientNetworkManager;
 import finalforeach.cosmicreach.networking.packets.CommandPacket;

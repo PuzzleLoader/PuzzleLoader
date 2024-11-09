@@ -2,7 +2,6 @@ package com.github.puzzle.game.commands;
 
 import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.accounts.Account;
-import finalforeach.cosmicreach.chat.Chat;
 import finalforeach.cosmicreach.chat.IChat;
 import finalforeach.cosmicreach.entities.player.Player;
 import finalforeach.cosmicreach.networking.NetworkIdentity;

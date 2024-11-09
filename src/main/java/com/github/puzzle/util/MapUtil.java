@@ -1,12 +1,5 @@
 package com.github.puzzle.util;
 
-import com.badlogic.gdx.utils.Array;
-import com.github.puzzle.core.loader.util.Reflection;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.*;
-
 //public class MapUtil {
 //
 //    Object map;

@@ -6,15 +6,11 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import finalforeach.cosmicreach.ClientBlockEvents;
 import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.blockevents.BlockEventArgs;
-import finalforeach.cosmicreach.blocks.BlockPosition;
 import finalforeach.cosmicreach.entities.player.Player;
 import finalforeach.cosmicreach.networking.GamePacket;
 import finalforeach.cosmicreach.networking.NetworkIdentity;
-import finalforeach.cosmicreach.world.Zone;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ClientBlockEvents.class)
 public class ClientBlockEventsMixin {
