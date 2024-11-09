@@ -8,7 +8,7 @@ import com.github.puzzle.game.items.data.DataTagManifest;
 import com.github.puzzle.game.items.puzzle.BuilderWand;
 import com.github.puzzle.game.util.DataTagUtil;
 import com.github.puzzle.game.worldgen.schematics.Schematic;
-import com.github.puzzle.util.MapUtil;
+//import com.github.puzzle.util.MapUtil;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
