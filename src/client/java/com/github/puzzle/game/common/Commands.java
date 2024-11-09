@@ -2,38 +2,42 @@ package com.github.puzzle.game.common;
 
 import com.github.puzzle.core.Constants;
 import com.github.puzzle.core.loader.meta.EnvType;
-import com.github.puzzle.game.commands.CommandManager;
-import com.github.puzzle.game.commands.ServerCommandSource;
+import com.github.puzzle.game.commands.*;
 import com.github.puzzle.game.items.IModItem;
 import com.github.puzzle.game.items.data.DataTagManifest;
 import com.github.puzzle.game.items.puzzle.BuilderWand;
 import com.github.puzzle.game.util.DataTagUtil;
 import com.github.puzzle.game.worldgen.schematics.Schematic;
+import com.github.puzzle.util.MapUtil;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import finalforeach.cosmicreach.chat.Chat;
 import finalforeach.cosmicreach.gamestates.InGame;
 import finalforeach.cosmicreach.io.SaveLocation;
 import finalforeach.cosmicreach.items.ItemSlot;
+import finalforeach.cosmicreach.items.ItemThing;
 import finalforeach.cosmicreach.ui.UI;
+import org.hjson.JsonValue;
 
 import java.io.*;
 
 public class Commands {
 
     public static void register() {
+        ClientCommandManager.DISPATCHER.register(CommandManager.createHelp(ClientCommandSource.class, "?", '?', ClientCommandManager.DISPATCHER));
+        ClientCommandManager.DISPATCHER.register(CommandManager.createHelp(ClientCommandSource.class, "help", '?', ClientCommandManager.DISPATCHER));
 
-        LiteralArgumentBuilder<ServerCommandSource> genSchmatic = CommandManager.literal("gs");
+        LiteralArgumentBuilder<ClientCommandSource> genSchmatic = CommandManager.literal(ClientCommandSource.class, "gs");
         genSchmatic.executes(context -> {
             if(BuilderWand.pos1 == null || BuilderWand.pos2 == null) return 0;
             BuilderWand.clipBoard = Schematic.generateASchematic(BuilderWand.pos1, BuilderWand.pos2, InGame.getLocalPlayer().getZone());
             return 0;
         });
-        CommandManager.DISPATCHER.register(genSchmatic);
+        ClientCommandManager.DISPATCHER.register(genSchmatic);
 
-        LiteralArgumentBuilder<ServerCommandSource> saveSchmatic = CommandManager.literal("saveschematic");
-        saveSchmatic.then(CommandManager.argument("filename", StringArgumentType.string())
-                .executes(commandContext -> {
+        LiteralArgumentBuilder<ClientCommandSource> saveSchmatic = CommandManager.literal(ClientCommandSource.class, "saveschematic");
+        saveSchmatic.then(CommandManager.argument(ClientCommandSource.class, "filename", StringArgumentType.string()).executes(commandContext -> {
                     String filename = StringArgumentType.getString(commandContext, "filename");
 
                     File schematicFolder = new File(SaveLocation.getSaveFolderLocation() + "/schematic/");
@@ -49,28 +53,24 @@ public class Commands {
                     }
                     if(!schematicFile.canWrite()) throw new RuntimeException("cant write! " + filename);
 
-
                     try {
                         DataOutputStream stream = new DataOutputStream(new FileOutputStream(schematicFile));
                         BuilderWand.clipBoard.write(stream);
-                    } catch (FileNotFoundException e) {
-                        throw new RuntimeException(e);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
                     return 0;
                 }));
 
-        CommandManager.DISPATCHER.register(saveSchmatic);
+        ClientCommandManager.DISPATCHER.register(saveSchmatic);
 
-        LiteralArgumentBuilder<ServerCommandSource> loadSchmatic = CommandManager.literal("loadschematic");
-        loadSchmatic.then(CommandManager.argument("filename", StringArgumentType.string()).executes( commandContext -> {
+        LiteralArgumentBuilder<ClientCommandSource> loadSchmatic = CommandManager.literal(ClientCommandSource.class, "loadschematic");
+        loadSchmatic.then(CommandManager.argument(ClientCommandSource.class, "filename", StringArgumentType.string()).executes( commandContext -> {
             String filename = StringArgumentType.getString(commandContext, "filename");
 
             File schematicFile = new File(SaveLocation.getSaveFolderLocation() + "/schematic/" + filename + ".schematic");
             if(!schematicFile.exists()) {
-                if (Constants.SIDE == EnvType.CLIENT)
-                    Chat.MAIN_CLIENT_CHAT.addMessage(null,"Can not load schematic: " + filename);
+                Chat.MAIN_CLIENT_CHAT.addMessage(null,"Can not load schematic: " + filename);
                 return 0;
             }
 
@@ -82,19 +82,18 @@ public class Commands {
 
             return 0;
         }));
-        CommandManager.DISPATCHER.register(loadSchmatic);
+        ClientCommandManager.DISPATCHER.register(loadSchmatic);
 
-        LiteralArgumentBuilder<ServerCommandSource> getAttributes = CommandManager.literal("attributes");
-        getAttributes.then(CommandManager.literal("stack")
-                .then(CommandManager.literal("get").then(CommandManager.argument("attrib", StringArgumentType.string())
+        LiteralArgumentBuilder<ClientCommandSource> getAttributes = CommandManager.literal(ClientCommandSource.class, "attributes");
+        getAttributes.then(CommandManager.literal(ClientCommandSource.class, "stack")
+                .then(CommandManager.literal(ClientCommandSource.class, "get").then(CommandManager.argument(ClientCommandSource.class, "attrib", StringArgumentType.string())
                                 .executes(context -> {
                                     String attr = StringArgumentType.getString(context, "attrib");
                                     if (UI.hotbar != null && UI.hotbar.getSelectedSlot() != null) {
                                         ItemSlot slot = UI.hotbar.getSelectedSlot();
                                         if (slot.itemStack == null) return 0;
                                         DataTagManifest manifest = DataTagUtil.getManifestFromStack(slot.itemStack);
-                                        if (Constants.SIDE == EnvType.CLIENT)
-                                            Chat.MAIN_CLIENT_CHAT.addMessage(null, String.valueOf(manifest.getTag(attr)));
+                                        Chat.MAIN_CLIENT_CHAT.addMessage(null, String.valueOf(manifest.getTag(attr)));
                                     }
                                     return 0;
                                 }))
@@ -103,26 +102,23 @@ public class Commands {
                                 ItemSlot slot = UI.hotbar.getSelectedSlot();
                                 if (slot.itemStack == null) return 0;
                                 DataTagManifest manifest = DataTagUtil.getManifestFromStack(slot.itemStack);
-                                if (Constants.SIDE == EnvType.CLIENT)
-                                    Chat.MAIN_CLIENT_CHAT.addMessage(null, String.valueOf(manifest));
+                                Chat.MAIN_CLIENT_CHAT.addMessage(null, String.valueOf(manifest));
                             }
                             return 0;
                         }))
         );
-        getAttributes.then(CommandManager.literal("item")
-                .then(CommandManager.literal("get").then(CommandManager.argument("attrib", StringArgumentType.string())
+        getAttributes.then(CommandManager.literal(ClientCommandSource.class, "item")
+                .then(CommandManager.literal(ClientCommandSource.class, "get").then(CommandManager.argument(ClientCommandSource.class, "attrib", StringArgumentType.string())
                                 .executes(context -> {
                                     String attr = StringArgumentType.getString(context, "attrib");
                                     if (UI.hotbar != null && UI.hotbar.getSelectedSlot() != null) {
                                         ItemSlot slot = UI.hotbar.getSelectedSlot();
                                         if (slot.itemStack == null) return 0;
                                         if (slot.itemStack.getItem() instanceof IModItem item) {
-                                            if (Constants.SIDE == EnvType.CLIENT)
-                                                Chat.MAIN_CLIENT_CHAT.addMessage(null, String.valueOf(item.getTagManifest().getTag(attr)));
+                                            Chat.MAIN_CLIENT_CHAT.addMessage(null, String.valueOf(item.getTagManifest().getTag(attr)));
                                             return 0;
                                         }
-                                        if (Constants.SIDE == EnvType.CLIENT)
-                                            Chat.MAIN_CLIENT_CHAT.addMessage(null, "Not a ModItem");
+                                        Chat.MAIN_CLIENT_CHAT.addMessage(null, "Not an IModItem");
                                     }
                                     return 0;
                                 }))
@@ -131,17 +127,23 @@ public class Commands {
                                 ItemSlot slot = UI.hotbar.getSelectedSlot();
                                 if (slot.itemStack == null) return 0;
                                 if (slot.itemStack.getItem() instanceof IModItem item) {
-                                    if (Constants.SIDE == EnvType.CLIENT)
-                                        Chat.MAIN_CLIENT_CHAT.addMessage(null, String.valueOf(item.getTagManifest()));
+                                    Chat.MAIN_CLIENT_CHAT.addMessage(null, String.valueOf(item.getTagManifest()));
                                     return 0;
                                 }
-                                if (Constants.SIDE == EnvType.CLIENT)
-                                    Chat.MAIN_CLIENT_CHAT.addMessage(null, "Not a ModItem");
+                                Chat.MAIN_CLIENT_CHAT.addMessage(null, "Not an IModItem");
+
+//                                else if (slot.itemStack.getItem() instanceof ItemThing thing) {
+//                                    StringBuilder builder = new StringBuilder();
+//                                    builder.append(MapUtil.toString(thing.itemProperties));
+//                                    builder.append(MapUtil.toString(new MapUtil(thing.itemIntProperties)));
+//                                    builder.append(MapUtil.toString(new MapUtil(thing.itemFloatProperties)));
+//                                    Chat.MAIN_CLIENT_CHAT.addMessage(null, builder.toString());
+//                                }
                             }
                             return 0;
                         }))
         );
-        CommandManager.DISPATCHER.register(getAttributes);
+        ClientCommandManager.DISPATCHER.register(getAttributes);
     }
 
 }

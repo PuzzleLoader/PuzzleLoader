@@ -24,25 +24,22 @@ public abstract class ChatMixin {
      */
     @Overwrite
     public static void sendMessageOrCommand(Chat chat, Account account, String messageText) {
-        // Force Command.java load the <clinit> block
-        Command.registerCommand(() -> new Command() {
-            @Override
-            public String getShortDescription() {
-                return "";
-            }
-        }, "asodfjoasdiofasdf");
+        CommandManager.initCommands();
 
         if (messageText == null || messageText.isBlank() || messageText.isEmpty()) return;
 
-        if (account == null) {
+        final char firstChar = messageText.charAt(0);
+
+        if (firstChar != '?' && firstChar != '/') {
             chat.addMessage(account, messageText);
             if (ClientNetworkManager.isConnected()) ClientNetworkManager.sendAsClient(new MessagePacket(messageText));
             return;
         }
 
-        final ChatMessage message = new ChatMessage(account, messageText, System.currentTimeMillis());
+        if (account == null) return;
+
         final String commandText = messageText.substring(1);
-        final char firstChar = messageText.charAt(0);
+        final ChatMessage message = new ChatMessage(account, messageText, System.currentTimeMillis());
 
         chat.addToMessageQueue(message);
 

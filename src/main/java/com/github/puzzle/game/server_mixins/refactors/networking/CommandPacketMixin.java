@@ -27,13 +27,7 @@ public class CommandPacketMixin {
      */
     @Overwrite
     public void handle(final NetworkIdentity identity, ChannelHandlerContext ctx) {
-        // Force Command.java load the <clinit> block
-        Command.registerCommand(() -> new Command() {
-            @Override
-            public String getShortDescription() {
-                return "";
-            }
-        }, "asodfjoasdiofasdf");
+        CommandManager.initCommands();
 
         StringBuilder commandText = new StringBuilder();
         for (String s : this.commandArgs) commandText.append(" ").append(s);

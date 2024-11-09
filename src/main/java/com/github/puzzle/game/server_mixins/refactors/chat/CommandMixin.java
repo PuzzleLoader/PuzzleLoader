@@ -1,6 +1,5 @@
 package com.github.puzzle.game.server_mixins.refactors.chat;
 
-import com.badlogic.gdx.utils.Array;
 import com.github.puzzle.game.commands.CommandManager;
 import com.github.puzzle.game.commands.ServerCommandSource;
 import com.mojang.brigadier.arguments.StringArgumentType;
@@ -9,7 +8,6 @@ import finalforeach.cosmicreach.accounts.Account;
 import finalforeach.cosmicreach.chat.IChat;
 import finalforeach.cosmicreach.chat.commands.Command;
 import finalforeach.cosmicreach.util.exceptions.ChatCommandException;
-import finalforeach.cosmicreach.util.logging.Logger;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -24,10 +22,6 @@ import java.util.function.Supplier;
 
 @Mixin(Command.class)
 public abstract class CommandMixin {
-
-    @Shadow
-    protected static void printHelp(IChat chat) {
-    }
 
     @Inject(method = "registerCommand", at = @At("HEAD"), cancellable = true)
     private static void registerCommand(Supplier<Command> commandSupplier, String commandName, String[] aliases, CallbackInfo ci) {
@@ -47,38 +41,32 @@ public abstract class CommandMixin {
             for (String alias : aliases) {
                 builders.add(LiteralArgumentBuilder.literal(alias));
             }
-            com.mojang.brigadier.Command<ServerCommandSource> command2 = (commandContext -> {
-                final Account account = commandContext.getSource().getAccount();
-                final IChat chat = commandContext.getSource().getChat();
+            com.mojang.brigadier.Command<ServerCommandSource> command2 = ctx -> {
+                final Account account = ctx.getSource().getAccount();
+                final IChat chat = ctx.getSource().getChat();
 
-                String[] args = commandContext.getInput().split(" ");
+                String[] args = ctx.getInput().split(" ");
                 String commandStr = args[0];
-                if (!commandStr.equalsIgnoreCase("help") && !commandStr.equals("?")) {
-                    if (commandSupplier != null) {
-                        try {
-                            Command command = commandSupplier.get();
-                            command.setup(account, args);
-                            command.run(chat);
-                        } catch (ChatCommandException var8) {
-                            ChatCommandException cce = var8;
-                            chat.addMessage(null, "ERROR: " + cce.getMessage());
-                        } catch (Exception var9) {
-                            Exception ex = var9;
-                            ex.printStackTrace();
-                            chat.addMessage(null, "ERROR: An exception occured running the command: " + String.join(" ", args));
-                        }
-                    } else {
-                        chat.addMessage(null, "Unknown command: " + commandStr);
+                if (commandSupplier != null) {
+                    try {
+                        Command command = commandSupplier.get();
+                        command.setup(account, args);
+                        command.run(chat);
+                    } catch (ChatCommandException var8) {
+                        chat.addMessage(null, "ERROR: " + var8.getMessage());
+                    } catch (Exception var9) {
+                        var9.printStackTrace();
+                        chat.addMessage(null, "ERROR: An exception occured running the command: " + String.join(" ", args));
                     }
                 } else {
-                    printHelp(chat);
+                    chat.addMessage(null, "Unknown command: " + commandStr);
                 }
                 return 0;
-            });
+            };
             for (LiteralArgumentBuilder<ServerCommandSource> builder : builders) {
                 builder.executes(command2);
-                builder.then(CommandManager.argument("vanillaCommandArgument", StringArgumentType.greedyString()).executes(command2));
-                CommandManager.DISPATCHER.register(builder.requires(ServerCommandSource::hasOperator));
+                builder.then(CommandManager.argument(ServerCommandSource.class, "vanilla args...", StringArgumentType.greedyString()).executes(command2));
+                CommandManager.DISPATCHER.register(builder.requires(ServerCommandSource::hasOperator)).getUsageText();
             }
         }
     }

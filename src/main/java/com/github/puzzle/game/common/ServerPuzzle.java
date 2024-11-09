@@ -1,6 +1,8 @@
 package com.github.puzzle.game.common;
 
 import com.github.puzzle.core.loader.provider.mod.entrypoint.impls.ModInitializer;
+import com.github.puzzle.game.commands.CommandManager;
+import com.github.puzzle.game.commands.ConsoleCommandSource;
 import com.github.puzzle.game.items.IModItem;
 import com.github.puzzle.game.items.puzzle.BlockWrench;
 import com.github.puzzle.game.items.puzzle.BuilderWand;
@@ -23,5 +25,8 @@ public class ServerPuzzle implements ModInitializer {
         CheckerBoard = IModItem.registerItem(new CheckBoard());
         BlockWrench = IModItem.registerItem(new BlockWrench());
         IModItem.registerItem(new BuilderWand());
+
+        CommandManager.CONSOLE_DISPATCHER.register(CommandManager.createHelp(ConsoleCommandSource.class, "?", '/', CommandManager.CONSOLE_DISPATCHER));
+        CommandManager.CONSOLE_DISPATCHER.register(CommandManager.createHelp(ConsoleCommandSource.class, "help", '/', CommandManager.CONSOLE_DISPATCHER));
     }
 }
