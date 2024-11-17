@@ -52,10 +52,19 @@ public interface IModItem extends Item {
     Identifier MODEL_2D_ITEM = Identifier.of(MOD_ID, "2d_item_model");
     Identifier MODEL_2_5D_ITEM = Identifier.of(MOD_ID, "3d_item_model");
 
+    /**
+     * This is where textures are storage.
+     */
     DataTagPreset<Identifier> TEXTURE_LOCATION_PRESET = new DataTagPreset<>("texture_resource_location", new IdentifierDataAttribute(Identifier.of(MOD_ID, "textures/items/null_stick.png")));
 
     DataTagPreset<Boolean> IS_DEBUG_ATTRIBUTE = new DataTagPreset<>("is_item_debug", new BooleanDataAttribute(false));
 
+    /**
+     * This allows to add multiple textures to an item for later.
+     * @see IModItem#setCurrentEntry(ItemStack, int)
+     * @param model ItemModel Identifier
+     * @param texture Texture Identifier
+     */
     default void addTexture(Identifier model, Identifier texture) {
         if (getTagManifest().hasTag("textures")) {
             ListDataAttribute<PairAttribute<IdentifierDataAttribute, IdentifierDataAttribute>> textures = (ListDataAttribute) getTagManifest().getTag("textures").attribute;
@@ -70,6 +79,12 @@ public interface IModItem extends Item {
         }
     }
 
+    /**
+     * This allows to add multiple textures at ones to an item for later.
+     * @see IModItem#setCurrentEntry(ItemStack, int)
+     * @param model ItemModel Identifier
+     * @param textures Textures Identifier
+     */
     default void addTexture(Identifier model, Identifier... textures) {
         for (Identifier location : textures) {
             addTexture(model, location);
@@ -84,12 +99,22 @@ public interface IModItem extends Item {
         return new ArrayList<>();
     }
 
+    /**
+     * This allows item to swap texture.
+     * Texture must have been load using addTexture
+     * @param stack the ItemStack to set the texture to
+     * @param entry the id of the texture
+     */
     default void setCurrentEntry(ItemStack stack, int entry) {
         DataTagManifest manifest = DataTagUtil.getManifestFromStack(stack);
         manifest.addTag(new DataTag<>("currentEntry", new IntDataAttribute(entry)));
         DataTagUtil.setManifestOnStack(manifest, stack);
     }
 
+    /**
+     * Get the current texture ID from ItemStack.
+     * @param stack the ItemStack to retrieve current texture id from.
+     */
     default int getCurrentEntry(ItemStack stack) {
         DataTagManifest manifest = DataTagUtil.getManifestFromStack(stack);
         if (!manifest.hasTag("currentEntry")) manifest.addTag(new DataTag<>("currentEntry", new IntDataAttribute(0)));
@@ -284,5 +309,13 @@ public interface IModItem extends Item {
 
     default boolean isDebug() {
         return getTagManifest().hasTag(IS_DEBUG_ATTRIBUTE) ? getTagManifest().getTag(IS_DEBUG_ATTRIBUTE).getValue() : false;
+    }
+
+    default void setDurability(int durability){
+        getTagManifest().addTag(new DataTag<>("durability", new IntDataAttribute(durability)));
+    }
+
+    default void disableDamageOnItem() {
+        getTagManifest().addTag(new DataTag<>("disableItemDamage", new BooleanDataAttribute(true)));
     }
 }
