@@ -4,6 +4,7 @@ import finalforeach.cosmicreach.accounts.Account;
 import finalforeach.cosmicreach.chat.IChat;
 import finalforeach.cosmicreach.entities.player.Player;
 import finalforeach.cosmicreach.networking.NetworkIdentity;
+import finalforeach.cosmicreach.rendering.entities.EntityModelInstance;
 import finalforeach.cosmicreach.world.World;
 
 import javax.annotation.Nullable;
@@ -21,6 +22,8 @@ public record ClientCommandSource(
     public NetworkIdentity getIdentity() {
         return null;
     }
+
+    EntityModelInstance
 
     @Override
     public Player getPlayer() {
@@ -41,4 +44,5 @@ public record ClientCommandSource(
     public World getWorld() {
         return world;
     }
+
 }

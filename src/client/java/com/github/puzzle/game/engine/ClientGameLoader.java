@@ -16,9 +16,11 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.puzzle.core.loader.util.ModLocator;
 import com.github.puzzle.core.loader.util.Reflection;
+import com.github.puzzle.core.localization.ILanguageFile;
 import com.github.puzzle.core.localization.LanguageManager;
 import com.github.puzzle.core.localization.TranslationKey;
 import com.github.puzzle.core.localization.TranslationLocale;
+import com.github.puzzle.core.localization.files.LanguageFileVersion1;
 import com.github.puzzle.core.util.LanguageUtil;
 import com.github.puzzle.game.ClientGlobals;
 import com.github.puzzle.game.ServerGlobals;
@@ -29,6 +31,7 @@ import com.github.puzzle.game.engine.stages.LoadingAssets;
 import com.github.puzzle.game.engine.stages.LoadingCosmicReach;
 import com.github.puzzle.game.engine.stages.PostInitialize;
 import com.github.puzzle.game.events.OnPreLoadAssetsEvent;
+import com.github.puzzle.game.resources.PuzzleGameAssetLoader;
 import com.github.puzzle.game.ui.font.CosmicReachFont;
 import com.github.puzzle.game.ui.font.TranslationParameters;
 import finalforeach.cosmicreach.GameSingletons;
@@ -44,9 +47,11 @@ import org.lwjgl.opengl.GL11;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Queue;
 import java.util.concurrent.CountDownLatch;
 
@@ -203,7 +208,17 @@ public class ClientGameLoader extends GameState {
         }
         if(ClientGlobals.SelectedLanguage == null) {
             TranslationLocale locale = TranslationLocale.fromLanguageTag("en-US");
-            LanguageManager.selectLanguage(locale);
+            try {
+                LanguageManager.selectLanguage(locale);
+            } catch (Exception ignore) {
+                try {
+                    ILanguageFile lang = LanguageFileVersion1.loadLanguageFile(Objects.requireNonNull(PuzzleGameAssetLoader.locateAsset(ClientGlobals.LanguageEnUs)));
+                    LanguageManager.registerLanguageFile(lang);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                LanguageManager.selectLanguage(locale);
+            }
         }
         LanguageUtil.updateLabels(gdxStage);
 

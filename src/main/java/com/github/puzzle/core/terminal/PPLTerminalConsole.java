@@ -27,6 +27,7 @@ public class PPLTerminalConsole extends SimpleTerminalConsole {
     protected LineReader buildReader(LineReaderBuilder builder){
         return super.buildReader(builder.appName("Puzzle Loader"));
     }
+
     @Override
     protected boolean isRunning() {
         return ServerGlobals.isRunning;

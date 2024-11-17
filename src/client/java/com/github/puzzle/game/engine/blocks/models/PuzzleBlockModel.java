@@ -275,7 +275,7 @@ public class PuzzleBlockModel extends BlockModel implements IPuzzleBlockModel {
     }
 
     @Override
-    public void addVertices(final IMeshData meshData, int bx, int by, int bz,  int opaqueBitmask, final short[] blockLightLevels, final int[] skyLightLevels) {
+    public void addVertices(final IMeshData meshData, int bx, int by, int bz, int opaqueBitmask, final short[] blockLightLevels, final int[] skyLightLevels) {
         meshData.ensureVerticesCapacity(6 * allFaces.length * 7);
 
         IntArray indices = meshData.getIndices();
@@ -295,19 +295,19 @@ public class PuzzleBlockModel extends BlockModel implements IPuzzleBlockModel {
                 aoIdD = (((opaqueBitmask & f.aoBitmaskD1) == 0) ? 1 : 0) + (((opaqueBitmask & f.aoBitmaskD2) == 0) ? 1 : 0) + (((opaqueBitmask & f.aoBitmaskD3) == 0) ? 1 : 0);
             }
 
-            final float x1 = bx + f.x1;
-            final float y1 = by + f.y1;
-            final float z1 = bz + f.z1;
-            final float x2 = bx + f.x2;
-            final float y2 = by + f.y2;
-            final float z2 = bz + f.z2;
-
-            final float midX1 = bx + f.midX1;
-            final float midY1 = by + f.midY1;
-            final float midZ1 = bz + f.midZ1;
-            final float midX2 = bx + f.midX2;
-            final float midY2 = by + f.midY2;
-            final float midZ2 = bz + f.midZ2;
+//            final float x1 = bx + f.x1;
+//            final float y1 = by + f.y1;
+//            final float z1 = bz + f.z1;
+//            final float x2 = bx + f.x2;
+//            final float y2 = by + f.y2;
+//            final float z2 = bz + f.z2;
+//
+//            final float midX1 = bx + f.midX1;
+//            final float midY1 = by + f.midY1;
+//            final float midZ1 = bz + f.midZ1;
+//            final float midX2 = bx + f.midX2;
+//            final float midY2 = by + f.midY2;
+//            final float midZ2 = bz + f.midZ2;
 
             final int viA = f.vertexIndexA;
             final int viB = f.vertexIndexB;
