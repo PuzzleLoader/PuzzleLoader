@@ -23,8 +23,6 @@ public record ClientCommandSource(
         return null;
     }
 
-    EntityModelInstance
-
     @Override
     public Player getPlayer() {
         return getIdentity().getPlayer();
