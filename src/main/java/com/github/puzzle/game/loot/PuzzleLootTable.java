@@ -6,6 +6,7 @@ import com.github.puzzle.game.PuzzleRegistries;
 import com.llamalad7.mixinextras.lib.apache.commons.tuple.ImmutablePair;
 import com.llamalad7.mixinextras.lib.apache.commons.tuple.Pair;
 import finalforeach.cosmicreach.blocks.BlockState;
+import finalforeach.cosmicreach.blocks.MissingBlockStateResult;
 import finalforeach.cosmicreach.entities.ItemEntity;
 import finalforeach.cosmicreach.items.Item;
 import finalforeach.cosmicreach.items.ItemStack;
@@ -61,7 +62,7 @@ public class PuzzleLootTable {
                 int min = Math.min(drop.getInt("min", 1), 1);
                 int max = drop.getInt("max", 10);
                 switch (type) {
-                    case "blockstate": drops.add(new LootDrop(BlockState.getInstance(id.toString()).getItem(), min, max));
+                    case "blockstate": drops.add(new LootDrop(BlockState.getInstance(id.toString(), MissingBlockStateResult.EXCEPTION).getItem(), min, max));
                     case "item": drops.add(new LootDrop(Item.getItem(id.toString()), min, max));
                 }
             } else if (option.get("drops") != null) {
@@ -77,7 +78,7 @@ public class PuzzleLootTable {
                     int min = Math.min(drop.getInt("min", 1), 1);
                     int max = drop.getInt("max", 10);
                     switch (type) {
-                        case "blockstate": drops.add(new LootDrop(BlockState.getInstance(id.toString()).getItem(), min, max));
+                        case "blockstate": drops.add(new LootDrop(BlockState.getInstance(id.toString(), MissingBlockStateResult.EXCEPTION).getItem(), min, max));
                         case "item": drops.add(new LootDrop(Item.getItem(id.toString()), min, max));
                     }
                 }

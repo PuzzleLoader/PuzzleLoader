@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.Array;
 import com.github.puzzle.game.util.BlockUtil;
 import finalforeach.cosmicreach.blocks.BlockPosition;
 import finalforeach.cosmicreach.blocks.BlockState;
+import finalforeach.cosmicreach.blocks.MissingBlockStateResult;
 import finalforeach.cosmicreach.util.Identifier;
 import finalforeach.cosmicreach.world.Chunk;
 import finalforeach.cosmicreach.world.Zone;
@@ -51,7 +52,7 @@ public class Schematic {
 
     public BlockState getBlockState(int x, int y, int z){
         int location = (x * height * width) + (y * width) + z;
-        return BlockState.getInstance(blockStates.get(blockPlacement[location]));
+        return BlockState.getInstance(blockStates.get(blockPlacement[location]), MissingBlockStateResult.MISSING_OBJECT);
     }
 
     public void spawnSchematic(Zone zone, Chunk chunk, int localX, int localY, int localZ) {

@@ -318,4 +318,9 @@ public interface IModItem extends Item {
     default void disableDamageOnItem() {
         getTagManifest().addTag(new DataTag<>("disableItemDamage", new BooleanDataAttribute(true)));
     }
+
+    @Override
+    default boolean canTargetBlockForBreaking(BlockState blockState) {
+        return blockState.canRaycastForBreak();
+    }
 }

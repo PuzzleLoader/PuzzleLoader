@@ -11,7 +11,6 @@ import finalforeach.cosmicreach.chat.commands.Command;
 
 //Do not use puzzle specific things in this file, shared with paradox
 public class CommandManager {
-    public static CommandDispatcher<ConsoleCommandSource> CONSOLE_DISPATCHER = new CommandDispatcher<>();
     public static CommandDispatcher<ServerCommandSource> DISPATCHER = new CommandDispatcher<>();
 
     public static <S extends CommandSource> LiteralArgumentBuilder<S> literal(String literal) {
