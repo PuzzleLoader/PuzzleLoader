@@ -19,10 +19,12 @@ import com.github.puzzle.game.engine.blocks.BlockLoadException;
 import com.github.puzzle.game.engine.blocks.actions.OnBreakTrigger;
 import com.github.puzzle.game.engine.blocks.actions.OnInteractTrigger;
 import com.github.puzzle.game.engine.blocks.actions.OnPlaceTrigger;
+import com.github.puzzle.game.engine.blocks.models.PuzzleBlockModel;
 import com.github.puzzle.game.events.OnRegisterBlockEvent;
 import com.github.puzzle.game.factories.IFactory;
 import com.github.puzzle.game.resources.PuzzleGameAssetLoader;
 import com.github.puzzle.game.resources.VanillaAssetLocations;
+import finalforeach.cosmicreach.ClientSingletons;
 import finalforeach.cosmicreach.GameAssetLoader;
 import finalforeach.cosmicreach.blockentities.BlockEntityCreator;
 import finalforeach.cosmicreach.blockevents.BlockEvents;
@@ -158,6 +160,9 @@ public class LoadingCosmicReach extends LoadStage {
     public List<Runnable> getGlTasks() {
         List<Runnable> tasks = super.getGlTasks();
 
+        tasks.add(() -> {
+            PuzzleBlockModel.useIndices = !ClientSingletons.usesSharedindices();
+        });
         Set<Identifier> modelIds = PuzzleRegistries.BLOCK_MODEL_FINALIZERS.names();
         Set<Identifier> blockStateIds = PuzzleRegistries.BLOCK_FINALIZERS.names();
 

@@ -29,7 +29,7 @@ public class ItemSlotWidgetMixin {
             ci.cancel();
             return;
         }
-        model.render(null, itemCam, identMat4, false);
+        model.render(null, itemCam, identMat4, false, false);
         ci.cancel();
     }
 

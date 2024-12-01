@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.*;
 import com.github.puzzle.game.block.generators.model.BlockModelGenerator;
 import com.github.puzzle.game.engine.ClientGameLoader;
 import com.github.puzzle.game.engine.blocks.model.IPuzzleBlockModel;
+import finalforeach.cosmicreach.ClientSingletons;
 import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.RuntimeInfo;
 import finalforeach.cosmicreach.rendering.IMeshData;
@@ -33,7 +34,7 @@ public class PuzzleBlockModel extends BlockModel implements IPuzzleBlockModel {
         return model;
     }
 
-    public static final boolean useIndices = !RuntimeInfo.useSharedIndices;
+    public static boolean useIndices;
     public transient String modelName;
     public transient int rotXZ;
     public transient PuzzleBlockModelCuboid.Face[] allFaces;
@@ -327,7 +328,7 @@ public class PuzzleBlockModel extends BlockModel implements IPuzzleBlockModel {
             final int i3 = addVert(meshData, packedPos, f.uC, f.vC, aoIdC, blockLightLevels[viC], skyLightLevels[viC], f.modelUvIdxC);
             final int i4 = addVert(meshData, packedPos, f.uD, f.vD, aoIdD, blockLightLevels[viD], skyLightLevels[viD], f.modelUvIdxD);
 
-            if (com.github.puzzle.game.engine.blocks.models.PuzzleBlockModel.useIndices) {
+            if (PuzzleBlockModel.useIndices) {
                 indices.add(i1);
                 indices.add(i2);
                 indices.add(i3);

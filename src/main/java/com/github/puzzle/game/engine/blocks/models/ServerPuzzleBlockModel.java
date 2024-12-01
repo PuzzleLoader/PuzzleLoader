@@ -11,6 +11,7 @@ import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.RuntimeInfo;
 import finalforeach.cosmicreach.rendering.IMeshData;
 import finalforeach.cosmicreach.rendering.blockmodels.BlockModel;
+import finalforeach.cosmicreach.rendering.blockmodels.DummyBlockModel;
 import finalforeach.cosmicreach.util.Identifier;
 
 import java.util.ArrayList;
@@ -31,12 +32,10 @@ public class ServerPuzzleBlockModel extends BlockModel implements IPuzzleBlockMo
         return model;
     }
 
-    public static final boolean useIndices = !RuntimeInfo.useSharedIndices;
     public transient String modelName;
     public transient int rotXZ;
     public OrderedMap<String, String> textures;
     public transient DummyPuzzleBlockModelCuboid.Face[] allFaces;
-    public transient Boolean canGreedyCombine;
     public transient boolean initialized = false;
 
     public String parent;

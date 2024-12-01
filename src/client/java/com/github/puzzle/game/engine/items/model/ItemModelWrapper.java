@@ -23,8 +23,8 @@ public class ItemModelWrapper extends ItemModel implements IPuzzleItemModel {
     }
 
     @Override
-    public void render(Vector3 vector3, Camera camera, Matrix4 matrix4, boolean b) {
-        renderInSlot(vector3, null, camera, matrix4, b);
+    public void render(Vector3 vector3, Camera camera, Matrix4 matrix4, boolean useAmbientLighting, boolean applyFog) {
+        renderInSlot(vector3, null, camera, matrix4, useAmbientLighting);
     }
 
     @Override
