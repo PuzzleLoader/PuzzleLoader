@@ -128,6 +128,7 @@ public class ClientCosmicReachProvider implements IGameProvider {
             puzzleLoaderInfo.addDependency("cosmic-reach", getGameVersion());
             puzzleLoaderInfo.addMixinConfigs(
                     "server_internal.mixins.json",
+                    "server_bugfixes.mixins.json",
                     "internal.mixins.json",
                     "accessors.mixins.json",
                     "logging.mixins.json"
@@ -139,7 +140,7 @@ public class ClientCosmicReachProvider implements IGameProvider {
                     "Mr-Zombii", "repletsin5", "SinfullySoul", "tympanicblock61"
             });
 
-            puzzleLoaderInfo.setVersion(Constants.getVersion());
+            puzzleLoaderInfo.setVersion(Constants.getPuzzleVersion());
             puzzleLoaderInfo.setAccessManipulator("puzzle_loader.manipulator");
             puzzleLoaderInfo.addEntrypoint("client_preInit", Puzzle.class.getName());
             puzzleLoaderInfo.addEntrypoint("client_init", Puzzle.class.getName());

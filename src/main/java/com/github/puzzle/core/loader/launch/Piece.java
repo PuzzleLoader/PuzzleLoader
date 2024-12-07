@@ -66,7 +66,7 @@ public class Piece {
         try {
             Class.forName("finalforeach.cosmicreach.ClientSingletons");
         } catch (ClassNotFoundException e) {
-            env.set(EnvType.SERVER);;
+            env.set(EnvType.SERVER);
         }
         env.set(EnvType.CLIENT);;
         return env.get();

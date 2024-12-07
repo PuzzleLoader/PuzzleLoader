@@ -23,9 +23,9 @@ public class Constants {
         return input;
     }
 
-    public static final boolean isDev = getVersion().equals("69.69.69");
+    public static final boolean isDev = getPuzzleVersion().equals("69.69.69");
 
-    public static String getVersion() {
+    public static String getPuzzleVersion() {
             try {
                 InputStream stream = getFile("/assets/puzzle-loader/version.txt");
                 String bytez = new String(stream.readAllBytes()).strip();
@@ -36,5 +36,18 @@ public class Constants {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+    }
+
+    public static String getGameVersion() {
+        try {
+            InputStream stream = getFile("/build_assets/version.txt");
+            String bytez = new String(stream.readAllBytes()).strip();
+            stream.close();
+            if (!bytez.contains(".")) {
+                return "69.69.69";
+            } else return bytez;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

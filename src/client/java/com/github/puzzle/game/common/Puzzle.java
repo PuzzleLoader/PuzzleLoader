@@ -35,7 +35,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class Puzzle implements ClientPreModInitializer, ClientModInitializer, ClientPostModInitializer {
-    public static final String VERSION = Constants.getVersion();
+    public static final String VERSION = Constants.getPuzzleVersion();
 
     public Puzzle() {
         PuzzleRegistries.EVENT_BUS.subscribe(this);

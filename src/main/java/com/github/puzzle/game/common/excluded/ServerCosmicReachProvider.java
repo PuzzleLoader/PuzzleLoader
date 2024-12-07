@@ -138,7 +138,7 @@ public class ServerCosmicReachProvider implements IGameProvider {
             puzzleLoaderInfo.setAuthors(new String[]{
                     "Mr-Zombii", "repletsin5", "SinfullySoul", "tympanicblock61"
             });
-            puzzleLoaderInfo.setVersion(Constants.getVersion());
+            puzzleLoaderInfo.setVersion(Constants.getPuzzleVersion());
             puzzleLoaderInfo.setAccessManipulator("puzzle_loader.manipulator");
 //            puzzleLoaderInfo.addEntrypoint("preInit", Puzzle.class.getName());
             puzzleLoaderInfo.addEntrypoint("init", ServerPuzzle.class.getName());
