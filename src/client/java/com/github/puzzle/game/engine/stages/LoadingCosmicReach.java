@@ -160,9 +160,6 @@ public class LoadingCosmicReach extends LoadStage {
     public List<Runnable> getGlTasks() {
         List<Runnable> tasks = super.getGlTasks();
 
-        tasks.add(() -> {
-            PuzzleBlockModel.useIndices = !ClientSingletons.usesSharedindices();
-        });
         Set<Identifier> modelIds = PuzzleRegistries.BLOCK_MODEL_FINALIZERS.names();
         Set<Identifier> blockStateIds = PuzzleRegistries.BLOCK_FINALIZERS.names();
 

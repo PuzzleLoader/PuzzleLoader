@@ -142,9 +142,6 @@ public class ClientBlockLoader implements IBlockLoader {
                 eventGenerator.register(this);
                 String eventName = eventGenerator.getEventName();
                 String eventJson = eventGenerator.generateJson();
-                try {
-                    System.out.println(blockGenerator.blockStates.get("default").blockEventsId);
-                } catch (Exception ignore) {}
                 registerEvent(eventName, eventJson);
             }
 
@@ -172,7 +169,7 @@ public class ClientBlockLoader implements IBlockLoader {
         // it's very critical that registries are run in order here
         for (BlockModel model : factory.sort()) {
             if (model instanceof PuzzleBlockModel m) {
-                PuzzleRegistries.BLOCK_MODEL_FINALIZERS.store(Identifier.of(m.modelName + "_" + m.rotXZ), m::initialize);
+                PuzzleRegistries.BLOCK_MODEL_FINALIZERS.store(Identifier.of(m.getModelName() + "_" + m.rotXZ), m::initialize);
             }
         }
         PuzzleRegistries.BLOCK_MODEL_FINALIZERS.freeze();

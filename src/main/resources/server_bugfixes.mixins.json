@@ -17,7 +17,6 @@
     "BlockStateGeneratorMixin",
     "ItemMixin",
     "ItemPickBlock",
-    "Point3DMapRewrite",
-    "RuntimeInfoCrashStopper"
+    "Point3DMapRewrite"
   ]
 }

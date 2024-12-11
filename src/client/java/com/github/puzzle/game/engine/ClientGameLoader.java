@@ -26,6 +26,7 @@ import com.github.puzzle.game.ClientGlobals;
 import com.github.puzzle.game.ServerGlobals;
 import com.github.puzzle.game.common.Puzzle;
 import com.github.puzzle.game.engine.blocks.ClientBlockLoader;
+import com.github.puzzle.game.engine.blocks.models.PuzzleBlockModel;
 import com.github.puzzle.game.engine.stages.Initialize;
 import com.github.puzzle.game.engine.stages.LoadingAssets;
 import com.github.puzzle.game.engine.stages.LoadingCosmicReach;
@@ -34,6 +35,7 @@ import com.github.puzzle.game.events.OnPreLoadAssetsEvent;
 import com.github.puzzle.game.resources.PuzzleGameAssetLoader;
 import com.github.puzzle.game.ui.font.CosmicReachFont;
 import com.github.puzzle.game.ui.font.TranslationParameters;
+import finalforeach.cosmicreach.ClientSingletons;
 import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.Threads;
 import finalforeach.cosmicreach.gamestates.GameState;
@@ -102,6 +104,9 @@ public class ClientGameLoader extends GameState {
     @Override
     public void create() {
         super.create();
+
+        PuzzleBlockModel.useIndices = !ClientSingletons.usesSharedindices();
+        ClientGlobals.initRenderers();
 
         ModLocator.locatedMods.values().forEach((modContainer -> modContainer.INFO.Entrypoints.values().forEach(adapterPathPairs -> {
             adapterPathPairs.forEach(adapterPathPair -> {

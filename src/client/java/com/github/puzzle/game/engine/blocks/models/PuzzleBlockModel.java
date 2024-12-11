@@ -272,7 +272,6 @@ public class PuzzleBlockModel extends BlockModel implements IPuzzleBlockModel {
         if(allFaces == null) {
             throw new IllegalStateException("allFaces == null for " + modelName);
         }
-
     }
 
     @Override
@@ -339,7 +338,7 @@ public class PuzzleBlockModel extends BlockModel implements IPuzzleBlockModel {
 
         }
     }
-    
+
     public int addVert(final IMeshData meshData, int packedPos, final float u, final float v, final int aoId, final short blockLight, int skyLight, final int uvIdx) {
         FloatArray vertices = meshData.getVertices();
         final int currentVertexIndex = vertices.size / 3;
@@ -350,9 +349,14 @@ public class PuzzleBlockModel extends BlockModel implements IPuzzleBlockModel {
         int b = (int) (17f * (blockLight & 0xF) * subAO);
         skyLight *= (int)(subAO * 17f);
 
-        vertices.items[vertices.size] = packedPos;
         vertices.items[vertices.size + 1] = Color.toFloatBits(r, g, b, skyLight);
-        vertices.items[vertices.size + 2] = (float) uvIdx;
+        if (ClientSingletons.shaderNUM32_IS_FLOAT) {
+            vertices.items[vertices.size] = (float)packedPos;
+            vertices.items[vertices.size + 2] = (float)uvIdx;
+        } else {
+            vertices.items[vertices.size] = Float.intBitsToFloat(packedPos);
+            vertices.items[vertices.size + 2] = Float.intBitsToFloat(uvIdx);
+        }
         vertices.size += 3;
 
         return currentVertexIndex;
