@@ -32,6 +32,7 @@
   "mixins": [
     "networking.ConnectingScreenMixin",
     "ui.CreditsButtonMixin",
-    "ui.CreditsMenuMixin"
+    "ui.CreditsMenuMixin",
+    "ui.FontRendererMixin"
   ]
 }
