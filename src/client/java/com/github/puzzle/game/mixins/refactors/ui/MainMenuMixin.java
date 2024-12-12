@@ -42,4 +42,17 @@ public class MainMenuMixin extends GameState {
          uiObjects.add(modsButton);
     }
 
+    @Inject(method = "render", at = @At("TAIL"))
+    void addPuzzleVersion(CallbackInfo ci) {
+        batch.setProjectionMatrix(this.uiCamera.combined);
+        batch.begin();
+
+        String versionText = "Puzzle Loader Version: " + Puzzle.VERSION;
+        FontRenderer.getTextDimensions(this.uiViewport, versionText, new Vector2());
+
+        batch.setColor(Color.WHITE);
+        FontRenderer.drawText(batch, this.uiViewport, versionText, -8.0F,  -60.0F, HorizontalAnchor.RIGHT_ALIGNED, VerticalAnchor.BOTTOM_ALIGNED);
+
+        batch.end();
+    }
 }
