@@ -1,6 +1,7 @@
 package com.github.puzzle.game.networking.api;
 
-import com.llamalad7.mixinextras.lib.apache.commons.tuple.Pair;
+import com.github.puzzle.core.loader.meta.Version;
+import java.util.Map;
 
 public interface IServerIdentity {
 
@@ -8,7 +9,7 @@ public interface IServerIdentity {
     boolean isModded();
     String getClientName();
 
-    void setModList(Pair<String, String>[] modList);
-    Pair<String, String>[] getModList();
+    void setModList(Map<String, Version> modList);
+    Map<String, Version> getModList();
 
 }

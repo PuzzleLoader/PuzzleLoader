@@ -1,10 +1,13 @@
 package com.github.puzzle.game.server_mixins.refactors.networking;
 
+import com.github.puzzle.core.loader.meta.Version;
 import com.github.puzzle.game.networking.api.IServerIdentity;
-import com.llamalad7.mixinextras.lib.apache.commons.tuple.Pair;
 import finalforeach.cosmicreach.networking.server.ServerIdentity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Mixin(ServerIdentity.class)
 public class ServerIdentityMixin implements IServerIdentity {
@@ -14,7 +17,7 @@ public class ServerIdentityMixin implements IServerIdentity {
     @Unique
     boolean puzzleLoader$isModded;
 
-    Pair<String, String>[] modList = new Pair[0];
+    Map<String, Version> modList = new HashMap<>();
 
     @Override
     public void setModdedState(String clientName, boolean isModded) {
@@ -22,11 +25,11 @@ public class ServerIdentityMixin implements IServerIdentity {
         puzzleLoader$isModded = isModded;
     }
 
-    public void setModList(Pair<String, String>[] modList) {
+    public void setModList(Map<String, Version> modList) {
         this.modList = modList;
     }
 
-    public Pair<String, String>[] getModList() {
+    public Map<String, Version> getModList() {
         return modList;
     }
 

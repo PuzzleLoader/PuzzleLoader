@@ -93,7 +93,7 @@ public class CTSModlistPacket extends GamePacket {
                 ServerSingletons.SERVER.kick(missingModsTxt.toString(), identity);
                 ctx.close();
             }
-            ((IServerIdentity) identity).setModList(modList);
+            ((IServerIdentity) identity).setModList(listOfMods);
         }
     }
 }
