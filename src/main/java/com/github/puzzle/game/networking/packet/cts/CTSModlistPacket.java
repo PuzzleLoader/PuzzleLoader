@@ -4,6 +4,7 @@ import com.github.puzzle.core.loader.meta.Version;
 import com.github.puzzle.core.loader.provider.mod.ModContainer;
 import com.github.puzzle.core.loader.util.ModLocator;
 import com.github.puzzle.game.ServerGlobals;
+import com.github.puzzle.game.networking.api.IServerIdentity;
 import com.llamalad7.mixinextras.lib.apache.commons.tuple.Pair;
 import finalforeach.cosmicreach.accounts.Account;
 import finalforeach.cosmicreach.networking.GamePacket;
@@ -92,6 +93,7 @@ public class CTSModlistPacket extends GamePacket {
                 ServerSingletons.SERVER.kick(missingModsTxt.toString(), identity);
                 ctx.close();
             }
+            ((IServerIdentity) identity).setModList(modList);
         }
     }
 }
