@@ -4,7 +4,7 @@ import com.llamalad7.mixinextras.lib.apache.commons.tuple.Pair;
 
 public interface IServerIdentity {
 
-    void setModdedState(String clientName, boolean name);
+    void setModdedState(String clientName, boolean isModded);
     boolean isModded();
     String getClientName();
 

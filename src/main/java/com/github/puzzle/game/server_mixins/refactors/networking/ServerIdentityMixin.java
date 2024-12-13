@@ -17,9 +17,9 @@ public class ServerIdentityMixin implements IServerIdentity {
     Pair<String, String>[] modList = new Pair[0];
 
     @Override
-    public void setModdedState(String clientName, boolean modded) {
+    public void setModdedState(String clientName, boolean isModded) {
         puzzleLoader$name = clientName;
-        puzzleLoader$isModded = modded;
+        puzzleLoader$isModded = isModded;
     }
 
     public void setModList(Pair<String, String>[] modList) {
