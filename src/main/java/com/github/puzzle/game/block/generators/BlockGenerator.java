@@ -39,6 +39,7 @@ public class BlockGenerator implements IGenerator {
          */
         public String blockEventsId = "base:block_events_default";
         public float blastResistance = 100.0F;
+        public float friction = 1.0F;
         @Deprecated
         public boolean generateSlabs = false;
         public String[] stateGenerators = null;
@@ -102,6 +103,7 @@ public class BlockGenerator implements IGenerator {
             this.rotXZ = jsonData.getInt("rotXZ", 0);
             this.hardness = jsonData.getFloat("hardness", 1.5F);
             this.blastResistance = jsonData.getFloat("blastResistance", 100.0F);
+            this.friction = jsonData.getFloat("friction", 1f);
             json.readField(this, "stateGenerators", jsonData);
             json.readField(this, "tags", jsonData);
             json.readField(this, "dropParams", jsonData);
@@ -128,6 +130,7 @@ public class BlockGenerator implements IGenerator {
             json.writeField(this, "lightLevelBlue");
             json.writeField(this, "rotXZ");
             json.writeField(this, "hardness");
+            json.writeField(this, "friction");
             json.writeField(this, "blastResistance");
             json.writeField(this, "stateGenerators");
             json.writeField(this, "tags");
