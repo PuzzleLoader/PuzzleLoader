@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
-@SuppressWarnings("deprecation")
 public class Piece {
     public static String CLIENT_PROVIDER = "com.github.puzzle.game.common.excluded.ClientCosmicReachProvider";
     public static String SERVER_PROVIDER = "com.github.puzzle.game.common.excluded.ServerCosmicReachProvider";

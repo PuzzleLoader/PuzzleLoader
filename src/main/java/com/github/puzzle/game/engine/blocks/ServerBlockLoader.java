@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.utils.Json;
 import com.github.puzzle.core.Constants;
 import com.github.puzzle.core.loader.meta.EnvType;
+import com.github.puzzle.core.loader.util.AnsiColours;
 import com.github.puzzle.core.loader.util.Reflection;
 import com.github.puzzle.game.PuzzleRegistries;
 import com.github.puzzle.game.block.IModBlock;
@@ -77,6 +78,8 @@ public class ServerBlockLoader implements IBlockLoader {
         Json json = new Json();
         BlockEvents blockEvents = json.fromJson(BlockEvents.class, eventJson);
         BlockEvents.INSTANCES.put(eventName, blockEvents);
+
+        LOGGER.info("Registered event with ID {}\"{}\"", AnsiColours.BLUE, eventName);
     }
 
     /**
@@ -125,19 +128,6 @@ public class ServerBlockLoader implements IBlockLoader {
                 String modelJson = modelGenerator.generateJson();
                 registerBlockModel(modelName, rotXZ, modelJson);
             }
-//            for (BlockGenerator.State state : blockGenerator.blockStates.values()) {
-//                if (state.blockModelGeneratorFunctionId != null) {
-//                    Function<Identifier, Collection<? extends IBlockModelGenerator>> genFunc = ClientPuzzleRegistries.BLOCK_MODEL_GENERATOR_FUNCTIONS.get(state.blockModelGeneratorFunctionId);
-//                    Collection<? extends IBlockModelGenerator> gens = genFunc.apply(blockGenerator.blockId);
-//                    for(IBlockModelGenerator modelGenerator : gens) {
-//                        modelGenerator.register(this);
-//                        String modelName = modelGenerator.getModelName();
-//                        int rotXZ = 0;
-//                        String modelJson = modelGenerator.generateJson();
-//                        registerBlockModel(modelName, rotXZ, modelJson);
-//                    }
-//                }
-//            }
 
             List<BlockEventGenerator> eventGenerators = modBlock.getBlockEventGenerators(blockGenerator.blockId);
             if(eventGenerators.isEmpty()) {
@@ -174,6 +164,8 @@ public class ServerBlockLoader implements IBlockLoader {
 
     public void registerFinalizers() {
 
+        LOGGER.info("Registering Block Model finalizers");
+
         // initialize models, fewer parents first order
         // it's very critical that registries are run in order here
         for (BlockModel model : factory.sort()) {
@@ -182,6 +174,8 @@ public class ServerBlockLoader implements IBlockLoader {
             }
         }
         PuzzleRegistries.BLOCK_MODEL_FINALIZERS.freeze();
+
+        LOGGER.info("Registering Block finalizers");
 
         // fix culling flags
         for(Block block : Block.allBlocks) {

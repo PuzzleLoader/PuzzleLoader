@@ -2,12 +2,14 @@ package com.github.puzzle.game.engine.blocks;
 
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.utils.Json;
+import com.github.puzzle.core.loader.util.AnsiColours;
 import com.github.puzzle.game.PuzzleRegistries;
 import com.github.puzzle.game.block.IModBlock;
 import com.github.puzzle.game.block.PuzzleBlockAction;
 import com.github.puzzle.game.block.generators.BlockEventGenerator;
 import com.github.puzzle.game.block.generators.BlockGenerator;
 import com.github.puzzle.game.block.generators.model.BlockModelGenerator;
+import com.github.puzzle.game.engine.ServerGameLoader;
 import com.github.puzzle.game.engine.blocks.models.PuzzleBlockModel;
 import com.github.puzzle.game.factories.IFactory;
 import com.github.puzzle.game.resources.PuzzleGameAssetLoader;
@@ -78,8 +80,9 @@ public class ClientBlockLoader implements IBlockLoader {
     public void registerEvent(String eventName, String eventJson) {
         Json json = new Json();
         BlockEvents blockEvents = json.fromJson(BlockEvents.class, eventJson);
-        System.out.println("Registered Event " + eventName);
         BlockEvents.INSTANCES.put(eventName, blockEvents);
+
+        LOGGER.info("Registered event with ID {}\"{}\"", AnsiColours.BLUE, eventName);
     }
 
     /**
@@ -165,6 +168,8 @@ public class ClientBlockLoader implements IBlockLoader {
 
     public void registerFinalizers() {
 
+        LOGGER.info("Registering Block Model finalizers");
+
         // initialize models, fewer parents first order
         // it's very critical that registries are run in order here
         for (BlockModel model : factory.sort()) {
@@ -173,6 +178,8 @@ public class ClientBlockLoader implements IBlockLoader {
             }
         }
         PuzzleRegistries.BLOCK_MODEL_FINALIZERS.freeze();
+
+        LOGGER.info("Registering Block finalizers");
 
         // fix culling flags
         for(Block block : Block.allBlocks) {
@@ -209,6 +216,8 @@ public class ClientBlockLoader implements IBlockLoader {
             }
         };
 
+        LOGGER.info("Hooking original block constants");
+
         setBlockStaticFinalField.accept("AIR", Block.getInstance("base:air"));
         setBlockStaticFinalField.accept("GRASS", Block.getInstance("base:grass"));
         setBlockStaticFinalField.accept("STONE_BASALT", Block.getInstance("base:stone_basalt"));
@@ -223,7 +232,6 @@ public class ClientBlockLoader implements IBlockLoader {
         setBlockStaticFinalField.accept("SNOW", Block.getInstance("base:snow"));
         setBlockStaticFinalField.accept("WATER", Block.getInstance("base:water"));
         setBlockStaticFinalField.accept("LUNAR_SOIL", Block.getInstance("base:lunar_soil"));
-
     }
 
 }

@@ -7,7 +7,7 @@ import finalforeach.cosmicreach.ui.UIElement;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 
-@Mixin(targets = "finalforeach/cosmicreach/gamestates/OptionsMenu$6") //The lambda for 'rendererButton'
+@Mixin(targets = "finalforeach/cosmicreach/gamestates/OptionsMenu$4") //The lambda for 'rendererButton'
 public abstract class OptionsMixin extends UIElement {
     public OptionsMixin(float x, float y, float w, float h) {
         super(x, y, w, h);
@@ -24,8 +24,7 @@ public abstract class OptionsMixin extends UIElement {
         ClientGlobals.rendererIndex++;
         if(ClientGlobals.rendererIndex == ClientGlobals.renderers.size())
             ClientGlobals.rendererIndex=0;
-        var renderer = ClientGlobals.renderers.get(ClientGlobals.rendererIndex);
-        GameSingletons.zoneRenderer = renderer;
+        GameSingletons.zoneRenderer = ClientGlobals.renderers.get(ClientGlobals.rendererIndex);
 
         GraphicsSettings.renderer.setValue(GameSingletons.zoneRenderer.getName());
         GameSingletons.isAllFlaggedForRemeshing = true;

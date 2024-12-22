@@ -12,6 +12,7 @@
     "chat.CommandMixin",
     "items.ItemStackMixin",
     "items.ticking.ItemEntityMixin",
+    "logging.BlockStateLogging",
     "loot.LootTableMixin",
     "networking.CommandPacketMixin",
     "networking.GamePacketMixin",
