@@ -48,8 +48,6 @@ public class PacketInterceptor {
             GamePacket.packetNamesToIntIds.put(packetClass.getName(), numId);
             GamePacket.packetNamesToClasses.put(packetClass.getName(), packetClass);
             LOGGER.info("Registered {}Lazy{} Packet {}\"{}\"{} with numeral ID {}#{}", AnsiColours.BRIGHT_GREEN, AnsiColours.RESET, AnsiColours.BLUE, packetClass.getName(), AnsiColours.RESET, AnsiColours.PURPLE, numId);
-
-            PUZZLE_RESERVED_PACKET_IDS.add(numId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -73,8 +71,6 @@ public class PacketInterceptor {
             GamePacket.packetNamesToIntIds.put(strId, numId);
             GamePacket.packetNamesToClasses.put(strId, packetClass);
             LOGGER.info("Registered {}Lazy{} Packet {}\"{}\"{} with numeral ID {}#{}", AnsiColours.BRIGHT_GREEN, AnsiColours.RESET, AnsiColours.BLUE, strId, AnsiColours.RESET, AnsiColours.PURPLE, numId);
-
-            PUZZLE_RESERVED_PACKET_IDS.add(numId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -96,8 +92,6 @@ public class PacketInterceptor {
             GamePacket.packetNamesToIntIds.put(strId, numId);
             GamePacket.packetNamesToClasses.put(strId, packetClass);
             LOGGER.info("Registered {}Regular{} Packet {}\"{}\"{} with numeral ID {}#{}", AnsiColours.BRIGHT_YELLOW, AnsiColours.RESET, AnsiColours.BLUE, strId, AnsiColours.RESET, AnsiColours.PURPLE, numId);
-
-            PUZZLE_RESERVED_PACKET_IDS.add(numId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
