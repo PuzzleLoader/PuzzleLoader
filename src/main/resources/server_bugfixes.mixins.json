@@ -5,7 +5,8 @@
   "plugin": "com.github.puzzle.core.loader.provider.mixin.extras.MixinExtrasConfigPlugin",
   "compatibilityLevel": "JAVA_17",
   "server": [
-    "ServerLocationFixer"
+    "ServerLocationFixer",
+    "ServerSaveLocationFixer"
   ],
   "client": [],
   "injectors": {

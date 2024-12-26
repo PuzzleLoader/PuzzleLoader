@@ -44,6 +44,15 @@ public class ServerGlobals {
     public static final BooleanSetting EnabledVanillaMods = new BooleanSetting("enableVanillaMods", true);
 
     @Env(EnvType.SERVER)
-    public static final File SERVER_LOCATION = new File("./");
+    private static File SERVER_LOCATION = new File(".");
+
+    public static File getServerLocation() {
+        if (SERVER_LOCATION == null) ServerGlobals.setServerLocation(new File("."));
+        return SERVER_LOCATION;
+    }
+
+    public static void setServerLocation(File f) {
+        SERVER_LOCATION = f;
+    }
 
 }
