@@ -12,7 +12,7 @@ import java.io.PrintStream;
 @Mixin(BlockState.class)
 public class BlockStateLogging {
 
-    @Redirect(method = "initialize(Lfinalforeach/cosmicreach/blocks/Block;)V", at = @At(value = "INVOKE", target = "Ljava/io/PrintStream;println(Ljava/lang/String;)V"))
+    @Redirect(require = 0, method = "initialize(Lfinalforeach/cosmicreach/blocks/Block;)V", at = @At(value = "INVOKE", target = "Ljava/io/PrintStream;println(Ljava/lang/String;)V"))
     private void println(PrintStream instance, String x) {
         String nString = x.replaceAll("Applying generator ", "");
         String[] strs = nString.split("for blockstate:");

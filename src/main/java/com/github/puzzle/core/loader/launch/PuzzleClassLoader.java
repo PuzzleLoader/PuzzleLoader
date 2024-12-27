@@ -75,6 +75,8 @@ public class PuzzleClassLoader extends URLClassLoader {
         addTransformerExclusion("org.bouncycastle.");
         addTransformerExclusion("org.bouncycastle.");
         addClassLoaderExclusion("com.github.puzzle.access_manipulator.");
+        addClassLoaderExclusion("com.github.puzzle.paradox.loader.");
+        addClassLoaderExclusion("com.github.puzzle.loader.");
     }
 
     public void registerTransformer(IClassTransformer transformer) {

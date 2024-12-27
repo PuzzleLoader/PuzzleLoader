@@ -35,6 +35,8 @@ public class Piece {
     public static final Logger LOGGER = LogManager.getLogger("Puzzle | Loader");
 
     public static void launch(String[] args, EnvType type) {
+
+
         Piece piece = new Piece();
         env.set(type);
         DEFAULT_PROVIDER = env.get() == EnvType.CLIENT ? CLIENT_PROVIDER : SERVER_PROVIDER;

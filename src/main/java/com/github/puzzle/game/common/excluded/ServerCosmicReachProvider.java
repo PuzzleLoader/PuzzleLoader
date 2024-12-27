@@ -126,11 +126,14 @@ public class ServerCosmicReachProvider implements IGameProvider {
             puzzleLoaderInfo.setDesc("A new dedicated mod loader for Cosmic Reach");
             puzzleLoaderInfo.addEntrypoint("transformers", PuzzleTransformers.class.getName());
             puzzleLoaderInfo.addDependency("cosmic-reach", getGameVersion());
+            if (!ServerGlobals.isRunningOnParadox) {
+                puzzleLoaderInfo.addMixinConfigs("server_bugfixes_only.mixins.json");
+            }
             puzzleLoaderInfo.addMixinConfigs(
-//                    "accessors.mixins.json",
-                    "server_internal.mixins.json",
-                    "server_bugfixes.mixins.json"
-//                    "logging.mixins.json"
+                    "common_internal.mixins.json",
+                    "common_bugfixes.mixins.json",
+
+                    "server_internal_only.mixins.json"
             );
             HashMap<String, JsonValue> meta = new HashMap<>();
             meta.put("icon", JsonObject.valueOf("puzzle-loader:icons/PuzzleLoaderIconx160.png"));
@@ -140,9 +143,9 @@ public class ServerCosmicReachProvider implements IGameProvider {
             });
             puzzleLoaderInfo.setVersion(Constants.getPuzzleVersion());
             puzzleLoaderInfo.setAccessManipulator("puzzle_loader.manipulator");
-//            puzzleLoaderInfo.addEntrypoint("preInit", Puzzle.class.getName());
+//            puzzleLoaderInfo.addEntrypoint("preInit", ServerPuzzle.class.getName());
             puzzleLoaderInfo.addEntrypoint("init", ServerPuzzle.class.getName());
-//            puzzleLoaderInfo.addEntrypoint("postInit", Puzzle.class.getName());
+//            puzzleLoaderInfo.addEntrypoint("postInit", ServerPuzzle.class.getName());
 
             ModLocator.locatedMods.put("puzzle-loader", puzzleLoaderInfo.build().getOrCreateModContainer());
         }

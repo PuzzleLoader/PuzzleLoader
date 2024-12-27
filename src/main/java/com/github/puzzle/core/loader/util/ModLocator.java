@@ -24,7 +24,7 @@ import static com.github.puzzle.core.loader.meta.parser.VersionParser.hasDepende
 @SuppressWarnings("UrlHashCode")
 public class ModLocator {
 
-    public static final String PARADOX_SERVER_ENTRYPOINT = "com.github.puzzle.paradox.loader.launch.Piece";
+    public static final String PARADOX_SERVER_ENTRYPOINT = "com.github.puzzle.paradox.loader.launch.PuzzlePiece";
 
     public static final String COSMIC_REACH_SERVER_ENTRYPOINT = "finalforeach.cosmicreach.server.ServerLauncher";
     public static final String COSMIC_REACH_CLIENT_ENTRYPOINT = "finalforeach.cosmicreach.lwjgl3.Lwjgl3Launcher";

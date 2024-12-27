@@ -7,7 +7,7 @@ import org.jline.reader.ParsedLine;
 
 import java.util.List;
 
-public class PPLConsoleCompleter implements Completer {
+public class PLConsoleCompleter implements Completer {
     @Override
     public void complete(LineReader lineReader, ParsedLine parsedLine, List<Candidate> list) {
 

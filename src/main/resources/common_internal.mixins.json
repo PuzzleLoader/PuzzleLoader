@@ -22,10 +22,6 @@
     "zones.ZoneGeneratorMixin"
   ],
   "client": [],
-  "server": [
-    "entrypoint.GameSingletonsMixin",
-    "entrypoint.LoadPreInitMixin"
-  ],
   "injectors": {
     "defaultRequire": 1
   }

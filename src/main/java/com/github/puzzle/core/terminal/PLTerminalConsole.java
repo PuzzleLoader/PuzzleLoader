@@ -14,11 +14,11 @@ import org.jline.reader.LineReaderBuilder;
 
 import static finalforeach.cosmicreach.GameSingletons.world;
 
-public class PPLTerminalConsole extends SimpleTerminalConsole {
+public class PLTerminalConsole extends SimpleTerminalConsole {
 
     NettyServer server;
 
-    public PPLTerminalConsole(NettyServer server){
+    public PLTerminalConsole(NettyServer server){
         this.server = server;
     }
 

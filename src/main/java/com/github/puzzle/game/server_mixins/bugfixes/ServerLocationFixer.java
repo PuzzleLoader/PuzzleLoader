@@ -1,6 +1,6 @@
 package com.github.puzzle.game.server_mixins.bugfixes;
 
-import com.github.puzzle.core.terminal.PPLTerminalConsole;
+import com.github.puzzle.core.terminal.PLTerminalConsole;
 import com.github.puzzle.game.ServerGlobals;
 import finalforeach.cosmicreach.io.SaveLocation;
 import finalforeach.cosmicreach.networking.server.ServerSingletons;
@@ -50,7 +50,7 @@ public class ServerLocationFixer {
                     } catch (IOException e) {
                         throw new RuntimeException(e.getMessage());
                     }
-                    new PPLTerminalConsole(ServerSingletons.SERVER).start();
+                    new PLTerminalConsole(ServerSingletons.SERVER).start();
 
                 }
 
