@@ -1,14 +1,18 @@
 package com.github.puzzle.game.engine;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.github.puzzle.core.loader.util.ModLocator;
+import com.github.puzzle.core.localization.TranslationKey;
 import com.github.puzzle.game.ServerGlobals;
 import com.github.puzzle.game.block.DataModBlock;
 import com.github.puzzle.game.engine.blocks.BlockLoadException;
+import com.github.puzzle.game.engine.blocks.IBlockLoader;
 import com.github.puzzle.game.engine.blocks.ServerBlockLoader;
-import com.github.puzzle.game.engine.server_stages.Initialize;
-import com.github.puzzle.game.engine.server_stages.LoadingAssets;
-import com.github.puzzle.game.engine.server_stages.LoadingCosmicReach;
-import com.github.puzzle.game.engine.server_stages.PostInitialize;
+import com.github.puzzle.game.engine.stages.server.Initialize;
+import com.github.puzzle.game.engine.stages.server.LoadingAssets;
+import com.github.puzzle.game.engine.stages.common.LoadingCosmicReach;
+import com.github.puzzle.game.engine.stages.server.PostInitialize;
 import com.github.puzzle.game.resources.PuzzleGameAssetLoader;
 import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.Threads;
@@ -25,13 +29,20 @@ import java.util.concurrent.CountDownLatch;
 
 import static com.github.puzzle.game.PuzzleRegistries.EVENT_BUS;
 
-public class ServerGameLoader {
+public class ServerGameLoader implements IGameLoader {
 
     public static ServerGameLoader INSTANCE;
 
     public static final Logger LOGGER = LoggerFactory.getLogger("Puzzle | ServerGameLoader");
+    final static ProgressBar EMPTY_BAR = new ProgressBar(0, 100, 1, false, new ProgressBar.ProgressBarStyle());
+    final static Label EMPTY_LABEL = new Label("", (Label.LabelStyle) null) {
+        @Override
+        public void setStyle(LabelStyle style) {
 
-    private final Queue<ServerLoadStage> stages = new LinkedList<>();
+        }
+    };
+
+    private final Queue<LoadStage> stages = new LinkedList<>();
     private final Queue<Runnable> glQueue = new LinkedList<>();
 
     public ServerBlockLoader blockLoader;
@@ -105,7 +116,7 @@ public class ServerGameLoader {
 
     private void gameLoaderThread() {
         while(!stages.isEmpty()) {
-            ServerLoadStage stage = stages.poll();
+            LoadStage stage = stages.poll();
             stage.doStage();
 
             System.gc();
@@ -134,9 +145,66 @@ public class ServerGameLoader {
         });
     }
 
-    public void addStage(ServerLoadStage stage) {
+    public void addStage(LoadStage stage) {
         stages.add(stage);
         stage.initialize(this);
     }
 
+    @Override
+    public void setupProgressBar(ProgressBar bar, int range) {}
+
+    @Override
+    public void setupProgressBar(ProgressBar bar, int range, TranslationKey key) {}
+
+    @Override
+    public void setupProgressBar(ProgressBar bar, int range, String str) {}
+
+    @Override
+    public void incrementProgress(ProgressBar bar) {}
+
+    @Override
+    public void incrementProgress(ProgressBar bar, TranslationKey key) {}
+
+    @Override
+    public void incrementProgress(ProgressBar bar, String str) {}
+
+    @Override
+    public boolean isServer() {
+        return true;
+    }
+
+    @Override
+    public IBlockLoader getBlockLoader() {
+        return blockLoader;
+    }
+
+    @Override
+    public ProgressBar getProgressBar1() {
+        return EMPTY_BAR;
+    }
+
+    @Override
+    public ProgressBar getProgressBar2() {
+        return EMPTY_BAR;
+    }
+
+    @Override
+    public ProgressBar getProgressBar3() {
+        return EMPTY_BAR;
+    }
+
+    @Override
+    public Label getProgressBarText1() {
+        return EMPTY_LABEL;
+    }
+
+    @Override
+    public Label getProgressBarText2() {
+        return EMPTY_LABEL;
+    }
+
+    @Override
+    public Label getProgressBarText3() {
+        return EMPTY_LABEL;
+    }
 }

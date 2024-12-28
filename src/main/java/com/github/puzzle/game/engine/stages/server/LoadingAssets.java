@@ -1,19 +1,19 @@
-package com.github.puzzle.game.engine.server_stages;
+package com.github.puzzle.game.engine.stages.server;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.github.puzzle.game.PuzzleRegistries;
-import com.github.puzzle.game.engine.ServerGameLoader;
-import com.github.puzzle.game.engine.ServerLoadStage;
+import com.github.puzzle.game.engine.IGameLoader;
+import com.github.puzzle.game.engine.LoadStage;
 import com.github.puzzle.game.events.OnLoadAssetsEvent;
 import com.github.puzzle.game.events.OnLoadAssetsFinishedEvent;
 import com.github.puzzle.game.resources.PuzzleGameAssetLoader;
 
 import java.util.List;
 
-public class LoadingAssets extends ServerLoadStage {
+public class LoadingAssets extends LoadStage {
 
     @Override
-    public void initialize(ServerGameLoader loader) {
+    public void initialize(IGameLoader loader) {
         this.loader = loader;
     }
 

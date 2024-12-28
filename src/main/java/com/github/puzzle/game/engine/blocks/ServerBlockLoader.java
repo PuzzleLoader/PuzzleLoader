@@ -162,6 +162,11 @@ public class ServerBlockLoader implements IBlockLoader {
         return blockGenerator.blockId;
     }
 
+    @Override
+    public List<BlockLoadException> getErrors() {
+        return errors;
+    }
+
     public void registerFinalizers() {
 
         LOGGER.info("Registering Block Model finalizers");

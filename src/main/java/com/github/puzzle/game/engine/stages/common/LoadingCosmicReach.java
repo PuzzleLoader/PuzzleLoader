@@ -1,4 +1,4 @@
-package com.github.puzzle.game.engine.server_stages;
+package com.github.puzzle.game.engine.stages.common;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
@@ -7,12 +7,14 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
 import com.github.puzzle.core.loader.util.ModLocator;
 import com.github.puzzle.core.loader.util.Reflection;
+import com.github.puzzle.core.localization.LanguageManager;
+import com.github.puzzle.core.localization.TranslationKey;
 import com.github.puzzle.game.PuzzleRegistries;
 import com.github.puzzle.game.ServerGlobals;
 import com.github.puzzle.game.block.DataModBlock;
 import com.github.puzzle.game.block.IModBlock;
-import com.github.puzzle.game.engine.ServerGameLoader;
-import com.github.puzzle.game.engine.ServerLoadStage;
+import com.github.puzzle.game.engine.IGameLoader;
+import com.github.puzzle.game.engine.LoadStage;
 import com.github.puzzle.game.engine.blocks.BlockLoadException;
 import com.github.puzzle.game.engine.blocks.actions.OnBreakTrigger;
 import com.github.puzzle.game.engine.blocks.actions.OnInteractTrigger;
@@ -37,11 +39,12 @@ import java.util.Set;
 
 import static finalforeach.cosmicreach.blockevents.BlockEvents.INSTANCES;
 
-public class LoadingCosmicReach extends ServerLoadStage {
+public class LoadingCosmicReach extends LoadStage {
 
     @Override
-    public void initialize(ServerGameLoader loader) {
+    public void initialize(IGameLoader loader) {
         super.initialize(loader);
+        title = new TranslationKey("puzzle-loader:loading_menu.loading_cosmic_reach");
     }
 
     @EventHandler
@@ -98,10 +101,22 @@ public class LoadingCosmicReach extends ServerLoadStage {
         BlockEventLocations.removeIf(handle -> handle.path().contains("example"));
         BlockEventLocations.addAll(List.of(Gdx.files.absolute(SaveLocation.getSaveFolderLocation() + "/mods/assets/block_events").list()));
 
+        TranslationKey translationKey = new TranslationKey("puzzle-loader:loading_menu.creating_block_events");
+        loader.setupProgressBar(loader.getProgressBar2(), BlockEventLocations.size(), translationKey);
+        int progress = 0;
         for(FileHandle handle : BlockEventLocations) {
+            if (counter >= 20) {
+                String str = LanguageManager.format(translationKey, progress, BlockEventLocations.size());
+                loader.getProgressBarText2().setText(str);
+                loader.getProgressBar2().setValue(progress);
+                counter = 0;
+            } else {
+                counter++;
+            }
             if (handle.name().endsWith(".json")) {
                 getInstance(handle);
             }
+            progress += 1;
         }
 
         BlockEvents.registerBlockEventAction(OnPlaceTrigger.class);
@@ -111,20 +126,32 @@ public class LoadingCosmicReach extends ServerLoadStage {
         List<IFactory<IModBlock>> blockFactories = new ArrayList<>();
         PuzzleRegistries.EVENT_BUS.post(new OnRegisterBlockEvent(blockFactories));
 
+        translationKey = new TranslationKey("puzzle-loader:loading_menu.creating_blocks");
+        loader.setupProgressBar(loader.getProgressBar2(), blockFactories.size(), translationKey);
+        counter = 0;
+        progress = 0;
         for(IFactory<IModBlock> blockFactory : blockFactories) {
+            int counterLimiter = ModLocator.locatedMods.size() >= 100 ? 10 : 3;
+            if (counter >= counterLimiter) {
+                String str = LanguageManager.format(translationKey, progress, blockFactories.size());
+                loader.getProgressBarText2().setText(str);
+                loader.getProgressBar2().setValue(progress);
+                counter = 0;
+            } else counter++;
             try {
                 IModBlock block = blockFactory.generate();
-                Identifier blockId = loader.blockLoader.loadBlock(block);
+                Identifier blockId = loader.getBlockLoader().loadBlock(block);
                 PuzzleRegistries.BLOCKS.store(blockId, block);
             } catch (BlockLoadException e) {
                 ModLocator.LOGGER.error("Cannot load block: \"{}\"", e.blockId, e);
-                loader.blockLoader.errors.add(e);
+                loader.getBlockLoader().getErrors().add(e);
             }
+            progress++;
         }
         PuzzleRegistries.BLOCKS.freeze();
 
-        loader.blockLoader.registerFinalizers();
-        loader.blockLoader.hookOriginalBlockConstants();
+        loader.getBlockLoader().registerFinalizers();
+        loader.getBlockLoader().hookOriginalBlockConstants();
     }
 
     @Override
@@ -134,11 +161,15 @@ public class LoadingCosmicReach extends ServerLoadStage {
         Set<Identifier> modelIds = PuzzleRegistries.BLOCK_MODEL_FINALIZERS.names();
         Set<Identifier> blockStateIds = PuzzleRegistries.BLOCK_FINALIZERS.names();
 
+        tasks.add( () -> loader.setupProgressBar(loader.getProgressBar2(), modelIds.size(), "Creating Models") );
         for(Identifier modelId : modelIds) {
+            tasks.add( () -> loader.incrementProgress(loader.getProgressBar2(), modelId.toString()) );
             tasks.add( PuzzleRegistries.BLOCK_MODEL_FINALIZERS.get(modelId) );
         }
 
+        tasks.add( () -> loader.setupProgressBar(loader.getProgressBar2(), blockStateIds.size(), "Finalizing Blocks") );
         for(Identifier blockStateId : blockStateIds) {
+            tasks.add( () -> loader.incrementProgress(loader.getProgressBar2(), blockStateId.toString()) );
             tasks.add( PuzzleRegistries.BLOCK_FINALIZERS.get(blockStateId) );
         }
 

@@ -1,10 +1,10 @@
-package com.github.puzzle.game.engine.stages;
+package com.github.puzzle.game.engine.stages.client;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.github.puzzle.core.localization.TranslationKey;
 import com.github.puzzle.game.PuzzleRegistries;
-import com.github.puzzle.game.engine.ClientGameLoader;
+import com.github.puzzle.game.engine.IGameLoader;
 import com.github.puzzle.game.engine.LoadStage;
 import com.github.puzzle.game.events.OnLoadAssetsEvent;
 import com.github.puzzle.game.events.OnLoadAssetsFinishedEvent;
@@ -24,7 +24,7 @@ public class LoadingAssets extends LoadStage {
     private static final TranslationKey TEXT_LOADING_ASSETS = new TranslationKey("puzzle-loader:loading_menu.loading_assets");
 
     @Override
-    public void initialize(ClientGameLoader loader) {
+    public void initialize(IGameLoader loader) {
         super.initialize(loader);
         title = TEXT_TITLE;
     }
@@ -56,9 +56,9 @@ public class LoadingAssets extends LoadStage {
     public List<Runnable> getGlTasks() {
         List<Runnable> tasks = super.getGlTasks();
         AssetManager manager = PuzzleGameAssetLoader.LOADER.getAssetManager();
-        tasks.add( () -> loader.setupProgressBar(loader.progressBar2, manager.getQueuedAssets(), TEXT_LOADING_ASSETS) );
+        tasks.add( () -> loader.setupProgressBar(loader.getProgressBar2(), manager.getQueuedAssets(), TEXT_LOADING_ASSETS) );
         for(int i = 0; i < manager.getQueuedAssets(); i++) {
-            tasks.add( () -> loader.incrementProgress(loader.progressBar2) );
+            tasks.add( () -> loader.incrementProgress(loader.getProgressBar2()) );
             tasks.add(manager::update);
         }
         // let's be safe

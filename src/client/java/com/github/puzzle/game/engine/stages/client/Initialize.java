@@ -1,4 +1,4 @@
-package com.github.puzzle.game.engine.stages;
+package com.github.puzzle.game.engine.stages.client;
 
 import com.github.puzzle.core.loader.launch.provider.mod.entrypoint.impls.ClientModInitializer;
 import com.github.puzzle.core.loader.meta.EnvType;
@@ -7,7 +7,7 @@ import com.github.puzzle.core.loader.provider.mod.entrypoint.impls.ModInitialize
 import com.github.puzzle.core.loader.util.ModLocator;
 import com.github.puzzle.core.localization.TranslationKey;
 import com.github.puzzle.game.PuzzleRegistries;
-import com.github.puzzle.game.engine.ClientGameLoader;
+import com.github.puzzle.game.engine.IGameLoader;
 import com.github.puzzle.game.engine.LoadStage;
 import com.github.puzzle.game.events.OnRegisterLanguageEvent;
 
@@ -18,7 +18,7 @@ import static com.github.puzzle.core.Constants.MOD_ID;
 public class Initialize extends LoadStage {
 
     @Override
-    public void initialize(ClientGameLoader loader) {
+    public void initialize(IGameLoader loader) {
         super.initialize(loader);
         title = new TranslationKey("puzzle-loader:loading_menu.initializing");
     }
@@ -31,7 +31,7 @@ public class Initialize extends LoadStage {
         if (ModLocator.locatedMods == null) ModLocator.getMods(EnvType.CLIENT);
 
         AtomicInteger progress = new AtomicInteger();
-        loader.setupProgressBar(loader.progressBar2, ModLocator.locatedMods.size(), "Initializing Mods: Init");
+        loader.setupProgressBar(loader.getProgressBar2(), ModLocator.locatedMods.size(), "Initializing Mods: Init");
         try {
             try {
                 ModLocator.locatedMods.get(MOD_ID).invokeEntrypoint(ModInitializer.ENTRYPOINT_KEY, ModInitializer.class, ModInitializer::onInit);
@@ -58,8 +58,8 @@ public class Initialize extends LoadStage {
                 if (!container.ID.equals(MOD_ID)) {
                     if (counter >= counterLimiter) {
                         String str = "Loading Mod: " + container.NAME + " | " + progress.get() + "/" + ModLocator.locatedMods.size();
-                        loader.progressBarText2.setText(str);
-                        loader.progressBar2.setValue(progress.get());
+                        loader.getProgressBarText2().setText(str);
+                        loader.getProgressBar2().setValue(progress.get());
                         counter = 0;
                     } else counter++;
                     container.invokeEntrypoint(ClientModInitializer.ENTRYPOINT_KEY, ClientModInitializer.class, ClientModInitializer::onInit);

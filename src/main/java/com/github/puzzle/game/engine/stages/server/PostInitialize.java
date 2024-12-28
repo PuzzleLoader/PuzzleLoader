@@ -1,17 +1,17 @@
-package com.github.puzzle.game.engine.server_stages;
+package com.github.puzzle.game.engine.stages.server;
 
 import com.github.puzzle.core.loader.provider.mod.ModContainer;
 import com.github.puzzle.core.loader.provider.mod.entrypoint.impls.PostModInitializer;
 import com.github.puzzle.core.loader.util.ModLocator;
-import com.github.puzzle.game.engine.ServerGameLoader;
-import com.github.puzzle.game.engine.ServerLoadStage;
+import com.github.puzzle.game.engine.IGameLoader;
+import com.github.puzzle.game.engine.LoadStage;
 
 import static com.github.puzzle.core.Constants.MOD_ID;
 
-public class PostInitialize extends ServerLoadStage {
+public class PostInitialize extends LoadStage {
 
     @Override
-    public void initialize(ServerGameLoader loader) {
+    public void initialize(IGameLoader loader) {
         super.initialize(loader);
     }
 

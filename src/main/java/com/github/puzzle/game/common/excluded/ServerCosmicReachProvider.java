@@ -127,7 +127,7 @@ public class ServerCosmicReachProvider implements IGameProvider {
             puzzleLoaderInfo.addEntrypoint("transformers", PuzzleTransformers.class.getName());
             puzzleLoaderInfo.addDependency("cosmic-reach", getRawVersion());
             if (!ServerGlobals.isRunningOnParadox) {
-                puzzleLoaderInfo.addSidedMixinConfigs(EnvType.SERVER,"server_bugfixes_only.mixins.json");
+                puzzleLoaderInfo.addSidedMixinConfigs(EnvType.SERVER,"mixins/server/fixes.server.mixins.json");
             }
             puzzleLoaderInfo.addSidedMixinConfigs(
                     EnvType.SERVER,

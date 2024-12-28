@@ -26,11 +26,12 @@ import com.github.puzzle.game.ClientGlobals;
 import com.github.puzzle.game.ServerGlobals;
 import com.github.puzzle.game.common.Puzzle;
 import com.github.puzzle.game.engine.blocks.ClientBlockLoader;
+import com.github.puzzle.game.engine.blocks.IBlockLoader;
 import com.github.puzzle.game.engine.blocks.models.PuzzleBlockModel;
-import com.github.puzzle.game.engine.stages.Initialize;
-import com.github.puzzle.game.engine.stages.LoadingAssets;
-import com.github.puzzle.game.engine.stages.LoadingCosmicReach;
-import com.github.puzzle.game.engine.stages.PostInitialize;
+import com.github.puzzle.game.engine.stages.client.Initialize;
+import com.github.puzzle.game.engine.stages.client.LoadingAssets;
+import com.github.puzzle.game.engine.stages.client.PostInitialize;
+import com.github.puzzle.game.engine.stages.common.LoadingCosmicReach;
 import com.github.puzzle.game.events.OnPreLoadAssetsEvent;
 import com.github.puzzle.game.resources.PuzzleGameAssetLoader;
 import com.github.puzzle.game.ui.font.CosmicReachFont;
@@ -60,7 +61,7 @@ import java.util.concurrent.CountDownLatch;
 import static com.github.puzzle.game.PuzzleRegistries.EVENT_BUS;
 import static com.github.puzzle.game.resources.PuzzleGameAssetLoader.LOADER;
 
-public class ClientGameLoader extends GameState {
+public class ClientGameLoader extends GameState implements IGameLoader {
 
     public static final Logger LOGGER = LoggerFactory.getLogger("Puzzle | GameLoader");
 
@@ -316,11 +317,13 @@ public class ClientGameLoader extends GameState {
         });
     }
 
+    @Override
     public void addStage(LoadStage stage) {
         stages.add(stage);
         stage.initialize(this);
     }
 
+    @Override
     public void setupProgressBar(ProgressBar bar, int range) {
         Label text = (Label) bar.getUserObject();
         text.setUserObject(null);
@@ -331,6 +334,7 @@ public class ClientGameLoader extends GameState {
         bar.setVisible(range != 0);
     }
 
+    @Override
     public void setupProgressBar(ProgressBar bar, int range, TranslationKey key) {
         Label text = (Label) bar.getUserObject();
         TranslationParameters parameters = new TranslationParameters.Builder(key).withProgressBar(bar).build();
@@ -342,6 +346,7 @@ public class ClientGameLoader extends GameState {
         bar.setVisible(range != 0);
     }
 
+    @Override
     public void setupProgressBar(ProgressBar bar, int range, String str) {
         Label text = (Label) bar.getUserObject();
         text.setUserObject(null);
@@ -352,6 +357,7 @@ public class ClientGameLoader extends GameState {
         bar.setVisible(range != 0);
     }
 
+    @Override
     public void incrementProgress(ProgressBar bar) {
         Label text = (Label) bar.getUserObject();
         if(text.getUserObject() != null) {
@@ -361,6 +367,7 @@ public class ClientGameLoader extends GameState {
         }
     }
 
+    @Override
     public void incrementProgress(ProgressBar bar, TranslationKey key) {
         Label text = (Label) bar.getUserObject();
         text.setUserObject(new TranslationParameters.Builder(key).withProgressBar(bar).build());
@@ -371,10 +378,50 @@ public class ClientGameLoader extends GameState {
         }
     }
 
+    @Override
     public void incrementProgress(ProgressBar bar, String str) {
         Label text = (Label) bar.getUserObject();
         bar.setValue(bar.getValue() + 1);
         text.setText(str + " %d/%d".formatted((int)bar.getValue(), (int) bar.getMaxValue()));
     }
 
+    @Override
+    public boolean isServer() {
+        return false;
+    }
+
+    @Override
+    public IBlockLoader getBlockLoader() {
+        return blockLoader;
+    }
+
+    @Override
+    public ProgressBar getProgressBar1() {
+        return progressBar1;
+    }
+
+    @Override
+    public ProgressBar getProgressBar2() {
+        return progressBar2;
+    }
+
+    @Override
+    public ProgressBar getProgressBar3() {
+        return progressBar3;
+    }
+
+    @Override
+    public Label getProgressBarText1() {
+        return progressBarText1;
+    }
+
+    @Override
+    public Label getProgressBarText2() {
+        return progressBarText2;
+    }
+
+    @Override
+    public Label getProgressBarText3() {
+        return progressBarText3;
+    }
 }
