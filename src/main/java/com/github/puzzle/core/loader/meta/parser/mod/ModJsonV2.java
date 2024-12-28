@@ -3,6 +3,7 @@ package com.github.puzzle.core.loader.meta.parser.mod;
 import com.github.puzzle.core.loader.launch.Piece;
 import com.github.puzzle.core.loader.meta.EnvType;
 import com.github.puzzle.core.loader.meta.parser.ModJson;
+import com.github.puzzle.core.loader.meta.parser.SideRequires;
 import com.github.puzzle.core.loader.provider.lang.ILangProvider;
 import com.github.puzzle.core.loader.provider.lang.impl.LangProviderWrapper;
 import com.github.puzzle.core.loader.provider.mod.AdapterPathPair;
@@ -15,26 +16,15 @@ import org.hjson.JsonValue;
 
 import java.util.*;
 
-public class ModJsonV1 extends ModJson {
+public class ModJsonV2 extends ModJsonV1 {
 
-    String name = "";
-    String id = "";
+    SideRequires sidedRequirements;
 
-    String version = "";
-    String description = "";
+    public ModJsonV2() {
+        super();
+    }
 
-    String[] authors = new String[0];
-    Map<String, JsonValue> meta = new HashMap<>();
-
-    Map<String, Collection<AdapterPathPair>> entrypoints = new HashMap<>();
-    Map<String, Pair<String, Boolean>> dependencies = new HashMap<>();
-
-    String[] accessTransformers = new String[0];
-    Pair<EnvType, String>[] mixins = new Pair[0];
-
-    ModJsonV1() {}
-
-    public ModJsonV1(
+    public ModJsonV2(
             String name,
             String id,
             String version,
@@ -44,22 +34,16 @@ public class ModJsonV1 extends ModJson {
             String[] accessTransformers,
             Map<String, JsonValue> meta,
             Map<String, Collection<AdapterPathPair>> entrypoints,
-            Map<String, Pair<String, Boolean>> dependencies
+            Map<String, Pair<String, Boolean>> dependencies,
+            SideRequires sidedRequirements
     ) {
-        this.id = id;
-        this.version = version;
-        this.name = name;
-        this.description = description;
-        this.authors = authors;
-        this.entrypoints = entrypoints;
-        this.meta = meta;
-        this.mixins = mixins;
-        this.accessTransformers = accessTransformers;
-        this.dependencies = dependencies;
+        super(name, id, version, description, authors, mixins, accessTransformers, meta, entrypoints, dependencies);
+
+        this.sidedRequirements = sidedRequirements;
     }
 
     public static ModJson fromString(String string) {
-        ModJsonV1 info = new ModJsonV1();
+        ModJsonV2 info = new ModJsonV2();
         JsonObject obj = (JsonObject) JsonValue.readHjson(string);
 
         List<String> names = obj.names();
@@ -153,68 +137,26 @@ public class ModJsonV1 extends ModJson {
             }
         } else info.entrypoints = new HashMap<>();
 
+        if (obj.get("sidedRequirements") != null) {
+            JsonObject sidedRequirements1 = obj.get("sidedRequirements").asObject();
+            info.sidedRequirements = new SideRequires(
+                    sidedRequirements1.getBoolean("client", true),
+                    sidedRequirements1.getBoolean("server", true)
+            );
+        } else info.sidedRequirements = SideRequires.BOTH_REQUIRED;
+
         return info;
     }
 
     @Override
     public int getRevision() {
-        return 1;
+        return 2;
     }
 
-    @Override
-    public String id() {
-        return id;
-    }
+    public static ModJsonV2 transform(ModJson old) {
+        if (old.getRevision() == 2) return (ModJsonV2) old;
 
-    @Override
-    public String version() {
-        return version;
-    }
-
-    @Override
-    public String name() {
-        return name;
-    }
-
-    @Override
-    public String description() {
-        return description;
-    }
-
-    @Override
-    public String[] authors() {
-        return authors;
-    }
-
-    @Override
-    public Map<String, Collection<AdapterPathPair>> entrypoints() {
-        return entrypoints;
-    }
-
-    @Override
-    public Map<String, JsonValue> meta() {
-        return meta;
-    }
-
-    @Override
-    public Pair<EnvType, String>[] mixins() {
-        return mixins;
-    }
-
-    @Override
-    public Map<String, Pair<String, Boolean>> dependencies() {
-        return dependencies;
-    }
-
-    @Override
-    public String[] accessTransformers() {
-        return accessTransformers;
-    }
-
-    public static ModJsonV1 transform(ModJson old) {
-        if (old.getRevision() == 1) return (ModJsonV1) old;
-
-        return new ModJsonV1(
+        return new ModJsonV2(
                 old.name(),
                 old.id(),
                 old.version(),
@@ -224,8 +166,8 @@ public class ModJsonV1 extends ModJson {
                 old.accessTransformers(),
                 old.meta(),
                 old.entrypoints(),
-                old.dependencies()
+                old.dependencies(),
+                old.sidedRequirements()
         );
     }
-
 }

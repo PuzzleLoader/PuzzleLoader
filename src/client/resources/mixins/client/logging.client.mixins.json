@@ -9,8 +9,6 @@
     "LLwjgl3ApplicationLoggerMixin",
     "Lwjgl3LauncherMixin"
   ],
-  "client": [],
-  "server": [],
   "injectors": {
     "defaultRequire": 0
   }

@@ -7,7 +7,6 @@
     "entrypoint.GameSingletonsMixin",
     "entrypoint.LoadPreInitMixin"
   ],
-  "client": [],
   "injectors": {
     "defaultRequire": 1
   }

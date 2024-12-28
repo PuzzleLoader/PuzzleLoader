@@ -3,7 +3,6 @@
   "minVersion": "0.8",
   "package": "com.github.puzzle.game.mixins.common.fixes",
   "compatibilityLevel": "JAVA_17",
-  "client": [],
   "injectors": {
     "defaultRequire": 0
   },

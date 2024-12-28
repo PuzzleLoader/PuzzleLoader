@@ -3,7 +3,14 @@
   "minVersion": "0.8",
   "package": "com.github.puzzle.game.mixins.client",
   "compatibilityLevel": "JAVA_17",
-  "client": [
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "mixins": [
+    "networking.ConnectingScreenMixin",
+    "ui.CreditsButtonMixin",
+    "ui.CreditsMenuMixin",
+    "ui.FontRendererMixin",
     "assets.BlockModelJsonMixin",
     "assets.ChunkShaderPathFixer",
     "assets.GameShaderPathFixer",
@@ -23,15 +30,5 @@
     "ui.OptionsMixin",
     "window.IconMixin",
     "window.TitleMixin"
-  ],
-  "server": [],
-  "injectors": {
-    "defaultRequire": 1
-  },
-  "mixins": [
-    "com.github.puzzle.game.mixins.client.networking.ConnectingScreenMixin",
-    "com.github.puzzle.game.mixins.client.ui.CreditsButtonMixin",
-    "com.github.puzzle.game.mixins.client.ui.CreditsMenuMixin",
-    "com.github.puzzle.game.mixins.client.ui.FontRendererMixin"
   ]
 }

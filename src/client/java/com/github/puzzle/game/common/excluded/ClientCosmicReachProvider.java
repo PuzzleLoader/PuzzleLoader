@@ -128,12 +128,13 @@ public class ClientCosmicReachProvider implements IGameProvider {
             puzzleLoaderInfo.addEntrypoint("transformers", PuzzleTransformers.class.getName());
             puzzleLoaderInfo.addDependency("cosmic-reach", getGameVersion());
             puzzleLoaderInfo.addMixinConfigs(
-                    "common_internal.mixins.json",
-                    "common_required_fixes.mixins.json",
-                    "common_logging.mixins.json",
-                    "internal.mixins.json",
-                    "accessors.mixins.json",
-                    "logging.mixins.json"
+                    "mixins/client/accessors.client.mixins.json",
+                    "mixins/client/internal.client.mixins.json",
+                    "mixins/client/logging.client.mixins.json",
+
+                    "mixins/common/logging.common.mixins.json",
+                    "mixins/common/fixes.common.mixins.json",
+                    "mixins/common/internal.common.mixins.json"
             );
             HashMap<String, JsonValue> meta = new HashMap<>();
             meta.put("icon", JsonObject.valueOf("puzzle-loader:icons/PuzzleLoaderIconx160.png"));

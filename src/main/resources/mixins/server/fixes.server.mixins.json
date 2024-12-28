@@ -7,7 +7,6 @@
     "ServerLocationFixer",
     "ServerSaveLocationFixer"
   ],
-  "client": [],
   "injectors": {
     "defaultRequire": 0
   }

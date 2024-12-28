@@ -1,5 +1,6 @@
 package com.github.puzzle.core.loader.util;
 
+import com.github.puzzle.core.loader.meta.EnvType;
 import com.github.puzzle.core.loader.meta.ModInfo;
 import com.github.puzzle.core.loader.meta.parser.ModJson;
 import com.github.puzzle.core.loader.provider.mod.ModContainer;
@@ -144,31 +145,27 @@ public class ModLocator {
         return urls;
     }
 
-    public static void getMods() {
-        getMods(new ArrayList<>());
+    public static void getMods(EnvType env) {
+        getMods(new ArrayList<>(), env);
     }
 
-    public static void walkDir(File file) {
+    public static void walkDir(File file, EnvType env) {
         if (file.isDirectory()) {
             if (file.listFiles() != null) {
-                Arrays.stream(Objects.requireNonNull(file.listFiles())).forEach(ModLocator::walkDir);
+                Arrays.stream(Objects.requireNonNull(file.listFiles())).forEach((f) -> ModLocator.walkDir(f, env));
             }
         } else if (file.getName().equals("puzzle.mod.json")) {
             try {
                 String strInfo = new String(new FileInputStream(file).readAllBytes());
-                ModJson info = ModJson.fromString(strInfo);
-                LOGGER.info("Discovered Dev Mod \"{}\" with ID \"{}\"", info.name(), info.id());
-                if(locatedMods.containsKey(info.id()))
-                    throw new RuntimeException("mod id \""+info.id()+"\" already used");
-                else
-                    locatedMods.put(info.id(), new ModContainer(ModInfo.fromModJsonInfo(info), null));
+                ModJson json = ModJson.fromString(strInfo);
+                addMod(env, json, null, true);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
     }
 
-    public static void getMods(Collection<URL> classPath) {
+    public static void getMods(Collection<URL> classPath, EnvType env) {
         Collection<URL> urls = getUrlsOnClasspath(classPath);
 
         for (URL url : urls) {
@@ -179,23 +176,30 @@ public class ModLocator {
                         ZipFile jar = new ZipFile(file, ZipFile.OPEN_READ);
                         ZipEntry modJson = jar.getEntry("puzzle.mod.json");
                         if (modJson != null) {
-                            String strInfo = new String(jar.getInputStream(modJson).readAllBytes());
-                            ModJson info = ModJson.fromString(strInfo);
-                            LOGGER.info("Discovered Mod \"{}\" with ID \"{}\"", info.name(), info.id());
-                            if(locatedMods.containsKey(info.id()))
-                                throw new RuntimeException("mod id \""+info.id()+"\" already used");
-                            else
-                                locatedMods.put(info.id(), new ModContainer(ModInfo.fromModJsonInfo(info), jar));
+                            ModJson json = ModJson.fromString(new String(jar.getInputStream(modJson).readAllBytes()));
+                            addMod(env, json, jar, false);
                         }
                     }
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
             } else {
-                walkDir(file);
+                walkDir(file, env);
             }
         }
+    }
 
+    private static void addMod(EnvType env, ModJson json, ZipFile jar, boolean isDevMod) {
+        if (!json.sidedRequirements().isAllowed(env)) {
+            LOGGER.error("Discovered {}Mod \"{}\" with ID \"{}\" on the wrong side of {}, please remove this mod or fix the puzzle.mod.json", json.name(), isDevMod ? "DevMod" : " ", json.id());
+            return;
+        }
+
+        LOGGER.info("Discovered {}Mod \"{}\" with ID \"{}\"", json.name(), isDevMod ? "DevMod" : " ", json.id());
+        if(locatedMods.containsKey(json.id()))
+            throw new RuntimeException("mod id \""+json.id()+"\" already used");
+        else
+            locatedMods.put(json.id(), new ModContainer(ModInfo.fromModJsonInfo(json), jar));
     }
 
     public static void verifyDependencies() {

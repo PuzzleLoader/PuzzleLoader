@@ -14,6 +14,7 @@ import org.hjson.JsonObject;
 import org.hjson.JsonValue;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 public class ModJsonV0 extends ModJson {
 
@@ -143,6 +144,11 @@ public class ModJsonV0 extends ModJson {
         return info;
     }
 
+    @Override
+    public int getRevision() {
+        return 0;
+    }
+
     public String id() {
         return id;
     }
@@ -193,6 +199,50 @@ public class ModJsonV0 extends ModJson {
     @Override
     public String[] accessTransformers() {
         return new String[]{accessManipulator, accessTransformer, accessWidener};
+    }
+
+    public static ModJsonV0 transform(ModJson old) {
+        if (old.getRevision() == 0) return (ModJsonV0) old;
+
+        return new ModJsonV0(
+                old.name(),
+                old.id(),
+                old.version(),
+                old.description(),
+                old.authors(),
+                old.entrypoints(),
+                old.meta(),
+                getMixins(old.mixins()),
+                getRequired(old.dependencies()),
+                getOptional(old.dependencies()),
+                Arrays.stream(old.accessTransformers()).filter(s -> s.endsWith(".manipulator")).toList().get(0),
+                Arrays.stream(old.accessTransformers()).filter(s -> s.endsWith(".cfg")).toList().get(0),
+                Arrays.stream(old.accessTransformers()).filter(s -> s.endsWith(".accesswidener")).toList().get(0)
+        );
+    }
+
+    private static Map<String, String> getOptional(Map<String, Pair<String, Boolean>> dependencies) {
+        Map<String, String> deps = new HashMap<>();
+        for (String k : dependencies.keySet()) {
+            if (dependencies.get(k).getRight())
+                deps.put(k, dependencies.get(k).getLeft());
+        }
+        return deps;
+    }
+
+    private static Map<String, String> getRequired(Map<String, Pair<String, Boolean>> dependencies) {
+        Map<String, String> deps = new HashMap<>();
+        for (String k : dependencies.keySet()) {
+            if (!dependencies.get(k).getRight())
+                deps.put(k, dependencies.get(k).getLeft());
+        }
+        return deps;
+    }
+
+    private static String[] getMixins(Pair<EnvType, String>[] mixins) {
+        List<String> mixinz = new ArrayList<>();
+        for (Pair<EnvType, String> p : mixins) mixinz.add(p.getRight());
+        return mixinz.toArray(new String[0]);
     }
 
 }
