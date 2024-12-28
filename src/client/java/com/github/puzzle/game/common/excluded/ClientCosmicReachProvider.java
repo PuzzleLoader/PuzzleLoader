@@ -152,7 +152,7 @@ public class ClientCosmicReachProvider implements IGameProvider {
         }
 
         /* Cosmic Reach as a mod */
-        ModInfoV2Builder cosmicReachInfo = ModInfoV2Builder.New();
+        ModInfo.Builder cosmicReachInfo = ModInfo.Builder.New();
         {
             cosmicReachInfo.setName(getName());
             puzzleLoaderInfo.setId("cosmic-reach");

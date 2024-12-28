@@ -2,6 +2,7 @@ package com.github.puzzle.core.loader.meta;
 
 import com.github.puzzle.core.loader.meta.parser.ModJson;
 import com.github.puzzle.core.loader.meta.parser.SideRequire;
+import com.github.puzzle.core.loader.meta.parser.mod.ModJsonV2;
 import com.github.puzzle.core.loader.provider.mod.AdapterPathPair;
 import com.github.puzzle.core.loader.provider.mod.ModContainer;
 import com.google.common.collect.ImmutableCollection;
@@ -100,61 +101,186 @@ public class ModInfo {
         return Container;
     }
 
-    public static abstract class Builder {
+    public static class Builder {
 
-        protected Builder() {}
+        private String id = null;
+        private Version version = null;
+        private String name = null;
+        private String description = null;
+        private List<String> authors = new ArrayList<>();
+        private Map<String, Collection<AdapterPathPair>> entrypoints = new HashMap<>();
+        private Map<String, JsonValue> meta = new HashMap<>();
+        private List<Pair<EnvType, String>> mixins = new ArrayList<>();
+        private SideRequire require = SideRequire.BOTH_REQUIRED;
 
-        public abstract Builder setId(String id);
+        private Map<String, Pair<String, Boolean>> depends = new HashMap<>();
+        private final List<String> accessTransformers = new ArrayList<>();
 
-        public abstract Builder setVersion(String version);
-        public abstract Builder setVersion(Version version);
+        private Builder() {
+        }
 
-        public abstract Builder setName(String name);
-        public abstract Builder setDesc(String desc);
+        public ModInfo.Builder setId(String id) {
+            this.id = id;
+            return this;
+        }
 
-        public abstract Builder setAuthors(String[] authors);
-        public abstract Builder setAuthors(@NotNull Collection<String> authors);
-        public abstract Builder addAuthors(String... names);
-        public abstract Builder addAuthor(String name);
+        public ModInfo.Builder setVersion(String version) {
+            this.version = Version.parseVersion(version);
+            return this;
+        }
 
-        public abstract Builder setEntrypoint(String name, Collection<AdapterPathPair> classes);
-        public abstract Builder addEntrypoint(String name, String adapter, String clazz);
-        public abstract Builder addEntrypoint(String name, String clazz);
-        public abstract Builder setEntrypoints(Map<String, Collection<AdapterPathPair>> entrypoints);
+        public ModInfo.Builder setVersion(Version version) {
+            this.version = version;
+            return this;
+        }
 
-        public abstract Builder setMeta(Map<String, JsonValue> meta);
-        public abstract Builder addMeta(String key, JsonValue value);
+        public ModInfo.Builder setName(String name) {
+            this.name = name;
+            return this;
+        }
 
-        public abstract Builder setSidedMixinConfigs(List<Pair<EnvType, String>> mixinConfigs);
-        public abstract Builder addSidedMixinConfig(EnvType side, String mixinConfigPath);
-        public abstract Builder addSidedMixinConfigs(EnvType side, String... mixinConfigPaths);
+        public ModInfo.Builder setDesc(String desc) {
+            this.description = desc;
+            return this;
+        }
 
-        public abstract Builder setDependenciesV2(Map<String, Pair<String, Boolean>> dependencies);
-        public abstract Builder addDependency(String name, String version);
-        public abstract Builder addDependency(String name, String version, Boolean isRequired);
+        public ModInfo.Builder setAuthors(String[] authors) {
+            this.authors = new ArrayList<>(List.of(authors));
+            return this;
+        }
 
-        public abstract Builder addAccessManipulator(String manipulatorPath);
+        public ModInfo.Builder setAuthors(@NotNull Collection<String> authors) {
+            this.authors = authors.stream().toList();
+            return this;
+        }
 
-        public abstract ModInfo build();
+        public ModInfo.Builder addAuthors(String... names) {
+            this.authors.addAll(List.of(names));
+            return this;
+        }
 
-        @Contract(" -> new")
-        public static @NotNull Builder New() {
-            return NewV2();
+        public ModInfo.Builder addAuthor(String name) {
+            this.authors.add(name);
+            return this;
+        }
+
+        public ModInfo.Builder setEntrypoint(String name, Collection<AdapterPathPair> classes) {
+            this.entrypoints.put(name, classes);
+            return this;
+        }
+
+        public ModInfo.Builder addEntrypoint(String name, String adapter, String clazz) {
+            if (this.entrypoints.get(name) != null) this.entrypoints.get(name).add(new AdapterPathPair(adapter, clazz));
+            else {
+                List<AdapterPathPair> classes = new ArrayList<>();
+                classes.add(new AdapterPathPair(adapter, clazz));
+                this.entrypoints.put(name, classes);
+            }
+            return this;
+        }
+
+        public ModInfo.Builder addEntrypoint(String name, String clazz) {
+            if (this.entrypoints.get(name) != null) this.entrypoints.get(name).add(new AdapterPathPair("java", clazz));
+            else {
+                List<AdapterPathPair> classes = new ArrayList<>();
+                classes.add(new AdapterPathPair("java", clazz));
+                this.entrypoints.put(name, classes);
+            }
+            return this;
+        }
+
+        public ModInfo.Builder setEntrypoints(Map<String, Collection<AdapterPathPair>> entrypoints) {
+            this.entrypoints = entrypoints;
+            return this;
+        }
+
+        public ModInfo.Builder setMeta(Map<String, JsonValue> meta) {
+            this.meta = meta;
+            return this;
+        }
+
+        public ModInfo.Builder addMeta(String key, JsonValue value) {
+            this.meta.put(key, value);
+            return this;
+        }
+
+        public ModInfo.Builder setSidedMixinConfigs(List<Pair<EnvType, String>> mixinConfigs) {
+            this.mixins = mixinConfigs;
+            return this;
+        }
+
+        public ModInfo.Builder addSidedMixinConfig(EnvType side, String mixinConfigPath) {
+            this.mixins.add(new ImmutablePair<>(side, mixinConfigPath));
+            return this;
+        }
+
+        public ModInfo.Builder addSidedMixinConfigs(EnvType side, String... mixinConfigPaths) {
+            for (String mixin : mixinConfigPaths) {
+                this.mixins.add(new ImmutablePair<>(side, mixin));
+            }
+            return this;
+        }
+
+        public ModInfo.Builder setDependenciesV2(Map<String, Pair<String, Boolean>> dependencies) {
+            this.depends = dependencies;
+            return this;
+        }
+
+        public ModInfo.Builder addOptionalDependency(String name, String version) {
+            this.depends.put(name, new ImmutablePair<>(version, false));
+            return this;
+        }
+
+        public ModInfo.Builder addDependency(String name, String version) {
+            this.depends.put(name, new ImmutablePair<>(version, true));
+            return this;
+        }
+
+        public ModInfo.Builder addDependency(String name, String version, Boolean isRequired) {
+            this.depends.put(name, new ImmutablePair<>(version, isRequired));
+            return this;
+        }
+
+        public ModInfo.Builder addAccessManipulator(String transformerPath) {
+            accessTransformers.add(transformerPath);
+            return this;
+        }
+
+        protected String makeId() {
+            return id == null ?
+                    makeName().replaceAll(" ", "-").toLowerCase(Locale.ROOT) :
+                    id;
+        }
+
+        protected String makeName() {
+            return name == null ? "exampleMod" : name;
+        }
+
+
+        public ModInfo.Builder setSideRequirements(SideRequire require) {
+            this.require = require;
+            return this;
+        }
+
+        public ModInfo build() {
+            return new ModInfo(new ModJsonV2(
+                    makeName(),
+                    makeId(),
+                    version != null ? version.toString() : "1.0.0",
+                    description,
+                    authors.toArray(new String[0]),
+                    mixins.toArray(new Pair[0]),
+                    accessTransformers.toArray(new String[0]),
+                    meta,
+                    entrypoints,
+                    depends,
+                    require
+            ));
         }
 
         @Contract(" -> new")
-        public static @NotNull ModInfoV2Builder NewV2() {
-            return new ModInfoV2Builder();
-        }
-
-        @Contract(" -> new")
-        public static @NotNull ModInfoV1Builder NewV1() {
-            return new ModInfoV1Builder();
-        }
-
-        @Contract(" -> new")
-        public static @NotNull ModInfoV0Builder NewV0() {
-            return new ModInfoV0Builder();
+        public static @NotNull ModInfo.Builder New() {
+            return new ModInfo.Builder();
         }
 
     }

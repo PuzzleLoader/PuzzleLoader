@@ -4,7 +4,6 @@ import com.github.puzzle.core.Constants;
 import com.github.puzzle.core.loader.launch.PuzzleClassLoader;
 import com.github.puzzle.core.loader.meta.EnvType;
 import com.github.puzzle.core.loader.meta.ModInfo;
-import com.github.puzzle.core.loader.meta.ModInfoV0Builder;
 import com.github.puzzle.core.loader.meta.Version;
 import com.github.puzzle.core.loader.provider.IGameProvider;
 import com.github.puzzle.core.loader.provider.mod.ModContainer;
