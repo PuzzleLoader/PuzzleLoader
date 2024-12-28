@@ -131,9 +131,10 @@ public class ServerCosmicReachProvider implements IGameProvider {
             }
             puzzleLoaderInfo.addMixinConfigs(
                     "common_internal.mixins.json",
-                    "common_bugfixes.mixins.json",
-
-                    "server_internal_only.mixins.json"
+                    "common_required_fixes.mixins.json",
+                    "common_logging.mixins.json",
+                    "server_internal.mixins.json",
+                    "server_required_fixes.mixins.json"
             );
             HashMap<String, JsonValue> meta = new HashMap<>();
             meta.put("icon", JsonObject.valueOf("puzzle-loader:icons/PuzzleLoaderIconx160.png"));

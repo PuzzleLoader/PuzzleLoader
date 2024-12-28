@@ -1,5 +1,6 @@
 package com.github.puzzle.game;
 
+import com.github.puzzle.core.Constants;
 import com.github.puzzle.core.loader.launch.Piece;
 import com.github.puzzle.core.loader.meta.Env;
 import com.github.puzzle.core.loader.meta.EnvType;
@@ -47,12 +48,25 @@ public class ServerGlobals {
     private static File SERVER_LOCATION = new File(".");
 
     public static File getServerLocation() {
-        if (SERVER_LOCATION == null) ServerGlobals.setServerLocation(new File("."));
+        if (Constants.class.getResource("/assets/puzzle-loader/version.txt").toString().startsWith("jar:")) {
+            if (SERVER_LOCATION == null) ServerGlobals.setServerLocation(getJarPath());
+        } else {
+            if (SERVER_LOCATION == null) ServerGlobals.setServerLocation(new File("."));
+        }
         return SERVER_LOCATION;
     }
 
     public static void setServerLocation(File f) {
         SERVER_LOCATION = f;
+    }
+
+    private static File getJarPath() {
+        try {
+            File f = new File(Constants.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+            return new File(f.getCanonicalPath()).getParentFile();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

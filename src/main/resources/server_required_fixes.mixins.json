@@ -2,7 +2,6 @@
   "required": false,
   "minVersion": "0.8",
   "package": "com.github.puzzle.game.server_mixins.bugfixes",
-  "plugin": "com.github.puzzle.core.loader.provider.mixin.extras.MixinExtrasConfigPlugin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "ServerLocationFixer",

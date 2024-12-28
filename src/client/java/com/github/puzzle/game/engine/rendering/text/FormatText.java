@@ -37,7 +37,7 @@ public class FormatText {
         List<TextPart> parts = new ArrayList<>();
 
         // Repair String if it's encoded in a broken charset
-        text = new String(text.getBytes(StandardCharsets.UTF_8));
+        text = new String(text.getBytes());
         if (!text.startsWith(FORMAT_KEY))
             text = FORMAT_KEY + "r" + text;
 

@@ -2,7 +2,6 @@
   "required": true,
   "minVersion": "0.8",
   "package": "com.github.puzzle.game.mixins.refactors",
-  "plugin": "com.github.puzzle.core.loader.provider.mixin.extras.MixinExtrasConfigPlugin",
   "compatibilityLevel": "JAVA_17",
   "client": [
     "assets.BlockModelJsonMixin",

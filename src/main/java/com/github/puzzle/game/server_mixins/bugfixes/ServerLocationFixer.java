@@ -1,5 +1,6 @@
 package com.github.puzzle.game.server_mixins.bugfixes;
 
+import com.github.puzzle.core.annotation.RequiredMixin;
 import com.github.puzzle.core.terminal.PLTerminalConsole;
 import com.github.puzzle.game.ServerGlobals;
 import finalforeach.cosmicreach.io.SaveLocation;
@@ -17,6 +18,7 @@ import java.net.URI;
 import java.net.URL;
 
 @Mixin(value = ServerLauncher.class)
+@RequiredMixin("This mixin fixes issues with the file location & adds the console handler.")
 public class ServerLocationFixer {
 
     @Inject(require = 0, method = "main", at = @At("HEAD"))

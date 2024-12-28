@@ -13,6 +13,7 @@ import com.github.puzzle.core.loader.util.ModLocator;
 import com.github.puzzle.core.loader.util.Reflection;
 import com.github.puzzle.game.common.Puzzle;
 import com.github.puzzle.game.common.ServerPuzzle;
+import com.llamalad7.mixinextras.MixinExtrasBootstrap;
 import com.llamalad7.mixinextras.lib.apache.commons.tuple.Pair;
 import finalforeach.cosmicreach.GameAssetLoader;
 import finalforeach.cosmicreach.lwjgl3.Lwjgl3Launcher;
@@ -128,7 +129,8 @@ public class ClientCosmicReachProvider implements IGameProvider {
             puzzleLoaderInfo.addDependency("cosmic-reach", getGameVersion());
             puzzleLoaderInfo.addMixinConfigs(
                     "common_internal.mixins.json",
-                    "common_bugfixes.mixins.json",
+                    "common_required_fixes.mixins.json",
+                    "common_logging.mixins.json",
                     "internal.mixins.json",
                     "accessors.mixins.json",
                     "logging.mixins.json"

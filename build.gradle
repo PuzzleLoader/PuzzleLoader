@@ -36,14 +36,14 @@ dependencies {
     compileOnly('org.jetbrains:annotations:24.0.0')
 
     cosmicReach("finalforeach:cosmicreach:${cosmic_reach_client_version}")
-    bundle(annotationProcessor("io.github.llamalad7:mixinextras-common:$mixinExtrasVersion"))
+    bundle(annotationProcessor("io.github.llamalad7:mixinextras-fabric:$mixinExtrasVersion"))
 
     bundle("com.google.guava:guava:$guavaVersion")
     bundle("com.google.code.gson:gson:$gsonVersion")
 
     bundle("org.hjson:hjson:$hjsonVersion")
 
-    bundle("com.mojang:brigadier:1.0.18")
+    bundle("com.mojang:brigadier:$brigadierVersion")
 
     bundle("org.apache.logging.log4j:log4j-api:$log4jVersion")
     bundle("org.apache.logging.log4j:log4j-core:$log4jVersion")
@@ -54,6 +54,16 @@ dependencies {
     bundle("org.reflections:reflections:$reflectionsVersion")
 
     bundle("meteordevelopment:orbit:$eventbusVersion")
+
+    // ASM
+    bundle("org.ow2.asm:asm:$asmVersion")
+    bundle("org.ow2.asm:asm-tree:$asmVersion");
+    bundle("org.ow2.asm:asm-util:$asmVersion");
+    bundle("org.ow2.asm:asm-analysis:$asmVersion");
+    bundle("org.ow2.asm:asm-commons:$asmVersion");
+
+    bundle("net.fabricmc:sponge-mixin:$mixinVersion");
+    bundle("com.github.PuzzleLoader:access_manipulators:$accessManipulatorsVersion")
 
     bundle("org.jline:jline:3.25.0")
     bundle("org.apache.commons:commons-lang3:3.17.0")
