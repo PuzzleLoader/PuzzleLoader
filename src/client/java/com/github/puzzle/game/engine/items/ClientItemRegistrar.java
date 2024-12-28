@@ -3,7 +3,7 @@ package com.github.puzzle.game.engine.items;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.github.puzzle.core.loader.util.Reflection;
 import com.github.puzzle.game.items.IModItem;
-import com.github.puzzle.game.mixins.accessors.ItemRenderAccessor;
+import com.github.puzzle.game.mixins.client.accessors.ItemRenderAccessor;
 import finalforeach.cosmicreach.items.Item;
 import finalforeach.cosmicreach.rendering.items.ItemRenderer;
 

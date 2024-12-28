@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "com.github.puzzle.game.mixins.refactors",
+  "package": "com.github.puzzle.game.mixins.client",
   "compatibilityLevel": "JAVA_17",
   "client": [
     "assets.BlockModelJsonMixin",
@@ -29,9 +29,9 @@
     "defaultRequire": 1
   },
   "mixins": [
-    "networking.ConnectingScreenMixin",
-    "ui.CreditsButtonMixin",
-    "ui.CreditsMenuMixin",
-    "ui.FontRendererMixin"
+    "com.github.puzzle.game.mixins.client.networking.ConnectingScreenMixin",
+    "com.github.puzzle.game.mixins.client.ui.CreditsButtonMixin",
+    "com.github.puzzle.game.mixins.client.ui.CreditsMenuMixin",
+    "com.github.puzzle.game.mixins.client.ui.FontRendererMixin"
   ]
 }

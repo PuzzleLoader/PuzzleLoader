@@ -1,7 +1,7 @@
 {
   "required": false,
   "minVersion": "0.8",
-  "package": "com.github.puzzle.game.server_mixins.refactors.logging",
+  "package": "com.github.puzzle.game.mixins.common.logging",
   "plugin": "com.llamalad7.mixinextras.platform.fabric.MixinExtrasConfigPlugin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
