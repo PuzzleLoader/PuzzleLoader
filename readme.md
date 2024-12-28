@@ -1,6 +1,9 @@
 # Puzzle Loader
+> The modloader who truly cares
 
-The new and improved modloader for Cosmic Reach.
+### Modules / Addons
+Parts of puzzle that were separated or weren't worthy of being inside the Puzzle Loader
+- [Puzzle Bugfixes <sub><strong>Addon</strong></sub>](<https://crmm.tech/mod/puzzle-bugfixes>)
 
 ### Credits
 - [Nanobass](https://github.com/Nanobass), for the Flux-Entites & Flux v6/7 internals that puzzle uses as its api (with a few changes ofc)
@@ -10,8 +13,9 @@ The new and improved modloader for Cosmic Reach.
 look at [jitpack](https://jitpack.io/#PuzzleLoader/PuzzleLoader) for adding this to your project or look at the example mods </br>
 [Java Example Mod](https://github.com/PuzzleLoader/ExampleMod) </br>
 [Kotlin Example Mod](https://github.com/PuzzleLoader/KotlinExampleMod) </br>
-[Scala Example Mod](https://github.com/PuzzleLoader/ScalaExampleMod) </br>
-[Lua Example Mod](https://github.com/PuzzleLoader/LuaExampleMod) </br>
+
+[//]: # ([Scala Example Mod]&#40;https://github.com/PuzzleLoader/ScalaExampleMod&#41; </br>)
+[//]: # ([Lua Example Mod]&#40;https://github.com/PuzzleLoader/LuaExampleMod&#41; </br>)
 
 [Need help set up your mod?](https://github.com/PuzzleLoader/PuzzleLoader/wiki/How-to-set-up-your-mod!)
 
