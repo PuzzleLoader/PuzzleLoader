@@ -1,6 +1,7 @@
 package com.github.puzzle.game.networking.packet.cts;
 
 import com.github.puzzle.core.loader.meta.Version;
+import com.github.puzzle.core.loader.meta.parser.SideRequire;
 import com.github.puzzle.core.loader.provider.mod.ModContainer;
 import com.github.puzzle.core.loader.util.ModLocator;
 import com.github.puzzle.game.ServerGlobals;
@@ -60,12 +61,15 @@ public class CTSModlistPacket extends GamePacket {
             for (ModContainer mod : ModLocator.locatedMods.values()) {
                 String modId = mod.ID;
                 Version modVersion = mod.VERSION;
+                SideRequire allowedSides = mod.INFO.allowedSides;
 
-                if (!clientsMods.contains(modId)) {
-                    missingMods.add(mod);
-                } else {
-                    switch (modVersion.otherIs(modVersion)) {
-                        case LARGER, SMALLER -> missingMods.add(mod);
+                if (allowedSides.isBothRequired()) {
+                    if (!clientsMods.contains(modId)) {
+                        missingMods.add(mod);
+                    } else {
+                        switch (modVersion.otherIs(modVersion)) {
+                            case LARGER, SMALLER -> missingMods.add(mod);
+                        }
                     }
                 }
             }
