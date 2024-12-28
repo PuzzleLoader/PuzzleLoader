@@ -2,15 +2,15 @@ package com.github.puzzle.core.loader.meta.parser;
 
 import com.github.puzzle.core.loader.meta.EnvType;
 
-public record SideRequires(
+public record SideRequire(
         boolean client,
         boolean server
 ) {
 
-    public static final SideRequires CLIENT_ONLY = new SideRequires(true, false);
-    public static final SideRequires SERVER_ONLY = new SideRequires(false, true);
-    public static final SideRequires BOTH_REQUIRED = new SideRequires(true, true);
-    public static final SideRequires SIDE_DOES_NOT_MATTER = new SideRequires(false, false);
+    public static final SideRequire CLIENT_ONLY = new SideRequire(true, false);
+    public static final SideRequire SERVER_ONLY = new SideRequire(false, true);
+    public static final SideRequire BOTH_REQUIRED = new SideRequire(true, true);
+    public static final SideRequire SIDE_DOES_NOT_MATTER = new SideRequire(false, false);
 
     public boolean isClientOnly() {
         return client && !server;
@@ -30,7 +30,7 @@ public record SideRequires(
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof SideRequires s)
+        if (obj instanceof SideRequire s)
             return client == s.client && server == s.server;
         return false;
     }

@@ -1,5 +1,6 @@
 package com.github.puzzle.game.engine.server_stages;
 
+import com.github.puzzle.core.loader.meta.EnvType;
 import com.github.puzzle.core.loader.provider.mod.ModContainer;
 import com.github.puzzle.core.loader.provider.mod.entrypoint.impls.ModInitializer;
 import com.github.puzzle.core.loader.util.ModLocator;
@@ -22,7 +23,7 @@ public class Initialize extends ServerLoadStage {
     public void doStage() {
         super.doStage();
 
-        if (ModLocator.locatedMods == null) ModLocator.getMods();
+        if (ModLocator.locatedMods == null) ModLocator.getMods(EnvType.SERVER);
 
         try {
             ModLocator.locatedMods.get(MOD_ID).invokeEntrypoint(ModInitializer.ENTRYPOINT_KEY, ModInitializer.class, ModInitializer::onInit);

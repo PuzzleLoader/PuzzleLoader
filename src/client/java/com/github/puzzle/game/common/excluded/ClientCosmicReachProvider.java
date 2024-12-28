@@ -2,9 +2,7 @@ package com.github.puzzle.game.common.excluded;
 
 import com.github.puzzle.core.Constants;
 import com.github.puzzle.core.loader.launch.PuzzleClassLoader;
-import com.github.puzzle.core.loader.meta.EnvType;
-import com.github.puzzle.core.loader.meta.ModInfo;
-import com.github.puzzle.core.loader.meta.Version;
+import com.github.puzzle.core.loader.meta.*;
 import com.github.puzzle.core.loader.provider.IGameProvider;
 import com.github.puzzle.core.loader.provider.mod.ModContainer;
 import com.github.puzzle.core.loader.provider.mod.entrypoint.impls.CommonTransformerInitializer;
@@ -13,7 +11,6 @@ import com.github.puzzle.core.loader.util.ModLocator;
 import com.github.puzzle.core.loader.util.Reflection;
 import com.github.puzzle.game.common.Puzzle;
 import com.github.puzzle.game.common.ServerPuzzle;
-import com.llamalad7.mixinextras.MixinExtrasBootstrap;
 import com.llamalad7.mixinextras.lib.apache.commons.tuple.Pair;
 import finalforeach.cosmicreach.GameAssetLoader;
 import finalforeach.cosmicreach.lwjgl3.Lwjgl3Launcher;
@@ -80,7 +77,7 @@ public class ClientCosmicReachProvider implements IGameProvider {
 
     @Override
     public void registerTransformers(@NotNull PuzzleClassLoader classLoader) {
-        ModLocator.getMods(List.of(classLoader.getURLs()));
+        ModLocator.getMods(EnvType.CLIENT, List.of(classLoader.getURLs()));
         addBuiltinMods();
 
         CommonTransformerInitializer.invokeTransformers(classLoader);
@@ -126,8 +123,9 @@ public class ClientCosmicReachProvider implements IGameProvider {
             puzzleLoaderInfo.setId(Constants.MOD_ID);
             puzzleLoaderInfo.setDesc("A new dedicated modloader for Cosmic Reach");
             puzzleLoaderInfo.addEntrypoint("transformers", PuzzleTransformers.class.getName());
-            puzzleLoaderInfo.addDependency("cosmic-reach", getGameVersion());
-            puzzleLoaderInfo.addMixinConfigs(
+            puzzleLoaderInfo.addDependency("cosmic-reach", getRawVersion());
+            puzzleLoaderInfo.addSidedMixinConfigs(
+                    EnvType.CLIENT,
                     "mixins/client/accessors.client.mixins.json",
                     "mixins/client/internal.client.mixins.json",
                     "mixins/client/logging.client.mixins.json",
@@ -144,7 +142,7 @@ public class ClientCosmicReachProvider implements IGameProvider {
             });
 
             puzzleLoaderInfo.setVersion(Constants.getPuzzleVersion());
-            puzzleLoaderInfo.setAccessManipulator("puzzle_loader.manipulator");
+            puzzleLoaderInfo.addAccessManipulator("puzzle_loader.manipulator");
             puzzleLoaderInfo.addEntrypoint("client_preInit", Puzzle.class.getName());
             puzzleLoaderInfo.addEntrypoint("client_init", Puzzle.class.getName());
             puzzleLoaderInfo.addEntrypoint("client_postInit", Puzzle.class.getName());
@@ -154,7 +152,7 @@ public class ClientCosmicReachProvider implements IGameProvider {
         }
 
         /* Cosmic Reach as a mod */
-        ModInfo.Builder cosmicReachInfo = ModInfo.Builder.New();
+        ModInfoV2Builder cosmicReachInfo = ModInfoV2Builder.New();
         {
             cosmicReachInfo.setName(getName());
             puzzleLoaderInfo.setId("cosmic-reach");

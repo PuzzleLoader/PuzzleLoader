@@ -10,7 +10,6 @@ import org.hjson.JsonObject;
 import org.hjson.JsonValue;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 
 public abstract class ModJson {
@@ -53,8 +52,8 @@ public abstract class ModJson {
 
     public abstract String[] accessTransformers();
 
-    public SideRequires sidedRequirements() {
-        return SideRequires.BOTH_REQUIRED;
+    public SideRequire allowedSides() {
+        return SideRequire.BOTH_REQUIRED;
     }
 
     public static ModJson convert(ModJson old, int revision) {

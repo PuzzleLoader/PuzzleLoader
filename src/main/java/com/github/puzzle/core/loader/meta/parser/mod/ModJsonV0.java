@@ -14,8 +14,8 @@ import org.hjson.JsonObject;
 import org.hjson.JsonValue;
 
 import java.util.*;
-import java.util.stream.Stream;
 
+@Deprecated
 public class ModJsonV0 extends ModJson {
 
     private String id = "";

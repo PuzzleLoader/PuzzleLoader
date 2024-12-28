@@ -1,6 +1,7 @@
 package com.github.puzzle.game.engine.stages;
 
 import com.github.puzzle.core.loader.launch.provider.mod.entrypoint.impls.ClientModInitializer;
+import com.github.puzzle.core.loader.meta.EnvType;
 import com.github.puzzle.core.loader.provider.mod.ModContainer;
 import com.github.puzzle.core.loader.provider.mod.entrypoint.impls.ModInitializer;
 import com.github.puzzle.core.loader.util.ModLocator;
@@ -27,7 +28,7 @@ public class Initialize extends LoadStage {
     public void doStage() {
         super.doStage();
 
-        if (ModLocator.locatedMods == null) ModLocator.getMods();
+        if (ModLocator.locatedMods == null) ModLocator.getMods(EnvType.CLIENT);
 
         AtomicInteger progress = new AtomicInteger();
         loader.setupProgressBar(loader.progressBar2, ModLocator.locatedMods.size(), "Initializing Mods: Init");

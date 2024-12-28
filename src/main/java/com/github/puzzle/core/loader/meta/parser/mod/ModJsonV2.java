@@ -3,7 +3,7 @@ package com.github.puzzle.core.loader.meta.parser.mod;
 import com.github.puzzle.core.loader.launch.Piece;
 import com.github.puzzle.core.loader.meta.EnvType;
 import com.github.puzzle.core.loader.meta.parser.ModJson;
-import com.github.puzzle.core.loader.meta.parser.SideRequires;
+import com.github.puzzle.core.loader.meta.parser.SideRequire;
 import com.github.puzzle.core.loader.provider.lang.ILangProvider;
 import com.github.puzzle.core.loader.provider.lang.impl.LangProviderWrapper;
 import com.github.puzzle.core.loader.provider.mod.AdapterPathPair;
@@ -18,7 +18,7 @@ import java.util.*;
 
 public class ModJsonV2 extends ModJsonV1 {
 
-    SideRequires sidedRequirements;
+    SideRequire allowedSides;
 
     public ModJsonV2() {
         super();
@@ -35,11 +35,11 @@ public class ModJsonV2 extends ModJsonV1 {
             Map<String, JsonValue> meta,
             Map<String, Collection<AdapterPathPair>> entrypoints,
             Map<String, Pair<String, Boolean>> dependencies,
-            SideRequires sidedRequirements
+            SideRequire sidedRequirements
     ) {
         super(name, id, version, description, authors, mixins, accessTransformers, meta, entrypoints, dependencies);
 
-        this.sidedRequirements = sidedRequirements;
+        this.allowedSides = sidedRequirements;
     }
 
     public static ModJson fromString(String string) {
@@ -137,15 +137,19 @@ public class ModJsonV2 extends ModJsonV1 {
             }
         } else info.entrypoints = new HashMap<>();
 
-        if (obj.get("sidedRequirements") != null) {
-            JsonObject sidedRequirements1 = obj.get("sidedRequirements").asObject();
-            info.sidedRequirements = new SideRequires(
-                    sidedRequirements1.getBoolean("client", true),
-                    sidedRequirements1.getBoolean("server", true)
+        if (obj.get("allowedSides") != null) {
+            JsonObject requiredSide1 = obj.get("allowedSides").asObject();
+            info.allowedSides = new SideRequire(
+                    requiredSide1.getBoolean("client", true),
+                    requiredSide1.getBoolean("server", true)
             );
-        } else info.sidedRequirements = SideRequires.BOTH_REQUIRED;
+        } else info.allowedSides = SideRequire.BOTH_REQUIRED;
 
         return info;
+    }
+
+    public SideRequire getAllowedSides() {
+        return allowedSides;
     }
 
     @Override
@@ -167,7 +171,7 @@ public class ModJsonV2 extends ModJsonV1 {
                 old.meta(),
                 old.entrypoints(),
                 old.dependencies(),
-                old.sidedRequirements()
+                old.allowedSides()
         );
     }
 }

@@ -49,7 +49,7 @@
       "ver": "*", "isRequired": false
     }
   },
-  "sidedRequirements": {
+  "allowedSides": {
     "client": false,
     "server": false
   },

@@ -4,6 +4,7 @@ import com.github.puzzle.core.Constants;
 import com.github.puzzle.core.loader.launch.PuzzleClassLoader;
 import com.github.puzzle.core.loader.meta.EnvType;
 import com.github.puzzle.core.loader.meta.ModInfo;
+import com.github.puzzle.core.loader.meta.ModInfoV0Builder;
 import com.github.puzzle.core.loader.meta.Version;
 import com.github.puzzle.core.loader.provider.IGameProvider;
 import com.github.puzzle.core.loader.provider.mod.ModContainer;
@@ -79,7 +80,7 @@ public class ServerCosmicReachProvider implements IGameProvider {
 
     @Override
     public void registerTransformers(@NotNull PuzzleClassLoader classLoader) {
-        ModLocator.getMods(List.of(classLoader.getURLs()));
+        ModLocator.getMods(EnvType.SERVER, List.of(classLoader.getURLs()));
         addBuiltinMods();
 
         CommonTransformerInitializer.invokeTransformers(classLoader);
@@ -125,11 +126,12 @@ public class ServerCosmicReachProvider implements IGameProvider {
             puzzleLoaderInfo.setName("Puzzle Loader");
             puzzleLoaderInfo.setDesc("A new dedicated mod loader for Cosmic Reach");
             puzzleLoaderInfo.addEntrypoint("transformers", PuzzleTransformers.class.getName());
-            puzzleLoaderInfo.addDependency("cosmic-reach", getGameVersion());
+            puzzleLoaderInfo.addDependency("cosmic-reach", getRawVersion());
             if (!ServerGlobals.isRunningOnParadox) {
-                puzzleLoaderInfo.addMixinConfigs("server_bugfixes_only.mixins.json");
+                puzzleLoaderInfo.addSidedMixinConfigs(EnvType.SERVER,"server_bugfixes_only.mixins.json");
             }
-            puzzleLoaderInfo.addMixinConfigs(
+            puzzleLoaderInfo.addSidedMixinConfigs(
+                    EnvType.SERVER,
                     "mixins/common/logging.common.mixins.json",
                     "mixins/common/fixes.common.mixins.json",
                     "mixins/common/internal.common.mixins.json",
@@ -145,7 +147,7 @@ public class ServerCosmicReachProvider implements IGameProvider {
                     "Mr-Zombii", "repletsin5", "SinfullySoul", "tympanicblock61"
             });
             puzzleLoaderInfo.setVersion(Constants.getPuzzleVersion());
-            puzzleLoaderInfo.setAccessManipulator("puzzle_loader.manipulator");
+            puzzleLoaderInfo.addAccessManipulator("puzzle_loader.manipulator");
 //            puzzleLoaderInfo.addEntrypoint("preInit", ServerPuzzle.class.getName());
             puzzleLoaderInfo.addEntrypoint("init", ServerPuzzle.class.getName());
 //            puzzleLoaderInfo.addEntrypoint("postInit", ServerPuzzle.class.getName());

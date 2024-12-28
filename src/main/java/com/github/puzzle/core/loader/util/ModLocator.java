@@ -146,13 +146,13 @@ public class ModLocator {
     }
 
     public static void getMods(EnvType env) {
-        getMods(new ArrayList<>(), env);
+        getMods(env, new ArrayList<>());
     }
 
-    public static void walkDir(File file, EnvType env) {
+    public static void walkDir(EnvType env, File file) {
         if (file.isDirectory()) {
             if (file.listFiles() != null) {
-                Arrays.stream(Objects.requireNonNull(file.listFiles())).forEach((f) -> ModLocator.walkDir(f, env));
+                Arrays.stream(Objects.requireNonNull(file.listFiles())).forEach((f) -> ModLocator.walkDir(env, f));
             }
         } else if (file.getName().equals("puzzle.mod.json")) {
             try {
@@ -165,7 +165,7 @@ public class ModLocator {
         }
     }
 
-    public static void getMods(Collection<URL> classPath, EnvType env) {
+    public static void getMods(EnvType env, Collection<URL> classPath) {
         Collection<URL> urls = getUrlsOnClasspath(classPath);
 
         for (URL url : urls) {
@@ -184,13 +184,13 @@ public class ModLocator {
                     throw new RuntimeException(e);
                 }
             } else {
-                walkDir(file, env);
+                walkDir(env, file);
             }
         }
     }
 
     private static void addMod(EnvType env, ModJson json, ZipFile jar, boolean isDevMod) {
-        if (!json.sidedRequirements().isAllowed(env)) {
+        if (!json.allowedSides().isAllowed(env)) {
             LOGGER.error("Discovered {}Mod \"{}\" with ID \"{}\" on the wrong side of {}, please remove this mod or fix the puzzle.mod.json", json.name(), isDevMod ? "DevMod" : " ", json.id());
             return;
         }
