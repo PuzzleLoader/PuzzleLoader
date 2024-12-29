@@ -10,6 +10,7 @@ import finalforeach.cosmicreach.ui.FontRenderer;
 
 import java.awt.*;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,11 +25,42 @@ public class CosmicReachFont {
         FONT_BIG.getData().setScale(2.5F);
     }
 
+    public static Class<?> findFontCosmicReachFontClass() {
+        Class<?> clazz;
+        try {
+            clazz = Class.forName("finalforeach.cosmicreach.ui.CosmicReachFont");
+        } catch (Exception ignore) {
+            try {
+                clazz = Class.forName("finalforeach.cosmicreach.CosmicReachFont");
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException("CosmicReachFont for CosmicReach has moved, please contact PuzzleLoader developers to fix this.");
+            }
+        }
+        return clazz;
+    }
+
+    public static Class<?> findFontTextureClass() {
+        Class<?> clazz;
+        try {
+            clazz = Class.forName("finalforeach.cosmicreach.ui.FontTexture");
+        } catch (Exception ignore) {
+            try {
+                clazz = Class.forName("finalforeach.cosmicreach.FontTexture");
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException("FontTexture for CosmicReach has moved, please contact PuzzleLoader developers to fix this.");
+            }
+        }
+        return clazz;
+    }
+
     public static BitmapFont createCosmicReachFont() {
+        try {
+            return createCosmicReachFontV();
+        } catch (Exception ignore) {}
         List<FontTexture> fontTextures = new ArrayList<>();
 
         try {
-            Class<?> fontTextureType = Class.forName("finalforeach.cosmicreach.ui.FontTexture");
+            Class<?> fontTextureType = findFontTextureClass();
             for(Field field : FontRenderer.class.getDeclaredFields()) {
                 field.setAccessible(true);
                 Object value = field.get(null);
@@ -56,6 +88,7 @@ public class CosmicReachFont {
 
         Map<FontTexture, Point> locations = new HashMap<>();
         Pixmap pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
+
         for(FontTexture ft : fontTextures) {
             TextureData td = ft.fontTextureRegions[0].getTexture().getTextureData();
             td.prepare();
@@ -73,6 +106,7 @@ public class CosmicReachFont {
         for(FontTexture ft : fontTextures) {
             int xOffset = locations.get(ft).x;
             int yOffset = locations.get(ft).y;
+
             for(int unicode = ft.unicodeStart; unicode < ft.unicodeStart + 256; unicode++) {
                 Vector2 charStart = ft.fontCharStartPos[unicode - ft.unicodeStart];
                 Vector2 charSize = ft.fontCharSizes[unicode - ft.unicodeStart];
@@ -87,11 +121,16 @@ public class CosmicReachFont {
                 data.setGlyph(unicode, glyph);
             }
         }
-        data.down = -data.getGlyph('\n').height;
+        data.down = (float)(-data.getGlyph('\n').height);
         BitmapFont.Glyph space = data.getGlyph(' ');
         space.width /= 4;
         space.xadvance = space.width;
         return new BitmapFont(data, new TextureRegion(texture), true);
+    }
+
+    private static BitmapFont createCosmicReachFontV() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        Class<?> crFont = findFontCosmicReachFontClass();
+        return (BitmapFont) crFont.getMethod("createCosmicReachFont").invoke(null);
     }
 
 }
