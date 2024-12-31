@@ -2,11 +2,9 @@ package com.github.puzzle.game.ui.screens.handlers;
 
 import com.github.puzzle.core.Constants;
 import com.github.puzzle.core.loader.meta.EnvType;
-import com.github.puzzle.game.items.IModItem;
 import finalforeach.cosmicreach.BlockEntityScreenInfo;
 import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.blockentities.BlockEntity;
-import finalforeach.cosmicreach.items.ItemStack;
 import finalforeach.cosmicreach.networking.packets.blocks.BlockEntityDataPacket;
 import finalforeach.cosmicreach.networking.packets.blocks.BlockEntityScreenPacket;
 import finalforeach.cosmicreach.networking.server.ServerIdentity;

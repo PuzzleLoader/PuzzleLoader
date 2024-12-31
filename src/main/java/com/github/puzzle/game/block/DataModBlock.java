@@ -2,7 +2,6 @@ package com.github.puzzle.game.block;
 
 import com.badlogic.gdx.utils.Json;
 import com.github.puzzle.game.block.generators.BlockGenerator;
-import com.github.puzzle.game.block.generators.DataBlockGenerator;
 import com.github.puzzle.game.resources.PuzzleGameAssetLoader;
 import finalforeach.cosmicreach.util.Identifier;
 

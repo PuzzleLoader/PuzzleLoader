@@ -9,7 +9,6 @@ import com.github.puzzle.game.block.PuzzleBlockAction;
 import com.github.puzzle.game.block.generators.BlockEventGenerator;
 import com.github.puzzle.game.block.generators.BlockGenerator;
 import com.github.puzzle.game.block.generators.model.BlockModelGenerator;
-import com.github.puzzle.game.engine.ServerGameLoader;
 import com.github.puzzle.game.engine.blocks.models.PuzzleBlockModel;
 import com.github.puzzle.game.factories.IFactory;
 import com.github.puzzle.game.resources.PuzzleGameAssetLoader;

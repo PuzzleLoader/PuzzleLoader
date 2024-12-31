@@ -2,8 +2,6 @@ package com.github.puzzle.game.items.impl;
 
 import com.github.puzzle.game.items.IModItem;
 import com.github.puzzle.game.items.data.DataTagManifest;
-import finalforeach.cosmicreach.blocks.BlockState;
-import finalforeach.cosmicreach.items.ItemThing;
 import finalforeach.cosmicreach.util.Identifier;
 
 public class BasicItem implements IModItem {

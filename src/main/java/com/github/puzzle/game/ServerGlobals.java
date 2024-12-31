@@ -1,6 +1,5 @@
 package com.github.puzzle.game;
 
-import com.github.puzzle.core.Constants;
 import com.github.puzzle.core.loader.launch.Piece;
 import com.github.puzzle.core.loader.meta.Env;
 import com.github.puzzle.core.loader.meta.EnvType;

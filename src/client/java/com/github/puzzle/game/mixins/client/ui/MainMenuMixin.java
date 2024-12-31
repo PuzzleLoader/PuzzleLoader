@@ -5,7 +5,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.github.puzzle.core.localization.LanguageManager;
 import com.github.puzzle.core.localization.TranslationKey;
 import com.github.puzzle.game.common.Puzzle;
-import com.github.puzzle.game.engine.rendering.text.FormattedTextRenderer;
 import com.github.puzzle.game.ui.modmenu.ModMenu;
 import finalforeach.cosmicreach.gamestates.GameState;
 import finalforeach.cosmicreach.gamestates.MainMenu;

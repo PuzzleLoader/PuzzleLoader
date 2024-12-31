@@ -4,11 +4,11 @@
   "package": "com.github.puzzle.game.mixins.common.logging",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "BlockStateLogging",
     "ChunkSaverLoggingMixin",
     "PlayerSaverLoggingMixin",
     "ZoneLoadersLoggingMixin",
-    "ZoneLoggingMixin",
-    "BlockStateLogging"
+    "ZoneLoggingMixin"
   ],
   "injectors": {
     "defaultRequire": 0

@@ -7,10 +7,6 @@
     "defaultRequire": 1
   },
   "mixins": [
-    "networking.ConnectingScreenMixin",
-    "ui.CreditsButtonMixin",
-    "ui.CreditsMenuMixin",
-    "ui.FontRendererMixin",
     "assets.BlockModelJsonMixin",
     "assets.ChunkShaderPathFixer",
     "assets.GameShaderPathFixer",
@@ -26,6 +22,10 @@
     "items.rendering.ItemRendererMixin",
     "items.rendering.ItemSlotWidgetMixin",
     "networking.ClientNetworkManagerMixin",
+    "networking.ConnectingScreenMixin",
+    "ui.CreditsButtonMixin",
+    "ui.CreditsMenuMixin",
+    "ui.FontRendererMixin",
     "ui.MainMenuMixin",
     "ui.OptionsMixin",
     "window.IconMixin",

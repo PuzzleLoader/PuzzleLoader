@@ -2,7 +2,6 @@ package com.github.puzzle.game.mixins.client.entrypoint;
 
 import com.github.puzzle.core.loader.launch.Piece;
 import com.github.puzzle.core.loader.launch.provider.mod.entrypoint.impls.ClientPreModInitializer;
-import com.github.puzzle.game.ClientGlobals;
 import finalforeach.cosmicreach.lwjgl3.Lwjgl3Launcher;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

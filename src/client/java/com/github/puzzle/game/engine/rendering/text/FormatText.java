@@ -6,7 +6,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import finalforeach.cosmicreach.ui.FontRenderer;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.MatchResult;

@@ -10,7 +10,6 @@ import finalforeach.cosmicreach.blockevents.BlockEventArgs;
 import finalforeach.cosmicreach.blockevents.actions.BlockActionItemDrop;
 import finalforeach.cosmicreach.blockevents.actions.BlockActionPlaySound3D;
 import finalforeach.cosmicreach.blockevents.actions.BlockActionReplaceBlockState;
-import finalforeach.cosmicreach.blockevents.actions.BlockActionRunTrigger;
 import finalforeach.cosmicreach.util.Identifier;
 
 import java.util.Collections;
