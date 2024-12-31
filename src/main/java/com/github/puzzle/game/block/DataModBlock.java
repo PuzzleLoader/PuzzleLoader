@@ -2,6 +2,7 @@ package com.github.puzzle.game.block;
 
 import com.badlogic.gdx.utils.Json;
 import com.github.puzzle.game.block.generators.BlockGenerator;
+import com.github.puzzle.game.block.generators.DataBlockGenerator;
 import com.github.puzzle.game.resources.PuzzleGameAssetLoader;
 import finalforeach.cosmicreach.util.Identifier;
 
@@ -43,13 +44,16 @@ public class DataModBlock implements IModBlock {
     @Override
     public BlockGenerator getBlockGenerator() {
         Json json = new Json();
+
         JsonBlock block = json.fromJson(JsonBlock.class, blockJson);
         identifier = Identifier.of(block.stringId);
+//        return new DataBlockGenerator(identifier, blockJson);
         BlockGenerator generator = new BlockGenerator(getIdentifier());
         generator.blockEntityId = block.blockEntityId;
         generator.blockEntityParams = block.blockEntityParams;
         generator.defaultParams = block.defaultParams;
         generator.blockStates = block.blockStates;
+        System.out.println(generator.generateJson());
         return generator;
     }
 

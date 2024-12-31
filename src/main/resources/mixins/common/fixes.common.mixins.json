@@ -11,6 +11,7 @@
     "BlockStateGeneratorCopyFixer",
     "BlockStateGeneratorMixin",
     "ItemMixin",
+    "LibgdxJSONFixer",
     "Point3DMapRewrite"
   ]
 }

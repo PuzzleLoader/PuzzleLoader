@@ -8,12 +8,16 @@ import finalforeach.cosmicreach.blocks.BlockPlaceCheck;
 import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.util.Identifier;
 import finalforeach.cosmicreach.util.JsonPredicateParser;
+import org.hjson.JsonObject;
+import org.hjson.Stringify;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
+
 
 public class BlockGenerator implements IGenerator {
 
@@ -159,6 +163,7 @@ public class BlockGenerator implements IGenerator {
         this.blockId = blockId;
         this.defaultParams = new LinkedHashMap<>();
         this.blockStates = new LinkedHashMap<>();
+        this.blockEntityParams = new LinkedHashMap<>();
     }
 
     public void addBlockEntity(String blockEntityId, Map<String, ?> parameters) {
@@ -204,6 +209,7 @@ public class BlockGenerator implements IGenerator {
             out += "\"blockEntityParams\": " + json2.toJson(blockEntityParams) + ", ";
         out += "\"blockStates\": " + json.toJson(blockStates);
         out += "}";
-        return out;
+
+        return JsonObject.readHjson(out).toString(Stringify.FORMATTED);
     }
 }
