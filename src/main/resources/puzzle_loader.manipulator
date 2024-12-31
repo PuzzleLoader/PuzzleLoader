@@ -43,3 +43,5 @@ public field finalforeach/cosmicreach/networking/GamePacket packetNamesToClasses
 
 public field finalforeach/cosmicreach/ui/UI uiViewport
 public method finalforeach/cosmicreach/chat/commands/Command printHelp (Lfinalforeach/cosmicreach/chat/IChat;)V
+
+public field finalforeach/cosmicreach/world/BlockSetter skylightProp
