@@ -5,9 +5,12 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.github.puzzle.game.ClientGlobals;
 import finalforeach.cosmicreach.ui.FontRenderer;
 import finalforeach.cosmicreach.ui.HorizontalAnchor;
 import finalforeach.cosmicreach.ui.VerticalAnchor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +24,7 @@ public class FormattedTextRenderer {
         drawText(batch, vp, text, xStart, yStart, false);
     }
 
-    public static void drawText(SpriteBatch batch, Viewport uiViewport, String text, float xStart, float yStart, HorizontalAnchor hAnchor, VerticalAnchor vAnchor) {
+    public static void drawText(Batch batch, Viewport uiViewport, String text, float xStart, float yStart, HorizontalAnchor hAnchor, VerticalAnchor vAnchor) {
         Color resetColor = batch.getColor().cpy();
 
         FormatText formatted = textCache.get(text);
@@ -43,7 +46,7 @@ public class FormattedTextRenderer {
         drawText(batch, vp, text, xStart, yStart, false);
     }
 
-    public static void drawText(SpriteBatch batch, Viewport uiViewport, FormatText text, float xStart, float yStart, HorizontalAnchor hAnchor, VerticalAnchor vAnchor) {
+    public static void drawText(Batch batch, Viewport uiViewport, FormatText text, float xStart, float yStart, HorizontalAnchor hAnchor, VerticalAnchor vAnchor) {
         Vector2 textDim = FontRenderer.getTextDimensions(uiViewport, text.getText(), new Vector2());
         float w = textDim.x;
         float h = textDim.y;

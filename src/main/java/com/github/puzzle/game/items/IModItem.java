@@ -9,6 +9,7 @@ import com.github.puzzle.game.items.data.DataTagPreset;
 import com.github.puzzle.game.items.data.attributes.*;
 import com.github.puzzle.game.util.DataTagUtil;
 import finalforeach.cosmicreach.blockentities.BlockEntityFurnace;
+import finalforeach.cosmicreach.blocks.BlockPosition;
 import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.entities.player.Player;
 import finalforeach.cosmicreach.items.Item;
@@ -133,21 +134,20 @@ public interface IModItem extends Item {
      * This allows your item to be used by the player.
      * This method is a remap/rename of useItem
      * @see IModItem#useItem(ItemSlot, Player)
-     * @see Item#useItem(ItemSlot, Player)
+     * @see Item#useItem(ItemSlot, Player, BlockPosition)
      */
-    default void use(ItemSlot slot, Player player) {
+    default void use(ItemSlot slot, Player player, BlockPosition targetPlaceBlockPos, BlockPosition targetBreakBlockPos) {
     }
 
     /**
      * This allows your item to be used by the player.
      * This method is a remap/rename of useItem
      * @see IModItem#useItem(ItemSlot, Player)
-     * @see Item#useItem(ItemSlot, Player)
+     * @see Item#useItem(ItemSlot, Player, BlockPosition)
      */
-    default void use(ItemSlot slot, Player player, boolean isLeftClick) {
+    default void use(ItemSlot slot, Player player, BlockPosition targetPlaceBlockPos, BlockPosition targetBreakBlockPos, boolean isLeftClick) {
         if (!isLeftClick) {
-            use(slot, player);
-            return;
+            this.use(slot, player, targetPlaceBlockPos, targetBreakBlockPos);
         }
     }
 
@@ -156,7 +156,7 @@ public interface IModItem extends Item {
      *
      * @deprecated impl the "use" method instead for a cleaner look
      * in your code.
-     * @see IModItem#use(ItemSlot, Player)
+     * @see IModItem#use(ItemSlot, Player, BlockPosition, BlockPosition)
      */
     @Deprecated
     default boolean useItem(ItemSlot slot, Player player) {
