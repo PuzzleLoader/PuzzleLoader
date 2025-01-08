@@ -241,6 +241,11 @@ public class ClientGameLoader extends GameState implements IGameLoader {
     }
 
     @Override
+    public void switchAwayTo(GameState gameState) {
+        batch.setColor(Color.WHITE);
+    }
+
+    @Override
     public void render() {
         Runtime runtime = Runtime.getRuntime();
         int ramValue = (int) ((runtime.totalMemory() - runtime.freeMemory()) / (1024 * 1024));
