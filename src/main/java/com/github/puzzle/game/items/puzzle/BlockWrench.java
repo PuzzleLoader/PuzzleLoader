@@ -1,5 +1,7 @@
 package com.github.puzzle.game.items.puzzle;
 
+import com.github.puzzle.core.Constants;
+import com.github.puzzle.game.ServerGlobals;
 import com.github.puzzle.game.items.IModItem;
 import com.github.puzzle.game.items.data.DataTagManifest;
 import com.github.puzzle.game.util.BlockSelectionUtil;
@@ -24,13 +26,12 @@ public class BlockWrench implements IModItem {
     }
 
     @Override
-    public void use(ItemSlot slot, Player player) {
-        BlockState state = BlockSelectionUtil.getBlockLookingAt();
-        BlockPosition position = BlockSelectionUtil.getBlockPositionLookingAt();
+    public void use(ItemSlot slot, Player player, BlockPosition targetPlaceBlockPos, BlockPosition targetBreakBlockPos) {
+        BlockState state = targetBreakBlockPos.getBlockState();
         if (state == null) return;
-        if (position == null) return;
+        if (targetBreakBlockPos == null) return;
 
-        BlockUtil.setBlockAt(position.getZone(), ((ItemBlock) state.getItem().getNextSwapGroupItem()).getBlockState(), position);
+        BlockUtil.setBlockAt(targetBreakBlockPos.getZone(), ((ItemBlock) state.getItem().getNextSwapGroupItem()).getBlockState(), targetBreakBlockPos);
     }
 
     @Override

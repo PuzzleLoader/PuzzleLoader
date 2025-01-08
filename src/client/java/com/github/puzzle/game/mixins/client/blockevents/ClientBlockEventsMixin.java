@@ -47,7 +47,7 @@ public class ClientBlockEventsMixin {
         }
         return original;
     }
-    @ModifyExpressionValue(method = "interactWith", at=@At(value = "NEW", target = "()Lfinalforeach/cosmicreach/blockevents/BlockEventArgs;"))
+    @ModifyExpressionValue(method = "interactWithBlock", at=@At(value = "NEW", target = "()Lfinalforeach/cosmicreach/blockevents/BlockEventArgs;"))
     private BlockEventArgs interactWithHelper(BlockEventArgs original){
         if (Piece.getSide() != EnvType.SERVER) {
             original.srcIdentity = new NetworkIdentity(null) {

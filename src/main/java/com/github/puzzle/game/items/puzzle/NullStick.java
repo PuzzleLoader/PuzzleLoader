@@ -59,7 +59,7 @@ public class NullStick implements IModItem, ITickingItem {
     }
 
     @Override
-    public void use(ItemSlot slot, Player player) {
+    public void use(ItemSlot slot, Player player, BlockPosition targetPlaceBlockPos, BlockPosition targetBreakBlockPos, boolean isLeftClick) {
         BlockState state = BlockSelectionUtil.getBlockLookingAt();
         BlockPosition position = BlockSelectionUtil.getBlockPositionLookingAt();
         if (state == null) return;

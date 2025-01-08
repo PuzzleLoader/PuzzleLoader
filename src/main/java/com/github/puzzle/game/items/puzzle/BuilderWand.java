@@ -34,7 +34,7 @@ public class BuilderWand implements IModItem {
     }
 
     @Override
-    public void use(ItemSlot slot, Player player, boolean isLeftClick) {
+    public void use(ItemSlot slot, Player player, BlockPosition targetPlaceBlockPos, BlockPosition targetBreakBlockPos, boolean isLeftClick) {
         if(isLeftClick) return;
         if(PuzzleControlSettings.keyCrouch.isPressed()){
             //GameSingletons.openBlockEntityScreen(player, player.getZone(GameSingletons.world), this);
