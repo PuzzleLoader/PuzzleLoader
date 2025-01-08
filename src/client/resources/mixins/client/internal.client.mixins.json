@@ -28,6 +28,7 @@
     "ui.FontRendererMixin",
     "ui.MainMenuMixin",
     "ui.OptionsMixin",
+    "ui.PrealphaPreambleMixin",
     "window.IconMixin",
     "window.TitleMixin"
   ]
