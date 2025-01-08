@@ -1,5 +1,6 @@
 package com.github.puzzle.game.mixins.client.ui;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.puzzle.game.engine.rendering.text.FormattedTextRenderer;
@@ -17,7 +18,7 @@ public class FontRendererMixin {
      * @reason Change the text drawer to use FormattedTextRenderer
      */
     @Overwrite
-    public static void drawText(SpriteBatch batch, Viewport uiViewport, String text, float xStart, float yStart, HorizontalAnchor hAnchor, VerticalAnchor vAnchor) {
+    public static void drawText(Batch batch, Viewport uiViewport, String text, float xStart, float yStart, HorizontalAnchor hAnchor, VerticalAnchor vAnchor) {
         FormattedTextRenderer.drawText(batch, uiViewport, text, xStart, yStart, hAnchor, vAnchor);
     }
 
