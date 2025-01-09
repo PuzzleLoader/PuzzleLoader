@@ -23,7 +23,7 @@ public class ClientBlockEventsMixin {
     @Inject(method = "breakBlock", at = @At("HEAD"), cancellable = true)
     public void breakBlock(Zone zone, BlockPosition blockPos, double timeSinceLastInteract, CallbackInfo ci) {
         ItemStack stack = UI.hotbar.getSelectedSlot().itemStack;
-        if (stack != null && stack.getItem() instanceof IModItem modItem) {
+        if (blockPos != null && stack != null && stack.getItem() instanceof IModItem modItem) {
             if (!modItem.canBreakBlockWith(blockPos.getBlockState())){
                 ci.cancel();
             }
@@ -32,7 +32,7 @@ public class ClientBlockEventsMixin {
 
     @Inject(method = "interactWithBlock", at = @At("HEAD"), cancellable = true)
     public void interactWithBlock(Player player, Zone zone, BlockPosition blockPos, ItemStack heldItemStack, CallbackInfo ci) {
-        if (heldItemStack != null && heldItemStack.getItem() instanceof IModItem modItem) {
+        if (blockPos != null && heldItemStack != null && heldItemStack.getItem() instanceof IModItem modItem) {
             if (!modItem.canInteractWithBlock(blockPos.getBlockState())){
                 ci.cancel();
             }
@@ -42,7 +42,7 @@ public class ClientBlockEventsMixin {
     @Inject(method = "interactWithBlockIfBlockEntity", at = @At("HEAD"), cancellable = true)
     public void interactWithBlockIfBlockEntity(Player player, Zone zone, BlockPosition blockPos, CallbackInfoReturnable<Boolean> cir) {
         ItemStack stack = UI.hotbar.getSelectedSlot().itemStack;
-        if (stack != null && stack.getItem() instanceof IModItem modItem) {
+        if (blockPos != null && stack != null && stack.getItem() instanceof IModItem modItem) {
             if (blockPos.getBlockEntity() != null){
                 if (!modItem.canInteractWithBlockEntity(blockPos.getBlockEntity())){
                     cir.cancel();
