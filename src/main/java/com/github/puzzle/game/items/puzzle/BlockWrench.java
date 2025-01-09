@@ -28,6 +28,7 @@ public class BlockWrench implements IModItem {
 
     @Override
     public void use(ItemSlot slot, Player player, BlockPosition targetPlaceBlockPos, BlockPosition targetBreakBlockPos) {
+        if (targetBreakBlockPos == null) return;
         BlockState state = targetBreakBlockPos.getBlockState();
         if (state == null) return;
         if (targetBreakBlockPos == null) return;
