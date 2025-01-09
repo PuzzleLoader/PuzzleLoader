@@ -48,7 +48,7 @@ public class MainMenuMixin extends GameState {
      */
     @ModifyArg(method = "create",at= @At(value = "INVOKE", target ="Lfinalforeach/cosmicreach/ui/widgets/CRButton;addAction(Lcom/badlogic/gdx/scenes/scene2d/Action;)V",ordinal = 1),index = 0)
     Action moveLang(Action unused){
-        return new AlignYAction(Align.topRight, 1.0F,-10f);
+        return new AlignYAction(4, 0.0F, 80.0F);
     }
     /**
      * @author replet
