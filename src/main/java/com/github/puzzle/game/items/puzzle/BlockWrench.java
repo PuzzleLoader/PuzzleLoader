@@ -63,4 +63,9 @@ public class BlockWrench implements IModItem {
     public String getName() {
         return "State Wrench";
     }
+
+    @Override
+    public boolean canBreakBlockWith(BlockState blockState) {
+        return false;
+    }
 }
