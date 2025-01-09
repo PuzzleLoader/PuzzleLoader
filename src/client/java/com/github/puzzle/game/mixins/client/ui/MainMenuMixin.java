@@ -16,6 +16,7 @@ import finalforeach.cosmicreach.ui.UIElement;
 import finalforeach.cosmicreach.ui.VerticalAnchor;
 import finalforeach.cosmicreach.ui.actions.AlignXAction;
 import finalforeach.cosmicreach.ui.actions.AlignYAction;
+import finalforeach.cosmicreach.ui.widgets.CRButton;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -56,16 +57,16 @@ public class MainMenuMixin extends GameState {
     */
     @Inject(method = "create",at = @At("TAIL"))
     void addModsButton(CallbackInfo ci) {
-         UIElement modsButton = new UIElement((275.0F / 4) + 2, 95f, (275.0F / 2) - 5, 35.0F) {
-             public void onClick() {
-                 super.onClick();
-                 GameState.switchToGameState(new ModMenu(currentGameState));
-             }
-         };
-         modsButton.hAnchor = HorizontalAnchor.CENTERED;
-         modsButton.setText(LanguageManager.string(new TranslationKey("puzzle-loader:menu.mods")));
-         modsButton.show();
-         uiObjects.add(modsButton);
+        CRButton modsButton = new CRButton(LanguageManager.string(new TranslationKey("puzzle-loader:menu.mods"))) {
+            public void onClick() {
+                super.onClick();
+                GameState.switchToGameState(new ModMenu(currentGameState));
+            }
+        };
+        modsButton.addAction(new AlignXAction(1, 0.5F, (275.0F / 4) + 2));
+        modsButton.addAction(new AlignYAction(1, 0.5F, -95.0F));
+        modsButton.setSize((275.0F / 2) - 5, 35.0F);
+        this.stage.addActor(modsButton);
     }
 
     @Inject(method = "render", at = @At("TAIL"))
