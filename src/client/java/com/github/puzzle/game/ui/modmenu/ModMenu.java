@@ -247,7 +247,7 @@ public class ModMenu extends GameState {
     private ClickListener getClickListener(ModMenu modMenu){
         return new ClickListener(){
             public void clicked(InputEvent event, float x, float y){
-                GameState.switchToGameState(Reflection.getFieldContents(modMenu, "previousState"));
+                ModMenu.this.returnToPrevious();
             }
         };
     }

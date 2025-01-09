@@ -2,6 +2,8 @@ package com.github.puzzle.game.mixins.client.ui;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.utils.Align;
 import com.github.puzzle.core.localization.LanguageManager;
 import com.github.puzzle.core.localization.TranslationKey;
 import com.github.puzzle.game.common.Puzzle;
@@ -12,22 +14,41 @@ import finalforeach.cosmicreach.ui.FontRenderer;
 import finalforeach.cosmicreach.ui.HorizontalAnchor;
 import finalforeach.cosmicreach.ui.UIElement;
 import finalforeach.cosmicreach.ui.VerticalAnchor;
+import finalforeach.cosmicreach.ui.actions.AlignXAction;
+import finalforeach.cosmicreach.ui.actions.AlignYAction;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
+@SuppressWarnings("removal")
 @Mixin(MainMenu.class)
 public class MainMenuMixin extends GameState {
     /**
      * @author replet
-     * @reason Change pos and size of the language button
+     * @reason Change size of the options button
      */
-    @Inject(method = "create",at = @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/ui/UIElement;setText(Ljava/lang/String;)V",ordinal = 3),locals = LocalCapture.CAPTURE_FAILHARD)
-    void moveLanguage(CallbackInfo ci, GameState thisState, UIElement startButton, UIElement loadButton, UIElement optionsButton, UIElement langButton){
-        langButton.x = -(275.0F/4)-2;
-        langButton.w = (275.0F/2)-5;
+    @ModifyArg(method = "create",at = @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/gamestates/MainMenu$4;setSize(FF)V"),index = 0)
+    float resizeOptions(float x){
+       return (275.0F/2)-5;
+    }
+    /**
+     * @author replet
+     * @reason Change pos of the options button
+     */
+    @ModifyArg(method = "create",at= @At(value = "INVOKE", target = "Lfinalforeach/cosmicreach/gamestates/MainMenu$4;addAction(Lcom/badlogic/gdx/scenes/scene2d/Action;)V",ordinal = 0),index = 0)
+    Action moveOptions(Action unused){
+        return new AlignXAction(1,0.5f, -(275.0F/4)-2 );
+    }
+
+    /**
+     * @author replet
+     * @reason Change pos of the lang button
+     */
+    @ModifyArg(method = "create",at= @At(value = "INVOKE", target ="Lfinalforeach/cosmicreach/ui/widgets/CRButton;addAction(Lcom/badlogic/gdx/scenes/scene2d/Action;)V",ordinal = 1),index = 0)
+    Action moveLang(Action unused){
+        return new AlignYAction(Align.topRight, 1.0F,-10f);
     }
     /**
      * @author replet
