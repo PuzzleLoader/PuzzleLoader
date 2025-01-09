@@ -324,6 +324,9 @@ public interface IModItem extends Item {
         return blockState.canRaycastForBreak();
     }
 
+    /**
+     * This allows your item to only break blocks you want
+     */
     default boolean canBreakBlockWith(BlockState blockState) {
         return true;
     }
