@@ -6,6 +6,7 @@ import com.github.puzzle.game.items.IModItem;
 import com.github.puzzle.game.items.data.DataTagManifest;
 import com.github.puzzle.game.util.BlockSelectionUtil;
 import com.github.puzzle.game.util.BlockUtil;
+import finalforeach.cosmicreach.blockentities.BlockEntity;
 import finalforeach.cosmicreach.blocks.BlockPosition;
 import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.entities.player.Player;
@@ -66,6 +67,16 @@ public class BlockWrench implements IModItem {
 
     @Override
     public boolean canBreakBlockWith(BlockState blockState) {
+        return false;
+    }
+
+    @Override
+    public boolean canInteractWithBlock(BlockState blockState) {
+        return false;
+    }
+
+    @Override
+    public boolean canInteractWithBlockEntity(BlockEntity blockEntity) {
         return false;
     }
 }

@@ -8,6 +8,7 @@ import com.github.puzzle.game.items.data.DataTagManifest;
 import com.github.puzzle.game.items.data.DataTagPreset;
 import com.github.puzzle.game.items.data.attributes.*;
 import com.github.puzzle.game.util.DataTagUtil;
+import finalforeach.cosmicreach.blockentities.BlockEntity;
 import finalforeach.cosmicreach.blockentities.BlockEntityFurnace;
 import finalforeach.cosmicreach.blocks.BlockPosition;
 import finalforeach.cosmicreach.blocks.BlockState;
@@ -328,6 +329,20 @@ public interface IModItem extends Item {
      * This allows your item to only break blocks you want
      */
     default boolean canBreakBlockWith(BlockState blockState) {
+        return true;
+    }
+
+    /**
+     * This allows your item to only interact with blocks you want
+     */
+    default boolean canInteractWithBlock(BlockState blockState) {
+        return true;
+    }
+
+    /**
+     * This allows your item to only interact with blockEntity's you want
+     */
+    default boolean canInteractWithBlockEntity(BlockEntity blockEntity) {
         return true;
     }
 }
