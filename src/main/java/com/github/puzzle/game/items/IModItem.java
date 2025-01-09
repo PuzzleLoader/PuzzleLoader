@@ -323,4 +323,8 @@ public interface IModItem extends Item {
     default boolean canTargetBlockForBreaking(BlockState blockState) {
         return blockState.canRaycastForBreak();
     }
+
+    default boolean canBreakBlockWith(BlockState blockState) {
+        return true;
+    }
 }

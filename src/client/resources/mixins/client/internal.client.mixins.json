@@ -17,6 +17,7 @@
     "entrypoint.LoadInitModsMixin",
     "entrypoint.PreGameLaunchInit",
     "items.InGameMixin",
+    "items.ClientBlockEventsMixin",
     "items.ItemCatalogMixin",
     "items.rendering.EntityMixin",
     "items.rendering.ItemRendererMixin",
