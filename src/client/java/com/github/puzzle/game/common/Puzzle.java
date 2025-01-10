@@ -123,7 +123,11 @@ public class Puzzle implements ClientPreModInitializer, ClientModInitializer, Cl
 
                     if (slot != null) {
                         if (slot.itemStack != null && slot.itemStack.getItem() instanceof ITickingItem tickingItem1) {
-                            tickingItem1.tickStack(fixedUpdateTimeStep, slot.itemStack, false);
+                            if (UI.hotbar.getSelectedSlot() == slot){
+                                tickingItem1.tickStack(fixedUpdateTimeStep, slot.itemStack, true);
+                            }else {
+                                tickingItem1.tickStack(fixedUpdateTimeStep, slot.itemStack, false);
+                            }
                         }
                     }
                 }

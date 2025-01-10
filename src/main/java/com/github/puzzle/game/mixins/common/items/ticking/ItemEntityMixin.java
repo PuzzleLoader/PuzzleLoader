@@ -16,7 +16,7 @@ public class ItemEntityMixin {
     @Shadow private ItemStack itemStack;
 
     @Inject(method = "update", at = @At("HEAD"))
-    private void update(Zone zone, double deltaTime, CallbackInfo ci) {
+    private void update(Zone zone, float deltaTime, CallbackInfo ci) {
         if (itemStack.getItem() instanceof ITickingItem tickingItem) {
             tickingItem.tickEntity(zone, deltaTime, (ItemEntity) (Object) this, itemStack);
         }
