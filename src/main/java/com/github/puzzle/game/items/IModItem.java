@@ -275,6 +275,25 @@ public interface IModItem extends Item {
     }
 
     /**
+     * Redirected hasFloatProperty to use the TagManifest
+     * @see DataTagManifest
+     */
+    default boolean hasFloatProperty(String s) {
+        if (getTagManifest() == null) return false;
+        return getTagManifest().hasTag(s);
+    }
+
+    /**
+     * Redirected getFloatProperty to use the TagManifest
+     * @see DataTagManifest
+     */
+    default float getFloatProperty(String s, float i) {
+        if (getTagManifest() == null) return i;
+        if (getTagManifest().hasTag(s)) return getTagManifest().getTag(s).getTagAsType(Float.class).getValue();
+        return i;
+    }
+
+    /**
      * It gets the property from the stack manifest before checking the base item manifest
      * @see DataTagManifest
      */
@@ -293,6 +312,27 @@ public interface IModItem extends Item {
             return manifest.getTag(s).getTagAsType(Integer.class).getValue();
         }
         return getIntProperty(s, i);
+    }
+
+    /**
+     * It gets the property from the stack manifest before checking the base item manifest
+     * @see DataTagManifest
+     */
+    default boolean hasFloatProperty(ItemStack parent, String s) {
+        DataTagManifest manifest = DataTagUtil.getManifestFromStack(parent);
+        return manifest.hasTag(s) || hasIntProperty(s);
+    }
+
+    /**
+     * It gets the property from the stack manifest before checking the base item manifest
+     * @see DataTagManifest
+     */
+    default float getFloatProperty(ItemStack parent, String s, float i) {
+        DataTagManifest manifest = DataTagUtil.getManifestFromStack(parent);
+        if (manifest.hasTag(s)) {
+            return manifest.getTag(s).getTagAsType(Float.class).getValue();
+        }
+        return getFloatProperty(s, i);
     }
 
 

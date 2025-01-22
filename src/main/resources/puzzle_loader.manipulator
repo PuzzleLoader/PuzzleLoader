@@ -6,9 +6,9 @@ public method finalforeach/cosmicreach/rendering/BatchCoords blockX ()I
 public method finalforeach/cosmicreach/rendering/BatchCoords blockY ()I
 public method finalforeach/cosmicreach/rendering/BatchCoords blockZ ()I
 
-public field finalforeach/cosmicreach/rendering/MeshData shader
-public field finalforeach/cosmicreach/rendering/MeshData vertices
-public field finalforeach/cosmicreach/rendering/MeshData renderOrder
+public field finalforeach/cosmicreach/rendering/meshes/MeshData shader
+public field finalforeach/cosmicreach/rendering/meshes/MeshData vertices
+public field finalforeach/cosmicreach/rendering/meshes/MeshData renderOrder
 
 public field finalforeach/cosmicreach/rendering/BatchMaterial batchCoords
 public field finalforeach/cosmicreach/rendering/BatchMaterial shader
