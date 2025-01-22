@@ -65,6 +65,17 @@ public class BasicTool implements IModItem {
     }
 
     @Override
+    public boolean hasFloatProperty(String s) {
+        return tagManifest.hasTag(s);
+    }
+
+    @Override
+    public float getFloatProperty(String s, float i) {
+        if (tagManifest.hasTag(s)) return (float) tagManifest.getTag(s).getValue();
+        return i;
+    }
+
+    @Override
     public String getName() {
         return toolId.getName();
     }
