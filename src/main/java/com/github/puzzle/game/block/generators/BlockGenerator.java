@@ -5,13 +5,12 @@ import com.github.puzzle.game.engine.blocks.IBlockLoader;
 import com.github.puzzle.game.factories.IGenerator;
 import com.github.puzzle.game.oredict.tags.Tag;
 import finalforeach.cosmicreach.blocks.BlockPlaceCheck;
-import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.util.Identifier;
 import finalforeach.cosmicreach.util.predicates.JsonPredicateParser;
+import finalforeach.cosmicreach.util.predicates.PredicateBlockPlaceCheck;
 import org.hjson.JsonObject;
 import org.hjson.Stringify;
 
-import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +30,7 @@ public class BlockGenerator implements IGenerator {
          * createBlockState
          */
         public String modelName;
+        public String itemIcon;
         public int lightLevelRed = 0;
         public int lightLevelGreen = 0;
         public int lightLevelBlue = 0;
@@ -57,11 +57,9 @@ public class BlockGenerator implements IGenerator {
         public boolean isFluid = false;
         public boolean allowSwapping = false;
         public String[] tags;
-
         public String swapGroupId;
         public String dropId;
         public float hardness = 1.5F;
-        String canPlace = null;
         public Predicate<BlockPlaceCheck> canPlaceCheck = JsonPredicateParser.getAlwaysTrue();
         int rotXZ = 0;
         public OrderedMap<String, ?> dropParams;
@@ -71,20 +69,8 @@ public class BlockGenerator implements IGenerator {
 
         public void read(Json json, JsonValue jsonData) {
             if (jsonData.has("canPlace")) {
-                canPlace = jsonData.get("canPlace").toJson(JsonWriter.OutputType.json);
                 JsonValue canPlaceRoot = jsonData.get("canPlace");
-                this.canPlaceCheck = JsonPredicateParser.parseTest(canPlaceRoot, (condition) -> {
-                    JsonValue childCondition = condition.child;
-                    if (childCondition.name.equals("block_has_tag")) {
-                        String tag = childCondition.getString("tag");
-                        float[] pos = childCondition.get("position").asFloatArray();
-                        return (c) -> {
-                            BlockState checkBlock = c.zone.getBlockState(pos[0] + c.getX(), pos[1] + c.getY(), pos[2] + c.getZ());
-                            return checkBlock != null && checkBlock.hasTag(tag);
-                        };
-                    }
-                    return null;
-                });
+                this.canPlaceCheck = PredicateBlockPlaceCheck.parseBlockPlaceTest(canPlaceRoot);
             }
 
             this.langKey = jsonData.getString("langKey", null);
@@ -92,6 +78,7 @@ public class BlockGenerator implements IGenerator {
             this.swapGroupId = jsonData.getString("swapGroupId", null);
             this.blockEventsId = jsonData.getString("blockEventsId", null);
             this.dropId = jsonData.getString("dropId", null);
+            this.itemIcon = jsonData.getString("itemIcon", null);
             this.allowSwapping = jsonData.getBoolean("allowSwapping", true);
             this.isOpaque = jsonData.getBoolean("isOpaque", true);
             this.canRaycastForBreak = jsonData.getBoolean("canRaycastForBreak", true);
@@ -107,7 +94,7 @@ public class BlockGenerator implements IGenerator {
             this.rotXZ = jsonData.getInt("rotXZ", 0);
             this.hardness = jsonData.getFloat("hardness", 1.5F);
             this.blastResistance = jsonData.getFloat("blastResistance", 100.0F);
-            this.friction = jsonData.getFloat("friction", 1f);
+            this.friction = jsonData.getFloat("friction", 1.0F);
             this.bounciness = jsonData.getFloat("bounciness", 0.0F);
             json.readField(this, "stateGenerators", jsonData);
             json.readField(this, "tags", jsonData);
@@ -142,13 +129,6 @@ public class BlockGenerator implements IGenerator {
             json.writeField(this, "tags");
             json.writeField(this, "dropParams");
             json.writeField(this, "intProperties");
-            if (canPlace != null) {
-                try {
-                    json.getWriter().write(", \"canPlace\": " + canPlace);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
         }
 
     }
