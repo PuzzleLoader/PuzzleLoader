@@ -105,6 +105,7 @@ public class BlockGenerator implements IGenerator {
         public void write(Json json) {
             json.writeField(this, "langKey");
             json.writeField(this, "modelName");
+            json.writeField(this, "itemIcon");
             json.writeField(this, "swapGroupId");
             json.writeField(this, "blockEventsId");
             json.writeField(this, "dropId");
@@ -129,6 +130,7 @@ public class BlockGenerator implements IGenerator {
             json.writeField(this, "tags");
             json.writeField(this, "dropParams");
             json.writeField(this, "intProperties");
+            json.writeField(this, "canPlaceCheck");
         }
 
     }
