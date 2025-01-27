@@ -7,7 +7,7 @@ import com.github.puzzle.game.oredict.tags.Tag;
 import finalforeach.cosmicreach.blocks.BlockPlaceCheck;
 import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.util.Identifier;
-import finalforeach.cosmicreach.util.JsonPredicateParser;
+import finalforeach.cosmicreach.util.predicates.JsonPredicateParser;
 import org.hjson.JsonObject;
 import org.hjson.Stringify;
 
