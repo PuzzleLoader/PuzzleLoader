@@ -18,7 +18,7 @@ public class ClientBlockEventsMixin {
     @ModifyExpressionValue(method = "breakBlock", at=@At(value = "NEW", target = "()Lfinalforeach/cosmicreach/blockevents/BlockEventArgs;"))
     private BlockEventArgs breakBlockHelper(BlockEventArgs original){
         if (Piece.getSide() != EnvType.SERVER) {
-            original.srcIdentity = new NetworkIdentity(null) {
+            original.setSrcIdentity(new NetworkIdentity(null) {
                 @Override
                 public void send(GamePacket gamePacket) {
                 }
@@ -27,14 +27,14 @@ public class ClientBlockEventsMixin {
                 public Player getPlayer() {
                     return GameSingletons.clientSingletons.getLocalPlayer();
                 }
-            };
+            });
         }
         return original;
     }
     @ModifyExpressionValue(method = "placeBlock", at=@At(value = "NEW", target = "()Lfinalforeach/cosmicreach/blockevents/BlockEventArgs;"))
     private BlockEventArgs placeBlockHelper(BlockEventArgs original){
         if (Piece.getSide() != EnvType.SERVER) {
-            original.srcIdentity = new NetworkIdentity(null) {
+            original.setSrcIdentity(new NetworkIdentity(null) {
                 @Override
                 public void send(GamePacket gamePacket) {
                 }
@@ -43,14 +43,14 @@ public class ClientBlockEventsMixin {
                 public Player getPlayer() {
                     return GameSingletons.clientSingletons.getLocalPlayer();
                 }
-            };
+            });
         }
         return original;
     }
     @ModifyExpressionValue(method = "interactWithBlock", at=@At(value = "NEW", target = "()Lfinalforeach/cosmicreach/blockevents/BlockEventArgs;"))
     private BlockEventArgs interactWithHelper(BlockEventArgs original){
         if (Piece.getSide() != EnvType.SERVER) {
-            original.srcIdentity = new NetworkIdentity(null) {
+            original.setSrcIdentity(new NetworkIdentity(null) {
                 @Override
                 public void send(GamePacket gamePacket) {
                 }
@@ -59,7 +59,7 @@ public class ClientBlockEventsMixin {
                 public Player getPlayer() {
                     return GameSingletons.clientSingletons.getLocalPlayer();
                 }
-            };
+            });
         }
         return original;
     }
