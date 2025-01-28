@@ -6,6 +6,7 @@ import finalforeach.cosmicreach.blockentities.BlockEntity;
 import finalforeach.cosmicreach.blocks.BlockPosition;
 import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.entities.player.Player;
+import finalforeach.cosmicreach.items.ItemSlot;
 import finalforeach.cosmicreach.items.ItemStack;
 import finalforeach.cosmicreach.networking.client.ClientNetworkManager;
 import finalforeach.cosmicreach.networking.packets.blocks.InteractBlockPacket;
@@ -22,8 +23,8 @@ public class ClientBlockEventsMixin {
 
     @Inject(method = "breakBlock", at = @At("HEAD"), cancellable = true)
     public void breakBlock(Zone zone, BlockPosition blockPos, double timeSinceLastInteract, CallbackInfo ci) {
-        ItemStack stack = UI.hotbar.getSelectedSlot().itemStack;
-        if (blockPos != null && stack != null && stack.getItem() instanceof IModItem modItem) {
+        ItemSlot slot = UI.hotbar.getSelectedSlot();
+        if (slot != null && blockPos != null && slot.itemStack != null && slot.itemStack.getItem() instanceof IModItem modItem) {
             if (!modItem.canBreakBlockWith(blockPos.getBlockState())){
                 ci.cancel();
             }
@@ -41,8 +42,8 @@ public class ClientBlockEventsMixin {
 
     @Inject(method = "interactWithBlockIfBlockEntity", at = @At("HEAD"), cancellable = true)
     public void interactWithBlockIfBlockEntity(Player player, Zone zone, BlockPosition blockPos, CallbackInfoReturnable<Boolean> cir) {
-        ItemStack stack = UI.hotbar.getSelectedSlot().itemStack;
-        if (blockPos != null && stack != null && stack.getItem() instanceof IModItem modItem) {
+        ItemSlot slot = UI.hotbar.getSelectedSlot();
+        if (slot != null && blockPos != null && slot.itemStack != null && slot.itemStack.getItem() instanceof IModItem modItem) {
             if (blockPos.getBlockEntity() != null){
                 if (!modItem.canInteractWithBlockEntity(blockPos.getBlockEntity())){
                     cir.cancel();

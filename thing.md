@@ -1,15 +1,20 @@
-# Puzzle Loader *`2.2.2`*
+# Puzzle Loader *`2.2.6`*
 
-**Maven**: `com.github.PuzzleLoader:PuzzleLoader:2.2.2`
+**Maven**: `com.github.PuzzleLoader:PuzzleLoader:2.2.6`
 **Github**: <https://github.com/PuzzleLoader/PuzzleLoader>
 **Releases**: <https://github.com/PuzzleLoader/PuzzleLoader/releases>
 **Discord**: <https://discord.gg/XeVud4RC9U>
-**Full Changelog**: [2.2.1...2.2.2](<https://github.com/PuzzleLoader/PuzzleLoader/compare/2.2.1...2.2.2>)
+**Full Changelog**: [2.2.5...2.2.6](<https://github.com/PuzzleLoader/PuzzleLoader/compare/2.2.5...2.2.6>)
 
 ## What's Changed
-- Added catches to keep compat with older CR-Versions in fonts
+* update to 0.3.20 (door are still messed up) by @Crab-K1ng in https://github.com/PuzzleLoader/PuzzleLoader/pull/24
+* update BlockstateGenerator.State by @Crab-K1ng in https://github.com/PuzzleLoader/PuzzleLoader/pull/25
+* fix itemIcon by @Crab-K1ng in https://github.com/PuzzleLoader/PuzzleLoader/pull/26
 
--# References for Puzzle ModJsons and Mixin Configs :)</sub>
+## Known Issues
+- Door top not rotating correctly with certain angles.
+
+-# References for Puzzle ModJsons and Mixin Configs :)
 -# <https://github.com/PuzzleLoader/PuzzleLoader/blob/main/examples/puzzle.mod.v0.json>
 -# <https://github.com/PuzzleLoader/PuzzleLoader/blob/main/examples/puzzle.mod.v1.json>
 -# <https://github.com/PuzzleLoader/PuzzleLoader/blob/main/examples/puzzle.mod.v2.json>

@@ -70,7 +70,6 @@ public class BlockModelGenerator implements IBlockModelGenerator {
 
             this.faces[Cuboid.LOCAL_NEG_Z] = new Face();
             this.faces[Cuboid.LOCAL_NEG_Z].id = "localNegZ";
-            this.faces[Cuboid.LOCAL_NEG_Z].setUVs(16, 0, 0, 16);
 
             this.faces[Cuboid.LOCAL_POS_Z] = new Face();
             this.faces[Cuboid.LOCAL_POS_Z].id = "localPosZ";

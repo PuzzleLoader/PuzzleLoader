@@ -104,12 +104,12 @@ public class PuzzleBlockModelCuboid
             }
 
             // normalize bounds
-            float x1 = this.localBounds[0] / 16.0f;
-            float y1 = this.localBounds[1] / 16.0f;
-            float z1 = this.localBounds[2] / 16.0f;
-            float x2 = this.localBounds[3] / 16.0f;
-            float y2 = this.localBounds[4] / 16.0f;
-            float z2 = this.localBounds[5] / 16.0f;
+            float x1 = this.localBounds[0] / 16.0F;
+            float y1 = this.localBounds[1] / 16.0F;
+            float z1 = this.localBounds[2] / 16.0F;
+            float x2 = this.localBounds[3] / 16.0F;
+            float y2 = this.localBounds[4] / 16.0F;
+            float z2 = this.localBounds[5] / 16.0F;
 
             // find min,max of bounds
             float minX = Math.min(x1, x2);
@@ -119,7 +119,7 @@ public class PuzzleBlockModelCuboid
             float maxY = Math.max(y1, y2);
             float maxZ = Math.max(z1, z2);
 
-            float uvScale = ChunkShader.allBlocksTexSize / 16;
+            float uvScale = ChunkShader.allBlocksTexSize / 16f;
 
             // determine culling flags
             if (f.cullFace) {
@@ -408,6 +408,16 @@ public class PuzzleBlockModelCuboid
                 f.vD = tmpV;
                 tmpRotation--;
             }
+            Vector3 tmpFaceNormal = new Vector3();
+            switch (kf.key) {
+                case "localNegX" -> tmpFaceNormal.set(-1.0F, 0.0F, 0.0F);
+                case "localPosX" -> tmpFaceNormal.set(1.0F, 0.0F, 0.0F);
+                case "localNegY" -> tmpFaceNormal.set(0.0F, -1.0F, 0.0F);
+                case "localPosY" -> tmpFaceNormal.set(0.0F, 1.0F, 0.0F);
+                case "localNegZ" -> tmpFaceNormal.set(0.0F, 0.0F, -1.0F);
+                case "localPosZ" -> tmpFaceNormal.set(0.0F, 0.0F, 1.0F);
+                default -> tmpFaceNormal.set((f.x1 + f.x2) / 2.0F, (f.y1 + f.y2) / 2.0F, (f.z1 + f.z2) / 2.0F).sub(0.5F).nor();
+            }
 
             float minU = Math.min(Math.min(f.uA, f.uB), Math.min(f.uC, f.uD));
             float maxU = Math.max(Math.max(f.uA, f.uB), Math.max(f.uC, f.uD));
@@ -426,9 +436,8 @@ public class PuzzleBlockModelCuboid
             f.vD += (centV - f.vD) * n;
 
             Vector3 tmpNormal = new Vector3();
-            Vector3 tmpFaceNormal = new Vector3();
 
-            tmpFaceNormal.set((f.x1 + f.x2) / 2.0F, (f.y1 + f.y2) / 2.0F, (f.z1 + f.z2) / 2.0F).sub(0.5F).nor();
+//            tmpFaceNormal.set((f.x1 + f.x2) / 2.0F, (f.y1 + f.y2) / 2.0F, (f.z1 + f.z2) / 2.0F).sub(0.5F).nor();
 
             CustomTextureLoader.setNormal(tmpNormal, f.x1, f.y1, f.z1);
             f.modelUvIdxA = CustomTextureLoader.makeUBOFloatsIdx(f.uA, f.vA, tmpNormal, tmpFaceNormal);

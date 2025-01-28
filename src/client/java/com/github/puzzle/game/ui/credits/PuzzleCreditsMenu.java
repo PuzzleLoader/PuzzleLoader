@@ -2,6 +2,7 @@ package com.github.puzzle.game.ui.credits;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.github.puzzle.game.resources.PuzzleGameAssetLoader;
 import com.github.puzzle.game.ui.credits.categories.ICreditElement;
@@ -15,11 +16,13 @@ import finalforeach.cosmicreach.settings.Controls;
 import finalforeach.cosmicreach.ui.HorizontalAnchor;
 import finalforeach.cosmicreach.ui.UIElement;
 import finalforeach.cosmicreach.ui.VerticalAnchor;
+import finalforeach.cosmicreach.ui.widgets.CRButton;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
+@SuppressWarnings("removal")
 public class PuzzleCreditsMenu extends GameState {
 
     public static final List<ICreditElement> categories = new ArrayList<>();
@@ -44,6 +47,8 @@ public class PuzzleCreditsMenu extends GameState {
         new CreditsMenu().create();
         PuzzleCreditsMenu.addFile(CreditFile.fromVanilla(Gdx.files.classpath("post_build/Cosmic-Reach-Localization/CREDITS.txt").readString()));
 
+//        CRButton returnBtn = new CRButton(Lang.get("Return To Main Menu"));
+//        returnBtn.setPosition(0, 0, Align.bottomRight);
         UIElement returnButton = new UIElement(-16.0F, -16.0F, 250.0F, 50.0F) {
             public void onClick() {
                 super.onClick();
@@ -55,6 +60,7 @@ public class PuzzleCreditsMenu extends GameState {
         returnButton.setText(Lang.get("Return_to_Main_Menu"));
         returnButton.show();
 
+//        stage.addActor(returnBtn);
         this.uiObjects.add(returnButton);
     }
 

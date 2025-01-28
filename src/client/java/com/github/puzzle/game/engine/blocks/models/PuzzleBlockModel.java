@@ -137,26 +137,33 @@ public class PuzzleBlockModel extends BlockModel implements IPuzzleBlockModel {
                         if (tmpPosX != null) {
                             c.faces.put("localPosZ", tmpPosX);
                         }
+
                         if (tmpNegX != null) {
+                            float tmpU = tmpNegX.uv[0];
+                            tmpNegX.uv[0] = tmpNegX.uv[2];
+                            tmpNegX.uv[2] = tmpU;
                             c.faces.put("localNegZ", tmpNegX);
                         }
+
                         if (tmpNegY != null) {
                             tmpNegY.uvRotation = (tmpNegY.uvRotation - 90 + 360) % 360;
                             c.faces.put("localNegY", tmpNegY);
                         }
+
                         if (tmpPosY != null) {
                             tmpPosY.uvRotation = (tmpPosY.uvRotation + 90 + 360) % 360;
                             c.faces.put("localPosY", tmpPosY);
                         }
+
                         if (tmpNegZ != null) {
-                            final float tmpU = tmpPosZ.uv[0];
+                            float tmpU = tmpNegZ.uv[0];
                             tmpNegZ.uv[0] = tmpNegZ.uv[2];
                             tmpNegZ.uv[2] = tmpU;
                             c.faces.put("localPosX", tmpNegZ);
                         }
+
                         if (tmpPosZ != null) {
                             c.faces.put("localNegX", tmpPosZ);
-                            break;
                         }
                         break;
                 }
@@ -173,21 +180,31 @@ public class PuzzleBlockModel extends BlockModel implements IPuzzleBlockModel {
                         if (tmpNegX != null) {
                             c.faces.put("localPosX", tmpNegX);
                         }
+
                         if (tmpPosX != null) {
                             c.faces.put("localNegX", tmpPosX);
                         }
+
                         if (tmpNegY != null) {
                             c.faces.put("localNegY", tmpNegY);
                         }
+
                         if (tmpPosY != null) {
                             c.faces.put("localPosY", tmpPosY);
                         }
+
                         if (tmpPosZ != null) {
+                            float tmpU = tmpPosZ.uv[0];
+                            tmpPosZ.uv[0] = tmpPosZ.uv[2];
+                            tmpPosZ.uv[2] = tmpU;
                             c.faces.put("localNegZ", tmpPosZ);
                         }
+
                         if (tmpNegZ != null) {
+                            float tmpU = tmpNegZ.uv[0];
+                            tmpNegZ.uv[0] = tmpNegZ.uv[2];
+                            tmpNegZ.uv[2] = tmpU;
                             c.faces.put("localPosZ", tmpNegZ);
-                            break;
                         }
                         break;
                     }
@@ -204,26 +221,33 @@ public class PuzzleBlockModel extends BlockModel implements IPuzzleBlockModel {
                         if (tmpNegX != null) {
                             c.faces.put("localPosZ", tmpNegX);
                         }
+
                         if (tmpPosX != null) {
+                            float tmpU = tmpPosX.uv[0];
+                            tmpPosX.uv[0] = tmpPosX.uv[2];
+                            tmpPosX.uv[2] = tmpU;
                             c.faces.put("localNegZ", tmpPosX);
                         }
+
                         if (tmpNegY != null) {
                             tmpNegY.uvRotation = (tmpNegY.uvRotation - 90 + 360) % 360;
                             c.faces.put("localNegY", tmpNegY);
                         }
+
                         if (tmpPosY != null) {
                             tmpPosY.uvRotation = (tmpPosY.uvRotation + 90 + 360) % 360;
                             c.faces.put("localPosY", tmpPosY);
                         }
+
                         if (tmpPosZ != null) {
                             c.faces.put("localPosX", tmpPosZ);
                         }
+
                         if (tmpNegZ != null) {
-                            final float tmpU2 = tmpPosZ.uv[0];
+                            float tmpU = tmpNegZ.uv[0];
                             tmpNegZ.uv[0] = tmpNegZ.uv[2];
-                            tmpNegZ.uv[2] = tmpU2;
+                            tmpNegZ.uv[2] = tmpU;
                             c.faces.put("localNegX", tmpNegZ);
-                            break;
                         }
                         break;
                     }
@@ -293,20 +317,6 @@ public class PuzzleBlockModel extends BlockModel implements IPuzzleBlockModel {
                 aoIdC = (((opaqueBitmask & f.aoBitmaskC1) == 0) ? 1 : 0) + (((opaqueBitmask & f.aoBitmaskC2) == 0) ? 1 : 0) + (((opaqueBitmask & f.aoBitmaskC3) == 0) ? 1 : 0);
                 aoIdD = (((opaqueBitmask & f.aoBitmaskD1) == 0) ? 1 : 0) + (((opaqueBitmask & f.aoBitmaskD2) == 0) ? 1 : 0) + (((opaqueBitmask & f.aoBitmaskD3) == 0) ? 1 : 0);
             }
-
-//            final float x1 = bx + f.x1;
-//            final float y1 = by + f.y1;
-//            final float z1 = bz + f.z1;
-//            final float x2 = bx + f.x2;
-//            final float y2 = by + f.y2;
-//            final float z2 = bz + f.z2;
-//
-//            final float midX1 = bx + f.midX1;
-//            final float midY1 = by + f.midY1;
-//            final float midZ1 = bz + f.midZ1;
-//            final float midX2 = bx + f.midX2;
-//            final float midY2 = by + f.midY2;
-//            final float midZ2 = bz + f.midZ2;
 
             final int viA = f.vertexIndexA;
             final int viB = f.vertexIndexB;
