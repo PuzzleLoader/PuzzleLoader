@@ -1,7 +1,10 @@
 package com.github.puzzle.game.block;
 
 import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 import com.github.puzzle.game.block.generators.BlockGenerator;
+import com.github.puzzle.game.block.generators.ExperimentalBlockGenerator;
+import com.github.puzzle.game.block.generators.PassThroughBlockGenerator;
 import com.github.puzzle.game.resources.PuzzleGameAssetLoader;
 import finalforeach.cosmicreach.util.Identifier;
 
@@ -20,6 +23,7 @@ public class DataModBlock implements IModBlock {
         public LinkedHashMap<String, BlockGenerator.State> blockStates;
         public String blockEntityId;
         public LinkedHashMap<String, ?> blockEntityParams;
+        public BlockGenerator.State defaultProperties;
     }
 
     public Identifier debugResourceLocation;
@@ -46,14 +50,16 @@ public class DataModBlock implements IModBlock {
 
         JsonBlock block = json.fromJson(JsonBlock.class, blockJson);
         identifier = Identifier.of(block.stringId);
-//        return new DataBlockGenerator(identifier, blockJson);
-        BlockGenerator generator = new BlockGenerator(getIdentifier());
-        generator.blockEntityId = block.blockEntityId;
-        generator.blockEntityParams = block.blockEntityParams;
-        generator.defaultParams = block.defaultParams;
-        generator.blockStates = block.blockStates;
-        System.out.println(generator.generateJson());
-        return generator;
+//        BlockGenerator generator = new BlockGenerator(getIdentifier());
+//        generator.blockEntityId = block.blockEntityId;
+//        generator.blockEntityParams = block.blockEntityParams;
+//        generator.defaultParams = block.defaultParams;
+//        generator.blockStates = block.blockStates;
+//        generator.defaultProperties = block.defaultProperties;
+//        System.out.println(generator.generateJson());
+//        return generator;
+//        return ExperimentalBlockGenerator.fromJson(blockJson);
+        return new PassThroughBlockGenerator(identifier, blockJson);
     }
 
 }

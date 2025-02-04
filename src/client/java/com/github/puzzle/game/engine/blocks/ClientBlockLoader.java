@@ -2,24 +2,29 @@ package com.github.puzzle.game.engine.blocks;
 
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.OrderedMap;
 import com.github.puzzle.core.loader.util.AnsiColours;
+import com.github.puzzle.core.loader.util.Reflection;
 import com.github.puzzle.game.PuzzleRegistries;
 import com.github.puzzle.game.block.IModBlock;
 import com.github.puzzle.game.block.PuzzleBlockAction;
 import com.github.puzzle.game.block.generators.BlockEventGenerator;
 import com.github.puzzle.game.block.generators.BlockGenerator;
 import com.github.puzzle.game.block.generators.model.BlockModelGenerator;
-import com.github.puzzle.game.engine.blocks.models.PuzzleBlockModel;
 import com.github.puzzle.game.factories.IFactory;
 import com.github.puzzle.game.resources.PuzzleGameAssetLoader;
+import finalforeach.cosmicreach.Threads;
 import finalforeach.cosmicreach.blockevents.BlockEvents;
 import finalforeach.cosmicreach.blocks.Block;
 import finalforeach.cosmicreach.blocks.BlockState;
-import finalforeach.cosmicreach.rendering.blockmodels.BlockModel;
+import finalforeach.cosmicreach.blocks.BlockStateGenerator;
+import finalforeach.cosmicreach.items.ItemBlock;
 import finalforeach.cosmicreach.util.Identifier;
 import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -46,7 +51,9 @@ public class ClientBlockLoader implements IBlockLoader {
      * @param modelJson regular json model from DataMods
      */
     public void registerBlockModel(String modelName, int rotXZ, String modelJson) {
-        factory.createFromJson(modelName, rotXZ, modelJson);
+        Threads.runOnMainThread(() -> {
+            factory.createFromJson(modelName, rotXZ, modelJson);
+        });
     }
 
     /**
@@ -91,6 +98,38 @@ public class ClientBlockLoader implements IBlockLoader {
      */
     public void registerEventAction(Identifier actionId, IFactory<PuzzleBlockAction> action) {
         PuzzleRegistries.BLOCK_EVENT_ACTION_FACTORIES.store(actionId, action);
+    }
+
+    public void initialize(BlockState state, Block block) {
+        Reflection.setFieldContents(state, "block", block);
+        Reflection.setFieldContents(state, "blockId", block.getStringId());
+        if (state.swapGroupId == null) {
+            state.swapGroupId = state.getSaveKey();
+        }
+
+        if (state.dropParams != null) {
+            if (state.dropId == null) {
+                state.dropId = state.getSaveKey();
+            }
+
+            try {
+                Method m = BlockState.class.getDeclaredMethod("getModifiedSaveKey", String.class, OrderedMap.class);
+                m.setAccessible(true);
+                state.dropId = (String) m.invoke(state, state.dropId, state.dropParams);
+            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        if (state.stateGenerators != null) {
+            for(String genKey : state.stateGenerators) {
+                BlockStateGenerator generator = BlockStateGenerator.getInstance(genKey);
+                System.out.println("Applying generator " + genKey + " for blockstate: " + state.getSaveKey());
+                generator.generate(state);
+            }
+        }
+
+        Reflection.setFieldContents(state, "item", new ItemBlock(state));
     }
 
     /**
@@ -151,6 +190,9 @@ public class ClientBlockLoader implements IBlockLoader {
                 BlockState blockState = block.blockStates.get(stateKey);
                 blockState.stringId = stateKey;
                 blockState.initialize(block);
+                Threads.runOnMainThread(() -> {
+                    blockState.setBlockModel(Reflection.getFieldContents(blockState, "modelName"));
+                });
                 Block.allBlockStates.put(blockState.stringId, blockState);
             }
             Block.blocksByStringId.put(blockGenerator.blockId.toString(), block);
@@ -171,33 +213,46 @@ public class ClientBlockLoader implements IBlockLoader {
     }
 
     public void registerFinalizers() {
-
         LOGGER.info("Registering Block Model finalizers");
 
         // initialize models, fewer parents first order
         // it's very critical that registries are run in order here
-        for (BlockModel model : factory.sort()) {
-            if (model instanceof PuzzleBlockModel m) {
-                PuzzleRegistries.BLOCK_MODEL_FINALIZERS.store(Identifier.of(m.getModelName() + "_" + m.rotXZ), m::initialize);
-            }
-        }
-        PuzzleRegistries.BLOCK_MODEL_FINALIZERS.freeze();
+//        int i = 0;
+//        for (BlockModel model : factory.sort()) {
+//            if (model instanceof BlockModelJson m) {
+//                PuzzleRegistries.BLOCK_MODEL_FINALIZERS.store(Identifier.of("" + i), () -> {
+//                    BlockModelJsonInitializer.init(m);
+//                });
+//            }
+//            i++;
+//        }
+//        PuzzleRegistries.BLOCK_MODEL_FINALIZERS.freeze();
 
-        LOGGER.info("Registering Block finalizers");
-
-        // fix culling flags
-        for(Block block : Block.allBlocks) {
-            for(BlockState blockState : block.blockStates.values()) {
-                try {
-                    if (blockState.getModel() instanceof PuzzleBlockModel model) {
-                        String blockStateId = block.getStringId() + "[" + blockState.stringId + "]";
-                        PuzzleRegistries.BLOCK_FINALIZERS.store(Identifier.of(blockStateId), () -> blockState.setBlockModel(model.modelName));
-                    }
-                } catch (Exception ignored) {}
-            }
-        }
+        // initialize models, fewer parents first order
+        // it's very critical that registries are run in order here
+//        i = 0;
+//        for (Block block : Block.allBlocks) {
+//            for (ObjectMap.Entry<String, BlockState> s : block.blockStates) {
+//                PuzzleRegistries.BLOCK_FINALIZERS.store(Identifier.of("" + i), () -> {
+//                    BlockModelJson j = (BlockModelJson) s.value.getModel();
+//                    j = BlockModelJsonInitializer.init(j);
+//                    Reflection.setFieldContents(s.value, "blockModel", j);
+//                    System.out.println("IM GOING INSANE");
+//                });
+//                i++;
+//            }
+//        }
+//
+//        for (BlockState s : Block.allBlockStates.values()) {
+//            PuzzleRegistries.BLOCK_FINALIZERS.store(Identifier.of("" + i), () -> {
+//                BlockModelJson j = (BlockModelJson) s.getModel();
+//                j = BlockModelJsonInitializer.init(j);
+//                Reflection.setFieldContents(s, "blockModel", j);
+//                System.out.println("IM GOING INSANE");
+//            });
+//            i++;
+//        }
         PuzzleRegistries.BLOCK_FINALIZERS.freeze();
-
     }
 
     /**

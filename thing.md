@@ -1,4 +1,4 @@
-# Puzzle Loader *`2.2.6`*
+# Puzzle Loader *`Beta Release 2.2.6`*
 
 **Maven**: `com.github.PuzzleLoader:PuzzleLoader:2.2.6`
 **Github**: <https://github.com/PuzzleLoader/PuzzleLoader>
@@ -7,9 +7,10 @@
 **Full Changelog**: [2.2.5...2.2.6](<https://github.com/PuzzleLoader/PuzzleLoader/compare/2.2.5...2.2.6>)
 
 ## What's Changed
-* update to 0.3.20 (door are still messed up) by @Crab-K1ng in https://github.com/PuzzleLoader/PuzzleLoader/pull/24
-* update BlockstateGenerator.State by @Crab-K1ng in https://github.com/PuzzleLoader/PuzzleLoader/pull/25
-* fix itemIcon by @Crab-K1ng in https://github.com/PuzzleLoader/PuzzleLoader/pull/26
+* added null checking to ClientBlockEvents & Tinkered with the block model to correct UVs.
+* update to 0.3.20 (door are still messed up) by @Crab-K1ng in <https://github.com/PuzzleLoader/PuzzleLoader/pull/24>
+* update BlockstateGenerator.State by @Crab-K1ng in <https://github.com/PuzzleLoader/PuzzleLoader/pull/25>
+* fix itemIcon by @Crab-K1ng in <https://github.com/PuzzleLoader/PuzzleLoader/pull/26>
 
 ## Known Issues
 - Door top not rotating correctly with certain angles.

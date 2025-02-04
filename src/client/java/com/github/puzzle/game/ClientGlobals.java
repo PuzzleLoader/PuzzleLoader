@@ -1,7 +1,6 @@
 package com.github.puzzle.game;
 
 import finalforeach.cosmicreach.rendering.IZoneRenderer;
-import finalforeach.cosmicreach.settings.IntSetting;
 import finalforeach.cosmicreach.util.Identifier;
 import org.intellij.lang.annotations.Language;
 import org.reflections.Reflections;
@@ -14,12 +13,12 @@ import java.util.*;
 import static com.github.puzzle.core.Constants.MOD_ID;
 
 public class ClientGlobals {
+
     public static List<IZoneRenderer> renderers = new ArrayList<>();
     public static Map<String,Integer> rendererIndexMap = new HashMap<>();
     public static int rendererIndex = 0;
 
     public static final Identifier LanguageEnUs = Identifier.of(MOD_ID, "languages/en-US.json");
-    public static final IntSetting AntiAliasing = new IntSetting("msaa", 4);
     public static Language SelectedLanguage;
 
     public static void initRenderers() {

@@ -12,7 +12,6 @@ import com.github.puzzle.game.block.PuzzleBlockAction;
 import com.github.puzzle.game.block.generators.BlockEventGenerator;
 import com.github.puzzle.game.block.generators.BlockGenerator;
 import com.github.puzzle.game.block.generators.model.BlockModelGenerator;
-import com.github.puzzle.game.engine.blocks.model.IPuzzleBlockModel;
 import com.github.puzzle.game.factories.IFactory;
 import finalforeach.cosmicreach.blockevents.BlockEvents;
 import finalforeach.cosmicreach.blocks.Block;
@@ -169,16 +168,16 @@ public class ServerBlockLoader implements IBlockLoader {
 
     public void registerFinalizers() {
 
-        LOGGER.info("Registering Block Model finalizers");
+//        LOGGER.info("Registering Block Model finalizers");
 
         // initialize models, fewer parents first order
         // it's very critical that registries are run in order here
-        for (BlockModel model : factory.sort()) {
-            if (model instanceof IPuzzleBlockModel m) {
-                PuzzleRegistries.BLOCK_MODEL_FINALIZERS.store(Identifier.of(m.getModelName() + "_" + m.getXZRotation()), m::initialize);
-            }
-        }
-        PuzzleRegistries.BLOCK_MODEL_FINALIZERS.freeze();
+//        for (BlockModel model : factory.sort()) {
+//            if (model instanceof IPuzzleBlockModel m) {
+//                PuzzleRegistries.BLOCK_MODEL_FINALIZERS.store(Identifier.of(m.getModelName() + "_" + m.getXZRotation()), m::initialize);
+//            }
+//        }
+//        PuzzleRegistries.BLOCK_MODEL_FINALIZERS.freeze();
 
         LOGGER.info("Registering Block finalizers");
 

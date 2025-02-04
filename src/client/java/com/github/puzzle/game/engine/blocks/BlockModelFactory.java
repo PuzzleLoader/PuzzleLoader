@@ -1,14 +1,18 @@
 package com.github.puzzle.game.engine.blocks;
 
 import com.badlogic.gdx.utils.Json;
-import com.github.puzzle.game.engine.blocks.models.PuzzleBlockModel;
+import com.github.puzzle.game.PuzzleRegistries;
 import com.github.puzzle.game.resources.PuzzleGameAssetLoader;
 import com.github.puzzle.game.resources.VanillaAssetLocations;
+import finalforeach.cosmicreach.Threads;
 import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.rendering.blockmodels.BlockModel;
+import finalforeach.cosmicreach.rendering.blockmodels.BlockModelJson;
+import finalforeach.cosmicreach.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -45,9 +49,11 @@ public class BlockModelFactory extends DummyBlockModelFactory implements IBlockM
             return models.get(key);
         }
 
-        PuzzleBlockModel model = PuzzleBlockModel.fromJson(modelJson, modelName, rotXZ);
-        if (model.parent != null) {
-            getInstance(model.parent, rotXZ);
+        BlockModelJson model = BlockModelJson.getInstanceFromJsonStr(modelName, modelJson, rotXZ);
+        addInit(model);
+        String parent = getModelParent(model);
+        if (parent != null) {
+            getInstance(parent, rotXZ);
         }
 
         models.put(key, model);
@@ -63,13 +69,26 @@ public class BlockModelFactory extends DummyBlockModelFactory implements IBlockM
         }
 
         String modelJson = PuzzleGameAssetLoader.locateAsset(VanillaAssetLocations.getBlockModel(modelName)).readString();
-        PuzzleBlockModel model = PuzzleBlockModel.fromJson(modelJson, modelName, rotXZ);
-        if (model.parent != null) {
-            getInstance(model.parent, rotXZ);
+        BlockModelJson model = BlockModelJson.getInstanceFromJsonStr(modelName, modelJson, rotXZ);
+        addInit(model);
+
+        String parent = getModelParent(model);
+        if (parent != null) {
+            getInstance(parent, rotXZ);
         }
 
         models.put(key, model);
         return model;
+    }
+
+    public static String getModelParent(BlockModelJson model) {
+        try {
+            Field f = BlockModelJson.class.getDeclaredField("parent");
+            f.setAccessible(true);
+            return (String) f.get(model);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -80,47 +99,55 @@ public class BlockModelFactory extends DummyBlockModelFactory implements IBlockM
             return;
         }
 
-        if (parentModel instanceof PuzzleBlockModel fluxParent) {
-            Json json = new Json();
-            json.setTypeName(null);
+        Json json = new Json();
+        json.setTypeName(null);
 
-            String modelJson;
-            modelJson = "{\"parent\": \"" + parentModelName + "\", \"textures\":" + json.toJson(fluxParent.getTextures()) + "}";
+        String modelJson;
+        modelJson = "{\"parent\": \"" + parentModelName + "\", \"textures\":" + json.toJson(((BlockModelJson) parentModel).getTextures()) + "}";
 
-            PuzzleBlockModel model = PuzzleBlockModel.fromJson(modelJson, modelName, rotXZ);
-            if (model.parent != null) {
-                getInstance(model.parent, rotXZ);
-            }
-            models.put(key, model);
-        } else {
-            LOGGER.error("can't create generated instances for '{}'", parentModel.getClass().getSimpleName());
+        BlockModelJson model = BlockModelJson.getInstanceFromJsonStr(modelName, modelJson, rotXZ);
+        addInit(model);
+        String parent = getModelParent(model);
+        if (parent != null) {
+            model.cullsSelf = parentModel.cullsSelf;
+            model.isTransparent = parentModel.isTransparent;
+            getInstance(parent, rotXZ);
         }
+
+        models.put(key, model);
     }
 
-    private int getNumberOfParents(PuzzleBlockModel model) {
+    private void addInit(BlockModelJson model) {
+        Threads.runOnMainThread(() -> {
+            BlockModelJsonInitializer.init(model);
+        });
+    }
+
+    private int getNumberOfParents(BlockModelJson model) {
         int n = 0;
-        String parent = model.parent;
+        String parent = getModelParent(model);
         while (parent != null) {
-            PuzzleBlockModel parentModel = null;
+            BlockModelJson parentModel = null;
 
             InstanceKey parentKey;
             if (models.containsKey(parentKey = new InstanceKey(parent, 0)))
-                parentModel = (PuzzleBlockModel) models.get(parentKey);
+                parentModel = (BlockModelJson) models.get(parentKey);
             else if (models.containsKey(parentKey = new InstanceKey(parent, 90)))
-                parentModel = (PuzzleBlockModel) models.get(parentKey);
+                parentModel = (BlockModelJson) models.get(parentKey);
             else if (models.containsKey(parentKey = new InstanceKey(parent, 180)))
-                parentModel = (PuzzleBlockModel) models.get(parentKey);
-            else if (models.containsKey(parentKey = new InstanceKey(parent, 270)))
-                parentModel = (PuzzleBlockModel) models.get(parentKey);
+                parentModel = (BlockModelJson) models.get(parentKey);
+            else if (models.containsKey(parentKey = new InstanceKey(parent, 270))) {
+                parentModel = (BlockModelJson) models.get(parentKey);
+            }
 
-            parent = parentModel == null ? null : parentModel.parent;
+            parent = parentModel == null ? null : getModelParent(parentModel);
             n++;
         }
         return n;
     }
 
     public int compare(BlockModel o1, BlockModel o2) {
-        if (o1 instanceof PuzzleBlockModel f1 && o2 instanceof PuzzleBlockModel f2) {
+        if (o1 instanceof BlockModelJson f1 && o2 instanceof BlockModelJson f2) {
             return Integer.compare(getNumberOfParents(f1), getNumberOfParents(f2));
         }
         return 0;

@@ -19,6 +19,8 @@ import java.util.function.Predicate;
 
 public class BlockGenerator implements IGenerator {
 
+    public State defaultProperties;
+
     public static class State implements Json.Serializable {
         /**
          * modelName is used for locating the model used for this block
@@ -74,7 +76,7 @@ public class BlockGenerator implements IGenerator {
             }
 
             this.langKey = jsonData.getString("langKey", null);
-            this.modelName = jsonData.getString("modelName");
+            this.modelName = jsonData.getString("modelName", null);
             this.swapGroupId = jsonData.getString("swapGroupId", null);
             this.blockEventsId = jsonData.getString("blockEventsId", null);
             this.dropId = jsonData.getString("dropId", null);
@@ -191,6 +193,8 @@ public class BlockGenerator implements IGenerator {
             out += "\"blockEntityId\": \"" + blockEntityId + "\", ";
         if (blockEntityParams != null)
             out += "\"blockEntityParams\": " + json2.toJson(blockEntityParams) + ", ";
+        if (defaultProperties != null)
+            out += "\"defaultProperties\": " + json2.toJson(defaultProperties) + ", ";
         out += "\"blockStates\": " + json.toJson(blockStates);
         out += "}";
 

@@ -50,6 +50,10 @@ public interface IModItem extends Item {
         return item;
     }
 
+    static void registerItem(Item item) {
+        allItems.put(item.getID(), item);
+    }
+
     DataTagPreset<Identifier> MODEL_ID_PRESET = new DataTagPreset<>("model_id", new IdentifierDataAttribute(Identifier.of(MOD_ID, "2d_item_model")));
     Identifier MODEL_2D_ITEM = Identifier.of(MOD_ID, "2d_item_model");
     Identifier MODEL_2_5D_ITEM = Identifier.of(MOD_ID, "3d_item_model");

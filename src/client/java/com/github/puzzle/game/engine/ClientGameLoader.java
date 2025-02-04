@@ -27,7 +27,6 @@ import com.github.puzzle.game.ServerGlobals;
 import com.github.puzzle.game.common.Puzzle;
 import com.github.puzzle.game.engine.blocks.ClientBlockLoader;
 import com.github.puzzle.game.engine.blocks.IBlockLoader;
-import com.github.puzzle.game.engine.blocks.models.PuzzleBlockModel;
 import com.github.puzzle.game.engine.stages.client.Initialize;
 import com.github.puzzle.game.engine.stages.client.LoadingAssets;
 import com.github.puzzle.game.engine.stages.client.PostInitialize;
@@ -36,11 +35,11 @@ import com.github.puzzle.game.events.OnPreLoadAssetsEvent;
 import com.github.puzzle.game.resources.PuzzleGameAssetLoader;
 import com.github.puzzle.game.ui.font.CosmicReachFont;
 import com.github.puzzle.game.ui.font.TranslationParameters;
-import finalforeach.cosmicreach.ClientSingletons;
 import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.Threads;
 import finalforeach.cosmicreach.gamestates.GameState;
 import finalforeach.cosmicreach.gamestates.PrealphaPreamble;
+import finalforeach.cosmicreach.rendering.blockmodels.BlockModelJson;
 import finalforeach.cosmicreach.settings.Preferences;
 import finalforeach.cosmicreach.ui.debug.DebugInfo;
 import finalforeach.cosmicreach.ui.debug.DebugItem;
@@ -106,7 +105,10 @@ public class ClientGameLoader extends GameState implements IGameLoader {
     public void create() {
         super.create();
 
-        PuzzleBlockModel.useIndices = !ClientSingletons.usesSharedindices();
+        Threads.runOnMainThread(() -> {
+            LOGGER.info("Shared Indices are {}", BlockModelJson.useIndices ? "off" : "on");
+        });
+
         ClientGlobals.initRenderers();
 
         ModLocator.locatedMods.values().forEach((modContainer -> modContainer.INFO.Entrypoints.values().forEach(adapterPathPairs -> {

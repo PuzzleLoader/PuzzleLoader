@@ -1,12 +1,11 @@
 package com.github.puzzle.game.engine.blocks;
 
 import com.badlogic.gdx.utils.Json;
-import com.github.puzzle.game.engine.blocks.model.IPuzzleBlockModel;
-import com.github.puzzle.game.engine.blocks.models.ServerPuzzleBlockModel;
 import com.github.puzzle.game.resources.PuzzleGameAssetLoader;
 import com.github.puzzle.game.resources.VanillaAssetLocations;
 import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.rendering.blockmodels.BlockModel;
+import finalforeach.cosmicreach.rendering.blockmodels.DummyBlockModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 public class DummyBlockModelFactory implements IBlockModelFactory {
+
 
     public record InstanceKey(String modelName, int rotXZ) {}
 
@@ -46,9 +46,10 @@ public class DummyBlockModelFactory implements IBlockModelFactory {
             return models.get(key);
         }
 
-        ServerPuzzleBlockModel model = (ServerPuzzleBlockModel) ServerPuzzleBlockModel.fromJson(modelJson, modelName, rotXZ);
-        if (model.parent != null) {
-            getInstance(model.parent, rotXZ);
+        DummyBlockModel model = DummyBlockModel.getInstanceFromJsonStr(modelName, modelJson, rotXZ);
+        String parent = getModelParent(model);
+        if (parent != null) {
+            getInstance(parent, rotXZ);
         }
 
         models.put(key, model);
@@ -64,13 +65,26 @@ public class DummyBlockModelFactory implements IBlockModelFactory {
         }
 
         String modelJson = PuzzleGameAssetLoader.locateAsset(VanillaAssetLocations.getBlockModel(modelName)).readString();
-        ServerPuzzleBlockModel model = (ServerPuzzleBlockModel) ServerPuzzleBlockModel.fromJson(modelJson, modelName, rotXZ);
-        if (model.parent != null) {
-            getInstance(model.parent, rotXZ);
+        DummyBlockModel model = DummyBlockModel.getInstanceFromJsonStr(modelName, modelJson, rotXZ);
+
+        String parent = getModelParent(model);
+        if (parent != null) {
+            getInstance(parent, rotXZ);
         }
 
         models.put(key, model);
         return model;
+    }
+
+    public static String getModelParent(DummyBlockModel model) {
+//        try {
+//            Field f = DummyBlockModel.class.getDeclaredField("parent");
+//            f.setAccessible(true);
+//            return (String) f.get(model);
+//        } catch (NoSuchFieldException | IllegalAccessException e) {
+//            throw new RuntimeException(e);
+//        }
+        return null;
     }
 
     @Override
@@ -81,47 +95,48 @@ public class DummyBlockModelFactory implements IBlockModelFactory {
             return;
         }
 
-        if (parentModel instanceof ServerPuzzleBlockModel fluxParent) {
-            Json json = new Json();
-            json.setTypeName(null);
+        Json json = new Json();
+        json.setTypeName(null);
 
-            String modelJson;
-            modelJson = "{\"parent\": \"" + parentModelName + "\" }";
+        String modelJson;
+        modelJson = "{\"parent\": \"" + parentModelName + "\", \"textures\": {}" + "}";
 
-            ServerPuzzleBlockModel model = (ServerPuzzleBlockModel) ServerPuzzleBlockModel.fromJson(modelJson, modelName, rotXZ);
-            if (model.parent != null) {
-                getInstance(model.parent, rotXZ);
-            }
-            models.put(key, model);
-        } else {
-            LOGGER.error("can't create generated instances for '{}'", parentModel.getClass().getSimpleName());
+        DummyBlockModel model = DummyBlockModel.getInstanceFromJsonStr(modelName, modelJson, rotXZ);
+        String parent = getModelParent(model);
+        if (parent != null) {
+            model.cullsSelf = parentModel.cullsSelf;
+            model.isTransparent = parentModel.isTransparent;
+            getInstance(parent, rotXZ);
         }
+
+        models.put(key, model);
     }
 
-    private int getNumberOfParents(IPuzzleBlockModel model) {
+    private int getNumberOfParents(DummyBlockModel model) {
         int n = 0;
-        String parent = model.getParent();
+        String parent = getModelParent(model);
         while (parent != null) {
-            IPuzzleBlockModel parentModel = null;
+            DummyBlockModel parentModel = null;
 
             InstanceKey parentKey;
             if (models.containsKey(parentKey = new InstanceKey(parent, 0)))
-                parentModel = (IPuzzleBlockModel) models.get(parentKey);
+                parentModel = (DummyBlockModel) models.get(parentKey);
             else if (models.containsKey(parentKey = new InstanceKey(parent, 90)))
-                parentModel = (IPuzzleBlockModel) models.get(parentKey);
+                parentModel = (DummyBlockModel) models.get(parentKey);
             else if (models.containsKey(parentKey = new InstanceKey(parent, 180)))
-                parentModel = (IPuzzleBlockModel) models.get(parentKey);
-            else if (models.containsKey(parentKey = new InstanceKey(parent, 270)))
-                parentModel = (IPuzzleBlockModel) models.get(parentKey);
+                parentModel = (DummyBlockModel) models.get(parentKey);
+            else if (models.containsKey(parentKey = new InstanceKey(parent, 270))) {
+                parentModel = (DummyBlockModel) models.get(parentKey);
+            }
 
-            parent = parentModel == null ? null : parentModel.getParent();
+            parent = parentModel == null ? null : getModelParent(parentModel);
             n++;
         }
         return n;
     }
 
     public int compare(BlockModel o1, BlockModel o2) {
-        if (o1 instanceof IPuzzleBlockModel f1 && o2 instanceof IPuzzleBlockModel f2) {
+        if (o1 instanceof DummyBlockModel f1 && o2 instanceof DummyBlockModel f2) {
             return Integer.compare(getNumberOfParents(f1), getNumberOfParents(f2));
         }
         return 0;

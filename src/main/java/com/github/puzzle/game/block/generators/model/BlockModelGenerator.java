@@ -1,12 +1,11 @@
 package com.github.puzzle.game.block.generators.model;
 
 import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.utils.Json;
 import com.github.puzzle.core.Constants;
 import com.github.puzzle.core.loader.meta.EnvType;
+import com.github.puzzle.game.ServerGlobals;
 import com.github.puzzle.game.engine.blocks.IBlockLoader;
 import com.github.puzzle.game.engine.blocks.model.IBlockModelGenerator;
-import com.github.puzzle.game.engine.blocks.model.IPuzzleBlockModel;
 import finalforeach.cosmicreach.constants.Direction;
 import finalforeach.cosmicreach.util.Identifier;
 
@@ -206,20 +205,6 @@ public class BlockModelGenerator implements IBlockModelGenerator {
 
     @Override
     public String generateJson() {
-        IPuzzleBlockModel model = Constants.SIDE == EnvType.SERVER ? IPuzzleBlockModel.newDummy() : IPuzzleBlockModel.newReal();
-        model.initTextures();
-
-//        for(String customTextureName : customTextures.keySet()) {
-//            BlockModelJsonTexture texture = new BlockModelJsonTexture();
-//            texture.fileName = getModelTextureName(customTextureName);
-//            model.textures.put(customTextureName, texture);
-//        }
-
-        model.registerVanillaTextures(vanillaTextures);
-        model.fromModelGenerator(this);
-
-        Json json = new Json();
-        json.setTypeName(null);
-        return json.toJson(model);
+        return ServerGlobals.MODEL_GENERATOR.fromGeneratorAsString(this);
     }
 }

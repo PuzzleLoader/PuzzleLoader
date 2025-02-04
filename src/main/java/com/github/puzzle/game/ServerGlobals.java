@@ -4,6 +4,8 @@ import com.github.puzzle.core.loader.launch.Piece;
 import com.github.puzzle.core.loader.meta.Env;
 import com.github.puzzle.core.loader.meta.EnvType;
 import com.github.puzzle.core.loader.util.ModLocator;
+import com.github.puzzle.game.engine.blocks.models.IModelGenerator;
+import com.github.puzzle.game.engine.blocks.models.ServerModelGenerator;
 import finalforeach.cosmicreach.settings.BooleanSetting;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +15,8 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Supplier;
 
 public class ServerGlobals {
+
+    public static IModelGenerator MODEL_GENERATOR = new ServerModelGenerator();
 
     @Env(EnvType.SERVER)
     public static final Logger SERVER_LOGGER = LoggerFactory.getLogger("Puzzle | Server");
