@@ -9,6 +9,7 @@ import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.accounts.Account;
 import finalforeach.cosmicreach.chat.Chat;
 import finalforeach.cosmicreach.chat.ChatMessage;
+import finalforeach.cosmicreach.gamestates.InGame;
 import finalforeach.cosmicreach.networking.client.ChatSender;
 import finalforeach.cosmicreach.networking.client.ClientNetworkManager;
 import finalforeach.cosmicreach.networking.packets.CommandPacket;
@@ -57,7 +58,7 @@ public abstract class ChatMixin {
                     ClientNetworkManager.sendAsClient(new CommandPacket(messageText.substring(1).split(" ")));
                 else {
                     try {
-                        CommandManager.DISPATCHER.execute(commandText, new SinglePlayerServerCommandSource(null, GameSingletons.world, chat));
+                        CommandManager.DISPATCHER.execute(commandText, new SinglePlayerServerCommandSource(InGame.getLocalPlayer(), GameSingletons.world, chat));
                     } catch (CommandSyntaxException e) {
                         Chat.MAIN_CLIENT_CHAT.addMessage(null, "Could not execute command " + messageText);
                     }
