@@ -157,6 +157,27 @@ public interface IModItem extends Item {
     }
 
     /**
+     * This allows your item to be used by the player.
+     * This method is a remap/rename of useItem
+     * @see IModItem#useItem(ItemSlot, Player)
+     * @see Item#useItem(ItemSlot, Player, BlockPosition)
+     */
+    default void clientUse(ItemSlot slot, Player player, BlockPosition targetPlaceBlockPos, BlockPosition targetBreakBlockPos) {
+    }
+
+    /**
+     * This allows your item to be used by the player.
+     * This method is a remap/rename of useItem
+     * @see IModItem#useItem(ItemSlot, Player)
+     * @see Item#useItem(ItemSlot, Player, BlockPosition)
+     */
+    default void clientUse(ItemSlot slot, Player player, BlockPosition targetPlaceBlockPos, BlockPosition targetBreakBlockPos, boolean isLeftClick) {
+        if (!isLeftClick) {
+            this.use(slot, player, targetPlaceBlockPos, targetBreakBlockPos);
+        }
+    }
+
+    /**
      * This is a method that makes your item usable by the player.
      *
      * @deprecated impl the "use" method instead for a cleaner look

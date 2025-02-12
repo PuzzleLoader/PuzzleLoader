@@ -40,6 +40,7 @@ public class InGameMixin {
                         }else {
                             modItem.use(UI.hotbar.getSelectedSlot(), localPlayer, targetPlaceBlockPos, targetBreakBlockPos, isLeftClick);
                         }
+                        modItem.clientUse(UI.hotbar.getSelectedSlot(), localPlayer, targetPlaceBlockPos, targetBreakBlockPos, isLeftClick);
                         isPressed = true;
                     }
                     if ((isPressed && !ControlSettings.keyUsePlace.isPressed()) && (isPressed && !ControlSettings.keyAttackBreak.isPressed())) isPressed = false;
