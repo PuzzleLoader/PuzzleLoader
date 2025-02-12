@@ -31,8 +31,6 @@ public class BlockWrench implements IModItem {
         if (targetBreakBlockPos == null) return;
         BlockState state = targetBreakBlockPos.getBlockState();
         if (state == null) return;
-        if (targetBreakBlockPos == null) return;
-
         BlockUtil.setBlockAt(targetBreakBlockPos.getZone(), ((ItemBlock) state.getItem().getNextSwapGroupItem()).getBlockState(), targetBreakBlockPos);
     }
 

@@ -1,11 +1,14 @@
 package com.github.puzzle.game.mixins.client.items;
 
 import com.github.puzzle.game.items.IModItem;
+import com.github.puzzle.game.networking.packet.items.UseModdedItemPacket;
 import finalforeach.cosmicreach.BlockSelection;
+import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.blocks.BlockPosition;
 import finalforeach.cosmicreach.entities.player.Player;
 import finalforeach.cosmicreach.gamestates.InGame;
 import finalforeach.cosmicreach.items.ItemStack;
+import finalforeach.cosmicreach.networking.client.ClientNetworkManager;
 import finalforeach.cosmicreach.settings.ControlSettings;
 import finalforeach.cosmicreach.ui.UI;
 import org.spongepowered.asm.mixin.Mixin;
@@ -27,8 +30,17 @@ public class InGameMixin {
                 ItemStack stack = UI.hotbar.getSelectedSlot().itemStack;
                 if (stack != null && stack.getItem() instanceof IModItem modItem) {
                     if ((ControlSettings.keyUsePlace.isPressed() && !isPressed) || (ControlSettings.keyAttackBreak.isPressed() && !isPressed)) {
-                            modItem.use(UI.hotbar.getSelectedSlot(), localPlayer, blockSelection.blockRaycasts.getPlacingBlockPos(), blockSelection.blockRaycasts.getBreakingBlockPos(), ControlSettings.keyAttackBreak.isPressed());
-                            isPressed = true;
+                        BlockPosition targetPlaceBlockPos = blockSelection.blockRaycasts.getPlacingBlockPos();
+                        BlockPosition targetBreakBlockPos = blockSelection.blockRaycasts.getBreakingBlockPos();
+                        boolean isLeftClick = ControlSettings.keyAttackBreak.isPressed();
+
+                        if (!GameSingletons.isHost){
+                            UseModdedItemPacket useModdedItemPacket = new UseModdedItemPacket(UI.hotbar.getSelectedSlotNum(), targetPlaceBlockPos, targetBreakBlockPos, isLeftClick);
+                            ClientNetworkManager.sendAsClient(useModdedItemPacket);
+                        }else {
+                            modItem.use(UI.hotbar.getSelectedSlot(), localPlayer, targetPlaceBlockPos, targetBreakBlockPos, isLeftClick);
+                        }
+                        isPressed = true;
                     }
                     if ((isPressed && !ControlSettings.keyUsePlace.isPressed()) && (isPressed && !ControlSettings.keyAttackBreak.isPressed())) isPressed = false;
                 }
