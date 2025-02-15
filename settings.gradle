@@ -19,3 +19,5 @@ buildscript {
 }
 
 rootProject.name = 'PuzzleLoader'
+include 'api'
+
