@@ -1,0 +1,74 @@
+import com.github.puzzle.buildsrx.ReturnReplaceTask
+
+plugins {
+    id 'java'
+}
+
+sourceSets {
+    api
+    backend_0_3_23
+    backend_0_0_1
+}
+
+group = 'com.github'
+version = '69.69.69'
+
+repositories {
+    mavenCentral()
+    maven {
+        name = 'Jitpack'
+        url = 'https://jitpack.io'
+    }
+}
+
+var gdxVersion = "1.13.0"
+var puzzleVersion = "2.3.1"
+
+var crVersion = "0.3.23"
+var crUrl = "https://github.com/CRModders/CosmicArchive/raw/refs/heads/main/versions/pre-alpha/${crVersion}/client/Cosmic%20Reach-${crVersion}.jar"
+var crUrl1 = "https://github.com/CRModders/CosmicArchive/raw/refs/heads/main/versions/pre-alpha/${crVersion}/client/Cosmic-Reach-${crVersion}.jar"
+
+File crFile = file("cr${crVersion}.jar")
+if (!crFile.exists()) {
+    try {
+        new URL(crUrl).withInputStream { i -> crFile.withOutputStream { it << i}}
+    } catch (Exception ignore) {
+        new URL(crUrl1).withInputStream { i -> crFile.withOutputStream { it << i}}
+    }
+}
+
+String apiJar = jar.archivePath.toPath().toAbsolutePath().toString();
+
+System.out.println(apiJar)
+
+dependencies {
+    apiImplementation "com.badlogicgames.gdx:gdx:$gdxVersion"
+
+    backend_0_3_23Implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
+    backend_0_3_23Implementation files(crFile)
+    backend_0_3_23Implementation "com.github.PuzzleLoader:PuzzleLoader:${puzzleVersion}:client"
+//    backend_0_3_23Implementation sourceSets.api.output
+    backend_0_3_23Implementation files("./api.jar")
+//    backend_0_3_23Implementation files(apiJar)
+
+//    backend_0_0_1Implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
+//    backend_0_0_1Implementation files(crFile)
+//    backend_0_0_1Implementation "com.github.PuzzleLoader:PuzzleLoader:${puzzleVersion}:client"
+//    backend_0_0_1Implementation sourceSets.api.output
+}
+
+
+jar {
+    from sourceSets.api.output
+}
+
+System.out.println(jar.archiveFile.get().asFile)
+
+tasks.register("finalizeJar") {
+    group = "buildSrc"
+    ReturnReplaceTask.transform2(jar.archiveFile.get().asFile, crFile);
+
+    doLast {
+        new File(jar.archiveFile.get().getAsFile().absolutePath).renameTo(new File("./api.jar"))
+    }
+}
