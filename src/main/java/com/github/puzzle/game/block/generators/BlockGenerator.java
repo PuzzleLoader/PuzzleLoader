@@ -6,8 +6,8 @@ import com.github.puzzle.game.factories.IGenerator;
 import com.github.puzzle.game.oredict.tags.Tag;
 import finalforeach.cosmicreach.blocks.BlockPlaceCheck;
 import finalforeach.cosmicreach.util.Identifier;
-import finalforeach.cosmicreach.util.predicates.JsonPredicateParser;
-import finalforeach.cosmicreach.util.predicates.PredicateBlockPlaceCheck;
+import finalforeach.cosmicreach.util.predicates.GamePredicate;
+import finalforeach.cosmicreach.util.predicates.GamePredicateBlockPlaceCheck;
 import org.hjson.JsonObject;
 import org.hjson.Stringify;
 
@@ -46,6 +46,7 @@ public class BlockGenerator implements IGenerator {
         public float blastResistance = 100.0F;
         public float friction = 1.0F;
         public float bounciness = 0.0F;
+        public float refractiveIndex = 1.0F;
         @Deprecated
         public boolean generateSlabs = false;
         public String[] stateGenerators = null;
@@ -62,7 +63,7 @@ public class BlockGenerator implements IGenerator {
         public String swapGroupId;
         public String dropId;
         public float hardness = 1.5F;
-        public Predicate<BlockPlaceCheck> canPlaceCheck = JsonPredicateParser.getAlwaysTrue();
+        public Predicate<BlockPlaceCheck> canPlaceCheck = GamePredicate.getAlwaysTrue();
         int rotXZ = 0;
         public OrderedMap<String, ?> dropParams;
         ObjectIntMap<String> intProperties = new ObjectIntMap();
@@ -71,8 +72,8 @@ public class BlockGenerator implements IGenerator {
 
         public void read(Json json, JsonValue jsonData) {
             if (jsonData.has("canPlace")) {
-                JsonValue canPlaceRoot = jsonData.get("canPlace");
-                this.canPlaceCheck = PredicateBlockPlaceCheck.parseBlockPlaceTest(canPlaceRoot);
+                JsonValue jsonvalue = jsonData.get("canPlace");
+                this.canPlaceCheck = json.readValue(GamePredicateBlockPlaceCheck.class, jsonvalue.child);
             }
 
             this.langKey = jsonData.getString("langKey", null);
@@ -102,6 +103,7 @@ public class BlockGenerator implements IGenerator {
             json.readField(this, "tags", jsonData);
             json.readField(this, "dropParams", jsonData);
             json.readField(this, "intProperties", jsonData);
+            this.refractiveIndex = jsonData.getFloat("refractiveIndex", this.refractiveIndex);
         }
 
         public void write(Json json) {
@@ -127,6 +129,7 @@ public class BlockGenerator implements IGenerator {
             json.writeField(this, "hardness");
             json.writeField(this, "friction");
             json.writeField(this, "bounciness");
+            json.writeField(this, "refractiveIndex");
             json.writeField(this, "blastResistance");
             json.writeField(this, "stateGenerators");
             json.writeField(this, "tags");
