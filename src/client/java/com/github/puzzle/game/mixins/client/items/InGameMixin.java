@@ -27,7 +27,7 @@ public class InGameMixin {
     @Inject(method = "update", at = @At("HEAD"))
     private void update(float deltaTime, CallbackInfo ci) {
             if (UI.hotbar.getSelectedSlot() != null){
-                ItemStack stack = UI.hotbar.getSelectedSlot().itemStack;
+                ItemStack stack = UI.hotbar.getSelectedSlot().getItemStack();
                 if (stack != null && stack.getItem() instanceof IModItem modItem) {
                     if ((ControlSettings.keyUsePlace.isPressed() && !isPressed) || (ControlSettings.keyAttackBreak.isPressed() && !isPressed)) {
                         BlockPosition targetPlaceBlockPos = blockSelection.blockRaycasts.getPlacingBlockPos();

@@ -90,8 +90,8 @@ public class Commands {
                                     String attr = StringArgumentType.getString(context, "attrib");
                                     if (UI.hotbar != null && UI.hotbar.getSelectedSlot() != null) {
                                         ItemSlot slot = UI.hotbar.getSelectedSlot();
-                                        if (slot.itemStack == null) return 0;
-                                        DataTagManifest manifest = DataTagUtil.getManifestFromStack(slot.itemStack);
+                                        if (slot.getItemStack() == null) return 0;
+                                        DataTagManifest manifest = DataTagUtil.getManifestFromStack(slot.getItemStack());
                                         Chat.MAIN_CLIENT_CHAT.addMessage(null, String.valueOf(manifest.getTag(attr)));
                                     }
                                     return 0;
@@ -99,8 +99,8 @@ public class Commands {
                         .executes(context -> {
                             if (UI.hotbar != null && UI.hotbar.getSelectedSlot() != null) {
                                 ItemSlot slot = UI.hotbar.getSelectedSlot();
-                                if (slot.itemStack == null) return 0;
-                                DataTagManifest manifest = DataTagUtil.getManifestFromStack(slot.itemStack);
+                                if (slot.getItemStack() == null) return 0;
+                                DataTagManifest manifest = DataTagUtil.getManifestFromStack(slot.getItemStack());
                                 Chat.MAIN_CLIENT_CHAT.addMessage(null, String.valueOf(manifest));
                             }
                             return 0;
@@ -112,8 +112,8 @@ public class Commands {
                                     String attr = StringArgumentType.getString(context, "attrib");
                                     if (UI.hotbar != null && UI.hotbar.getSelectedSlot() != null) {
                                         ItemSlot slot = UI.hotbar.getSelectedSlot();
-                                        if (slot.itemStack == null) return 0;
-                                        if (slot.itemStack.getItem() instanceof IModItem item) {
+                                        if (slot.getItemStack() == null) return 0;
+                                        if (slot.getItemStack().getItem() instanceof IModItem item) {
                                             Chat.MAIN_CLIENT_CHAT.addMessage(null, String.valueOf(item.getTagManifest().getTag(attr)));
                                             return 0;
                                         }
@@ -124,8 +124,8 @@ public class Commands {
                         .executes(context -> {
                             if (UI.hotbar != null && UI.hotbar.getSelectedSlot() != null) {
                                 ItemSlot slot = UI.hotbar.getSelectedSlot();
-                                if (slot.itemStack == null) return 0;
-                                if (slot.itemStack.getItem() instanceof IModItem item) {
+                                if (slot.getItemStack() == null) return 0;
+                                if (slot.getItemStack().getItem() instanceof IModItem item) {
                                     Chat.MAIN_CLIENT_CHAT.addMessage(null, String.valueOf(item.getTagManifest()));
                                     return 0;
                                 }

@@ -122,11 +122,11 @@ public class Puzzle implements ClientPreModInitializer, ClientModInitializer, Cl
                     ItemSlot slot = UI.hotbar.getContainer().getSlot(i);
 
                     if (slot != null) {
-                        if (slot.itemStack != null && slot.itemStack.getItem() instanceof ITickingItem tickingItem1) {
+                        if (slot.getItemStack() != null && slot.getItemStack().getItem() instanceof ITickingItem tickingItem1) {
                             if (UI.hotbar.getSelectedSlot() == slot){
-                                tickingItem1.tickStack(fixedUpdateTimeStep, slot.itemStack, true);
+                                tickingItem1.tickStack(fixedUpdateTimeStep, slot.getItemStack(), true);
                             }else {
-                                tickingItem1.tickStack(fixedUpdateTimeStep, slot.itemStack, false);
+                                tickingItem1.tickStack(fixedUpdateTimeStep, slot.getItemStack(), false);
                             }
                         }
                     }
@@ -137,8 +137,8 @@ public class Puzzle implements ClientPreModInitializer, ClientModInitializer, Cl
                         ItemSlot slot = UI.openContainers.get(ic).getSlot(i);
 
                         if (slot != null) {
-                            if (slot.itemStack != null && slot.itemStack.getItem() instanceof ITickingItem tickingItem1) {
-                                tickingItem1.tickStack(fixedUpdateTimeStep, slot.itemStack, false);
+                            if (slot.getItemStack() != null && slot.getItemStack().getItem() instanceof ITickingItem tickingItem1) {
+                                tickingItem1.tickStack(fixedUpdateTimeStep, slot.getItemStack(), false);
                             }
                         }
                     }

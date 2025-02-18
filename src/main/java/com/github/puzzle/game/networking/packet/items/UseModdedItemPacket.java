@@ -54,7 +54,7 @@ public class UseModdedItemPacket extends GamePacket {
 			Player player = identity.getPlayer();
 			Zone zone = identity.getZone();
 			ItemSlot itemslot = player.inventory.getSlot(this.selectedSlotNum);
-			ItemStack itemstack = itemslot != null ? itemslot.itemStack : null;
+			ItemStack itemstack = itemslot != null ? itemslot.getItemStack() : null;
 			if (this.targetPlaceBlockPos != null) this.targetPlaceBlockPos.convertToLocal(zone);
 			if (this.targetBreakBlockPos != null) this.targetBreakBlockPos.convertToLocal(zone);
 
