@@ -1,0 +1,23 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "io.github.puzzle.cosmic.impl.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "mixins": [
+    "block.BlockEntityMixin",
+    "block.BlockMixin",
+    "block.BlockPositionMixin",
+    "block.BlockStateMixin",
+    "entity.player.PlayerMixin",
+    "item.ItemMixin",
+    "item.ItemSlotMixin",
+    "item.ItemStackMixin",
+    "item.container.SlotContainerMixin",
+    "util.IdentifierMixin",
+    "world.ChunkMixin",
+    "world.ZoneMixin"
+  ]
+}

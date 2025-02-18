@@ -1,23 +1,18 @@
 package io.github.puzzle.cosmic.api.block;
 
 import io.github.puzzle.cosmic.api.util.IPuzzleIdentifier;
-import io.github.puzzle.cosmic.util.ChangeType;
+import io.github.puzzle.cosmic.util.ApiDeclaration;
 
+@ApiDeclaration(api = IPuzzleBlock.class, impl = "Block")
 public interface IPuzzleBlock {
 
-    IPuzzleBlockState getDefaultState();
-    BlockStateMap getStates();
+    IPuzzleBlockState _getDefaultState();
+    BlockStateMap _getStates();
 
-    IPuzzleIdentifier getIdentifier();
-    String getName();
+    IPuzzleIdentifier _getIdentifier();
+    String _getName();
 
     interface BlockStateMap {
-
         IPuzzleBlockState get(String key);
-
     }
-
-    @ChangeType("Block")
-    Object as();
-
 }

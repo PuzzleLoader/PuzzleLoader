@@ -3,37 +3,35 @@ package io.github.puzzle.cosmic.api.block;
 import io.github.puzzle.cosmic.api.entity.player.IPuzzlePlayer;
 import io.github.puzzle.cosmic.api.world.IPuzzleZone;
 import io.github.puzzle.cosmic.api.util.IPuzzleIdentifier;
-import io.github.puzzle.cosmic.util.ChangeType;
+import io.github.puzzle.cosmic.util.ApiDeclaration;
 
+@ApiDeclaration(api = IPuzzleBlockEntity.class, impl = "BlockEntity")
 public interface IPuzzleBlockEntity {
 
-    int getGlobalX();
-    int getGlobalY();
-    int getGlobalZ();
+    int _getGlobalX();
+    int _getGlobalY();
+    int _getGlobalZ();
 
-    int getLocalX();
-    int getLocalY();
-    int getLocalZ();
+    int _getLocalX();
+    int _getLocalY();
+    int _getLocalZ();
 
-    IPuzzleIdentifier getIdentifier();
+    IPuzzleIdentifier _getIdentifier();
 
-    void onCreate(IPuzzleBlockState state);
+    void _onCreate(IPuzzleBlockState state);
 
-    void onLoad();
-    void onUnload();
+    void _onLoad();
+    void _onUnload();
 
-    void setTicking(boolean ticking);
-    void onTick();
+    void _setTicking(boolean ticking);
+    void _onTick();
 
-    boolean isTicking();
+    boolean _isTicking();
 
-    void onInteract(IPuzzlePlayer player, IPuzzleZone zone);
-    void onSetBlockState(IPuzzleBlockState state);
-    void setZone(IPuzzleZone zone);
+    void _onInteract(IPuzzlePlayer player, IPuzzleZone zone);
+    void _onSetBlockState(IPuzzleBlockState state);
+    void _setZone(IPuzzleZone zone);
 
-    IPuzzleBlockState getBlockState();
-
-    @ChangeType("BlockEntity")
-    Object as();
+    IPuzzleBlockState _getBlockState();
 
 }

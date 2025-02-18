@@ -1,10 +1,8 @@
 package io.github.puzzle.cosmic.api.world;
 
-import io.github.puzzle.cosmic.util.ChangeType;
+import io.github.puzzle.cosmic.util.ApiDeclaration;
 
+@ApiDeclaration(api = IPuzzleChunk.class, impl = "Chunk")
 public interface IPuzzleChunk {
-
-    @ChangeType("Chunk")
-    Object as();
 
 }

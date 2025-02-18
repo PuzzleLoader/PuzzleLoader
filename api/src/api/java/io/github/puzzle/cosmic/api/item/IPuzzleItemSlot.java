@@ -1,38 +1,36 @@
 package io.github.puzzle.cosmic.api.item;
 
 import io.github.puzzle.cosmic.api.item.container.IPuzzleSlotContainer;
-import io.github.puzzle.cosmic.util.ChangeType;
+import io.github.puzzle.cosmic.util.ApiDeclaration;
 
+@ApiDeclaration(api = IPuzzleItemSlot.class, impl = "ItemSlot")
 public interface IPuzzleItemSlot {
 
-    void set(IPuzzleItemSlot src);
-    void setItemStack(IPuzzleItemStack stack);
+    void _set(IPuzzleItemSlot src);
+    void _setItemStack(IPuzzleItemStack stack);
 
-    boolean mergeFrom(IPuzzleItemSlot slot);
-    boolean merge(IPuzzleItemStack stack);
-    boolean mergeInto(IPuzzleItemSlot slot);
+    boolean _mergeFrom(IPuzzleItemSlot slot);
+    boolean _merge(IPuzzleItemStack stack);
+    boolean _mergeInto(IPuzzleItemSlot slot);
 
-    int getSlotId();
+    int _getSlotId();
 
-    IPuzzleSlotContainer getContainer();
-    void ISlotContainer();
+    IPuzzleSlotContainer _getContainer();
+    void _setContainer(IPuzzleSlotContainer container);
 
-    void addAmount(int amount);
-    void onItemSlotUpdate();
+    void _addAmount(int amount);
+    void _onItemSlotUpdate();
 
-    void setOutputOnly(boolean readOnly);
-    boolean isOutputOnly();
+    void _setOutputOnly(boolean readOnly);
+    boolean _isOutputOnly();
 
-    boolean isEmpty();
+    boolean _isEmpty();
 
-    boolean hasRoomFor(IPuzzleItem item);
-    boolean hasRoomFor(IPuzzleItemStack stack);
-    boolean hasRoomFor(IPuzzleItem item, int amount);
+    boolean _hasRoomFor(IPuzzleItem item);
+    boolean _hasRoomFor(IPuzzleItemStack stack);
+    boolean _hasRoomFor(IPuzzleItem item, int amount);
 
-    boolean addItemStack(IPuzzleItem item, int amount);
-    boolean addItemStack(IPuzzleItemStack stack);
-
-    @ChangeType("ItemSlot")
-    Object as();
+    boolean _addItemStack(IPuzzleItem item, int amount);
+    boolean _addItemStack(IPuzzleItemStack stack);
 
 }

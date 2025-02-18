@@ -11,73 +11,75 @@ import io.github.puzzle.cosmic.api.world.IPuzzleChunk;
 import io.github.puzzle.cosmic.api.world.IPuzzleZone;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(BlockPosition.class)
 public class BlockPositionMixin implements IPuzzleBlockPosition {
 
-    @Shadow private int localX;
-    @Shadow private int localY;
-    @Shadow private int localZ;
-    @Shadow private Chunk chunk;
-    BlockPosition blockPosition = (BlockPosition) (Object) this;
+    @Shadow public int localX;
+    @Shadow public int localY;
+    @Shadow public int localZ;
+    @Shadow public Chunk chunk;
+    @Unique
+    BlockPosition puzzleLoader$blockPosition = IPuzzleBlockPosition.as(this);
 
     @Override
-    public int getLocalX() {
-        return blockPosition.localX();
+    public int _getLocalX() {
+        return puzzleLoader$blockPosition.localX();
     }
 
     @Override
-    public int getLocalY() {
-        return blockPosition.localY();
+    public int _getLocalY() {
+        return puzzleLoader$blockPosition.localY();
     }
 
     @Override
-    public int getLocalZ() {
-        return blockPosition.localZ();
+    public int _getLocalZ() {
+        return puzzleLoader$blockPosition.localZ();
     }
 
     @Override
-    public int getGlobalX() {
-        return blockPosition.getGlobalX();
+    public int _getGlobalX() {
+        return puzzleLoader$blockPosition.getGlobalX();
     }
 
     @Override
-    public int getGlobalY() {
-        return blockPosition.getGlobalY();
+    public int _getGlobalY() {
+        return puzzleLoader$blockPosition.getGlobalY();
     }
 
     @Override
-    public int getGlobalZ() {
-        return blockPosition.getGlobalZ();
+    public int _getGlobalZ() {
+        return puzzleLoader$blockPosition.getGlobalZ();
     }
 
     @Override
-    public IPuzzleChunk getChunk() {
-        return (IPuzzleChunk) blockPosition.chunk();
+    public IPuzzleChunk _getChunk() {
+        return IPuzzleChunk.as(puzzleLoader$blockPosition.chunk());
     }
 
     @Override
-    public IPuzzleZone getZone() {
-        return (IPuzzleZone) blockPosition.getZone();
+    public IPuzzleZone _getZone() {
+        return IPuzzleZone.as(puzzleLoader$blockPosition.getZone());
     }
 
     @Override
-    public IPuzzleBlockEntity getBlockEntity() {
-        return (IPuzzleBlockEntity) blockPosition.getBlockEntity();
+    public IPuzzleBlockEntity _getBlockEntity() {
+        return IPuzzleBlockEntity.as(puzzleLoader$blockPosition.getBlockEntity());
     }
 
     @Override
-    public IPuzzleBlockEntity setBlockEntity(IPuzzleBlockState state) {
-        return (IPuzzleBlockEntity) blockPosition.setBlockEntity(state.as());
+    public IPuzzleBlockEntity _setBlockEntity(IPuzzleBlockState state) {
+        return IPuzzleBlockEntity.as(puzzleLoader$blockPosition.setBlockEntity(state.as()));
     }
 
     @Override
-    public IPuzzleBlockPosition set(IPuzzleChunk chunk, int localX, int localY, int localZ) {
-        return (IPuzzleBlockPosition) blockPosition.set(chunk.as(), localX, localY, localZ);
+    public IPuzzleBlockPosition _set(IPuzzleChunk chunk, int localX, int localY, int localZ) {
+        return IPuzzleBlockPosition.as(puzzleLoader$blockPosition.set(chunk.as(), localX, localY, localZ));
     }
 
     @Override
-    public void convertToLocal(IPuzzleZone zone) {
+    public void _convertToLocal(IPuzzleZone zone) {
         if (this.chunk != null) {
             throw new RuntimeException("This block position is already in local coordinates!");
         } else {
@@ -106,28 +108,23 @@ public class BlockPositionMixin implements IPuzzleBlockPosition {
     }
 
     @Override
-    public void setGlobal(IPuzzleZone zone, float x, float y, float z) {
-        this.set(null, (int)Math.floor(x), (int)Math.floor(y), (int)Math.floor(z));
-        this.convertToLocal(zone);
+    public void _setGlobal(IPuzzleZone zone, float x, float y, float z) {
+        this._set(null, (int)Math.floor(x), (int)Math.floor(y), (int)Math.floor(z));
+        this._convertToLocal(zone);
     }
 
     @Override
-    public IPuzzleBlockState getBlockState() {
-        return (IPuzzleBlockState) blockPosition.getBlockState();
+    public IPuzzleBlockState _getBlockState() {
+        return IPuzzleBlockState.as(puzzleLoader$blockPosition.getBlockState());
     }
 
     @Override
-    public void setBlockState(IPuzzleBlockState state) {
-        blockPosition.setBlockState((BlockState) state);
+    public void _setBlockState(IPuzzleBlockState state) {
+        puzzleLoader$blockPosition.setBlockState((BlockState) state);
     }
 
     @Override
-    public int getSkylight() {
-        return blockPosition.getSkyLight();
-    }
-
-    @Override
-    public BlockPosition as() {
-        return blockPosition;
+    public int _getSkylight() {
+        return puzzleLoader$blockPosition.getSkyLight();
     }
 }

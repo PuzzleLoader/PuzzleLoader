@@ -1,6 +1,7 @@
 package com.github.puzzle.buildsrx;
 
 import io.github.puzzle.cosmic.util.ChangeType;
+import io.github.puzzle.cosmic.util.ApiDeclaration;
 import org.codehaus.groovy.classgen.AsmClassGenerator;
 import org.gradle.api.DefaultTask;
 import org.objectweb.asm.ClassReader;
@@ -8,7 +9,6 @@ import org.objectweb.asm.ClassWriter;
 
 import java.io.*;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.zip.ZipEntry;
@@ -70,12 +70,12 @@ public class ReturnReplaceTask extends DefaultTask {
             outputJar.close();
         } catch (IOException e) {
             e.fillInStackTrace();
-        } catch (ClassNotFoundException | InvocationTargetException | IllegalAccessException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    private static byte[] transformClass(byte[] bytes) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException {
+    private static byte[] transformClass(byte[] bytes) throws Exception {
         ClassReader reader = new ClassReader(bytes);
         String name = reader.getClassName();
 
@@ -83,18 +83,20 @@ public class ReturnReplaceTask extends DefaultTask {
         Visitor visitor = new Visitor(AsmClassGenerator.ASM9, writer);
 
         Class<?> clazz = MiniClassLoader.INSTANCE.loadClass(name.replaceAll("[/]", "."));
-        Method[] methods = clazz.getMethods();
-        for (Method method : methods) {
-            String[] returnReplace = null;
-            for (Annotation a : method.getAnnotations()) {
-                if (a.annotationType().toString().equals(ChangeType.class.toString())) {
-                    returnReplace = (String[]) a.annotationType().getMethods()[1].invoke(a);
-                    System.out.println(Arrays.toString(returnReplace));
+        {
+            Method[] methods = clazz.getMethods();
+            for (Method method : methods) {
+                String[] returnReplace = null;
+                for (Annotation a : method.getAnnotations()) {
+                    if (a.annotationType().toString().equals(ChangeType.class.toString())) {
+                        returnReplace = (String[]) a.annotationType().getMethods()[1].invoke(a);
+                        System.out.println(Arrays.toString(returnReplace));
+                    }
                 }
-            }
-            if (returnReplace != null) {
-                String clazzToReturn = "L" + returnReplace[0] + ";";
-                visitor.getReplaceList().put("as", clazzToReturn);
+                if (returnReplace != null) {
+                    String clazzToReturn = "L" + returnReplace[0] + ";";
+                    visitor.getReplaceList().put("as", clazzToReturn);
+                }
             }
         }
 
@@ -102,7 +104,7 @@ public class ReturnReplaceTask extends DefaultTask {
         return writer.toByteArray();
     }
 
-    private static byte[] transformClass2(byte[] bytes) throws ClassNotFoundException, InvocationTargetException, IllegalAccessException {
+    private static byte[] transformClass2(byte[] bytes) throws Exception {
         ClassReader reader = new ClassReader(bytes);
         String name = reader.getClassName();
 
@@ -110,28 +112,36 @@ public class ReturnReplaceTask extends DefaultTask {
         Visitor visitor = new Visitor(AsmClassGenerator.ASM9, writer);
 
         Class<?> clazz = MiniClassLoader.INSTANCE.loadClass(name.replaceAll("[/]", "."));
-        Method[] methods = clazz.getMethods();
-        for (Method method : methods) {
-            String returnReplace = null;
-            boolean removeAsMethod = false;
-            for (Annotation a : method.getAnnotations()) {
-                if (a.annotationType().toString().equals(ChangeType.class.toString())) {
-                    returnReplace = (String) a.annotationType().getMethods()[1].invoke(a);
-                    removeAsMethod = (boolean) a.annotationType().getMethods()[0].invoke(a);
-                }
-            }
-            if (returnReplace != null) {
-                Class<?> clazz0 = findClassByNameNoDupes(returnReplace, packages.toArray(new String[0]));
-                if (clazz0 == null) {
-                    System.out.println("Could not find class for " + returnReplace);
-                    if (removeAsMethod) {
-                        System.out.println("REMOVING \".as()\" METHOD");
-                        visitor.getReplaceList().put("as", "REMOVE_ME");
+        Object[] annotation = Arrays.stream(clazz.getAnnotations()).filter((p) -> p.annotationType().toString().equals(ApiDeclaration.class.toString())).toArray();
+        if (annotation.length != 0) {
+            Class<?> apiClass = (Class<?>) annotation[0].getClass().getDeclaredMethod("api").invoke(annotation[0]);
+            String implClassName = (String) annotation[0].getClass().getDeclaredMethod("impl").invoke(annotation[0]);
+            Class<?> implClass = findClassByNameNoDupes(implClassName, packages.toArray(new String[0]));
+            visitor.change(apiClass, implClass);
+        }
+        {
+            Method[] methods = clazz.getMethods();
+            for (Method method : methods) {
+                String returnReplace = null;
+                boolean removeAsMethod = false;
+                for (Annotation a : method.getAnnotations()) {
+                    if (a.annotationType().toString().equals(ChangeType.class.toString())) {
+                        returnReplace = (String) a.annotationType().getMethods()[1].invoke(a);
+                        removeAsMethod = (boolean) a.annotationType().getMethods()[0].invoke(a);
                     }
                 }
-                else {
-                    String clazzToReturn = clazz0.descriptorString();
-                    visitor.getReplaceList().put("as", clazzToReturn);
+                if (returnReplace != null) {
+                    Class<?> clazz0 = findClassByNameNoDupes(returnReplace, packages.toArray(new String[0]));
+                    if (clazz0 == null) {
+                        System.out.println("Could not find class for " + returnReplace);
+                        if (removeAsMethod) {
+                            System.out.println("REMOVING \".as()\" METHOD");
+                            visitor.getReplaceList().put("as", "REMOVE_ME");
+                        }
+                    } else {
+                        String clazzToReturn = clazz0.descriptorString();
+                        visitor.getReplaceList().put("as", clazzToReturn);
+                    }
                 }
             }
         }
@@ -236,7 +246,7 @@ public class ReturnReplaceTask extends DefaultTask {
             outputJar.close();
         } catch (IOException e) {
             e.fillInStackTrace();
-        } catch (ClassNotFoundException | InvocationTargetException | IllegalAccessException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
         return f;

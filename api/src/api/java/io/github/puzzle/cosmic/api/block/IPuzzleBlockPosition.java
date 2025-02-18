@@ -2,35 +2,33 @@ package io.github.puzzle.cosmic.api.block;
 
 import io.github.puzzle.cosmic.api.world.IPuzzleChunk;
 import io.github.puzzle.cosmic.api.world.IPuzzleZone;
-import io.github.puzzle.cosmic.util.ChangeType;
+import io.github.puzzle.cosmic.util.ApiDeclaration;
 
+@ApiDeclaration(api = IPuzzleBlockPosition.class, impl = "BlockPosition")
 public interface IPuzzleBlockPosition {
 
-    int getLocalX();
-    int getLocalY();
-    int getLocalZ();
+    int _getLocalX();
+    int _getLocalY();
+    int _getLocalZ();
 
-    int getGlobalX();
-    int getGlobalY();
-    int getGlobalZ();
+    int _getGlobalX();
+    int _getGlobalY();
+    int _getGlobalZ();
 
-    IPuzzleChunk getChunk();
-    IPuzzleZone getZone();
+    IPuzzleChunk _getChunk();
+    IPuzzleZone _getZone();
 
-    IPuzzleBlockEntity getBlockEntity();
-    IPuzzleBlockEntity setBlockEntity(IPuzzleBlockState state);
+    IPuzzleBlockEntity _getBlockEntity();
+    IPuzzleBlockEntity _setBlockEntity(IPuzzleBlockState state);
 
-    IPuzzleBlockPosition set(IPuzzleChunk chunk, int localX, int localY, int localZ);
+    IPuzzleBlockPosition _set(IPuzzleChunk chunk, int localX, int localY, int localZ);
 
-    void convertToLocal(IPuzzleZone zone);
-    void setGlobal(IPuzzleZone zone, float x, float y, float z);
+    void _convertToLocal(IPuzzleZone zone);
+    void _setGlobal(IPuzzleZone zone, float x, float y, float z);
 
-    IPuzzleBlockState getBlockState();
-    void setBlockState(IPuzzleBlockState state);
+    IPuzzleBlockState _getBlockState();
+    void _setBlockState(IPuzzleBlockState state);
 
-    int getSkylight();
-
-    @ChangeType("BlockPosition")
-    Object as();
+    int _getSkylight();
 
 }
