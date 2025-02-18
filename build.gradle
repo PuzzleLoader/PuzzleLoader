@@ -40,10 +40,10 @@ loom {
 configurations {
     allBundleBase
 
-    bundle.extendsFrom(allBundle0)
-    implementation.extendsFrom(allBundle0)
-    clientImplementation.extendsFrom(allBundle0)
-    testImplementation.extendsFrom(allBundle0)
+    bundle.extendsFrom(allBundleBase)
+    implementation.extendsFrom(allBundleBase)
+    clientImplementation.extendsFrom(allBundleBase)
+    testImplementation.extendsFrom(allBundleBase)
 
     allBundle
 
@@ -52,8 +52,6 @@ configurations {
     clientImplementation.extendsFrom(allBundle)
     loaderImplementation.extendsFrom(allBundle)
     testImplementation.extendsFrom(allBundle)
-
-    allCompileOnly
 }
 
 dependencies {

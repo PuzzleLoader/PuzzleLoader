@@ -36,7 +36,7 @@ configurations {
 }
 
 var gdxVersion = "1.13.0"
-var puzzleVersion = "2.3.1"
+var puzzleVersion = "2.3.3"
 
 var crUrl = "https://github.com/CRModders/CosmicArchive/raw/refs/heads/main/versions/pre-alpha/${cosmic_reach_client_version}/client/Cosmic%20Reach-${cosmic_reach_client_version}.jar"
 var crUrl1 = "https://github.com/CRModders/CosmicArchive/raw/refs/heads/main/versions/pre-alpha/${cosmic_reach_client_version}/client/Cosmic-Reach-${cosmic_reach_client_version}.jar"
