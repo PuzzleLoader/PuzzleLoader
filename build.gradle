@@ -38,12 +38,22 @@ loom {
 }
 
 configurations {
+    allBundleBase
+
+    bundle.extendsFrom(allBundle0)
+    implementation.extendsFrom(allBundle0)
+    clientImplementation.extendsFrom(allBundle0)
+    testImplementation.extendsFrom(allBundle0)
+
     allBundle
 
+    bundle.extendsFrom(allBundle)
     implementation.extendsFrom(allBundle)
     clientImplementation.extendsFrom(allBundle)
     loaderImplementation.extendsFrom(allBundle)
     testImplementation.extendsFrom(allBundle)
+
+    allCompileOnly
 }
 
 dependencies {
@@ -82,8 +92,7 @@ dependencies {
         exclude(group: "org.apache.commons", module: "commons-lang3") // use higher version above for paradox compat
     }
 
-    implementation(sourceSets.loader.output)
-    clientImplementation(sourceSets.loader.output)
+    allBundleBase(sourceSets.loader.output)
 }
 
 processResources {

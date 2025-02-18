@@ -11,6 +11,7 @@
     "block.BlockMixin",
     "block.BlockPositionMixin",
     "block.BlockStateMixin",
+    "entity.EntityMixin",
     "entity.player.PlayerMixin",
     "item.ItemMixin",
     "item.ItemSlotMixin",

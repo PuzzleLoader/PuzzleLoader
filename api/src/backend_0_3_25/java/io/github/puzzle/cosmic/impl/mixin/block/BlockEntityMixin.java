@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(BlockEntity.class)
-public abstract class BlockEntityMixin implements IPuzzleBlockEntity {
+public class BlockEntityMixin implements IPuzzleBlockEntity {
 
     @Shadow int x;
     @Shadow int y;

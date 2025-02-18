@@ -21,12 +21,7 @@ public class BlockMixin implements IPuzzleBlock {
 
     @Override
     public BlockStateMap _getStates() {
-        return new BlockStateMap() {
-            @Override
-            public IPuzzleBlockState get(String key) {
-                return (IPuzzleBlockState) puzzleLoader$block.blockStates.get(key);
-            }
-        };
+        return key -> (IPuzzleBlockState) puzzleLoader$block.blockStates.get(key);
     }
 
     @Override
@@ -37,11 +32,6 @@ public class BlockMixin implements IPuzzleBlock {
     @Override
     public String _getName() {
         return puzzleLoader$block.getName();
-    }
-
-    @Override
-    public Block as() {
-        return puzzleLoader$block;
     }
 
 }

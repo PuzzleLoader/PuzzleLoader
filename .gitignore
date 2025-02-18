@@ -43,5 +43,4 @@ bin/
 
 ### Puzzle ###
 /run
-/api/api.jar
-/api/cr0.3.23.jar
+/api/lib/*

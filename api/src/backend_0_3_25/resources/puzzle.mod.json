@@ -1,0 +1,23 @@
+{
+  "formatVersion": 2,
+  "name": "Cosmic API ${crVersion}",
+  "id": "cosmic-api",
+  "description": "This is the cosmic-api module of the Puzzle Loader.",
+  "authors": [ "Mr_Zombii" ],
+  "meta": {
+    "icon": "cosmic-api:icons/icon.png"
+  },
+  "entrypoints": {
+  },
+  "depends": {
+    "cosmic-reach": "${crVersion}",
+    "puzzle-loader": ">=2.0.0"
+  },
+  "allowedSides": {
+    "client": false,
+    "server": false
+  },
+  "mixins": [
+    "puzzle_cosmic_api.mixins.json"
+  ]
+}

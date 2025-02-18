@@ -1,5 +1,7 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-import com.github.puzzle.buildsrx.ReturnReplaceTask
+import com.github.puzzle.buildsrx.GameScanner
+import com.github.puzzle.buildsrx.GenericTransformer
+import com.github.puzzle.buildsrx.transformers.ApiClassTransformer
 
 plugins {
     id 'java'
@@ -8,7 +10,7 @@ plugins {
 
 sourceSets {
     api
-    backend_0_3_23
+    backend_0_3_25
 }
 
 group = 'com.github'
@@ -23,18 +25,26 @@ repositories {
 }
 
 configurations {
-    combine
-    compileOnlyBackend_0_3_23.extendsFrom(combine)
+    require
+    backend_0_3_25Implementation.extendsFrom(require)
+
+    embed
+    backend_0_3_25Implementation.extendsFrom(embed)
+
+    api
+    apiImplementation.extendsFrom(api)
 }
 
 var gdxVersion = "1.13.0"
 var puzzleVersion = "2.3.1"
 
-var crVersion = "0.3.23"
-var crUrl = "https://github.com/CRModders/CosmicArchive/raw/refs/heads/main/versions/pre-alpha/${crVersion}/client/Cosmic%20Reach-${crVersion}.jar"
-var crUrl1 = "https://github.com/CRModders/CosmicArchive/raw/refs/heads/main/versions/pre-alpha/${crVersion}/client/Cosmic-Reach-${crVersion}.jar"
+var crUrl = "https://github.com/CRModders/CosmicArchive/raw/refs/heads/main/versions/pre-alpha/${cosmic_reach_client_version}/client/Cosmic%20Reach-${cosmic_reach_client_version}.jar"
+var crUrl1 = "https://github.com/CRModders/CosmicArchive/raw/refs/heads/main/versions/pre-alpha/${cosmic_reach_client_version}/client/Cosmic-Reach-${cosmic_reach_client_version}.jar"
 
-File crFile = file("cr${crVersion}.jar")
+File libFolder = file("lib")
+if (!libFolder.exists()) libFolder.mkdir()
+
+File crFile = file("lib/cr${cosmic_reach_client_version}.jar")
 if (!crFile.exists()) {
     try {
         new URL(crUrl).withInputStream { i -> crFile.withOutputStream { it << i}}
@@ -43,19 +53,28 @@ if (!crFile.exists()) {
     }
 }
 
-String apiJar = jar.archivePath.toPath().toAbsolutePath().toString();
-
-System.out.println(apiJar)
-
 dependencies {
-    apiImplementation "com.badlogicgames.gdx:gdx:$gdxVersion"
+    api "com.badlogicgames.gdx:gdx:$gdxVersion"
 
-    backend_0_3_23Implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
-    backend_0_3_23Implementation files(crFile)
-    backend_0_3_23Implementation "com.github.PuzzleLoader:PuzzleLoader:${puzzleVersion}:client"
-    backend_0_3_23Implementation files("./api.jar")
+    require "com.github.PuzzleLoader:PuzzleLoader:${puzzleVersion}:client"
+    embed files("./lib/api.jar")
+    require files(crFile)
+}
 
-    combine files("./api.jar")
+processBackend_0_3_25Resources {
+    // Locations of where to inject the properties
+    def resourceTargets = [ "puzzle.mod.json" ]
+
+    // Left item is the name in the target, right is the varuable name
+    def replaceProperties = [
+            "crVersion"     : cosmic_reach_client_version,
+    ]
+
+    inputs.properties replaceProperties
+    replaceProperties.put "project", project
+    filesMatching(resourceTargets) {
+        expand replaceProperties
+    }
 }
 
 tasks.register("buildAPI", Jar) {
@@ -63,19 +82,19 @@ tasks.register("buildAPI", Jar) {
     from sourceSets.api.output
 
     doLast {
-        ReturnReplaceTask.transform2(archiveFile.get().asFile, crFile);
-        new File(archiveFile.get().getAsFile().absolutePath).renameTo(new File("./api.jar"))
+        GameScanner.scan(crFile)
+        GenericTransformer.transform(archiveFile.get().getAsFile(), new ApiClassTransformer())
+
+        /* Rename & Move archive from /build/libs/api-x.y.z.jar to /lib/api.jar */
+        File archive = new File(archiveFile.get().getAsFile().absolutePath);
+        archive.renameTo(new File("$projectDir/lib/api.jar"))
     }
 }
 
-tasks.register("buildBackend-0_3_23", ShadowJar) {
+tasks.register("buildBackend-0.3.25", ShadowJar) {
     group = "buildSrc"
-    configurations = [ project.configurations.combine ]
-    from sourceSets.backend_0_3_23.output
+    configurations = [ project.configurations.embed ]
+    from sourceSets.backend_0_3_25.output
 }
 
-//tasks.register("buildBackendJar-0_3_23", ShadowJar) {
-//    group = "buildSrc"
-//    configurations = [project.configurations.compileClasspath]
-//    from sourceSets.backend_0_3_23.output
-//}
+
