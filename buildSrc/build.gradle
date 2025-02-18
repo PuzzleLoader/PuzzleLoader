@@ -1,0 +1,29 @@
+plugins {
+    id 'java'
+    id 'java-gradle-plugin'
+}
+
+group = 'com.github'
+version = '69.69.69'
+
+repositories {
+    mavenCentral()
+}
+
+var asmVersion = "9.7.1"
+
+dependencies {
+    // ASM
+    implementation("org.ow2.asm:asm:$asmVersion")
+    implementation("org.ow2.asm:asm-tree:$asmVersion");
+    implementation("org.ow2.asm:asm-util:$asmVersion");
+    implementation("org.ow2.asm:asm-analysis:$asmVersion");
+    implementation("org.ow2.asm:asm-commons:$asmVersion");
+
+    // This makes this program shutup so don't remove it
+    implementation 'org.jboss.marshalling:jboss-marshalling:2.2.2.Final'
+    implementation 'org.conscrypt:conscrypt-openjdk-uber:2.5.2'
+    implementation 'org.eclipse.jetty.alpn:alpn-api:1.1.3.v20160715'
+    implementation 'org.eclipse.jetty.npn:npn-api:8.1.2.v20120308'
+    implementation 'io.netty:netty-tcnative:2.0.70.Final'
+}

@@ -19,6 +19,10 @@ repositories {
     }
 }
 
+sourceSets {
+    loader
+}
+
 loom {
     splitEnvironmentSourceSets()
     accessWidenerPath = file("src/main/resources/puzzle_loader.manipulator")
@@ -27,50 +31,59 @@ loom {
         "puzzle-loader" {
             sourceSet sourceSets.main
             sourceSet sourceSets.client
+            sourceSet sourceSets.loader
         }
     }
 
 }
 
+configurations {
+    allBundle
+
+    implementation.extendsFrom(allBundle)
+    clientImplementation.extendsFrom(allBundle)
+    loaderImplementation.extendsFrom(allBundle)
+    testImplementation.extendsFrom(allBundle)
+}
+
 dependencies {
     compileOnly('org.jetbrains:annotations:24.0.0')
+    loaderCompileOnly('org.jetbrains:annotations:24.0.0')
 
     cosmicReach("finalforeach:cosmicreach:${cosmic_reach_client_version}")
-    bundle(annotationProcessor("io.github.llamalad7:mixinextras-fabric:$mixinExtrasVersion"))
+    allBundle(annotationProcessor("io.github.llamalad7:mixinextras-fabric:$mixinExtrasVersion"))
 
-    bundle("com.google.guava:guava:$guavaVersion")
-    bundle("com.google.code.gson:gson:$gsonVersion")
-
-    bundle("org.hjson:hjson:$hjsonVersion")
-
+    allBundle("com.google.guava:guava:$guavaVersion")
+    allBundle("com.google.code.gson:gson:$gsonVersion")
+    allBundle("org.hjson:hjson:$hjsonVersion")
     bundle("com.mojang:brigadier:$brigadierVersion")
 
-    bundle("org.apache.logging.log4j:log4j-api:$log4jVersion")
-    bundle("org.apache.logging.log4j:log4j-core:$log4jVersion")
-    bundle("org.apache.logging.log4j:log4j-slf4j2-impl:$log4jVersion")
+    allBundle("org.apache.logging.log4j:log4j-api:$log4jVersion")
+    allBundle("org.apache.logging.log4j:log4j-core:$log4jVersion")
+    allBundle("org.apache.logging.log4j:log4j-slf4j2-impl:$log4jVersion")
 
-    bundle("net.sf.jopt-simple:jopt-simple:$joptSimpleVersion")
-
-    bundle("org.reflections:reflections:$reflectionsVersion")
-
+    allBundle("net.sf.jopt-simple:jopt-simple:$joptSimpleVersion")
+    allBundle("org.reflections:reflections:$reflectionsVersion")
     bundle("meteordevelopment:orbit:$eventbusVersion")
 
     // ASM
-    bundle("org.ow2.asm:asm:$asmVersion")
-    bundle("org.ow2.asm:asm-tree:$asmVersion");
-    bundle("org.ow2.asm:asm-util:$asmVersion");
-    bundle("org.ow2.asm:asm-analysis:$asmVersion");
-    bundle("org.ow2.asm:asm-commons:$asmVersion");
+    allBundle("org.ow2.asm:asm:$asmVersion")
+    allBundle("org.ow2.asm:asm-tree:$asmVersion");
+    allBundle("org.ow2.asm:asm-util:$asmVersion");
+    allBundle("org.ow2.asm:asm-analysis:$asmVersion");
+    allBundle("org.ow2.asm:asm-commons:$asmVersion");
 
-    bundle("net.fabricmc:sponge-mixin:$mixinVersion");
-    bundle("com.github.PuzzleLoader:access_manipulators:$accessManipulatorsVersion")
+    allBundle("net.fabricmc:sponge-mixin:$mixinVersion");
+    allBundle("com.github.PuzzleLoader:access_manipulators:$accessManipulatorsVersion")
 
-    bundle("org.jline:jline:3.25.0")
+    allBundle("org.jline:jline:3.25.0") // Maybe Remove
     bundle("org.apache.commons:commons-lang3:3.17.0")
     bundle("org.fusesource.jansi:jansi:2.2.0"){
         exclude(group: "org.apache.commons", module: "commons-lang3") // use higher version above for paradox compat
     }
 
+    implementation(sourceSets.loader.output)
+    clientImplementation(sourceSets.loader.output)
 }
 
 processResources {
